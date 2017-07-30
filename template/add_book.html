@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hello-Books -- Admin</title>
+    <link rel="stylesheet" href="css/app.css" type="text/css"/>
+    <link rel="stylesheet" href="css/style.css" type="text/css"/>
+</head>
+<body>
+<header>
+    <nav class="navbar navbar-default">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand lead-top" href="index.html"><span><img src="img/logo.png" style="height:100%"/> Hello-Books</span> </a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="books.html"><i class="glyphicon glyphicon-list"></i> Catalog</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Solomon Nsumei <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="profile.html">Profile <i class="pull-right glyphicon glyphicon-user"></i></a></li>
+                            <li><a href="index.html">Logout <i class="pull-right glyphicon glyphicon-log-out"></i></a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+    </nav>
+</header>
+<div class="container">
+    <div class="row">
+        <div class="col-xs-6">
+            <h3 class="lead-top">
+                <i class="glyphicon glyphicon-plus-sign"></i> Add Book
+            </h3>
+        </div>
+        <div class="col-xs-6">
+            <h3>
+                <small class="pull-right">
+                    <a href="admin.html" class="btn btn-default"><i class="glyphicon glyphicon-dashboard"></i> Dashboard </a>
+                </small>
+            </h3>
+        </div>
+    </div>
+    <hr class="my-4">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <form>
+                        <div class="col-sm-9">
+                            <div class="form-group">
+                                <label>Title</label>
+                                <input name="title" type="text" class="form-control" required="" placeholder="Enter book title"/>
+                            </div>
+                            <div class="form-group">
+                                <label>Description</label>
+                                <textarea name="description" class="form-control" rows="15" required="" placeholder="Enter description"></textarea>
+                            </div>
+
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <label>Category</label>
+                                <select name="category" class="form-control">
+                                    <option>--Select--</option>
+                                    <option>Software Engineering</option>
+                                    <option>Web Development</option>
+                                    <option>Poetry</option>
+                                    <option>Cloud</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Author</label>
+                                <input name="author" type="text" class="form-control" required="" placeholder="Enter author"/>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Upload Book Image</label>
+                                <input name="pic" type="file"/>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Upload Book File (optional)</label>
+                                <input name="book_file" type="file"/>
+                            </div>
+
+                            <hr class="my-4">
+                            <button type="button" class="btn btn-primary" data-dismiss="modal">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script src="js/app.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

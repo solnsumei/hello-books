@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hello-Books -- Borrow History</title>
+    <link rel="stylesheet" href="css/app.css" type="text/css"/>
+    <link rel="stylesheet" href="css/style.css" type="text/css"/>
+</head>
+<body>
+<header>
+    <nav class="navbar navbar-default">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand lead-top" href="index.html"><span><img src="img/logo.png" style="height:100%"/> Hello-Books</span> </a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="books.html"><i class="glyphicon glyphicon-list"></i> Catalog</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Solomon Nsumei <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="profile.html">Profile <i class="pull-right glyphicon glyphicon-user"></i></a></li>
+                            <li><a href="index.html">Logout <i class="pull-right glyphicon glyphicon-log-out"></i></a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+    </nav>
+</header>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+            <h3 class="lead-top">
+                <i class="glyphicon glyphicon-list"></i> Borrow History
+            </h3>
+            <hr class="my-4">
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>Book</th>
+                        <th>Borrow Date</th>
+                        <th>Due Date</th>
+                        <th>Returned?</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>Yellow Cassava</td>
+                        <td>13-Jun-2017</td>
+                        <td>27-Jul-2017</td>
+                        <td class="text-success"><i class="glyphicon glyphicon-ok"></i></td>
+                        <td></td>
+                    </tr>
+
+                    <tr>
+                        <td>Agile Processed</td>
+                        <td>09-May-2017</td>
+                        <td>27-Jun-2017</td>
+                        <td class="text-danger"><i class="glyphicon glyphicon-remove"></i></td>
+                        <td><button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#returnModal">Return book</button></td>
+                    </tr>
+
+                    <tr>
+                        <td>Microsoft Exchange Server</td>
+                        <td>10-Jun-2017</td>
+                        <td>29-Jul-2017</td>
+                        <td class="text-danger"><i class="glyphicon glyphicon-remove"></i></td>
+                        <td><button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#returnModal">Return book</button></td>
+                    </tr>
+
+                    <tr>
+                        <td>Es6 For Beginners</td>
+                        <td>13-July-2017</td>
+                        <td>07-Aug-2017</td>
+                        <td class="text-success"><i class="glyphicon glyphicon-ok"></i></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Yellow Cassava</td>
+                        <td>13-Jun-2017</td>
+                        <td>27-Jul-2017</td>
+                        <td class="text-success"><i class="glyphicon glyphicon-ok"></i></td>
+                        <td></td>
+                    </tr>
+
+                    <tr>
+                        <td>Agile Processed</td>
+                        <td>09-May-2017</td>
+                        <td>27-Jun-2017</td>
+                        <td class="text-danger"><i class="glyphicon glyphicon-remove"></i></td>
+                        <td><button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#returnModal">Return book</button></td>
+                    </tr>
+
+                    <tr>
+                        <td>Microsoft Exchange Server</td>
+                        <td>10-Jun-2017</td>
+                        <td>29-Jul-2017</td>
+                        <td class="text-danger"><i class="glyphicon glyphicon-remove"></i> </td>
+                        <td><button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#returnModal">Return book</button></td>
+                    </tr>
+
+                    <tr>
+                        <td>Es6 For Beginners</td>
+                        <td>13-July-2017</td>
+                        <td>07-Aug-2017</td>
+                        <td class="text-success"><i class="glyphicon glyphicon-ok"></i></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Yellow Cassava</td>
+                        <td>13-Jun-2017</td>
+                        <td>27-Jul-2017</td>
+                        <td class="text-success"><i class="glyphicon glyphicon-ok"></i></td>
+                        <td></td>
+                    </tr>
+
+                    <tr>
+                        <td>Agile Processed</td>
+                        <td>09-May-2017</td>
+                        <td>27-Jun-2017</td>
+                        <td class="text-danger"><i class="glyphicon glyphicon-remove"></i></td>
+                        <td><button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#returnModal">Return book</button></td>
+                    </tr>
+
+                    <tr>
+                        <td>Microsoft Exchange Server</td>
+                        <td>10-Jun-2017</td>
+                        <td>29-Jul-2017</td>
+                        <td class="text-danger"><i class="glyphicon glyphicon-remove"></i></td>
+                        <td><button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#returnModal">Return book</button></td>
+                    </tr>
+
+                    <tr>
+                        <td>Es6 For Beginners</td>
+                        <td>13-July-2017</td>
+                        <td>07-Aug-2017</td>
+                        <td class="text-success"><i class="glyphicon glyphicon-ok"></i></td>
+                        <td></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <nav aria-label="Page navigation">
+                <ul class="pagination">
+                    <li>
+                        <a href="#" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    <li class="active"><a href="#">1</a></li>
+                    <li><a href="#">2</a></li>
+                    <li><a href="#">3</a></li>
+                    <li><a href="#">4</a></li>
+                    <li><a href="#">5</a></li>
+                    <li>
+                        <a href="#" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="returnModal" role="dialog">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Please Confirm</h4>
+            </div>
+            <div class="modal-body">
+                <h4>Do you want to return this book?</h4>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Yes</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="js/app.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

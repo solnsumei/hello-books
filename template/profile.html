@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hello-Books -- Profile</title>
+    <link rel="stylesheet" href="css/app.css" type="text/css"/>
+    <link rel="stylesheet" href="css/style.css" type="text/css"/>
+</head>
+<body>
+<header>
+    <nav class="navbar navbar-default">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand lead-top" href="index.html"><span><img src="img/logo.png" style="height:100%"/> Hello-Books</span> </a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="books.html"><i class="glyphicon glyphicon-list"></i> Catalog</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Solomon Nsumei <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Profile <i class="pull-right glyphicon glyphicon-user"></i></a></li>
+                            <li><a href="index.html">Logout <i class="pull-right glyphicon glyphicon-log-out"></i></a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+    </nav>
+</header>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-4">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <h3 class="lead-top"><strong>Profile</strong></h3>
+                    <hr class="my-4">
+                    <label><i class="glyphicon glyphicon-user"></i> Name:</label>
+                    <p> Solomon Nsumei</p>
+                    <hr class="my-4">
+
+                    <label><i class="glyphicon glyphicon-envelope"></i> Email:</label>
+                    <p>sol@gmail.com</p>
+                    <hr class="my-4">
+
+                    <label><i class="glyphicon glyphicon-user"></i> Username:</label>
+                    <p>solnsumei</p>
+                    <hr class="my-4">
+
+                    <label><i class="glyphicon glyphicon-tag"></i> Membership Type:</label>
+                    <p>Gold</p>
+
+                    <hr class="my-4">
+                    <a href="#" class="btn btn-teal"><i class="glyphicon glyphicon-edit"></i> Edit profile</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-8">
+            <h3 class="lead-top">
+                <i class="glyphicon glyphicon-book"></i> Books Borrowed Not Returned
+                <small class="pull-right"><a href="borrow_history.html" class="btn btn-default">Borrow history</a></small>
+            </h3>
+            <hr class="my-4">
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>Book</th>
+                        <th>Borrow Date</th>
+                        <th>Due Date</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>Yellow Cassava</td>
+                        <td>13-Jun-2017</td>
+                        <td>27-Jul-2017</td>
+                        <td><button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#returnModal">Return book</button></td>
+                    </tr>
+
+                    <tr>
+                        <td>Agile Processed</td>
+                        <td>09-May-2017</td>
+                        <td>27-Jun-2017</td>
+                        <td><button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#returnModal">Return book</button></td>
+                    </tr>
+
+                    <tr>
+                        <td>Microsoft Exchange Server</td>
+                        <td>10-Jun-2017</td>
+                        <td>29-Jul-2017</td>
+                        <td><button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#returnModal">Return book</button></td>
+                    </tr>
+
+                    <tr>
+                        <td>Es6 For Beginners</td>
+                        <td>13-July-2017</td>
+                        <td>07-Aug-2017</td>
+                        <td><button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#returnModal">Return book</button></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="clearfix"></div>
+            <div class="margin-2x"></div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="returnModal" role="dialog">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Please Confirm</h4>
+            </div>
+            <div class="modal-body">
+                <h4>Do you want to return this book?</h4>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Yes</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="js/app.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

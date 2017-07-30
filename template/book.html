@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hello-Books -- Book Detail</title>
+    <link rel="stylesheet" href="css/app.css" type="text/css"/>
+    <link rel="stylesheet" href="css/style.css" type="text/css"/>
+</head>
+<body>
+<header>
+    <nav class="navbar navbar-default">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand lead-top" href="index.html"><span><img src="img/logo.png" style="height:100%"/> Hello-Books</span> </a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="books.html"><i class="glyphicon glyphicon-list"></i> Catalog</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Solomon Nsumei <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="profile.html">Profile <i class="pull-right glyphicon glyphicon-user"></i></a></li>
+                            <li><a href="index.html">Logout <i class="pull-right glyphicon glyphicon-log-out"></i></a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+    </nav>
+</header>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-5 description">
+            <h3>
+                <strong>Fusce euismod consequat</strong>
+            </h3>
+            <p class="offset-3"><i>By Onetti, Juan Carlos</i></p>
+
+            <p>
+                The full account of the Watergate scandal from the two Washington Post reporters who broke the story. This is “the work that brought down a presidency…perhaps the most influential piece of journalism in history” (Time, All-Time 100 Best Nonfiction Books).
+            </p>
+            <p>
+                This is the book that changed America. Published just two months before President Nixon’s resignation, All the President’s Men revealed the full scope of the Watergate scandal and introduced for the first time the mysterious “Deep Throat.” Beginning with the story of a simple burglary at Democratic headquarters and then continuing through headline after headline, Bernstein and Woodward deliver the stunning revelations and pieces in the Watergate puzzle that brought about Nixon's shocking downfall. Their explosive reports won a Pulitzer Prize for The Washington Post, toppled the president, and have since inspired generations of reporters.
+            </p>
+            <p id="read-more-volume">
+                All the President’s Men is a riveting detective story, capturing the exhilarating rush of the biggest presidential”</p>
+            </p>
+        </div>
+        <div class="col-sm-4">
+            <img src="img/page-3_img01.jpg"  width="100%" class="img-thumbnail">
+        </div>
+        <div class="col-sm-3">
+            <p>142 pages -- (Paperback - 2014 English )</p>
+            <p>Status: <label class="label label-success">Available</label> </p>
+            <button class="btn btn-teal" data-toggle="modal" data-target="#borrowModal">Borrow this book</button>
+        </div>
+    </div>
+    <div class="hr-divider"></div>
+    <div class="margin-2x"></div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="borrowModal" role="dialog">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Please Confirm</h4>
+            </div>
+            <div class="modal-body">
+                <h4>Do you want to borrow a copy of this book?</h4>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Yes</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="js/app.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hello-Books -- Admin</title>
+    <link rel="stylesheet" href="css/app.css" type="text/css"/>
+    <link rel="stylesheet" href="css/style.css" type="text/css"/>
+</head>
+<body>
+<header>
+    <nav class="navbar navbar-default">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand lead-top" href="index.html"><span><img src="img/logo.png" style="height:100%"/> Hello-Books</span> </a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="books.html"><i class="glyphicon glyphicon-list"></i> Catalog</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Solomon Nsumei <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="profile.html">Profile <i class="pull-right glyphicon glyphicon-user"></i></a></li>
+                            <li><a href="index.html">Logout <i class="pull-right glyphicon glyphicon-log-out"></i></a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+    </nav>
+</header>
+<div class="container">
+    <div class="row">
+        <div class="col-xs-4">
+            <h3 class="lead-top">
+                <i class="glyphicon glyphicon-dashboard"></i> Admin
+            </h3>
+        </div>
+        <div class="col-xs-8">
+            <h3>
+                <small class="pull-right">
+                    <button title="add new category" class="btn btn-primary" data-toggle="modal" data-target="#addCategoryModal">Add Category </button>
+                    <a class="btn btn-default" href="add_book.html">Add Book</a>
+                </small>
+            </h3>
+        </div>
+    </div>
+    <hr class="my-4">
+    <div class="row">
+        <div class="col-sm-3">
+            <ul class="list-group">
+                <li class="list-group-item list-group-item-heading list-heading">
+                    Categories
+                </li>
+                <li class="list-group-item">Agile Processes</li>
+                <li class="list-group-item">Poetry</li>
+                <li class="list-group-item">Software Development</li>
+                <li class="list-group-item">Web Design</li>
+                <li class="list-group-item">Web Development</li>
+            </ul>
+        </div>
+        <div class="col-sm-9">
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>Book</th>
+                        <th>Author</th>
+                        <th>Category</th>
+                        <th>Quantity</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>Yellow Cassava</td>
+                        <td><i>Emeka Ofor</i></td>
+                        <td>Poetry</td>
+                        <td>12</td>
+                        <td>
+                            <button title="increase book quantity" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#addQuantityModal">Add</button>
+                            <button class="btn btn-sm btn-warning">Edit</button>
+                            <button title="Delete book" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#deleteBookModal">Delete</button>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Microsoft Billionaire Circle</td>
+                        <td><i>Bill Gates</i></td>
+                        <td>Entrepreneurship</td>
+                        <td>2</td>
+                        <td>
+                            <button title="increase book quantity" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#addQuantityModal">Add</button>
+                            <button class="btn btn-sm btn-warning">Edit</button>
+                            <button title="Delete book" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#deleteBookModal">Delete</button>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Microsoft Exchange Server</td>
+                        <td><i>Mark Hughes</i></td>
+                        <td>Server Configurations</td>
+                        <td>1</td>
+                        <td>
+                            <button title="increase book quantity" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#addQuantityModal">Add</button>
+                            <button class="btn btn-sm btn-warning">Edit</button>
+                            <button title="Delete book" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#deleteBookModal">Delete</button>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Es6 For Beginners</td>
+                        <td><i>Ned Stark</i></td>
+                        <td>Software Development</td>
+                        <td>6</td>
+                        <td>
+                            <button title="increase book quantity" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#addQuantityModal">Add</button>
+                            <button class="btn btn-sm btn-warning">Edit</button>
+                            <button title="Delete book" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#deleteBookModal">Delete</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Trials of Brother Jero</td>
+                        <td><i>Wole Soyinka</i></td>
+                        <td>Poetry</td>
+                        <td>8</td>
+                        <td>
+                            <button title="increase book quantity" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#addQuantityModal">Add</button>
+                            <button class="btn btn-sm btn-warning">Edit</button>
+                            <button title="Delete book" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#deleteBookModal">Delete</button>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Agile Processes</td>
+                        <td><i>Pasuma</i></td>
+                        <td>Software Design Methodologies</td>
+                        <td>4</td>
+                        <td>
+                            <button title="increase book quantity" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#addQuantityModal">Add</button>
+                            <button class="btn btn-sm btn-warning">Edit</button>
+                            <button title="Delete book" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#deleteBookModal">Delete</button>
+                        </td>
+                    </tbody>
+                </table>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination">
+                            <li>
+                                <a href="#" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            </li>
+                            <li class="active"><a href="#">1</a></li>
+                            <li><a href="#">2</a></li>
+                            <li><a href="#">3</a></li>
+                            <li><a href="#">4</a></li>
+                            <li><a href="#">5</a></li>
+                            <li>
+                                <a href="#" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="modal fade" id="addQuantityModal" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form class="form-horizontal">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Add Quantity to Book: Es6 For Beginners</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label class="control-label col-sm-4 col-xs-3">Quantity</label>
+                        <div class="col-sm-2 col-xs-3">
+                            <input name="quantity" type="number" class="form-control" min="1" required=""/>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="deleteBookModal" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form>
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Confirm Delete</h4>
+                </div>
+                <div class="modal-body">
+                    <input name="bookId" type="hidden" class="form-control"/>
+
+                    <div class="form-group">
+                        <label>Do you want to delete Es6 for Beginners from the Library?</label>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Confirm</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="addCategoryModal" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form>
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Add Category</h4>
+                </div>
+                <div class="modal-body">
+
+                    <div class="form-group">
+                        <label class="">Category Name</label>
+                        <input name="category" type="text" class="form-control" required="" placeholder="Enter category name"/>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="js/app.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
