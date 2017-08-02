@@ -1,7 +1,7 @@
 // import required files
-const express = require('express');
-const logger = require('morgan');
-const bodyParser = require('body-parser');
+import express from 'express';
+import logger from 'morgan';
+import bodyParser from 'body-parser';
 
 // Set up the express app
 const app = express();
@@ -18,4 +18,4 @@ app.get('*', (req, res) => res.status(200).send({
   message: 'Welcome to Hello-Books'
 }));
 
-module.exports = app;
+export default app;
