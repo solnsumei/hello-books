@@ -1,4 +1,4 @@
-//This will be our application entry. We will set up our server here
+// This will be our application entry. We will set up our server here
 const http = require('http');
 const app = require('../app');
 

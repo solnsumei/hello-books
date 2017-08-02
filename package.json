@@ -22,12 +22,15 @@
   },
   "homepage": "https://github.com/solnsumei/hello-books#readme",
   "devDependencies": {
+    "babel-cli": "^6.24.1",
+    "babel-preset-env": "^1.6.0",
     "eslint": "^4.3.0",
     "nodemon": "^1.11.0"
   },
   "dependencies": {
     "body-parser": "^1.17.2",
     "express": "^4.15.3",
-    "morgan": "^1.8.2"
+    "morgan": "^1.8.2",
+    "webpack": "^3.4.1"
   }
 }
