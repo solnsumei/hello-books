@@ -1,0 +1,23 @@
+{
+  "name": "hello-books",
+  "version": "1.0.0",
+  "description": "Hello-Books is a simple application that helps manage a library and its processes like stocking, tracking and renting books. With this application users are able to find and rent books.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/solnsumei/hello-books.git"
+  },
+  "keywords": [
+    "hellobooks",
+    "library"
+  ],
+  "author": "Solomon Nsumei",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/solnsumei/hello-books/issues"
+  },
+  "homepage": "https://github.com/solnsumei/hello-books#readme"
+}
