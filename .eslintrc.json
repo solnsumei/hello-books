@@ -1,9 +1,13 @@
 {
-    "root" : true,
-    "extends": "airbnb-base",
-    "env": {
-        "node": true,
-        "es6": true,
-        "mocha": true
-    }
+  "root" : true,
+  "extends": "airbnb-base",
+  "env": {
+    "node": true,
+    "es6": true,
+    "mocha": true
+  },
+  "rules":{
+    "comma-dangle": 0,
+    "no-param-reassign":0
+  }
 }
