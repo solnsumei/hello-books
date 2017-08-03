@@ -5,7 +5,7 @@ export default (sequelize, DataTypes) => {
         username: {
             type: DataTypes.STRING,
             allowNull: false,
-            validate: {notEmpty:true,  isAlphanumumeric:true, len: [2,30]}
+            validate: {notEmpty:true,  isAlphanumeric:true, len: [2,30]}
         },
         password: {
             type: DataTypes.STRING,
