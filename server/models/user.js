@@ -16,7 +16,12 @@ export default (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull:false,
             validate: {isEmail:true}
-        }
+        },
+
+        admin: {
+            type: DataTypes.BOOLEAN,
+            defaultValue: false
+        },
     });
 
     User.associate = (models) => {
