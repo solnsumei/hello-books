@@ -1,9 +1,16 @@
 // Import the required files and classes for test
 import app from '../app';
 import request from 'supertest';
+import db from '../server/models';
 
 // Test user sign up route
 describe('POST /api/users', () => {
+
+    beforeEach((done) => {
+        db.User.truncate();
+        done();
+    });
+
     it('responds with a 400 bad request', (done) => {
         request(app)
             .post('/api/users')
