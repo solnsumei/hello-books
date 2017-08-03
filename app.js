@@ -16,8 +16,9 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 // Express Validator Middleware
+//Express Validator Middleware
 app.use(expressValidator({
-    errorFormatter: (param, msg, value) => {
+    errorFormatter: function(param, msg, value){
         let namespace = param.split('.')
             , root    = namespace.shift()
             , formParam = root;

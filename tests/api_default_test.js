@@ -8,16 +8,8 @@ describe('GET /', () => {
        request(app)
            .get('/')
            .set('Accept', 'application/json')
-           .expect('Content-Type', 'application/json; charset=utf-8')
+           .expect('Content-Type', /json/)
            .expect(200, {message: 'Welcome to Hello-Books'}, done);
-    });
-
-    it('it fails with 400 response code for non json request', (done) => {
-        request(app)
-            .get('/')
-            .set('Accept', 'form-data')
-            .expect('Content-Type', 'application/json; charset=utf-8')
-            .expect(400, {message: "Bad Request"}, done);
     });
 });
 

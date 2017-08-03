@@ -6,4 +6,6 @@ export function routes(app) {
     }));
 
     app.post('/api/users', usersController.create);
+
+    app.get('/api/users', usersController.index);
 }
