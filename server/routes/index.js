@@ -1,4 +1,5 @@
 import {usersController} from '../controllers/users';
+import {booksController} from "../controllers/books";
 
 export function routes(app) {
     app.get('/api', (req, res) => res.status(200).send({
@@ -7,5 +8,7 @@ export function routes(app) {
 
     app.post('/api/users/signup', usersController.create);
 
-    // app.get('/api/users', usersController.index);
+    app.get('/api/books', booksController.index);
+
+    app.post('/api/books', booksController.create);
 }
