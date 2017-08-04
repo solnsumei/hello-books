@@ -31,7 +31,7 @@ describe('Book Routes', () => {
                 .send({ title: 'My Book', author: 'Andela', description:'', quantity:'-1', pic:null })
                 .set('Accept', 'application/json')
                 .expect(404)
-                .expect('Content-Type', /json/, done)
+                .expect('Content-Type',  /html/, done)
         });
 
         it('responds with a 400 bad request', (done) => {
@@ -46,13 +46,13 @@ describe('Book Routes', () => {
         it('responds with a 201 with created book model', (done) => {
             request(app)
                 .post('/api/books')
-                .send({ title: 'My Book', author: 'Andela', description:'This is the first book in the library', quantity:4, pic:'/images/mybook.jpg' })
+                .send({ title: 'My Book', author: 'Andela', description: 'This is the first book in the library', quantity:4, pic:'mybook.jpg' })
                 .set('Accept', 'application/json')
                 .expect(201)
                 .expect('Content-Type', /json/)
                 .expect(/"title":\s*"My Book"/)
-                .expect(/"Author":\s*"Andela"/)
-                .expect(/"quantity":\s*"4"/, done);
+                .expect(/"author":\s*"Andela"/)
+                .expect(/"quantity":\s*4/, done);
         });
     });
 

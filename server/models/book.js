@@ -61,10 +61,9 @@ export default (sequelize, DataTypes) => {
         quantity: {
             type: DataTypes.INTEGER,
             allowNull: false,
-            defaultValue: 0,
             validate: {
                 min: {
-                    args: 0,
+                    args: 1,
                     msg: "Quantity cannot be less than 0"
                 },
             },

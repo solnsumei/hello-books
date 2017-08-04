@@ -17,7 +17,7 @@ describe('POST /api/users/signup', () => {
             .send({ username: 'ejiro', email: 'hello@you', password:'solomon1' })
             .set('Accept', 'application/json')
             .expect(404)
-            .expect('Content-Type', /json/, done)
+            .expect('Content-Type', /html/, done)
     });
 
     it('responds with a 400 bad request', (done) => {

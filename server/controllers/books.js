@@ -1,11 +1,10 @@
 import db from '../models';
-import bcrypt from 'bcryptjs';
 
 export const booksController = {
 
     // Method to add book
-    add(req, res) {
-        return db.User
+    create(req, res) {
+        return db.Book
             .create({
                 title: req.body.title,
                 author: req.body.author,
