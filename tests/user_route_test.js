@@ -4,7 +4,7 @@ import request from 'supertest';
 import db from '../server/models';
 
 // Test user sign up route
-describe('POST /api/users', () => {
+describe('POST /api/users/signup', () => {
 
     beforeEach((done) => {
         db.User.truncate();

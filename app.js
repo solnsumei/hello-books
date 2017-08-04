@@ -3,7 +3,7 @@ import express from 'express';
 import logger from 'morgan';
 import expressValidator from 'express-validator';
 import bodyParser from 'body-parser';
-import {routes} from './server/routes';
+import { routes } from './server/routes';
 
 // Set up the express app
 const app = express();
@@ -16,22 +16,22 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 // Express Validator Middleware
-//Express Validator Middleware
+// Express Validator Middleware
 app.use(expressValidator({
-    errorFormatter: function(param, msg, value){
-        let namespace = param.split('.')
-            , root    = namespace.shift()
-            , formParam = root;
+  errorFormatter(param, msg, value) {
+    let namespace = param.split('.'),
+      root = namespace.shift(),
+      formParam = root;
 
-        while(namespace.length) {
-            formParam += '[' + namespace.shift() + ']';
-        }
-        return {
-            param : formParam,
-            msg   : msg,
-            value : value
-        };
+    while (namespace.length) {
+      formParam += `[${namespace.shift()}]`;
     }
+    return {
+      param: formParam,
+      msg,
+      value
+    };
+  }
 }));
 
 // Api Routes

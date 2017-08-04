@@ -5,7 +5,7 @@ export function routes(app) {
         message: 'Welcome to Hello-Books API'
     }));
 
-    app.post('/api/users', usersController.create);
+    app.post('/api/users/signup', usersController.create);
 
-    app.get('/api/users', usersController.index);
+    // app.get('/api/users', usersController.index);
 }
