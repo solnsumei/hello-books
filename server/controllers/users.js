@@ -34,7 +34,7 @@ export const usersController = {
     index(req, res) {
         return db.User
             .findAll({
-                attributes: ['username', 'email']
+                attributes: ['username', 'email', 'admin']
             })
             .then(users => res.status(200).send(users))
             .catch(error => res.status(400).send(error));
