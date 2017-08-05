@@ -2,7 +2,6 @@
 import express from 'express';
 import logger from 'morgan';
 import expressValidator from 'express-validator';
-import jwt from 'jsonwebtoken';
 import bodyParser from 'body-parser';
 import { routes } from './server/routes';
 import { secret } from "./config";
