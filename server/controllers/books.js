@@ -4,6 +4,10 @@ export const booksController = {
 
     // Method to add book
     create(req, res) {
+        if(req.body.constructor === Object && Object.keys(req.body).length === 0){
+            return res.status(400).send({error : 'All fields are required!'});
+        }
+
         return db.Book
             .create({
                 title: req.body.title,
@@ -14,7 +18,7 @@ export const booksController = {
             })
             .then(book => res.status(201).send(book))
             .catch(error => {
-                if(error.name == "SequelizeUniqueConstraintError"){
+                if(error.name == "SequelizeUniqueConstraintError" || error.name == "SequelizeValidationError"){
                     res.status(400).send(error.errors);
                 }else{
                     res.status(400).send(error);

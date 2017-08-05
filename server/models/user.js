@@ -1,17 +1,19 @@
 'use strict';
+import bcrypt from 'bcryptjs';
 
 export default (sequelize, DataTypes) => {
     const User = sequelize.define('User', {
         username: {
             type: DataTypes.STRING,
-            allowNull: false,
+            allowNull: {
+                args: false,
+                msg: "Username is required"
+            },
             validate: {
                 notEmpty: {
-                    args: true,
                     msg: "Username is required"
                 },
                 isAlphanumeric:{
-                    args: true,
                     msg: "Username must me alphanumeric"
                 },
                 len:{
@@ -24,26 +26,14 @@ export default (sequelize, DataTypes) => {
                 msg: 'Username has already been taken'
             }
         },
-        password: {
-            type: DataTypes.STRING,
-            allowNull: false,
-            validate: {
-                notEmpty: {
-                    args: true,
-                    msg: "Password is required"
-                },
-                len:{
-                    args: [8,255],
-                    msg: "Password must be at least 8 chars"
-                }
-            }
-        },
         email: {
             type: DataTypes.STRING,
-            allowNull:false,
+            allowNull: {
+                args: false,
+                msg: "Email is required"
+            },
             validate: {
                 notEmpty: {
-                    args: true,
                     msg: "Email is required"
                 },
                 isEmail:{
@@ -56,11 +46,30 @@ export default (sequelize, DataTypes) => {
                 msg: 'Email has already been taken'
             },
         },
-
+        password: {
+            type: DataTypes.STRING,
+            allowNull: {
+                args: false,
+                msg: "Password is required"
+            },
+            validate: {
+                notEmpty: {
+                    msg: "Password is required"
+                },
+                len:{
+                    args: [8,255],
+                    msg: "Password must be at least 8 chars"
+                }
+            }
+        },
         admin: {
             type: DataTypes.BOOLEAN,
             defaultValue: false
         },
+    });
+
+    User.beforeCreate((user, options) => {
+        user.password = bcrypt.hashSync(user.password, 10);
     });
 
     User.associate = (models) => {

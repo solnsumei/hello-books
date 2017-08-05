@@ -4,14 +4,12 @@ export default (sequelize, DataTypes) => {
     const Book = sequelize.define('Book', {
         title: {
             type: DataTypes.STRING,
-            allowNull: false,
-            unique: {
-                args: true,
-                msg: "Title has already been entered"
+            allowNull: {
+                args: false,
+                msg: "Title is required"
             },
             validate: {
                 notEmpty: {
-                    args: true,
                     msg: "Title is required"
                 },
                 len:{
@@ -22,10 +20,12 @@ export default (sequelize, DataTypes) => {
         },
         author: {
             type: DataTypes.STRING,
-            allowNull: false,
+            allowNull: {
+                args: false,
+                msg: "Author is required"
+            },
             validate: {
                 notEmpty: {
-                    args: true,
                     msg: "Author is required"
                 },
                 len:{
@@ -36,24 +36,28 @@ export default (sequelize, DataTypes) => {
         },
         description: {
             type: DataTypes.STRING(1234),
-            allowNull: false,
+            allowNull: {
+                args: false,
+                msg: "Description is required"
+            },
             validate: {
                 notEmpty: {
-                    args: true,
                     msg: "Description is required"
                 }
             },
         },
         pic: {
             type: DataTypes.STRING,
-            allowNull:false,
+            allowNull: {
+                args: false,
+                msg: "Pic is required"
+            },
             unique: {
                 args: true,
                 msg: "Picture is already in database"
             },
             validate: {
                 notEmpty: {
-                    args: true,
                     msg: "Pic is required"
                 },
             },
@@ -61,13 +65,18 @@ export default (sequelize, DataTypes) => {
         quantity: {
             type: DataTypes.INTEGER,
             allowNull: false,
+            defaultValue: 0,
             validate: {
+                isNumeric: {
+                    msg: "Quantity must be numeric"
+                },
                 min: {
                     args: 1,
                     msg: "Quantity cannot be less than 0"
                 },
             },
         },
+        isBorrowed: DataTypes.BOOLEAN
     });
 
     Book.associate = (models) => {

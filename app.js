@@ -2,8 +2,10 @@
 import express from 'express';
 import logger from 'morgan';
 import expressValidator from 'express-validator';
+import jwt from 'jsonwebtoken';
 import bodyParser from 'body-parser';
 import { routes } from './server/routes';
+import { secret } from "./config";
 
 // Set up the express app
 const app = express();
@@ -14,6 +16,7 @@ app.use(logger('dev'));
 // Parse incoming requests data (https://github.com/expressjs/body-parser
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.set('webSecret', secret);
 
 // Express Validator Middleware
 // Express Validator Middleware
