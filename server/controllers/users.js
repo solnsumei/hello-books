@@ -55,5 +55,31 @@ export const usersController = {
             }
         });
 
+        return db.User
+            .findOne({where : {
+                username: req.body.username
+            }})
+            .then(user => {
+                if(!user){
+                    return res.status(401).send({ error: 'User not found'});
+                }else {
+                    if(bcrypt.compareSync(req.body.password, user.password)){
+
+                        const token = jwt.sign({user: user}, app.get('webSecret'), {
+                            expiresIn: 60*60*24
+                        });
+
+                        return res.status(200).send({
+                            message: "You are logged in successfully",
+                            username: user.username,
+                            token: token
+                        });
+
+                    } else {
+                        return res.status(401).send({ error: 'Password is incorrect'});
+                    }
+                }
+            }).catch(error => res.status(400).send(error));
+
     },
 };
