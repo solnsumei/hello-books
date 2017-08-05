@@ -1,6 +1,6 @@
 import {usersController} from '../controllers/users';
 import {booksController} from "../controllers/books";
-import {authMiddleware} from "../middlewares/index";
+import {authMiddleware} from "../middlewares/auth";
 
 export function routes(app) {
 
