@@ -13,15 +13,6 @@ describe('User', () => {
             done();
         });
 
-        it('responds with a 404 not found', (done) => {
-            request(app)
-                .post('/api/users')
-                .send({ username: 'ejiro', email: 'hello@you', password:'solomon1' })
-                .set('Accept', 'application/json')
-                .expect(404)
-                .expect('Content-Type', /html/, done)
-        });
-
         it('responds with a 400 bad request', (done) => {
             request(app)
                 .post('/api/users/signup')
