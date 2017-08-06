@@ -85,6 +85,11 @@ export const usersController = {
 
     // Borrow book
     borrowBook(req, res){
+
+        if(req.body.constructor === Object && Object.keys(req.body).length === 0){
+            return res.status(400).send({error : 'All fields are required!'});
+        }
+
         let dueDate = new Date();
         dueDate.setDate(dueDate.getDate() + 14);
 
@@ -92,7 +97,7 @@ export const usersController = {
             .create({
                 userId: req.decoded.user.id,
                 bookId: req.body.bookId,
-                dueDate: dueDate
+                dueDate: dueDate,
             })
             .then(borrowedBook => res.status(200).send(borrowedBook))
             .catch(error => {
