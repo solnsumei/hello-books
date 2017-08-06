@@ -82,4 +82,25 @@ export const usersController = {
             }).catch(error => res.status(400).send(error));
 
     },
+
+    // Borrow book
+    borrowBook(req, res){
+        let dueDate = new Date();
+        dueDate.setDate(dueDate.getDate() + 14);
+
+        return db.UserBook
+            .create({
+                userId: req.decoded.user.id,
+                bookId: req.body.bookId,
+                dueDate: dueDate
+            })
+            .then(borrowedBook => res.status(200).send(borrowedBook))
+            .catch(error => {
+                if(error.name == "SequelizeUniqueConstraintError" || error.name == "SequelizeValidationError"){
+                    return res.status(400).send(error.errors);
+                }else{
+                    res.status(400).send(error);
+                }
+            });
+    },
 };
