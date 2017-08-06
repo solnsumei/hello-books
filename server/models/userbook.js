@@ -20,6 +20,10 @@ export default (sequelize, DataTypes) => {
         },
     });
 
+    UserBook.associate = (models) => {
+        UserBook.belongsTo(models.Book);
+        UserBook.belongsTo(models.User);
+    };
 
     return UserBook;
 };
