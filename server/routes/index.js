@@ -13,6 +13,8 @@ export function routes(app) {
 
     app.get('/api/books', booksController.index);
 
+    app.post('/api/users/:userId/books', usersController.borrowBook);
+
     app.use(adminMiddleware);
 
     app.get('/api/users', usersController.index);

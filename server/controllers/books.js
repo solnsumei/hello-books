@@ -26,7 +26,6 @@ export const booksController = {
             });
     },
 
-
     // Method to get books from library
     index(req, res) {
         return db.Book
@@ -78,5 +77,4 @@ export const booksController = {
 
             });
     },
-
 };
