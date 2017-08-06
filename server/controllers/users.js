@@ -90,22 +90,59 @@ export const usersController = {
             return res.status(400).send({error : 'All fields are required!'});
         }
 
-        let dueDate = new Date();
-        dueDate.setDate(dueDate.getDate() + 14);
+        if(req.body.bookId === null || typeof(Number.parseInt(req.body.bookId)) !== 'number'){
+            return res.status(400).send({error: 'Book Id is required'});
+        }
 
-        return db.UserBook
-            .create({
-                userId: req.decoded.user.id,
-                bookId: req.body.bookId,
-                dueDate: dueDate,
-            })
-            .then(borrowedBook => res.status(200).send(borrowedBook))
-            .catch(error => {
-                if(error.name == "SequelizeUniqueConstraintError" || error.name == "SequelizeValidationError"){
-                    return res.status(400).send(error.errors);
-                }else{
-                    res.status(400).send(error);
+        return db.Book.findById(req.body.bookId)
+            .then(foundBook => {
+                if(!foundBook){
+                    return res.status(404).send({error: 'Book not found'});
                 }
+
+                if(foundBook.quantity === 0){
+                    return res.status(200).send({message: 'No copies available for borrowing'});
+                }
+
+                return db.UserBook.findOne({
+                    where: {
+                        bookId: foundBook.id,
+                        userId: req.decoded.user.id,
+                        returned: false
+                        },
+                    })
+                    .then(userbook => {
+                        if(userbook){
+                            return res.status(200).send({message: 'You already borrowed this book'});
+                        }
+
+                        let dueDate = new Date();
+                        dueDate.setDate(dueDate.getDate() + 14);
+
+                        return db.UserBook
+                            .create({
+                                userId: req.decoded.user.id,
+                                bookId: foundBook.id,
+                                dueDate: dueDate,
+                            })
+                            .then(borrowedBook => {
+                                foundBook.update({
+                                    quantity: (foundBook.quantity - 1),
+                                    isBorrowed: true,
+                                }).then(result => {
+                                     if(result){
+                                         return res.status(200).send(borrowedBook)
+                                     }
+                                }).catch(error => res.status(400).send(error));
+                            })
+                            .catch(error => {
+                                if(error.name == "SequelizeUniqueConstraintError" || error.name == "SequelizeValidationError"){
+                                    return res.status(400).send(error.errors);
+                                }else{
+                                    res.status(400).send(error);
+                                }
+                            });
+                    });
             });
     },
 };
