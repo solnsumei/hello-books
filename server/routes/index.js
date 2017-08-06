@@ -19,4 +19,6 @@ export function routes(app) {
 
     app.post('/api/books', booksController.create);
 
+    app.put('/api/books/:bookId', booksController.update);
+
 }
