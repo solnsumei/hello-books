@@ -4,6 +4,8 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
 export const usersController = {
+
+    // Create a user account in database
     create(req, res) {
 
         if(req.body.constructor === Object && Object.keys(req.body).length === 0){
@@ -80,7 +82,6 @@ export const usersController = {
                     }
                 }
             }).catch(error => res.status(400).send(error));
-
     },
 
     // Borrow book
@@ -90,8 +91,20 @@ export const usersController = {
             return res.status(400).send({error : 'All fields are required!'});
         }
 
-        if(req.body.bookId === null || typeof(Number.parseInt(req.body.bookId)) !== 'number'){
-            return res.status(400).send({error: 'Book Id is required'});
+        if(req.params.constructor === Object && Object.keys(req.params).length === 0){
+            return res.status(400).send({error : 'All fields are required!'});
+        }
+
+        if(req.params.userId === null || !Number.isInteger(Number.parseInt(req.params.userId))){
+            return res.status(400).send({error: 'Valid User Id is required'});
+        }
+
+        if(req.body.bookId === null || !Number.isInteger(Number.parseInt(req.body.bookId))){
+            return res.status(400).send({error: 'Valid book Id is required'});
+        }
+
+        if(req.auth.user.id !== req.params.userId){
+            return res.status(401).send({error: 'Unauthorised user Id'});
         }
 
         return db.Book.findById(req.body.bookId)
@@ -107,7 +120,7 @@ export const usersController = {
                 return db.UserBook.findOne({
                     where: {
                         bookId: foundBook.id,
-                        userId: req.decoded.user.id,
+                        userId: req.auth.user.id,
                         returned: false
                         },
                     })
@@ -121,7 +134,7 @@ export const usersController = {
 
                         return db.UserBook
                             .create({
-                                userId: req.decoded.user.id,
+                                userId: req.auth.user.id,
                                 bookId: foundBook.id,
                                 dueDate: dueDate,
                             })
