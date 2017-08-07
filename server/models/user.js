@@ -1,4 +1,4 @@
-'use strict';
+
 import bcrypt from 'bcryptjs';
 
 export default (sequelize, DataTypes) => {
@@ -7,21 +7,21 @@ export default (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: {
         args: false,
-        msg: "Username is required"
+        msg: 'Username is required'
       },
       validate: {
         notEmpty: {
-          msg: "Username is required"
+          msg: 'Username is required'
         },
-        isAlphanumeric:{
-          msg: "Username must me alphanumeric"
+        isAlphanumeric: {
+          msg: 'Username must me alphanumeric'
         },
-        len:{
-          args: [2,30],
-          msg: "Username must be at least 2 chars and less than 30 chars"
+        len: {
+          args: [2, 30],
+          msg: 'Username must be at least 2 chars and less than 30 chars'
         }
       },
-      unique:{
+      unique: {
         args: true,
         msg: 'Username has already been taken'
       }
@@ -30,18 +30,18 @@ export default (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: {
         args: false,
-        msg: "Email is required"
+        msg: 'Email is required'
       },
       validate: {
         notEmpty: {
-          msg: "Email is required"
+          msg: 'Email is required'
         },
-        isEmail:{
+        isEmail: {
           args: true,
-          msg: "Email is invalid"
+          msg: 'Email is invalid'
         }
       },
-      unique:{
+      unique: {
         args: true,
         msg: 'Email has already been taken'
       },
@@ -50,15 +50,15 @@ export default (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: {
         args: false,
-        msg: "Password is required"
+        msg: 'Password is required'
       },
       validate: {
         notEmpty: {
-          msg: "Password is required"
+          msg: 'Password is required'
         },
-        len:{
-          args: [8,255],
-          msg: "Password must be at least 8 chars"
+        len: {
+          args: [8, 255],
+          msg: 'Password must be at least 8 chars'
         }
       }
     },
@@ -73,7 +73,7 @@ export default (sequelize, DataTypes) => {
   });
 
   User.associate = (models) => {
-    User.hasMany(models.UserBook, {as: 'borrowedBooks', foreignKey: 'userId'});
+    User.hasMany(models.UserBook, { as: 'borrowedBooks', foreignKey: 'userId' });
     // User.belongsToMany(models.Book, {as: 'borrowedBooks', through: 'UserBook', foreignKey: 'userId'});
   };
 

@@ -1,4 +1,4 @@
-'use strict';
+
 
 export default (sequelize, DataTypes) => {
   const UserBook = sequelize.define('UserBook', {
@@ -8,7 +8,7 @@ export default (sequelize, DataTypes) => {
         args: true,
         msg: 'User Id is required'
       },
-      validate:{
+      validate: {
         notEmpty: {
           msg: 'User Id is required'
         },
@@ -23,7 +23,7 @@ export default (sequelize, DataTypes) => {
         args: true,
         msg: 'Book Id is required'
       },
-      validate:{
+      validate: {
         notEmpty: {
           msg: 'Book Id is required'
         },
@@ -34,11 +34,11 @@ export default (sequelize, DataTypes) => {
     },
     dueDate: {
       type: DataTypes.DATE,
-      allowNull:{
+      allowNull: {
         args: false,
         msg: 'Due Date is required'
       },
-      validate:{
+      validate: {
         isDate: {
           msg: 'Date is invalid'
         },
@@ -51,8 +51,8 @@ export default (sequelize, DataTypes) => {
   });
 
   UserBook.associate = (models) => {
-    UserBook.belongsTo(models.Book, {foreignKey: 'bookId'});
-    UserBook.belongsTo(models.User, {foreignKey: 'userId'});
+    UserBook.belongsTo(models.Book, { foreignKey: 'bookId' });
+    UserBook.belongsTo(models.User, { foreignKey: 'userId' });
   };
 
   return UserBook;

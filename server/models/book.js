@@ -1,4 +1,4 @@
-'use strict';
+
 
 export default (sequelize, DataTypes) => {
   const Book = sequelize.define('Book', {
@@ -6,15 +6,15 @@ export default (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: {
         args: false,
-        msg: "Title is required"
+        msg: 'Title is required'
       },
       validate: {
         notEmpty: {
-          msg: "Title is required"
+          msg: 'Title is required'
         },
-        len:{
-          args: [2,150],
-          msg: "Title must be at least 2 chars and less than 150 chars"
+        len: {
+          args: [2, 150],
+          msg: 'Title must be at least 2 chars and less than 150 chars'
         }
       },
     },
@@ -22,15 +22,15 @@ export default (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: {
         args: false,
-        msg: "Author is required"
+        msg: 'Author is required'
       },
       validate: {
         notEmpty: {
-          msg: "Author is required"
+          msg: 'Author is required'
         },
-        len:{
-          args: [2,50],
-          msg: "Author must be at least 2 chars and less than 50 chars"
+        len: {
+          args: [2, 50],
+          msg: 'Author must be at least 2 chars and less than 50 chars'
         }
       },
     },
@@ -38,11 +38,11 @@ export default (sequelize, DataTypes) => {
       type: DataTypes.STRING(1234),
       allowNull: {
         args: false,
-        msg: "Description is required"
+        msg: 'Description is required'
       },
       validate: {
         notEmpty: {
-          msg: "Description is required"
+          msg: 'Description is required'
         }
       },
     },
@@ -50,15 +50,15 @@ export default (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: {
         args: false,
-        msg: "Pic is required"
+        msg: 'Pic is required'
       },
       unique: {
         args: true,
-        msg: "Picture is already in database"
+        msg: 'Picture is already in database'
       },
       validate: {
         notEmpty: {
-          msg: "Pic is required"
+          msg: 'Pic is required'
         },
       },
     },
@@ -68,11 +68,11 @@ export default (sequelize, DataTypes) => {
       defaultValue: 0,
       validate: {
         isNumeric: {
-          msg: "Quantity must be numeric"
+          msg: 'Quantity must be numeric'
         },
         min: {
           args: 1,
-          msg: "Quantity cannot be less than 0"
+          msg: 'Quantity cannot be less than 0'
         },
       },
     },
@@ -80,7 +80,7 @@ export default (sequelize, DataTypes) => {
   });
 
   Book.associate = (models) => {
-    Book.hasMany(models.UserBook, {as: 'borrowers', foreignKey: 'bookId'});
+    Book.hasMany(models.UserBook, { as: 'borrowers', foreignKey: 'bookId' });
     // Book.belongsToMany(models.User, {as: 'users', through: 'UserBook', foreignKey: 'bookId'});
   };
 

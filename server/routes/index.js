@@ -1,9 +1,13 @@
-import {usersController} from '../controllers/users';
-import {booksController} from "../controllers/books";
-import {authMiddleware} from "../middlewares/auth";
-import {adminMiddleware} from "../middlewares/admin";
+import usersController from '../controllers/users';
+import booksController from '../controllers/books';
+import authMiddleware from '../middlewares/auth';
+import adminMiddleware from '../middlewares/admin';
 
-export function routes(app) {
+/**
+ * Route file for api routes
+ * @param app
+ */
+export default function routes(app) {
   app.post('/api/users/signup', usersController.create);
 
   app.post('/api/users/signin', usersController.login);
