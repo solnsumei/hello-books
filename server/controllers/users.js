@@ -7,10 +7,6 @@ export default {
 
   // Create a user account in database
   create(req, res) {
-    if (req.body.constructor === Object && Object.keys(req.body).length === 0) {
-      return res.status(400).send({ error: 'All fields are required!' });
-    }
-
     return db.User
       .create({
         username: req.body.username,
@@ -37,10 +33,6 @@ export default {
 
   // Authenticate users
   login(req, res) {
-    if (req.body.constructor === Object && Object.keys(req.body).length === 0) {
-      return res.status(400).send({ error: 'All fields are required!' });
-    }
-
     req.sanitizeBody('username').trim();
     req.checkBody('username', 'Username is required').notEmpty();
 
@@ -78,24 +70,8 @@ export default {
 
   // Borrow book
   borrowBook(req, res) {
-    if (req.body.constructor === Object && Object.keys(req.body).length === 0) {
-      return res.status(400).send({ error: 'All fields are required!' });
-    }
-
-    if (req.params.constructor === Object && Object.keys(req.params).length === 0) {
-      return res.status(400).send({ error: 'All fields are required!' });
-    }
-
-    if (req.params.userId === null || !Number.isInteger(Number.parseInt(req.params.userId))) {
-      return res.status(400).send({ error: 'Valid User Id is required' });
-    }
-
     if (req.body.bookId === null || !Number.isInteger(Number.parseInt(req.body.bookId))) {
       return res.status(400).send({ error: 'Valid book Id is required' });
-    }
-
-    if (req.auth.user.id != req.params.userId) {
-      return res.status(401).send({ error: 'Unauthorised user Id' });
     }
 
     return db.Book.findById(req.body.bookId)
@@ -144,27 +120,22 @@ export default {
       });
   },
 
+  // Borrow History method with returned query string
   borrowHistory(req, res){
-    if (req.params.constructor === Object && Object.keys(req.params).length === 0) {
-      return res.status(400).send({ error: 'All fields are required!' });
-    }
+    const query = {  userId : req.auth.user.id  };
+    if (req.query.returned  === 'true')
+      query.returned = true;
+    else if (req.query.returned  === 'false')
+      query.returned = false;
 
-    if (req.params.userId === null || !Number.isInteger(Number.parseInt(req.params.userId))) {
-      return res.status(400).send({ error: 'Valid User Id is required' });
-    }
-
-    if (req.auth.user.id != req.params.userId) {
-      return res.status(401).send({ error: 'Unauthorised user Id' });
-    }
-
-    return db.Book
-      .findById(req.auth.user.id, {
-
-      })
-      .then({
-
-      })
-
+    console.log(query);
+    return db.UserBook
+      .findAll({
+        include: [{
+          model: db.Book,
+          attributes: ['title', 'author'],
+        }],
+        where: query
+      }).then(borrowedBooks => res.status(200).send(borrowedBooks));
   }
-
 };

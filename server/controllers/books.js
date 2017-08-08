@@ -4,10 +4,6 @@ export default {
 
   // Method to add book
   create(req, res) {
-    if (req.body.constructor === Object && Object.keys(req.body).length === 0) {
-      return res.status(400).send({ error: 'All fields are required!' });
-    }
-
     return db.Book
       .create({
         title: req.body.title,
@@ -32,10 +28,6 @@ export default {
 
   // Method to update a book
   update(req, res) {
-    if (req.body.constructor === Object && Object.keys(req.body).length === 0) {
-      return res.status(400).send({ error: 'All fields are required!' });
-    }
-
     if (req.params.bookId === null) {
       return res.status(400).send({ error: 'Book id cannot be null' });
     }

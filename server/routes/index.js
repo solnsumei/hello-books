@@ -2,29 +2,33 @@ import usersController from '../controllers/users';
 import booksController from '../controllers/books';
 import authMiddleware from '../middlewares/auth';
 import adminMiddleware from '../middlewares/admin';
+import checkRequestMiddleware from '../middlewares/requestBody';
+import userCheck from '../middlewares/userCheck';
 
 /**
  * Route file for api routes
  * @param app
  */
 export default function routes(app) {
-  app.post('/api/users/signup', usersController.create);
+  app.post('/api/users/signup', checkRequestMiddleware, usersController.create);
 
-  app.post('/api/users/signin', usersController.login);
+  app.post('/api/users/signin', checkRequestMiddleware, usersController.login);
 
   // Authentication middle to check for logged in user
   app.use(authMiddleware(app));
 
   app.get('/api/books', booksController.index);
 
-  app.post('/api/users/:userId/books', usersController.borrowBook);
+  app.post('/api/users/:userId/books', checkRequestMiddleware, userCheck,  usersController.borrowBook);
+
+  app.get('/api/users/:userId/books', userCheck, usersController.borrowHistory);
 
   // Admin middleware to check if user is an admin
   app.use(adminMiddleware);
 
-  app.post('/api/books', booksController.create);
+  app.post('/api/books', checkRequestMiddleware, booksController.create);
 
-  app.put('/api/books/:bookId', booksController.update);
+  app.put('/api/books/:bookId', checkRequestMiddleware, booksController.update);
 
   app.get('/api/users', usersController.index);
 }

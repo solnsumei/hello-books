@@ -18,7 +18,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.set('webSecret', secret);
 
 // Express Validator Middleware
-// Express Validator Middleware
 app.use(expressValidator({
   errorFormatter(param, msg, value) {
     let namespace = param.split('.'),

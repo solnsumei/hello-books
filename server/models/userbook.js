@@ -46,10 +46,21 @@ export default (sequelize, DataTypes) => {
       type: DataTypes.BOOLEAN,
       defaultValue: false,
     },
+  }, {
+    scopes: {
+      notReturned: (userId) => {
+        return {
+          where: {
+            userId: userId,
+            returned: false
+          }
+        }
+      }
+    }
   });
 
   UserBook.associate = (models) => {
-    UserBook.belongsTo(models.Book, { foreignKey: 'bookId' });
+    UserBook.belongsTo(models.Book, {foreignKey: 'bookId' });
     UserBook.belongsTo(models.User, { foreignKey: 'userId' });
   };
 
