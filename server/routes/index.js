@@ -4,6 +4,7 @@ import authMiddleware from '../middlewares/auth';
 import adminMiddleware from '../middlewares/admin';
 import checkRequestMiddleware from '../middlewares/requestBody';
 import userCheck from '../middlewares/userCheck';
+import checkBookAvailability from "../middlewares/checkBookAvailability";
 
 /**
  * Route file for api routes
@@ -19,7 +20,11 @@ export default function routes(app) {
 
   app.get('/api/books', booksController.index);
 
-  app.post('/api/users/:userId/books', checkRequestMiddleware, userCheck,  usersController.borrowBook);
+  app.post('/api/users/:userId/books', checkRequestMiddleware, userCheck,
+    checkBookAvailability, usersController.borrowBook);
+
+  app.put('/api/users/:userId/books', checkRequestMiddleware, userCheck,
+    checkBookAvailability, usersController.returnBook);
 
   app.get('/api/users/:userId/books', userCheck, usersController.borrowHistory);
 

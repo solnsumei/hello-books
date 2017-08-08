@@ -9,8 +9,8 @@ export default {
         title: req.body.title,
         author: req.body.author,
         description: req.body.description,
-        pic: req.body.pic,
-        quantity: req.body.quantity,
+        coverPic: req.body.coverPic,
+        stockQuantity: req.body.stockQuantity,
       })
       .then(book => res.status(201).send(book))
       .catch(error => res.status(400).send(error.errors));
@@ -19,8 +19,9 @@ export default {
   // Method to get books from library
   index(req, res) {
     return db.Book
+      .scope('active')
       .findAll({
-        attributes: ['id', 'title', 'author', 'description', 'pic', 'quantity']
+        attributes: ['id', 'title', 'author', 'description', 'coverPic']
       })
       .then(books => res.status(200).send(books))
       .catch(error => res.status(400).send(error));
@@ -42,6 +43,7 @@ export default {
       });
 
     return db.Book
+      .scope('active')
       .findById(req.params.bookId)
       .then((book) => {
         if (!book) {
@@ -51,7 +53,7 @@ export default {
           title: req.body.title,
           author: req.body.author,
           description: req.body.description,
-          pic: req.body.pic
+          coverPic: req.body.coverPic
         }).then(result => res.status(200).send(result))
           .catch(error => res.status(400).send(error.errors));
       });

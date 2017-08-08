@@ -2,6 +2,7 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import db from '../models';
 import app from '../../app';
+import book from "../models/book";
 
 export default {
 
@@ -70,53 +71,46 @@ export default {
 
   // Borrow book
   borrowBook(req, res) {
-    if (req.body.bookId === null || !Number.isInteger(Number.parseInt(req.body.bookId))) {
-      return res.status(400).send({ error: 'Valid book Id is required' });
+
+    if (req.book.stockQuantity === req.book.borrowedQuantity) {
+      return res.status(200).send({ message: 'No copies available for borrowing' });
     }
 
-    return db.Book.findById(req.body.bookId)
-      .then((foundBook) => {
-        if (!foundBook) {
-          return res.status(404).send({ error: 'Book not found' });
+    return db.UserBook.findOne({
+      where: {
+        bookId: req.book.id,
+        userId: req.auth.user.id,
+        returned: false
+      },
+    })
+      .then((userbook) => {
+        if (userbook) {
+          return res.status(200).send({ message: 'You already borrowed this book' });
         }
 
-        if (foundBook.quantity === 0) {
-          return res.status(200).send({ message: 'No copies available for borrowing' });
-        }
+        const dueDate = new Date();
+        dueDate.setDate(dueDate.getDate() + 14);
 
-        return db.UserBook.findOne({
-          where: {
-            bookId: foundBook.id,
+        return db.UserBook
+          .create({
             userId: req.auth.user.id,
-            returned: false
-          },
-        })
-          .then((userbook) => {
-            if (userbook) {
-              return res.status(200).send({ message: 'You already borrowed this book' });
-            }
-
-            const dueDate = new Date();
-            dueDate.setDate(dueDate.getDate() + 14);
-
-            return db.UserBook
-              .create({
-                userId: req.auth.user.id,
-                bookId: foundBook.id,
-                dueDate,
-              })
-              .then((borrowedBook) => {
-                foundBook.update({
-                  quantity: (foundBook.quantity - 1),
-                  isBorrowed: true,
-                }).then((result) => {
-                  if (result) {
-                    return res.status(200).send(borrowedBook);
-                  }
-                }).catch(error => res.status(400).send(error));
-              })
-              .catch(error => res.status(400).send(error.errors));
-          });
+            bookId: req.book.id,
+            dueDate,
+          })
+          .then((borrowedBook) => {
+            db.Book
+              .update({
+              borrowedQuantity: (req.book.borrowedQuantity + 1),
+              isBorrowed: true,
+            }, {where: {
+              id: req.body.id
+              }}).then((result) => {
+              if (result) {
+                return res.status(200).send({ message: 'Book borrowed successfully', borrowedBook: borrowedBook});
+              }
+            }).catch(error => res.status(400).send(error));
+          })
+          .catch(error => res.status(400).send(error.errors));
       });
   },
 
@@ -137,5 +131,35 @@ export default {
         }],
         where: query
       }).then(borrowedBooks => res.status(200).send(borrowedBooks));
-  }
+  },
+
+  //Return book method
+  returnBook(req, res){
+    // Update users borrow history if the user borrowed
+    return db.UserBook
+      .update({
+        returned: true
+      },{
+        where: {
+          userId: req.auth.user.id,
+          bookId: req.book.id,
+          returned: false,
+        }
+      })
+      .then(updatedList => {
+        if(Number.parseInt(updatedList) === 1){
+          db.Book
+            .update({
+            borrowedQuantity: (req.book.borrowedQuantity - 1),
+            isBorrowed: ((req.book.borrowedQuantity) - 1) > 0,
+          }, {where: {id: req.book.id}})
+            .then(result => res.status(200).send({ message: 'Book was returned successfully', book:req.book.title}));
+
+        }else {
+          return res.status(404).send({ error: 'Book was not found in your borrowed list'});
+        }
+      })
+      .catch(error => res.status(400).send(error));
+  },
+
 };

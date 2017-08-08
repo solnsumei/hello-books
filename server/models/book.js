@@ -33,7 +33,7 @@ export default (sequelize, DataTypes) => {
       },
     },
     description: {
-      type: DataTypes.STRING(1234),
+      type: DataTypes.TEXT,
       allowNull: {
         args: false,
         msg: 'Description is required'
@@ -44,23 +44,28 @@ export default (sequelize, DataTypes) => {
         }
       },
     },
-    pic: {
+    coverPic: {
       type: DataTypes.STRING,
       allowNull: {
         args: false,
-        msg: 'Pic is required'
+        msg: 'Cover picture is required'
       },
       unique: {
         args: true,
-        msg: 'Picture is already in database'
+        msg: 'Cover picture is already in database'
       },
       validate: {
         notEmpty: {
-          msg: 'Pic is required'
+          msg: 'Cover picture is required'
         },
       },
     },
-    quantity: {
+    borrowedQuantity: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      defaultValue: 0,
+    },
+    stockQuantity: {
       type: DataTypes.INTEGER,
       allowNull: false,
       defaultValue: 0,
@@ -74,7 +79,20 @@ export default (sequelize, DataTypes) => {
         },
       },
     },
-    isBorrowed: DataTypes.BOOLEAN
+    isBorrowed: DataTypes.BOOLEAN,
+    isDeleted: DataTypes.BOOLEAN
+  });
+
+  Book.addScope('active', {
+    where: { isDeleted: false }
+  });
+
+  Book.addScope('borrowed', {
+    where: { isBorrowed: true }
+  });
+
+  Book.addScope('intact', {
+    where: { isBorrowed: false }
   });
 
   Book.associate = (models) => {
