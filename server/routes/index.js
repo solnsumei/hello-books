@@ -22,9 +22,9 @@ export default function routes(app) {
   // Admin middleware to check if user is an admin
   app.use(adminMiddleware);
 
-  app.get('/api/users', usersController.index);
-
   app.post('/api/books', booksController.create);
 
   app.put('/api/books/:bookId', booksController.update);
+
+  app.get('/api/users', usersController.index);
 }

@@ -1,5 +1,3 @@
-
-
 export default (sequelize, DataTypes) => {
   const UserBook = sequelize.define('UserBook', {
     userId: {

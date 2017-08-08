@@ -1,4 +1,3 @@
-
 import bcrypt from 'bcryptjs';
 
 export default (sequelize, DataTypes) => {
@@ -74,7 +73,7 @@ export default (sequelize, DataTypes) => {
 
   User.associate = (models) => {
     User.hasMany(models.UserBook, { as: 'borrowedBooks', foreignKey: 'userId' });
-    // User.belongsToMany(models.Book, {as: 'borrowedBooks', through: 'UserBook', foreignKey: 'userId'});
+    User.belongsToMany(models.Book, {as: 'borrowHistory', through: 'UserBook', foreignKey: 'userId', targetKey: 'bookId'});
   };
 
   return User;

@@ -54,21 +54,25 @@ export default {
       .findOne({ where: {
         username: req.body.username
       } })
-      .then((user) => {
+      .then(user => {
         if (!user) {
           return res.status(401).send({ error: 'User not found' });
-        } else if (bcrypt.compareSync(req.body.password, user.password)) {
-          const token = jwt.sign({ user }, app.get('webSecret'), {
+        }
+        else if(bcrypt.compareSync(req.body.password, user.password)){
+          // Create token
+          const token = jwt.sign({user}, app.get('webSecret'), {
             expiresIn: 60 * 60 * 24
           });
 
+          // Return logged in user
           return res.status(200).send({
-            message: 'You are logged in successfully',
+            message: "You are logged in successfully",
             username: user.username,
-            token
+            token: token
           });
+        } else {
+          return res.status(401).send({ error: 'Password is incorrect'});
         }
-        return res.status(401).send({ error: 'Password is incorrect' });
       }).catch(error => res.status(400).send(error));
   },
 
@@ -90,7 +94,7 @@ export default {
       return res.status(400).send({ error: 'Valid book Id is required' });
     }
 
-    if (req.auth.user.id !== req.params.userId) {
+    if (req.auth.user.id != req.params.userId) {
       return res.status(401).send({ error: 'Unauthorised user Id' });
     }
 
@@ -139,4 +143,28 @@ export default {
           });
       });
   },
+
+  borrowHistory(req, res){
+    if (req.params.constructor === Object && Object.keys(req.params).length === 0) {
+      return res.status(400).send({ error: 'All fields are required!' });
+    }
+
+    if (req.params.userId === null || !Number.isInteger(Number.parseInt(req.params.userId))) {
+      return res.status(400).send({ error: 'Valid User Id is required' });
+    }
+
+    if (req.auth.user.id != req.params.userId) {
+      return res.status(401).send({ error: 'Unauthorised user Id' });
+    }
+
+    return db.Book
+      .findById(req.auth.user.id, {
+
+      })
+      .then({
+
+      })
+
+  }
+
 };

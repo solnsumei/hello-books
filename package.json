@@ -6,7 +6,7 @@
   "scripts": {
     "globals" : "npm i -g cross-env",
     "start:dev": "nodemon ./server/server.js --exec babel-node --presets env",
-    "test": "cross-env NODE_ENV=test& mocha tests/* --compilers babel-core/register"
+    "test": "SET NODE_ENV=test& mocha tests/* --compilers babel-core/register"
   },
   "repository": {
     "type": "git",

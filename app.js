@@ -3,8 +3,8 @@ import express from 'express';
 import logger from 'morgan';
 import expressValidator from 'express-validator';
 import bodyParser from 'body-parser';
-import routes from './server/routes';
 import secret from "./config";
+import routes from './server/routes';
 
 // Set up the express app
 const app = express();

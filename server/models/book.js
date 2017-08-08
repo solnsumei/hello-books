@@ -1,5 +1,3 @@
-
-
 export default (sequelize, DataTypes) => {
   const Book = sequelize.define('Book', {
     title: {
