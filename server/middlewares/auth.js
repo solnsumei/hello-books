@@ -8,7 +8,7 @@ export default function authMiddleware(app) {
     // if token not found return forbidden
     if (!token) {
       return res.status(403).send({
-        error: 'You are not allowed to access this page'
+        error: 'Access denied, please log in'
       });
     }
 
@@ -16,7 +16,7 @@ export default function authMiddleware(app) {
     jwt.verify(token, app.get('webSecret'), (err, decoded) => {
       if (err) {
         return res.status(403).send({
-          error: 'token could not be authenticated'
+          error: 'Access denied, token could not be authenticated'
         });
       }
 

@@ -23,7 +23,7 @@ export default {
       .findAll({
         attributes: ['id', 'title', 'author', 'description', 'coverPic']
       })
-      .then(books => res.status(200).send(books))
+      .then(books => res.status(200).send({ message: 'Books Catalog', books: books}))
       .catch(error => res.status(400).send(error));
   },
 
