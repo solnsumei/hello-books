@@ -2,9 +2,9 @@ import usersController from '../controllers/users';
 import booksController from '../controllers/books';
 import authMiddleware from '../middlewares/auth';
 import adminMiddleware from '../middlewares/admin';
-import checkRequestMiddleware from '../middlewares/requestBody';
-import userCheck from '../middlewares/userCheck';
-import checkBookAvailability from "../middlewares/checkBookAvailability";
+import checkRequestMiddleware from '../middlewares/request-body';
+import userCheck from '../middlewares/user-check';
+import checkBookAvailability from "../middlewares/check-book-availability";
 
 /**
  * Route file for api routes

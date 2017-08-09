@@ -2,3 +2,4 @@
 npm_modules
 migrations
 config.js
+seeders

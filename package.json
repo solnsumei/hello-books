@@ -4,7 +4,7 @@
   "description": "Hello-Books is a simple application that helps manage a library and its processes like stocking, tracking and renting books. With this application users are able to find and rent books.",
   "main": "app.js",
   "scripts": {
-    "globals" : "npm i -g cross-env",
+    "globals": "npm i -g cross-env",
     "start:dev": "nodemon ./server/server.js --exec babel-node --presets env",
     "test": "SET NODE_ENV=test& mocha tests/* --compilers babel-core/register"
   },
@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/solnsumei/hello-books#readme",
   "devDependencies": {
+    "assert": "^1.4.1",
     "babel-cli": "^6.24.1",
     "babel-core": "^6.25.0",
     "babel-preset-env": "^1.6.0",

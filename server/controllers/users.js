@@ -2,7 +2,6 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import db from '../models';
 import app from '../../app';
-import book from "../models/book";
 
 export default {
 
@@ -73,7 +72,7 @@ export default {
   borrowBook(req, res) {
 
     if (req.book.stockQuantity === req.book.borrowedQuantity) {
-      return res.status(200).send({ message: 'No copies available for borrowing' });
+      return res.status(400).send({ message: 'No copies available for borrowing' });
     }
 
     return db.UserBook.findOne({
@@ -98,13 +97,11 @@ export default {
             dueDate,
           })
           .then((borrowedBook) => {
-            db.Book
+            return req.book
               .update({
               borrowedQuantity: (req.book.borrowedQuantity + 1),
               isBorrowed: true,
-            }, {where: {
-              id: req.body.id
-              }}).then((result) => {
+            }).then((result) => {
               if (result) {
                 return res.status(200).send({ message: 'Book borrowed successfully', borrowedBook: borrowedBook});
               }
@@ -122,7 +119,6 @@ export default {
     else if (req.query.returned  === 'false')
       query.returned = false;
 
-    console.log(query);
     return db.UserBook
       .findAll({
         include: [{
@@ -136,6 +132,10 @@ export default {
   //Return book method
   returnBook(req, res){
     // Update users borrow history if the user borrowed
+    if (req.book.borrowedQuantity === 0 && req.book.isBorrowed === false) {
+      return res.status(400).send({ error: 'You cannot return a book that has not been borrowed' });
+    }
+
     return db.UserBook
       .update({
         returned: true
@@ -148,12 +148,13 @@ export default {
       })
       .then(updatedList => {
         if(Number.parseInt(updatedList) === 1){
-          db.Book
+          return req.book
             .update({
             borrowedQuantity: (req.book.borrowedQuantity - 1),
             isBorrowed: ((req.book.borrowedQuantity) - 1) > 0,
-          }, {where: {id: req.book.id}})
-            .then(result => res.status(200).send({ message: 'Book was returned successfully', book:req.book.title}));
+          })
+            .then(result => res.status(200).send({ message: 'Book was returned successfully', book:req.book.title}))
+            .catch(error => res.status(400).send({error: 'Book quantity could not be updated'}));
 
         }else {
           return res.status(404).send({ error: 'Book was not found in your borrowed list'});
