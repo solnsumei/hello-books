@@ -1,28 +1,28 @@
 import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
 
-export function authMiddleware(app){
-    return (req, res, next) =>{
-        // check request for token
-        const token = req.body.token || req.query.token || req.headers['x-token'];
+export default function authMiddleware(req, res, next) {
+    // check request for token
+    const token = req.body.token || req.query.token || req.headers['x-token'];
 
-        // if token not found return forbidden
-        if(!token){
-            return res.status(403).send({
-                error: 'You are not allowed to access this page'
-            });
-        }
-
-        // Verify token using jsonwebtokens
-        jwt.verify(token, app.get('webSecret'), (err, decoded) => {
-            if(err){
-                return res.status(403).send({
-                    error: 'token could not be authenticated'
-                });
-            }
-
-            req.decoded = decoded;
-            next();
-        });
+    // if token not found return forbidden
+    if (!token) {
+      return res.status(403).send({
+        error: 'Access denied, please log in'
+      });
     }
 
-}
+    dotenv.config();
+
+    // Verify token using jsonwebtokens
+    jwt.verify(token, process.env.SECRET, (err, decoded) => {
+      if (err) {
+        return res.status(403).send({
+          error: 'Access denied, token could not be authenticated'
+        });
+      }
+
+      req.auth = decoded;
+      next();
+    });
+};
