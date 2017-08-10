@@ -25,86 +25,16 @@ describe('Book Routes', () => {
         db.Book.bulkCreate([book1, book2, book3, book4], {})
           .then(() => {
             process.stdout.write('Test books created \n');
-            request(app)
-              .post('/api/v1/users/signin')
+              request(app)
+              .post('/api/users/signin')
               .send({ username: user.username, password: user.password })
               .set('Accept', 'application/json')
               .end((err, res) => {
-                console.log('err', err);
-                console.log('token', res.body.token);
                 userToken = res.body.token;
                 done();
               });
           });
       });
-  });
-
-  describe('GET Ordinary users get books routes  /api/books', () => {
-    describe('GET books without being logged in', () => {
-      it('it should respond with a 403 with access denied please log in error message', (done) => {
-        request(app)
-          .get('/api/books')
-          .set('Accept', 'application/json')
-          .expect(403)
-          .expect('Content-Type', /json/)
-          .expect(/"error":\s*"Access denied, please log in"/, done);
-      });
-
-      it('it should respond with a 403 with access denied token not authenticated', (done) => {
-        request(app)
-          .get('/api/books')
-          .set('Accept', 'application/json')
-          .set('x-token', "hyssgsheejhusssy234558393")
-          .expect(403)
-          .expect('Content-Type', /json/)
-          .expect(/"error":\s*"Access denied, token could not be authenticated"/, done);
-      });
-
-    });
-
-    describe('GET books when user has a valid token', () => {
-      it('it should respond with a 200 with message Books Catalog', (done) => {
-        request(app)
-          .get('/api/books')
-          .set('Accept', 'application/json')
-          .set('x-token', userToken)
-          .expect(200)
-          .expect('Content-Type', /json/)
-          .expect(/"message":\s*"Books Catalog"/, done);
-      });
-
-    });
-
-    // describe('POST without admin privileges', ()=> {
-    //   it('responds with a 403 and Not authen ', (done) => {
-    //     request(app)
-    //       .post('/api/book')
-    //       .send({ title: 'My Book', author: 'Andela', description:'', stockQuantity:'-1', CoverPic:null })
-    //       .set('Accept', 'application/json')
-    //       .set('x-token', "randomString")
-    //       .expect(403)
-    //       .expect('Content-Type',  /json/, done)
-    //   });
-    //
-    //   it('responds with a 403 Access denied', (done) => {
-    //     request(app)
-    //       .post('/api/books')
-    //       .send({ title: 'My Book', author: 'Andela', description:'', stockQuantity:'-1', CoverPic:null })
-    //       .set('Accept', 'application/json')
-    //       .expect(403)
-    //       .expect('Content-Type', /json/, done)
-    //   });
-    //
-    //   it('responds with a 403 Access denied', (done) => {
-    //     request(app)
-    //       .post('/api/books')
-    //       .send({ title: 'My Book', author: 'Andela', description: 'This is the first book in the library', quantity:4, CoverPic:'mybook.jpg' })
-    //       .set('Accept', 'application/json')
-    //       .expect(403)
-    //       .expect('Content-Type', /json/, done);
-    //   });
-    // });
-
   });
 
   describe('GET Ordinary users get books routes  /api/books', () => {
