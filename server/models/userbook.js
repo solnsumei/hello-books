@@ -48,19 +48,17 @@ export default (sequelize, DataTypes) => {
     },
   }, {
     scopes: {
-      notReturned: (userId) => {
-        return {
-          where: {
-            userId: userId,
-            returned: false
-          }
+      notReturned: userId => ({
+        where: {
+          userId,
+          returned: false
         }
-      }
+      })
     }
   });
 
   UserBook.associate = (models) => {
-    UserBook.belongsTo(models.Book, {foreignKey: 'bookId' });
+    UserBook.belongsTo(models.Book, { foreignKey: 'bookId' });
     UserBook.belongsTo(models.User, { foreignKey: 'userId' });
   };
 

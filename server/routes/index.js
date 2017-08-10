@@ -5,7 +5,7 @@ import authMiddleware from '../middlewares/auth';
 import adminMiddleware from '../middlewares/admin';
 import checkRequestMiddleware from '../middlewares/request-body';
 import userCheck from '../middlewares/user-check';
-import checkBookAvailability from "../middlewares/check-book-availability";
+import checkBookAvailability from '../middlewares/check-book-availability';
 
 const router = express.Router();
 
@@ -29,7 +29,7 @@ router.get('/users/:userId/books', userCheck, usersController.borrowHistory);
 // Admin middleware to check if user is an admin
 router.use(adminMiddleware);
 
-router.post('${prefix}/books', checkRequestMiddleware, booksController.create);
+router.post('/books', checkRequestMiddleware, booksController.create);
 
 router.put('/books/:bookId', checkRequestMiddleware, booksController.update);
 
@@ -39,5 +39,5 @@ router.get('/users', usersController.index);
  * Route file for api routes
  * @export router
  */
-export default router
+export default router;
 

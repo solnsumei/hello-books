@@ -2,7 +2,7 @@ import db from '../models';
 
 /**
  * Controller for adding, updating and get all books
- * @module booksController
+ * @exports {Object} booksController
  */
 export default {
 
@@ -11,7 +11,7 @@ export default {
    * @param {Object} req
    * @param {Object} res
    *
-   * @returns {Bluebird<Object> | Promise.<Object>}
+   * @return {Bluebird<Object> | Promise.<Object>} res
    */
   create(req, res) {
     return db.Book
@@ -31,7 +31,7 @@ export default {
    * @param {Object} req
    * @param {Object} res
    *
-   * @returns {Promise.<Object>}
+   * @returns {Promise.<Object>} books
    */
   index(req, res) {
     return db.Book
@@ -39,7 +39,7 @@ export default {
       .findAll({
         attributes: ['id', 'title', 'author', 'description', 'coverPic']
       })
-      .then(books => res.status(200).send({ message: 'Books Catalog', books: books}))
+      .then(books => res.status(200).send({ message: 'Books Catalog', books }))
       .catch(error => res.status(400).send(error));
   },
 
@@ -76,12 +76,11 @@ export default {
           author: req.body.author,
           description: req.body.description,
           coverPic: req.body.coverPic
-        }).then(result => {
-          if(Number.parseInt(result) === 1){
+        }).then((result) => {
+          if (Number.parseInt(result) === 1) {
             return res.status(200).send(book);
-          }else{
-            return res.status(400).send({error: 'Book could not be updated at this time'});
           }
+          return res.status(400).send({ error: 'Book could not be updated at this time' });
         })
           .catch(error => res.status(400).send(error.errors));
       });
