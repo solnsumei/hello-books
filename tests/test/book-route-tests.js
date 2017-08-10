@@ -25,7 +25,7 @@ describe('Book Routes', () => {
         db.Book.bulkCreate([book1, book2, book3, book4], {})
           .then(() => {
             process.stdout.write('Test books created \n');
-            return request(app)
+              request(app)
               .post('/api/users/signin')
               .send({ username: user.username, password: user.password })
               .set('Accept', 'application/json')
