@@ -3,7 +3,7 @@ import fs from 'fs';
 import path from 'path';
 import Sequelize from 'sequelize';
 import dotenv from 'dotenv';
-import * as DbConfig from '../config/config';
+import * as DbConfig from '../config/config.json';
 
 const basename = path.basename(module.filename);
 const env = process.env.NODE_ENV || 'development';

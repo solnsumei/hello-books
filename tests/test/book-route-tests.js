@@ -31,7 +31,14 @@ describe('Book Routes', () => {
               .set('Accept', 'application/json')
               .end((err, res) => {
                 userToken = res.body.token;
-                done();
+                request(app)
+                  .post('/api/users/signin')
+                  .send({ username: admin.username, password: admin.password })
+                  .set('Accept', 'application/json')
+                  .end((err, res) => {
+                    adminToken = res.body.token;
+                    done();
+                  });
               });
           });
       });
@@ -39,21 +46,21 @@ describe('Book Routes', () => {
 
   describe('GET Ordinary users get books routes  /api/books', () => {
     describe('GET books without being logged in', () => {
-      it('it should respond with a 403 with access denied please log in error message', (done) => {
+      it('it should respond with a 401 with access denied please log in error message', (done) => {
         request(app)
           .get('/api/books')
           .set('Accept', 'application/json')
-          .expect(403)
+          .expect(401)
           .expect('Content-Type', /json/)
           .expect(/"error":\s*"Access denied, please log in"/, done);
       });
 
-      it('it should respond with a 403 with access denied token not authenticated', (done) => {
+      it('it should respond with a 401 with access denied token not authenticated', (done) => {
         request(app)
           .get('/api/books')
           .set('Accept', 'application/json')
           .set('x-token', "hyssgsheejhusssy234558393")
-          .expect(403)
+          .expect(401)
           .expect('Content-Type', /json/)
           .expect(/"error":\s*"Access denied, token could not be authenticated"/, done);
       });
@@ -72,6 +79,47 @@ describe('Book Routes', () => {
       });
 
     });
+
+  });
+
+  describe('POST Add book /api/books', () => {
+    describe('POST try to add books without being logged in', () => {
+      it('it should respond with a 401 with access denied please log in error message', (done) => {
+        request(app)
+          .post('/api/books')
+          .set('Accept', 'application/json')
+          .send(book1)
+          .expect(401)
+          .expect('Content-Type', /json/)
+          .expect(/"error":\s*"Access denied, please log in"/, done);
+      });
+
+      it('it should respond with a 401 with access denied token not authenticated', (done) => {
+        request(app)
+          .post('/api/books')
+          .set('Accept', 'application/json')
+          .set('x-token', "hyssgsheejhusssy234558393")
+          .send(book2)
+          .expect(401)
+          .expect('Content-Type', /json/)
+          .expect(/"error":\s*"Access denied, token could not be authenticated"/, done);
+      });
+
+    });
+
+    describe('POST add book when ordinary user has a valid token', () => {
+      it('it should respond with a 403 with error message access denied, admins only', (done) => {
+        request(app)
+          .get('/api/books')
+          .set('Accept', 'application/json')
+          .set('x-token', userToken)
+          .send(book3)
+          .expect(403)
+          .expect('Content-Type', /json/)
+          .expect(/"message":\s*"Books Catalog"/, done);
+      });
+    });
+
 
     // describe('POST without admin privileges', ()=> {
     //   it('responds with a 403 and Not authen ', (done) => {

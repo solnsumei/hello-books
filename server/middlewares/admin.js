@@ -1,6 +1,14 @@
+/**
+ * Middleware to check admins
+ * @param {Object} req
+ * @param {Object} res
+ * @param {Object} next
+ *
+ * @returns {Request|Response|*|void|boolean} res
+ */
 export default function adminMiddleware(req, res, next) {
   if (!req.auth.user.admin) {
-    return res.status(403).send({ error: 'Access denied' });
+    return res.status(403).send({ error: 'Forbidden, Admins Only' });
   }
   next();
 }
