@@ -6,14 +6,14 @@ import dotenv from 'dotenv';
 import * as DbConfig from '../config/config';
 
 const basename = path.basename(module.filename);
-const env = process.env.NODE_ENV || 'test';
+const env = process.env.NODE_ENV || 'development';
 const config = DbConfig[env];
 
 dotenv.config();
 
 // console.log(process.env.DATABASE_URL);
 // console.log(DbConfig['test']);
-//console.log(DbConfig['production']);
+// console.log(DbConfig['production']);
 
 const db = {};
 
