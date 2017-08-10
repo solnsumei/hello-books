@@ -6,7 +6,7 @@ import dotenv from 'dotenv';
 import DbConfig from '../config/config';
 
 const basename = path.basename(module.filename);
-const env = process.env.NODE_ENV || 'production';
+const env = process.env.NODE_ENV || 'development';
 const config = DbConfig[env];
 
 dotenv.config();
