@@ -1,7 +1,7 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import db from '../models';
-require('dotenv').config();
+import dotenv from 'dotenv';
 
 export default {
 
@@ -41,6 +41,8 @@ export default {
         return res.status(400).send(result.array());
       }
     });
+
+    dotenv.config();
 
     return db.User
       .findOne({ where: {

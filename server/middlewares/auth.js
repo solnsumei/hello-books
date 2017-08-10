@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-require('dotenv').config();
+import dotenv from 'dotenv';
 
 export default function authMiddleware(req, res, next) {
     // check request for token
@@ -11,6 +11,8 @@ export default function authMiddleware(req, res, next) {
         error: 'Access denied, please log in'
       });
     }
+
+    dotenv.config();
 
     // Verify token using jsonwebtokens
     jwt.verify(token, process.env.SECRET, (err, decoded) => {
