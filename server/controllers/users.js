@@ -1,7 +1,7 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import db from '../models';
-import app from '../../app';
+require('dotenv').config();
 
 export default {
 
@@ -52,7 +52,7 @@ export default {
         }
         else if(bcrypt.compareSync(req.body.password, user.password)){
           // Create token
-          const token = jwt.sign({user}, app.get('webSecret'), {
+          const token = jwt.sign({user}, process.env.SECRET, {
             expiresIn: 60 * 60 * 24
           });
 

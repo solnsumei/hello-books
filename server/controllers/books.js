@@ -1,8 +1,18 @@
 import db from '../models';
 
+/**
+ * Controller for adding, updating and get all books
+ * @module booksController
+ */
 export default {
 
-  // Method to add book
+  /**
+   * This creates book in the library
+   * @param {Object} req
+   * @param {Object} res
+   *
+   * @returns {Bluebird<Object> | Promise.<Object>}
+   */
   create(req, res) {
     return db.Book
       .create({
@@ -16,7 +26,13 @@ export default {
       .catch(error => res.status(400).send(error.errors));
   },
 
-  // Method to get books from library
+  /**
+   * Method to get all books from the library
+   * @param {Object} req
+   * @param {Object} res
+   *
+   * @returns {Promise.<Object>}
+   */
   index(req, res) {
     return db.Book
       .scope('active')
@@ -27,7 +43,13 @@ export default {
       .catch(error => res.status(400).send(error));
   },
 
-  // Method to update a book
+  /**
+   * This updates the book in the library
+   * @param {Object} req
+   * @param {Object} res
+   *
+   * @returns {Object} book
+   */
   update(req, res) {
     if (req.params.bookId === null) {
       return res.status(400).send({ error: 'Book id cannot be null' });
@@ -54,7 +76,13 @@ export default {
           author: req.body.author,
           description: req.body.description,
           coverPic: req.body.coverPic
-        }).then(result => res.status(200).send(result))
+        }).then(result => {
+          if(Number.parseInt(result) === 1){
+            return res.status(200).send(book);
+          }else{
+            return res.status(400).send({error: 'Book could not be updated at this time'});
+          }
+        })
           .catch(error => res.status(400).send(error.errors));
       });
   },

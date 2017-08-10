@@ -9,6 +9,14 @@ describe('User', () => {
   describe('POST /api/users/signup', () => {
 
     describe('POST Validation Errors /api/users/signup', () => {
+      it('responds with a 400 bad request for empty body', (done) => {
+        request(app)
+          .post('/api/users/signup')
+          .send({})
+          .set('Accept', 'application/json')
+          .expect(400)
+          .expect('Content-Type', /json/, done)
+      });
 
       it('responds with a 400 bad request', (done) => {
         request(app)

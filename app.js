@@ -3,8 +3,7 @@ import express from 'express';
 import logger from 'morgan';
 import expressValidator from 'express-validator';
 import bodyParser from 'body-parser';
-import secret from "./config";
-import routes from './server/routes';
+import router from './server/routes';
 
 // Set up the express app
 const app = express();
@@ -15,7 +14,6 @@ app.use(logger('dev'));
 // Parse incoming requests data (https://github.com/expressjs/body-parser
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.set('webSecret', secret);
 
 // Express Validator Middleware
 app.use(expressValidator({
@@ -36,9 +34,10 @@ app.use(expressValidator({
 }));
 
 // Api Routes
-routes(app);
 
-// Setup a default catch-all route that sends back a welcome message in JSON format.
+app.use('/api', router);
+
+// Default catch all route to test on Heroku if app is working
 app.get('*', (req, res) => res.status(200).send({
   message: 'Welcome to Hello-Books'
 }));
