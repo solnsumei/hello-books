@@ -16,7 +16,7 @@ export default function userCheck(req, res, next) {
     return res.status(400).send({ error: 'User id not valid' });
   }
 
-  if (req.auth.user.id !== req.params.userId) {
+  if (req.auth.user.id != req.params.userId) {
     return res.status(401).send({ error: 'Not authorised' });
   }
   next();
