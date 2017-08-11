@@ -6,12 +6,12 @@ import db from '../../server/models/index';
 // Test user sign up route
 describe('User', () => {
 
-  describe('POST /api/users/signup', () => {
+  describe('POST /api/v1/users/signup', () => {
 
     describe('POST Validation Errors /api/users/signup', () => {
       it('responds with a 400 bad request for empty body', (done) => {
         request(app)
-          .post('/api/users/signup')
+          .post('/api/v1/users/signup')
           .send({})
           .set('Accept', 'application/json')
           .expect(400)
@@ -29,7 +29,7 @@ describe('User', () => {
 
       it('responds with a 400 bad request', (done) => {
         request(app)
-          .post('/api/users/signup')
+          .post('/api/v1/users/signup')
           .send({ username: '', email: 'hello@you', password:'solomon1' })
           .set('Accept', 'application/json')
           .expect(400)
@@ -38,7 +38,7 @@ describe('User', () => {
 
       it('responds with a 400 bad request', (done) => {
         request(app)
-          .post('/api/users/signup')
+          .post('/api/v1/users/signup')
           .send({ username: '', email: '', password:'' })
           .set('Accept', 'application/json')
           .expect(400)
@@ -47,7 +47,7 @@ describe('User', () => {
 
       it('responds with a 400 bad request', (done) => {
         request(app)
-          .post('/api/users/signup')
+          .post('/api/v1/users/signup')
           .send({ username: '', email: 'hello@you.com', password:'' })
           .set('Accept', 'application/json')
           .expect(400)
@@ -60,7 +60,7 @@ describe('User', () => {
 
       it('responds with a 201 with created user', (done) => {
         request(app)
-          .post('/api/users/signup')
+          .post('/api/v1/users/signup')
           .send({username: 'solmei', email: 'solmei@gmail.com', password: 'solomon1'})
           .set('Accept', 'application/json')
           .expect(201)
@@ -75,7 +75,7 @@ describe('User', () => {
 
       it('responds with a 400 with error message', (done) => {
         request(app)
-          .post('/api/users/signup')
+          .post('/api/v1/users/signup')
           .send({ username: 'solmei', email: 'solmei@gmail.com', password:'solomon1' })
           .set('Accept', 'application/json')
           .expect(400)
@@ -85,7 +85,7 @@ describe('User', () => {
 
       it('responds with a 400 with error message', (done) => {
         request(app)
-          .post('/api/users/signup')
+          .post('/api/v1/users/signup')
           .send({ username: 'ejiro234', email: 'solmei@gmail.com', password:'solomon1' })
           .set('Accept', 'application/json')
           .expect(400)
@@ -101,7 +101,7 @@ describe('User', () => {
 
     it('responds with a 401 status and user not found error', (done) => {
       request(app)
-        .post('/api/users/signin')
+        .post('/api/v1/users/signin')
         .send({ username: 'solking24', password:'solomon1' })
         .set('Accept', 'application/json')
         .expect(401)
@@ -111,7 +111,7 @@ describe('User', () => {
 
     it('responds with a 401 status and wrong password', (done) => {
       request(app)
-        .post('/api/users/signin')
+        .post('/api/v1/users/signin')
         .send({ username: 'solmei', password:'solomon' })
         .set('Accept', 'application/json')
         .expect(401)
@@ -121,7 +121,7 @@ describe('User', () => {
 
     it('responds with a 200 status and success message and user token', (done) => {
       request(app)
-        .post('/api/users/signin')
+        .post('/api/v1/users/signin')
         .send({ username: 'solmei', password:'solomon1' })
         .set('Accept', 'application/json')
         .expect(200)
