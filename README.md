@@ -21,16 +21,16 @@ The application leverages NodeJS; Express JS for routing and sequelize ORM.
 ### Users
 - User Sign up  - POST api/v1/users/signup                - Registers a user
 - User Sign in  - POST api/v1/users/signin                - Logs a user in
-- Get Book     - GET api/v1/<userid>/books                - allows a user to view all books in the library
-- Get Book     - GET api/v1/<userid>/books?returned=false - allows a user to view all books not yet returned
-- Get Book     - GET api/v1/<userid>/books?returned=true  - allows a user to view all books that have been returned
-- Borrow Book  - GET api/v1/<userid>/books                - allows a user to borrow books
-- Return Book  - GET api/v1/<userid>/books                - allows a user to return borrowed books
+- Get Book     - GET api/v1/users/{userid}/books                - allows a user to view all books in the library
+- Get Book     - GET api/v1/users/{userid}/books?returned=false - allows a user to view all books not yet returned
+- Get Book     - GET api/v1/users/{userid}/books?returned=true  - allows a user to view all books that have been returned
+- Borrow Book  - GET api/v1/users/<userid>/books                - allows a user to borrow books
+- Return Book  - GET api/v1/users/<userid>/books                - allows a user to return borrowed books
 
 ### Admin
 - User Signin  - api/v1/users/signin - Logs an admin in
 - Add  Book    - api/v1/books        - allows an admin to add a book
-- Edit Book  - api/v1/books          - allows an admin to modify a book
+- Edit Book  - api/v1/books          - allows an admin to edit a book
 
 
 ## Verbs
@@ -77,3 +77,38 @@ Response
    "username": "solking",
    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwiZW1haWwiOiJiYmJAZ21haWwuY29tIiwibWVtYmVyc2hpcCI6ImJyb256ZSIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNTAyMzc5MzM3LCJleHAiOjE1MDI0NjU3Mzd9.FjK888IV26y22zW5Lyrjefgs9TeMM2n22GgV_CcW5H4"
 }
+
+```
+
+#### Get All Books
+- Endpoint: **GET** `api/v1/books`
+- Authorization: Yes
+- Header Token 'x-token'
+
+```
+Response
+[
+    {
+        "id": 1,
+        "title": "Ocean Eleven",
+        "author": "Mr Brown",
+        "description": "Old Series 2",
+        "coverPic": "image1.jpg"
+    },
+    {
+        "id": 2,
+        "title": "Hello Books",
+        "author": "Solomon",
+        "description": "first book in library",
+        "coverPic": "image12.jpg"
+    },
+    {
+        "id": 3,
+        "title": "Hello Books1",
+        "author": "Solomon",
+        "description": "first book in library",
+        "coverPic": "image13.jpg"
+    }
+]
+
+```
