@@ -3,6 +3,7 @@ import express from 'express';
 import logger from 'morgan';
 import expressValidator from 'express-validator';
 import bodyParser from 'body-parser';
+import dotenv from 'dotenv';
 import router from './server/routes';
 
 // Set up the express app
@@ -26,16 +27,17 @@ app.use(expressValidator({
       formParam += `[${namespace.shift()}]`;
     }
     return {
-      param: formParam,
+      formParam: msg,
       msg,
       value
     };
   }
 }));
 
-// Api Routes
+dotenv.config();
 
-app.use('/api', router);
+// Api Routes
+app.use('/api/v1', router);
 
 // Default catch all route to test on Heroku if app is working
 app.get('*', (req, res) => res.status(200).send({

@@ -75,7 +75,7 @@ export default (sequelize, DataTypes) => {
         },
         min: {
           args: 1,
-          msg: 'Quantity cannot be less than 0'
+          msg: 'Quantity cannot be less than 1'
         },
       },
     },

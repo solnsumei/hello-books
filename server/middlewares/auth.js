@@ -1,5 +1,4 @@
 import jwt from 'jsonwebtoken';
-import dotenv from 'dotenv';
 
 /**
  * Middleware to check for authenticated user
@@ -19,8 +18,6 @@ export default function authMiddleware(req, res, next) {
       error: 'Access denied, please log in'
     });
   }
-
-  dotenv.config();
 
   // Verify token using jsonwebtokens
   jwt.verify(token, process.env.SECRET, (err, decoded) => {

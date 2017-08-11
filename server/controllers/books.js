@@ -1,4 +1,4 @@
-import db from '../models';
+import db from '../models/index';
 
 /**
  * Controller for adding, updating and get all books
@@ -23,7 +23,25 @@ export default {
         stockQuantity: req.body.stockQuantity,
       })
       .then(book => res.status(201).send(book))
-      .catch(error => res.status(400).send(error.errors));
+      .catch(error => {
+        if(error.name === 'SequelizeValidationError' ||
+          error.name === 'SequelizeUniqueConstraintError'){
+          const errors = {};
+          for (let err of error.errors){
+            errors[err.path] = err.message;
+          }
+
+          if(error.name === 'SequelizeUniqueConstraintError'){
+            return res.status(409).send({errors});
+          }
+          return res.status(400).send({errors});
+        }
+
+        return res.status(503).send({
+          error: 'Request could not be processed, please try again later'
+        });
+
+      });
   },
 
   /**
@@ -33,14 +51,34 @@ export default {
    *
    * @returns {Promise.<Object>} books
    */
-  index(req, res) {
+  getAllBooks(req, res) {
+
+    let attributes = ['id', 'title', 'author', 'description', 'coverPic'];
+
+    if(req.auth.user.admin){
+      attributes = [
+        'id',
+        'title',
+        'author',
+        'description',
+        'coverPic',
+        'stockQuantity',
+        'borrowedQuantity'];
+    }
+
     return db.Book
       .scope('active')
       .findAll({
-        attributes: ['id', 'title', 'author', 'description', 'coverPic']
+        attributes: attributes
       })
-      .then(books => res.status(200).send({ message: 'Books Catalog', books }))
-      .catch(error => res.status(400).send(error));
+      .then(books => res.status(200).send(books))
+      .catch(error => {
+        if(error){
+          return res.status(503).send({
+            error: 'Request could not be processed, please try again later'
+          });
+        }
+      });
   },
 
   /**
@@ -51,8 +89,8 @@ export default {
    * @returns {Object} book
    */
   update(req, res) {
-    if (req.params.bookId === null) {
-      return res.status(400).send({ error: 'Book id cannot be null' });
+    if (req.params.bookId === undefined || req.params.bookId === null) {
+      return res.status(400).send({ error: 'Please provide a valid book id' });
     }
 
     req.checkParams('bookId', 'BookId is invalid').isNumeric();
@@ -77,12 +115,29 @@ export default {
           description: req.body.description,
           coverPic: req.body.coverPic
         }).then((result) => {
-          if (Number.parseInt(result) === 1) {
+          if (result) {
             return res.status(200).send(book);
           }
-          return res.status(400).send({ error: 'Book could not be updated at this time' });
         })
-          .catch(error => res.status(400).send(error.errors));
+          .catch(error => {
+            if(error.name === 'SequelizeValidationError' ||
+              error.name === 'SequelizeUniqueConstraintError'){
+              const errors = {};
+              for (let err of error.errors){
+                errors[err.path] = err.message;
+              }
+
+              if(error.name === 'SequelizeUniqueConstraintError'){
+                return res.status(409).send({errors});
+              }
+              return res.status(400).send({errors});
+            }
+
+            return res.status(503).send({
+              error: 'Request could not be processed, please try again later'
+            });
+
+          });
       });
   },
 };

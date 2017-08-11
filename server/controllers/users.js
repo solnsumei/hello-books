@@ -1,7 +1,7 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
-import db from '../models';
+import db from '../models/index';
 
 /**
  * User controller to handle user request
@@ -22,39 +22,46 @@ export default {
           username: user.username,
           email: user.email
         } }))
-      .catch(error => res.status(400).send(error.errors));
+      .catch(error => {
+        if(error.name === 'SequelizeValidationError' ||
+          error.name === 'SequelizeUniqueConstraintError'){
+          const errors = {};
+          for (let err of error.errors){
+            errors[err.path] = err.message;
+          }
+
+          if(error.name === 'SequelizeUniqueConstraintError'){
+            return res.status(409).send({errors});
+          }
+          return res.status(400).send({errors});
+        }
+
+        return res.status(503).send({
+          error: 'Request could not be processed, please try again later'
+        });
+
+      });
   },
 
   // Get all users
-  index(req, res) {
+  getAllUsers(req, res) {
     return db.User
       .findAll({
-        attributes: ['username', 'email', 'admin']
+        attributes: ['id', 'username', 'email', 'admin']
       })
       .then(users => res.status(200).send(users))
-      .catch(error => res.status(400).send(error));
+      .catch(error => res.status(503).send(error));
   },
 
   // Authenticate users
   login(req, res) {
-    req.sanitizeBody('username').trim();
-    req.checkBody('username', 'Username is required').notEmpty();
-
-    req.getValidationResult().then((result) => {
-      if (!result.isEmpty()) {
-        return res.status(400).send(result.array());
-      }
-    });
-
-    dotenv.config();
-
     return db.User
       .findOne({ where: {
         username: req.body.username
       } })
       .then((user) => {
         if (!user) {
-          return res.status(401).send({ error: 'User not found' });
+          return res.status(401).send({ error: 'Username and/or password is incorrect' });
         } else if (bcrypt.compareSync(req.body.password, user.password)) {
           // Create token
           const token = jwt.sign({ user }, process.env.SECRET, {
@@ -63,19 +70,20 @@ export default {
 
           // Return logged in user
           return res.status(200).send({
-            message: 'You are logged in successfully',
             username: user.username,
-            token
+            token: token
           });
         }
-        return res.status(401).send({ error: 'Password is incorrect' });
-      }).catch(error => res.status(400).send(error));
+        return res.status(401).send({ error: 'Username and/or password is incorrect' });
+      }).catch(error => res.status(503).send({
+        error: 'Request could not be processed, please try again later'
+      }));
   },
 
   // Borrow book
   borrowBook(req, res) {
     if (req.book.stockQuantity === req.book.borrowedQuantity) {
-      return res.status(400).send({ message: 'No copies available for borrowing' });
+      return res.status(404).send({ error: 'No copies available for borrowing' });
     }
 
     return db.UserBook.findOne({
@@ -85,9 +93,9 @@ export default {
         returned: false
       },
     })
-      .then((userbook) => {
-        if (userbook) {
-          return res.status(200).send({ message: 'You already borrowed this book' });
+      .then((book) => {
+        if (book) {
+          return res.status(409).send({ error: 'You already borrowed this book' });
         }
 
         const dueDate = new Date();
@@ -99,23 +107,32 @@ export default {
             bookId: req.book.id,
             dueDate,
           })
-          .then(borrowedBook => req.book
+          .then(borrowedBook =>
+            req.book
             .update({
               borrowedQuantity: (req.book.borrowedQuantity + 1),
               isBorrowed: true,
             }).then((result) => {
               if (result) {
-                return res.status(200).send({ message: 'Book borrowed successfully', borrowedBook });
+                return res.status(200).send({ message: 'Book borrowed successfully', book: {
+                  title: req.book.title,
+                  returnDate: borrowedBook.dueDate,
+                  returned: borrowedBook.returned
+                }
+                });
               }
             }).catch(error => res.status(400).send(error)))
-          .catch(error => res.status(400).send(error.errors));
+          .catch(error => res.status(503).send({
+            error: 'Request could not be processed, please try again later'
+          }));
       });
   },
 
   // Borrow History method with returned query string
   borrowHistory(req, res) {
     const query = { userId: req.auth.user.id };
-    if (req.query.returned === 'true') { query.returned = true; } else if (req.query.returned === 'false') { query.returned = false; }
+    if (req.query.returned === 'true') { query.returned = true; }
+    else if (req.query.returned === 'false') { query.returned = false; }
 
     return db.UserBook
       .findAll({
@@ -124,7 +141,14 @@ export default {
           attributes: ['title', 'author'],
         }],
         where: query
-      }).then(borrowedBooks => res.status(200).send(borrowedBooks));
+      }).then(borrowedBooks => res.status(200).send(borrowedBooks))
+      .catch(error => {
+        if(error){
+          return res.status(503).send({
+            error: 'Request could not be processed, please try again later'
+          });
+        }
+      });
   },
 
   // Return book method
@@ -144,19 +168,27 @@ export default {
           returned: false,
         }
       })
-      .then((updatedList) => {
-        if (Number.parseInt(updatedList) === 1) {
+      .then((updateResult) => {
+        if (Number.parseInt(updateResult, [10]) === 1) {
           return req.book
             .update({
               borrowedQuantity: (req.book.borrowedQuantity - 1),
               isBorrowed: ((req.book.borrowedQuantity) - 1) > 0,
             })
-            .then(result => res.status(200).send({ message: 'Book was returned successfully', book: req.book.title }))
-            .catch(error => res.status(400).send({ error: 'Book quantity could not be updated' }));
+            .then(result => res.status(200).send({ message: 'Book was returned successfully', book: {
+              title: req.book.title,
+              returned: true
+            }
+            }))
+            .catch(error => res.status(503).send({
+              error: 'Request could not be processed, please try again later'
+            }));
         }
         return res.status(404).send({ error: 'Book was not found in your borrowed list' });
       })
-      .catch(error => res.status(400).send(error));
+      .catch(error => res.status(503).send({
+        error: 'Request could not be processed, please try again later'
+      }));
   },
 
 };

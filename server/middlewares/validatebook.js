@@ -1,4 +1,4 @@
-import db from '../models';
+import db from '../models/index';
 
 /**
  * Middleware to check book availability inn the library
@@ -8,9 +8,10 @@ import db from '../models';
  *
  * @returns {Request|Response|*|void|boolean} res
  */
-export default function checkBookAvailability(req, res, next) {
-  if (req.body.bookId === null || !Number.isInteger(Number.parseInt(req.body.bookId))) {
-    return res.status(400).send({ error: 'Valid book Id is required' });
+export default function validateBook(req, res, next) {
+  if (req.body.bookId === undefined || req.body.bookId === null ||
+    !Number.isInteger(Number.parseInt(req.body.bookId, 10))) {
+    return res.status(400).send({ error: 'a valid book id is required' });
   }
 
   return db.Book.scope('active').findById(req.body.bookId)
