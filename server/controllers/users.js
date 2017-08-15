@@ -50,7 +50,7 @@ export default {
         attributes: ['id', 'username', 'email', 'admin']
       })
       .then(users => res.status(200).send(users))
-      .catch(error => res.status(503).send(error));
+      .catch(error => res.status(500).send(error));
   },
 
   // Authenticate users
@@ -75,7 +75,7 @@ export default {
           });
         }
         return res.status(401).send({ error: 'Username and/or password is incorrect' });
-      }).catch(error => res.status(503).send({
+      }).catch(error => res.status(500).send({
         error: 'Request could not be processed, please try again later'
       }));
   },
@@ -122,7 +122,7 @@ export default {
                 });
               }
             }).catch(error => res.status(400).send(error)))
-          .catch(error => res.status(503).send({
+          .catch(error => res.status(500).send({
             error: 'Request could not be processed, please try again later'
           }));
       });
@@ -144,7 +144,7 @@ export default {
       }).then(borrowedBooks => res.status(200).send(borrowedBooks))
       .catch(error => {
         if(error){
-          return res.status(503).send({
+          return res.status(500).send({
             error: 'Request could not be processed, please try again later'
           });
         }
@@ -180,13 +180,13 @@ export default {
               returned: true
             }
             }))
-            .catch(error => res.status(503).send({
+            .catch(error => res.status(500).send({
               error: 'Request could not be processed, please try again later'
             }));
         }
         return res.status(404).send({ error: 'Book was not found in your borrowed list' });
       })
-      .catch(error => res.status(503).send({
+      .catch(error => res.status(500).send({
         error: 'Request could not be processed, please try again later'
       }));
   },

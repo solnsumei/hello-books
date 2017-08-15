@@ -63,7 +63,9 @@ export default {
         'description',
         'coverPic',
         'stockQuantity',
-        'borrowedQuantity'];
+        'borrowedQuantity',
+        'isDeleted'
+      ];
     }
 
     return db.Book
@@ -74,7 +76,7 @@ export default {
       .then(books => res.status(200).send(books))
       .catch(error => {
         if(error){
-          return res.status(503).send({
+          return res.status(500).send({
             error: 'Request could not be processed, please try again later'
           });
         }
@@ -89,19 +91,6 @@ export default {
    * @returns {Object} book
    */
   update(req, res) {
-    if (req.params.bookId === undefined || req.params.bookId === null) {
-      return res.status(400).send({ error: 'Please provide a valid book id' });
-    }
-
-    req.checkParams('bookId', 'BookId is invalid').isNumeric();
-
-    req.getValidationResult()
-      .then((result) => {
-        if (!result.isEmpty()) {
-          return res.status(400).send(result.array());
-        }
-      });
-
     return db.Book
       .scope('active')
       .findById(req.params.bookId)
@@ -133,11 +122,43 @@ export default {
               return res.status(400).send({errors});
             }
 
-            return res.status(503).send({
+            return res.status(500).send({
               error: 'Request could not be processed, please try again later'
             });
 
           });
       });
   },
+
+  addQuantity(req, res){
+    req.book.update({
+      stockQuantity: req.book.stockQuantity + Number.parseInt(req.body.quantity)
+    }).then(result => {
+      if(result){
+        return res.status(200).send({
+          success: true,
+          message: 'Stock quantity updated successfully'
+        });
+      }
+    })
+      .catch(error => res.status(500).send({
+        error: 'Stock quantity could not be updated, please try again later.'
+      }));
+  },
+
+  delete(req, res){
+    req.book.update({
+      isDeleted: true
+    }).then(result => {
+      if(result){
+        return res.status(200).send({
+          success: true,
+          message: 'Book has been deleted successfully'
+        });
+      }
+    })
+      .catch(error => res.status(500).send({
+        error: 'Book could not be deleted at this time, please try again later.'
+      }));
+  }
 };

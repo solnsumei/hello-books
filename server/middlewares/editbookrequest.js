@@ -11,7 +11,7 @@ export default function editBookRequest(req, res, next) {
   const errors = {};
 
   if (req.params.bookId === undefined || req.params.bookId === null ||
-    !Number.isInteger(Number.parseInt(req.params.bookId))) {
+    !Number.isInteger(Number.parseInt(req.params.bookId, 10))) {
     return res.status(400).send({ error: 'Please provide a valid book id' });
   }
 

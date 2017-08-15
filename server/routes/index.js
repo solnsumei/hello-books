@@ -9,6 +9,7 @@ import createBookRequest from '../middlewares/createbookrequest';
 import editBookRequest from '../middlewares/editbookrequest';
 import validateUser from '../middlewares/validateuser';
 import validateBook from '../middlewares/validatebook';
+import checkBook from '../middlewares/checkbook';
 
 const router = express.Router();
 
@@ -34,7 +35,11 @@ router.use(adminMiddleware);
 
 router.post('/books', createBookRequest, booksController.create);
 
+router.post('/books/:bookId', checkBook, booksController.addQuantity);
+
 router.put('/books/:bookId', editBookRequest, booksController.update);
+
+router.delete('/books', validateBook, booksController.delete);
 
 router.get('/users', usersController.getAllUsers);
 
