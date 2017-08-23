@@ -34,5 +34,9 @@ module.exports = function(sequelize, DataTypes) {
     }
   });
 
+  Category.associate = (models) => {
+    Category.belongsToMany(models.Book, {through: 'BookCategory', foreignKey: 'categoryId', otherKey: 'bookId' });
+  };
+
   return Category;
 };

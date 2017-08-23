@@ -64,6 +64,10 @@ module.exports = function(sequelize, DataTypes) {
     }
   });
 
+  MembershipType.associate = (models) => {
+    MembershipType.hasMany(models.User, { foreignKey: 'membershipTypeId' });
+  };
+
   return MembershipType;
 
 };

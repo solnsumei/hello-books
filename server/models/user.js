@@ -65,6 +65,9 @@ export default (sequelize, DataTypes) => {
       type: DataTypes.BOOLEAN,
       defaultValue: false
     },
+    membershipTypeId: {
+      type: DataTypes.INTEGER
+    }
   });
 
   User.beforeCreate((user, options) => {
@@ -74,6 +77,7 @@ export default (sequelize, DataTypes) => {
   User.associate = (models) => {
     User.hasMany(models.UserBook, { as: 'userBooks', foreignKey: 'userId' });
     User.belongsToMany(models.Book, { as: 'borrowedBooks', through: 'UserBook', foreignKey: 'userId', otherKey: 'bookId' });
+    User.belongsTo(models.MembershipType, {foreignKey: 'membershipTypeId'});
   };
 
   return User;

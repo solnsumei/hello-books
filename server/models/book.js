@@ -98,6 +98,7 @@ export default (sequelize, DataTypes) => {
   Book.associate = (models) => {
     Book.hasMany(models.UserBook, { as: 'borrowedBooks', foreignKey: 'bookId' });
     Book.belongsToMany(models.User, { as: 'borrowers', through: 'UserBook', foreignKey: 'bookId', otherKey: 'userId' });
+    Book.belongsToMany(models.Category, { as: 'categories', through: 'BookCategory', foreignKey: 'bookId', otherKey: 'categoryId' });
   };
 
   return Book;
