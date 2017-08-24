@@ -1,7 +1,7 @@
 'use strict';
 module.exports = function(sequelize, DataTypes) {
-  var MembershipType = sequelize.define('MembershipType', {
-    membertype: {
+  const MembershipType = sequelize.define('MembershipType', {
+    membershipType: {
       type: DataTypes.STRING,
       allowNull: {
         args: false,
@@ -27,7 +27,7 @@ module.exports = function(sequelize, DataTypes) {
     lendDuration: {
       type: DataTypes.INTEGER,
       allowNull: {
-        args: true,
+        args: false,
         msg: 'Lending duration is required'
       },
       validate: {
@@ -46,7 +46,7 @@ module.exports = function(sequelize, DataTypes) {
     maxBorrowable: {
       type: DataTypes.INTEGER,
       allowNull: {
-        args: true,
+        args: false,
         msg: 'Maximum Borrowable is required'
       },
       validate: {
@@ -65,7 +65,7 @@ module.exports = function(sequelize, DataTypes) {
   });
 
   MembershipType.associate = (models) => {
-    MembershipType.hasMany(models.User, { foreignKey: 'membershipTypeId' });
+    MembershipType.hasMany(models.User, { foreignKey: 'membershipType' });
   };
 
   return MembershipType;

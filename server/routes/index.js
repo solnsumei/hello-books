@@ -10,6 +10,7 @@ import editBookRequest from '../middlewares/editbookrequest';
 import validateUser from '../middlewares/validateuser';
 import validateBook from '../middlewares/validatebook';
 import checkBook from '../middlewares/checkbook';
+import userCanBorrow from "../middlewares/usercanborrow";
 
 const router = express.Router();
 
@@ -22,10 +23,10 @@ router.use(authMiddleware);
 
 router.get('/books', booksController.getAllBooks);
 
-router.post('/users/:userId/books', validateBook, validateUser,
+router.post('/users/:userId/books', validateUser, userCanBorrow, validateBook,
   usersController.borrowBook);
 
-router.put('/users/:userId/books', validateBook, validateUser,
+router.put('/users/:userId/books', validateUser, validateBook,
   usersController.returnBook);
 
 router.get('/users/:userId/books', validateUser, usersController.borrowHistory);

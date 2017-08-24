@@ -99,7 +99,11 @@ export default {
         }
 
         const dueDate = new Date();
-        dueDate.setDate(dueDate.getDate() + 14);
+        if(req.auth.user.membershipTypeId === null){
+          dueDate.setDate(dueDate.getDate() + 7);
+        }else{
+
+        }
 
         return db.UserBook
           .create({

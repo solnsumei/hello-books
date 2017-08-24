@@ -65,8 +65,18 @@ export default (sequelize, DataTypes) => {
       type: DataTypes.BOOLEAN,
       defaultValue: false
     },
-    membershipTypeId: {
-      type: DataTypes.INTEGER
+    membershipType: {
+      type: DataTypes.STRING,
+      allowNull: {
+        args: false,
+        msg: 'Membership Type is Required'
+      },
+      defaultValue: 'Free',
+      validate: {
+        notEmpty: {
+          msg: 'Membership Type is Required'
+        }
+      }
     }
   });
 
@@ -77,7 +87,7 @@ export default (sequelize, DataTypes) => {
   User.associate = (models) => {
     User.hasMany(models.UserBook, { as: 'userBooks', foreignKey: 'userId' });
     User.belongsToMany(models.Book, { as: 'borrowedBooks', through: 'UserBook', foreignKey: 'userId', otherKey: 'bookId' });
-    User.belongsTo(models.MembershipType, {foreignKey: 'membershipTypeId'});
+    User.belongsTo(models.MembershipType, {foreignKey: 'membershipType'});
   };
 
   return User;

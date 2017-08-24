@@ -12,8 +12,8 @@ module.exports = function(sequelize, DataTypes) {
           msg: 'Category name is required'
         },
         is: {
-          args: ["^[a-z]+$",'i'],
-          msg: 'Category name must contain only alphabets'
+          args: ["^[a-z.- ]+$",'i'],
+          msg: 'Category name must contain only alphabets and dash'
         },
         len: {
           args: [2, 30],
@@ -29,7 +29,11 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING,
       allowNull: {
         args: false,
-        msg: 'Slug is required'
+        msg: 'Category is required'
+      },
+      unique: {
+        args: true,
+        msg: 'Category name has already been used'
       }
     }
   });
