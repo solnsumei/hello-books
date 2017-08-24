@@ -1,5 +1,6 @@
 import express from 'express';
 import usersController from '../controllers/users';
+import categoriesController from '../controllers/categories';
 import booksController from '../controllers/books';
 import authMiddleware from '../middlewares/auth';
 import adminMiddleware from '../middlewares/admin';
@@ -10,7 +11,8 @@ import editBookRequest from '../middlewares/editbookrequest';
 import validateUser from '../middlewares/validateuser';
 import validateBook from '../middlewares/validatebook';
 import checkBook from '../middlewares/checkbook';
-import userCanBorrow from "../middlewares/usercanborrow";
+import userCanBorrow from '../middlewares/usercanborrow';
+import {categoryRequest, validateCategoryId, validateCategoryIdParam} from '../middlewares/categoryrequest';
 
 const router = express.Router();
 
@@ -33,6 +35,15 @@ router.get('/users/:userId/books', validateUser, usersController.borrowHistory);
 
 // Admin middleware to check if user is an admin
 router.use(adminMiddleware);
+
+router.post('/categories', categoryRequest, categoriesController.create);
+
+router.put('/books/:categoryId', categoryRequest,
+  validateCategoryIdParam, categoriesController.update);
+
+router.delete('/categories', validateCategoryId, categoriesController.delete);
+
+router.get('/categories', categoriesController.getAllCategories);
 
 router.post('/books', createBookRequest, booksController.create);
 
