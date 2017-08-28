@@ -18,16 +18,8 @@ export default function checkSignUp(req, res, next) {
     errors.surname = 'Surname is required';
   }
 
-  if (!req.body.username || !req.body.username.trim()) {
-    errors.username = 'Username is required';
-  }
-
-  if (!req.body.email || !req.body.email.trim()) {
-    errors.email = 'Email is required';
-  }
-
-  if (!req.body.password || !req.body.password.trim()) {
-    errors.password = 'Password is required';
+  if (!req.body.membershipType || !req.body.membershipType.trim()) {
+    errors.membershipType = 'MembershipType is required';
   }
 
   if (Object.keys(errors).length > 0) {

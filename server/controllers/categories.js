@@ -17,10 +17,13 @@ export default {
   create(req, res) {
     return db.Category
       .create({
-        name: req.body.name,
-        slug: slug(req.body.name),
+        name: req.body.name.trim(),
+        slug: slug(req.body.name.toLowerCase()),
       })
-      .then(category => res.status(201).send(category))
+      .then(category => res.status(201).send({ category: {
+        name: category.name,
+        slug: category.slug
+      }}))
       .catch(error => {
         if(error.name === 'SequelizeValidationError' ||
           error.name === 'SequelizeUniqueConstraintError'){
@@ -52,7 +55,7 @@ export default {
   getAllCategories(req, res) {
     return db.Category
       .findAll({
-        attributes: ['name']
+        attributes: ['id', 'name', 'slug']
       })
       .then(categories => res.status(200).send(categories))
       .catch(error => {
@@ -72,56 +75,44 @@ export default {
    * @returns {Object} category
    */
   update(req, res) {
-    return db.Category
-      .findById(req.params.categoryId)
-      .then(category => {
-        if (!category) {
-          return res.status(404).send({ error: 'Category not found' });
-        }
-        category.update({
-          name: req.body.name,
-          slug: slug(req.body.name)
-        }).then((result) => {
-          if (result) {
-            return res.status(200).send(category);
+    return req.category.update({
+      name: req.body.name.trim(),
+      slug: slug(req.body.name.toLowerCase())
+    }).then((result) => {
+      if (result) {
+        return res.status(200).send({
+          success: true,
+          message: 'Category updated successfully',
+          category: req.category
+        });
+      }
+    })
+      .catch(error => {
+        if(error.name === 'SequelizeValidationError' ||
+          error.name === 'SequelizeUniqueConstraintError'){
+          const errors = {};
+          for (let err of error.errors){
+            errors[err.path] = err.message;
           }
-        })
-          .catch(error => {
-            if(error.name === 'SequelizeValidationError' ||
-              error.name === 'SequelizeUniqueConstraintError'){
-              const errors = {};
-              for (let err of error.errors){
-                errors[err.path] = err.message;
-              }
 
-              if(error.name === 'SequelizeUniqueConstraintError'){
-                return res.status(409).send({errors});
-              }
-              return res.status(400).send({errors});
-            }
-
-            return res.status(500).send({
-              error: 'Request could not be processed, please try again later'
-            });
-
-          });
-      });
-  },
-
-  delete(req, res){
-    return db.Category
-      .findById(req.body.categoryId)
-      .then(category => {
-        if (!category) {
-          return res.status(404).send({ error: 'Category not found' });
+          if(error.name === 'SequelizeUniqueConstraintError'){
+            return res.status(409).send({errors});
+          }
+          return res.status(400).send({errors});
         }
 
-        category.destroy()
-          .then(() => res.status(200).send({
-            success: true,
-            message: 'Category was deleted successfully'
-          }));
+        return res.status(500).send({
+          error: 'Request could not be processed, please try again later'
+        });
 
       });
   },
+
+  delete(req, res) {
+    return req.category.destroy()
+      .then(() => res.status(200).send({
+        success: true,
+        message: 'Category was deleted successfully'
+      }));
+  }
 };

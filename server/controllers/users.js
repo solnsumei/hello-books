@@ -11,14 +11,18 @@ export default {
 
   // Create a user account in database
   create(req, res) {
+
     return db.User
       .create({
-        username: req.body.username,
+        firstName: req.body.firstName,
+        surname: req.body.surname,
+        username: (req.body.username.toLowerCase()),
         email: req.body.email,
         password: req.body.password,
       })
       .then(user => res.status(201).send({ message: 'User created successfully',
         user: {
+          surname: user.firstName + ' ' + user.surname,
           username: user.username,
           email: user.email
         } }))
@@ -37,6 +41,90 @@ export default {
         }
 
         return res.status(503).send({
+          error: 'Request could not be processed, please try again later'
+        });
+
+      });
+  },
+
+  // Update a user account in database
+  update(req, res) {
+
+    return req.auth.user
+      .update({
+        firstName: req.body.firstName,
+        surname: req.body.surname,
+        membershipType: req.body.membershipType,
+      })
+      .then(result => {
+        if(result){
+          return res.status(201).send({
+            message: 'User profile updated successfully',
+            user: {
+              surname: user.firstName + ' ' + user.surname,
+              username: user.username,
+              membershipType: user.membershipType
+            }
+          });
+        }
+
+        return res.status(500).send({error: 'User profile could not be updated at this time, please try again later'});
+
+      })
+      .catch(error => {
+        if(error.name === 'SequelizeValidationError' ||
+          error.name === 'SequelizeUniqueConstraintError'){
+          const errors = {};
+          for (let err of error.errors){
+            errors[err.path] = err.message;
+          }
+
+          if(error.name === 'SequelizeUniqueConstraintError'){
+            return res.status(409).send({errors});
+          }
+          return res.status(400).send({errors});
+        }
+
+        return res.status(500).send({
+          error: 'Request could not be processed, please try again later'
+        });
+
+      });
+  },
+
+  // Change password
+  changePassword(req, res) {
+
+    return req.auth.user
+      .update({
+        password: req.body.newPassword,
+      })
+      .then(result => {
+        if(result){
+          return res.status(201).send({
+            success: true,
+            message: 'Your Password changed successfully',
+          });
+        }
+
+        return res.status(500).send({error: 'Request could not be processed, please try again later'});
+
+      })
+      .catch(error => {
+        if(error.name === 'SequelizeValidationError' ||
+          error.name === 'SequelizeUniqueConstraintError'){
+          const errors = {};
+          for (let err of error.errors){
+            errors[err.path] = err.message;
+          }
+
+          if(error.name === 'SequelizeUniqueConstraintError'){
+            return res.status(409).send({errors});
+          }
+          return res.status(400).send({errors});
+        }
+
+        return res.status(500).send({
           error: 'Request could not be processed, please try again later'
         });
 

@@ -14,6 +14,7 @@ export default {
    * @return {Bluebird<Object> | Promise.<Object>} res
    */
   create(req, res) {
+
     return db.Book
       .create({
         title: req.body.title,

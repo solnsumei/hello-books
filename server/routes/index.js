@@ -38,7 +38,7 @@ router.use(adminMiddleware);
 
 router.post('/categories', categoryRequest, categoriesController.create);
 
-router.put('/books/:categoryId', categoryRequest,
+router.put('/categories/:categoryId', categoryRequest,
   validateCategoryIdParam, categoriesController.update);
 
 router.delete('/categories', validateCategoryId, categoriesController.delete);

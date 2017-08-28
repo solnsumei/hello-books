@@ -43,15 +43,7 @@ export function validateCategoryId(req, res, next) {
     return res.status(400).send({ error: 'a valid category id is required' });
   }
 
-  const category = findCategory(req.body.categoryId);
-
-  if(!category){
-    return res.status(404).send({ error: 'Category not found' });
-  }
-
-  req.category = category;
-
-  next();
+  return validateCategory(req, res, next, req.body.categoryId);
 }
 
 /**
@@ -69,14 +61,33 @@ export function validateCategoryIdParam(req, res, next) {
     return res.status(400).send({ error: 'a valid category id is required' });
   }
 
-  const category = findCategory(req.params.categoryId);
+  return validateCategory(req, res, next, req.params.categoryId);
 
-  if(!category){
-    return res.status(404).send({ error: 'Category not found' });
-  }
-
-  req.category = category;
-
-  next();
 }
+
+/**
+ * Middleware to check if category is valid
+ * @param {Object} req
+ * @param {Object} res
+ * @param {Object} next
+ * @param {int} id
+ *
+ * @returns {Request|Response|*|void|boolean} res
+ */
+function validateCategory(req, res, next, id) {
+
+  return db.Category.findById(id)
+    .then(category => {
+      if (!category) {
+        return res.status(404).send({ error: 'Category not found' });
+      }
+
+      req.category = category;
+
+      next();
+
+    });
+
+}
+
 

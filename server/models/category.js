@@ -11,10 +11,6 @@ module.exports = function(sequelize, DataTypes) {
         notEmpty: {
           msg: 'Category name is required'
         },
-        is: {
-          args: ["^[a-z.- ]+$",'i'],
-          msg: 'Category name must contain only alphabets and dash'
-        },
         len: {
           args: [2, 30],
           msg: 'Category name must be at least 2 chars and less than 30 chars'
@@ -39,7 +35,7 @@ module.exports = function(sequelize, DataTypes) {
   });
 
   Category.associate = (models) => {
-    Category.belongsToMany(models.Book, {through: 'BookCategory', foreignKey: 'categoryId', otherKey: 'bookId' });
+    Category.hasMany(models.Book, {foreignKey: 'categoryId'});
   };
 
   return Category;

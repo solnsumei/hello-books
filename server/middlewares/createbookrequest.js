@@ -30,6 +30,11 @@ export default function createBookRequest(req, res, next) {
     errors.stockQuantity = 'Stock Quantity is required';
   }
 
+  if(req.body.categories === undefined || req.body.categories === null)
+  {
+    errors.categories = 'Book categories is required';
+  }
+
   if (Object.keys(errors).length > 0) {
     return res.status(400).send({errors});
   }
