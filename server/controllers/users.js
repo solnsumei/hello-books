@@ -48,16 +48,11 @@ export default {
 
   // Update a user account in database
   updateProfile(req, res) {
-    return db.User
+    return req.user
       .update({
         firstName: req.body.firstName,
         surname: req.body.surname,
         membershipType: req.body.membershipType
-      },
-        {
-        where: {
-          id: req.auth.user.id
-        }
       })
       .then(result => {
         if(result){
@@ -71,16 +66,12 @@ export default {
 
       })
       .catch(error => {
-        if(error.name === 'SequelizeValidationError' ||
-          error.name === 'SequelizeUniqueConstraintError'){
+        if(error.name === 'SequelizeValidationError'){
           const errors = {};
           for (let err of error.errors){
             errors[err.path] = err.message;
           }
 
-          if(error.name === 'SequelizeUniqueConstraintError'){
-            return res.status(409).send({errors});
-          }
           return res.status(400).send({errors});
         }
 
@@ -94,14 +85,9 @@ export default {
   // Change password
   changePassword(req, res) {
 
-    return db.User
+    return req.user
       .update({
         password: bcrypt.hashSync(req.body.newPassword, 10)
-      },
-        {
-        where: {
-          id: req.auth.user.id
-        }
       })
       .then(result => {
         if(result){
@@ -115,16 +101,12 @@ export default {
 
       })
       .catch(error => {
-        if(error.name === 'SequelizeValidationError' ||
-          error.name === 'SequelizeUniqueConstraintError'){
+        if(error.name === 'SequelizeValidationError'){
           const errors = {};
           for (let err of error.errors){
             errors[err.path] = err.message;
           }
 
-          if(error.name === 'SequelizeUniqueConstraintError'){
-            return res.status(409).send({errors});
-          }
           return res.status(400).send({errors});
         }
 
@@ -155,18 +137,54 @@ export default {
         if (!user) {
           return res.status(401).send({ error: 'Username and/or password is incorrect' });
         } else if (bcrypt.compareSync(req.body.password, user.password)) {
-          // Create token
-          const token = jwt.sign({ user }, process.env.SECRET, {
-            expiresIn: 60 * 60 * 24
-          });
 
-          // Return logged in user
-          return res.status(200).send({
-            username: user.username,
-            token: token
-          });
+          user.update({isLoggedIn: true})
+            .then(result => {
+              if(result){
+                // Create token
+                const token = jwt.sign({ user: {
+                  username: user.username,
+                  id: user.id
+                }
+                }, process.env.SECRET, {
+                  expiresIn: 60 * 60 * 2
+                });
+
+                // Return logged in user
+                return res.status(200).send({
+                  username: user.username,
+                  token: token
+                });
+              }
+            })
+            .catch(error => res.status(500).send({
+              error: 'Request could not be processed at this time please try again later'
+            }));
         }
         return res.status(401).send({ error: 'Username and/or password is incorrect' });
+      }).catch(error => res.status(500).send({
+        error: 'Request could not be processed, please try again later'
+      }));
+  },
+
+  // Authenticate users
+  logout(req, res) {
+    return req.user
+      .update({
+        isLoggedIn: false
+      })
+      .then(result => {
+        if (result) {
+          return res.status(200).send({
+            success: true,
+            message: 'You have been logged out successfully'
+          });
+        }
+
+       return res.status(500).send({
+         error: 'Request could not be processed, please try again later'
+       });
+
       }).catch(error => res.status(500).send({
         error: 'Request could not be processed, please try again later'
       }));
@@ -181,7 +199,7 @@ export default {
     return db.UserBook.findOne({
       where: {
         bookId: req.book.id,
-        userId: req.auth.user.id,
+        userId: req.auth.id,
         returned: false
       },
     })
@@ -199,7 +217,7 @@ export default {
 
         return db.UserBook
           .create({
-            userId: req.auth.user.id,
+            userId: req.auth.id,
             bookId: req.book.id,
             dueDate,
           })
@@ -226,7 +244,7 @@ export default {
 
   // Borrow History method with returned query string
   borrowHistory(req, res) {
-    const query = { userId: req.auth.user.id };
+    const query = { userId: req.auth.id };
     if (req.query.returned === 'true') { query.returned = true; }
     else if (req.query.returned === 'false') { query.returned = false; }
 
@@ -259,7 +277,7 @@ export default {
         returned: true
       }, {
         where: {
-          userId: req.auth.user.id,
+          userId: req.auth.id,
           bookId: req.book.id,
           returned: false,
         }

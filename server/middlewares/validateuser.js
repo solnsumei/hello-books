@@ -13,7 +13,7 @@ export default function validateUser(req, res, next) {
     return res.status(400).send({ error: 'a valid user id is required' });
   }
 
-  if (req.auth.user.id !== Number.parseInt(req.params.userId, 10)) {
+  if (req.auth.id !== Number.parseInt(req.params.userId, 10)) {
     return res.status(401).send({ error: 'You are not authorised to perform this action' });
   }
 

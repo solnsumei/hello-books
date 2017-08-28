@@ -115,6 +115,11 @@ export default (sequelize, DataTypes) => {
           msg: 'Membership Type is Required'
         }
       }
+    },
+    isLoggedIn:{
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false,
     }
   });
 

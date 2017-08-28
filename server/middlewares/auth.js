@@ -1,4 +1,5 @@
 import jwt from 'jsonwebtoken';
+import db from '../models/index';
 
 /**
  * Middleware to check for authenticated user
@@ -27,7 +28,22 @@ export default function authMiddleware(req, res, next) {
       });
     }
 
-    req.auth = decoded;
-    next();
+    return db.User.findOne({
+      id: decoded.user.id,
+      isLoggedIn: true
+    })
+      .then(user => {
+        if(user){
+          req.auth = user;
+          next();
+        }
+        else{
+          return res.status(401).send({
+            error: 'Access denied, token could not be authenticated'
+          });
+        }
+      })
+      .catch(error => res.status(500).send(error));
+
   });
 }
