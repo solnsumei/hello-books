@@ -1,6 +1,5 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import dotenv from 'dotenv';
 import db from '../models/index';
 
 /**
@@ -48,23 +47,23 @@ export default {
   },
 
   // Update a user account in database
-  update(req, res) {
-
-    return req.auth.user
+  updateProfile(req, res) {
+    return db.User
       .update({
         firstName: req.body.firstName,
         surname: req.body.surname,
-        membershipType: req.body.membershipType,
+        membershipType: req.body.membershipType
+      },
+        {
+        where: {
+          id: req.auth.user.id
+        }
       })
       .then(result => {
         if(result){
-          return res.status(201).send({
+          return res.status(200).send({
+            success: true,
             message: 'User profile updated successfully',
-            user: {
-              surname: user.firstName + ' ' + user.surname,
-              username: user.username,
-              membershipType: user.membershipType
-            }
           });
         }
 
@@ -95,13 +94,18 @@ export default {
   // Change password
   changePassword(req, res) {
 
-    return req.auth.user
+    return db.User
       .update({
-        password: req.body.newPassword,
+        password: bcrypt.hashSync(req.body.newPassword, 10)
+      },
+        {
+        where: {
+          id: req.auth.user.id
+        }
       })
       .then(result => {
         if(result){
-          return res.status(201).send({
+          return res.status(200).send({
             success: true,
             message: 'Your Password changed successfully',
           });

@@ -6,7 +6,7 @@
  *
  * @returns {Request|Response|*|void|boolean} res
  */
-export default function checkSignUp(req, res, next) {
+export default function profileUpdateRequest(req, res, next) {
 
   const errors = {};
 

@@ -12,7 +12,10 @@ import validateUser from '../middlewares/validateuser';
 import validateBook from '../middlewares/validatebook';
 import checkBook from '../middlewares/checkbook';
 import userCanBorrow from '../middlewares/usercanborrow';
+import profileUpdateRequest from '../middlewares/profileupdaterequest';
+import checkMembershipType from '../middlewares/checkmembershiptype';
 import {categoryRequest, validateCategoryId, validateCategoryIdParam} from '../middlewares/categoryrequest';
+
 
 const router = express.Router();
 
@@ -22,6 +25,8 @@ router.post('/users/signin', checkLogin, usersController.login);
 
 // Authentication middle to check for logged in user
 router.use(authMiddleware);
+
+router.put('/users/profile', profileUpdateRequest, checkMembershipType, usersController.updateProfile);
 
 router.get('/books', booksController.getAllBooks);
 
