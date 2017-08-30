@@ -48,12 +48,14 @@ export default {
 
   // Update a user account in database
   updateProfile(req, res) {
-    return req.user
+    return db.User
       .update({
         firstName: req.body.firstName,
         surname: req.body.surname,
         membershipType: req.body.membershipType
-      })
+      }, { where: {
+        id: req.auth.id
+      }})
       .then(result => {
         if(result){
           return res.status(200).send({
@@ -85,10 +87,12 @@ export default {
   // Change password
   changePassword(req, res) {
 
-    return req.user
+    return db.User
       .update({
         password: bcrypt.hashSync(req.body.newPassword, 10)
-      })
+      }, { where: {
+        id: req.auth.id
+      }})
       .then(result => {
         if(result){
           return res.status(200).send({
@@ -137,29 +141,20 @@ export default {
         if (!user) {
           return res.status(401).send({ error: 'Username and/or password is incorrect' });
         } else if (bcrypt.compareSync(req.body.password, user.password)) {
-
-          user.update({isLoggedIn: true})
-            .then(result => {
-              if(result){
-                // Create token
-                const token = jwt.sign({ user: {
-                  username: user.username,
-                  id: user.id
-                }
-                }, process.env.SECRET, {
-                  expiresIn: 60 * 60 * 2
-                });
-
-                // Return logged in user
-                return res.status(200).send({
-                  username: user.username,
-                  token: token
-                });
-              }
-            })
-            .catch(error => res.status(500).send({
-              error: 'Request could not be processed at this time please try again later'
-            }));
+          // Create token
+          const token = jwt.sign({ user:{
+            id: user.id,
+            username: user.username,
+            email: user.email,
+            admin: user.admin
+          } }, process.env.SECRET, {
+            expiresIn: 60 * 60 * 2
+          });
+          // Return logged in user
+          return res.status(200).send({
+            username: user.username,
+            token: token
+          });
         }
         return res.status(401).send({ error: 'Username and/or password is incorrect' });
       }).catch(error => res.status(500).send({
@@ -169,25 +164,7 @@ export default {
 
   // Authenticate users
   logout(req, res) {
-    return req.user
-      .update({
-        isLoggedIn: false
-      })
-      .then(result => {
-        if (result) {
-          return res.status(200).send({
-            success: true,
-            message: 'You have been logged out successfully'
-          });
-        }
 
-       return res.status(500).send({
-         error: 'Request could not be processed, please try again later'
-       });
-
-      }).catch(error => res.status(500).send({
-        error: 'Request could not be processed, please try again later'
-      }));
   },
 
   // Borrow book
@@ -209,7 +186,7 @@ export default {
         }
 
         const dueDate = new Date();
-        if(req.auth.user.membershipTypeId === null){
+        if(req.auth.membershipTypeId === null){
           dueDate.setDate(dueDate.getDate() + 7);
         }else{
 

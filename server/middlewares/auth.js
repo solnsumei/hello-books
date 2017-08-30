@@ -28,22 +28,8 @@ export default function authMiddleware(req, res, next) {
       });
     }
 
-    return db.User.findOne({
-      id: decoded.user.id,
-      isLoggedIn: true
-    })
-      .then(user => {
-        if(user){
-          req.auth = user;
-          next();
-        }
-        else{
-          return res.status(401).send({
-            error: 'Access denied, token could not be authenticated'
-          });
-        }
-      })
-      .catch(error => res.status(500).send(error));
+    req.auth = decoded.user;
+    next();
 
   });
 }
