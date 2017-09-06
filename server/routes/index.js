@@ -50,11 +50,11 @@ router.delete('/categories', validateCategoryId, categoriesController.delete);
 
 router.get('/categories', categoriesController.getAllCategories);
 
-router.post('/books', createBookRequest, booksController.create);
+router.post('/books', createBookRequest, validateCategoryId, booksController.create);
 
 router.post('/books/:bookId', checkBook, booksController.addQuantity);
 
-router.put('/books/:bookId', editBookRequest, booksController.update);
+router.put('/books/:bookId', editBookRequest, validateCategoryId, booksController.update);
 
 router.delete('/books', validateBook, booksController.delete);
 

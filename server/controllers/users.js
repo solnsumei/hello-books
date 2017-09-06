@@ -186,11 +186,7 @@ export default {
         }
 
         const dueDate = new Date();
-        if(req.auth.membershipTypeId === null){
-          dueDate.setDate(dueDate.getDate() + 7);
-        }else{
-
-        }
+        dueDate.setDate(dueDate.getDate() + req.lendDuration);
 
         return db.UserBook
           .create({

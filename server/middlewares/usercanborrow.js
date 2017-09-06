@@ -11,19 +11,36 @@ import db from '../models/index';
 
 export default function userCanBorrow(req, res, next) {
 
-  return db.UserBook.count({
-    where: {
-      userId: req.auth.id,
-      returned: false
-    }
-  })
-    .then(result => {
-      if(result > 0 && result >= req.user.MembershipType.maxBorrowable){
-        return res.status(409).send({
-          error: 'Your have exceeded the maximum number of books you can hold at a time'
-        });
-      }
+  return db.User
+    .findOne({
+      include: [{
+        model: db.MembershipType,
+        attributes: ['membershipType', 'lendDuration', 'maxBorrowable']
+      }],
+      where :
+      {id: req.auth.id}
+    })
+    .then(user => {
+      if(user){
+        return db.UserBook.count({
+          where: {
+            userId: user.id,
+            returned: false
+          }
+        })
+          .then(result => {
+            if(result > 0 && result >= user.MembershipType.maxBorrowable){
+              return res.status(400).send({ error: 'You have exceeded the maximum bok you can hold at a time'})
+            }
 
-      next();
-  });
+            req.lendDuration = user.MembershipType.lendDuration;
+
+            next();
+
+          });
+      }
+    })
+    .catch(() => {
+      return res.status(500).send({error: 'Request could not be processed, please try again later'});
+    });
 }

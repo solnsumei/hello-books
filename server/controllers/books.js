@@ -18,6 +18,7 @@ export default {
     return db.Book
       .create({
         title: req.body.title,
+        categoryId: req.body.categoryId,
         author: req.body.author,
         description: req.body.description,
         coverPic: req.body.coverPic,
@@ -38,7 +39,7 @@ export default {
           return res.status(400).send({errors});
         }
 
-        return res.status(503).send({
+        return res.status(500).send({
           error: 'Request could not be processed, please try again later'
         });
 
@@ -54,15 +55,10 @@ export default {
    */
   getAllBooks(req, res) {
 
-    let attributes = ['id', 'title', 'author', 'description', 'coverPic'];
+    let attributes = ['id', 'title', 'categoryId', 'author', 'description', 'coverPic'];
 
-    if(req.auth.user.admin){
-      attributes = [
-        'id',
-        'title',
-        'author',
-        'description',
-        'coverPic',
+    if(req.auth.admin){
+      attributes = [...attributes,
         'stockQuantity',
         'borrowedQuantity',
         'isDeleted'
@@ -72,7 +68,11 @@ export default {
     return db.Book
       .scope('active')
       .findAll({
-        attributes: attributes
+        attributes: attributes,
+        include : [{
+          model: db.Category,
+          attributes: ['name', 'slug']
+        }]
       })
       .then(books => res.status(200).send(books))
       .catch(error => {
@@ -101,6 +101,7 @@ export default {
         }
         book.update({
           title: req.body.title,
+          categoryId: req.body.categoryId,
           author: req.body.author,
           description: req.body.description,
           coverPic: req.body.coverPic
