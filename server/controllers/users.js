@@ -1,6 +1,5 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import dotenv from 'dotenv';
 import db from '../models/index';
 
 /**
@@ -11,14 +10,18 @@ export default {
 
   // Create a user account in database
   create(req, res) {
+
     return db.User
       .create({
-        username: req.body.username,
+        firstName: req.body.firstName,
+        surname: req.body.surname,
+        username: (req.body.username.toLowerCase()),
         email: req.body.email,
         password: req.body.password,
       })
       .then(user => res.status(201).send({ message: 'User created successfully',
         user: {
+          surname: user.firstName + ' ' + user.surname,
           username: user.username,
           email: user.email
         } }))
@@ -43,6 +46,81 @@ export default {
       });
   },
 
+  // Update a user account in database
+  updateProfile(req, res) {
+    return db.User
+      .update({
+        firstName: req.body.firstName,
+        surname: req.body.surname,
+        membershipType: req.body.membershipType
+      }, { where: {
+        id: req.auth.id
+      }})
+      .then(result => {
+        if(result){
+          return res.status(200).send({
+            success: true,
+            message: 'User profile updated successfully',
+          });
+        }
+
+        return res.status(500).send({error: 'User profile could not be updated at this time, please try again later'});
+
+      })
+      .catch(error => {
+        if(error.name === 'SequelizeValidationError'){
+          const errors = {};
+          for (let err of error.errors){
+            errors[err.path] = err.message;
+          }
+
+          return res.status(400).send({errors});
+        }
+
+        return res.status(500).send({
+          error: 'Request could not be processed, please try again later'
+        });
+
+      });
+  },
+
+  // Change password
+  changePassword(req, res) {
+
+    return db.User
+      .update({
+        password: bcrypt.hashSync(req.body.newPassword, 10)
+      }, { where: {
+        id: req.auth.id
+      }})
+      .then(result => {
+        if(result){
+          return res.status(200).send({
+            success: true,
+            message: 'Your Password changed successfully',
+          });
+        }
+
+        return res.status(500).send({error: 'Request could not be processed, please try again later'});
+
+      })
+      .catch(error => {
+        if(error.name === 'SequelizeValidationError'){
+          const errors = {};
+          for (let err of error.errors){
+            errors[err.path] = err.message;
+          }
+
+          return res.status(400).send({errors});
+        }
+
+        return res.status(500).send({
+          error: 'Request could not be processed, please try again later'
+        });
+
+      });
+  },
+
   // Get all users
   getAllUsers(req, res) {
     return db.User
@@ -50,7 +128,7 @@ export default {
         attributes: ['id', 'username', 'email', 'admin']
       })
       .then(users => res.status(200).send(users))
-      .catch(error => res.status(503).send(error));
+      .catch(error => res.status(500).send(error));
   },
 
   // Authenticate users
@@ -64,10 +142,14 @@ export default {
           return res.status(401).send({ error: 'Username and/or password is incorrect' });
         } else if (bcrypt.compareSync(req.body.password, user.password)) {
           // Create token
-          const token = jwt.sign({ user }, process.env.SECRET, {
-            expiresIn: 60 * 60 * 24
+          const token = jwt.sign({ user:{
+            id: user.id,
+            username: user.username,
+            email: user.email,
+            admin: user.admin
+          } }, process.env.SECRET, {
+            expiresIn: 60 * 60 * 2
           });
-
           // Return logged in user
           return res.status(200).send({
             username: user.username,
@@ -75,9 +157,14 @@ export default {
           });
         }
         return res.status(401).send({ error: 'Username and/or password is incorrect' });
-      }).catch(error => res.status(503).send({
+      }).catch(error => res.status(500).send({
         error: 'Request could not be processed, please try again later'
       }));
+  },
+
+  // Authenticate users
+  logout(req, res) {
+
   },
 
   // Borrow book
@@ -89,7 +176,7 @@ export default {
     return db.UserBook.findOne({
       where: {
         bookId: req.book.id,
-        userId: req.auth.user.id,
+        userId: req.auth.id,
         returned: false
       },
     })
@@ -99,11 +186,11 @@ export default {
         }
 
         const dueDate = new Date();
-        dueDate.setDate(dueDate.getDate() + 14);
+        dueDate.setDate(dueDate.getDate() + req.lendDuration);
 
         return db.UserBook
           .create({
-            userId: req.auth.user.id,
+            userId: req.auth.id,
             bookId: req.book.id,
             dueDate,
           })
@@ -122,7 +209,7 @@ export default {
                 });
               }
             }).catch(error => res.status(400).send(error)))
-          .catch(error => res.status(503).send({
+          .catch(error => res.status(500).send({
             error: 'Request could not be processed, please try again later'
           }));
       });
@@ -130,7 +217,7 @@ export default {
 
   // Borrow History method with returned query string
   borrowHistory(req, res) {
-    const query = { userId: req.auth.user.id };
+    const query = { userId: req.auth.id };
     if (req.query.returned === 'true') { query.returned = true; }
     else if (req.query.returned === 'false') { query.returned = false; }
 
@@ -144,7 +231,7 @@ export default {
       }).then(borrowedBooks => res.status(200).send(borrowedBooks))
       .catch(error => {
         if(error){
-          return res.status(503).send({
+          return res.status(500).send({
             error: 'Request could not be processed, please try again later'
           });
         }
@@ -163,7 +250,7 @@ export default {
         returned: true
       }, {
         where: {
-          userId: req.auth.user.id,
+          userId: req.auth.id,
           bookId: req.book.id,
           returned: false,
         }
@@ -180,13 +267,13 @@ export default {
               returned: true
             }
             }))
-            .catch(error => res.status(503).send({
+            .catch(error => res.status(500).send({
               error: 'Request could not be processed, please try again later'
             }));
         }
         return res.status(404).send({ error: 'Book was not found in your borrowed list' });
       })
-      .catch(error => res.status(503).send({
+      .catch(error => res.status(500).send({
         error: 'Request could not be processed, please try again later'
       }));
   },

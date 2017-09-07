@@ -1,4 +1,5 @@
 import jwt from 'jsonwebtoken';
+import db from '../models/index';
 
 /**
  * Middleware to check for authenticated user
@@ -27,7 +28,8 @@ export default function authMiddleware(req, res, next) {
       });
     }
 
-    req.auth = decoded;
+    req.auth = decoded.user;
     next();
+
   });
 }

@@ -16,6 +16,21 @@ export default (sequelize, DataTypes) => {
         }
       },
     },
+    categoryId: {
+      type: DataTypes.INTEGER,
+      allowNull: {
+        args: false,
+        msg: 'Book category is required'
+      },
+      validate: {
+        notEmpty: {
+          msg: 'Book category is required'
+        },
+        isNumeric: {
+          msg: 'Book category must me numeric'
+        }
+      },
+    },
     author: {
       type: DataTypes.STRING,
       allowNull: {
@@ -98,6 +113,7 @@ export default (sequelize, DataTypes) => {
   Book.associate = (models) => {
     Book.hasMany(models.UserBook, { as: 'borrowedBooks', foreignKey: 'bookId' });
     Book.belongsToMany(models.User, { as: 'borrowers', through: 'UserBook', foreignKey: 'bookId', otherKey: 'userId' });
+    Book.belongsTo(models.Category, { foreignKey: 'categoryId' });
   };
 
   return Book;

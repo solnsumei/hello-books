@@ -1,5 +1,2 @@
 .idea
 npm_modules
-migrations
-config.json
-seeders

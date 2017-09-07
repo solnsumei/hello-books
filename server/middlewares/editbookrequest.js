@@ -11,7 +11,7 @@ export default function editBookRequest(req, res, next) {
   const errors = {};
 
   if (req.params.bookId === undefined || req.params.bookId === null ||
-    !Number.isInteger(Number.parseInt(req.params.bookId))) {
+    !Number.isInteger(Number.parseInt(req.params.bookId, 10))) {
     return res.status(400).send({ error: 'Please provide a valid book id' });
   }
 
@@ -29,6 +29,11 @@ export default function editBookRequest(req, res, next) {
 
   if (req.body.coverPic === undefined || req.body.coverPic === null) {
     errors.coverPic = 'Cover Picture is required';
+  }
+
+  if(req.body.categoryId === undefined || req.body.categoryId === null)
+  {
+    errors.categoryId = 'Book category Id is required';
   }
 
   if (Object.keys(errors).length > 0) {

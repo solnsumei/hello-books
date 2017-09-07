@@ -2,6 +2,44 @@ import bcrypt from 'bcryptjs';
 
 export default (sequelize, DataTypes) => {
   const User = sequelize.define('User', {
+    firstName: {
+      type: DataTypes.STRING,
+      allowNull: {
+        args: false,
+        msg: 'First name is required'
+      },
+      validate: {
+        notEmpty: {
+          msg: 'First name is required'
+        },
+        isAlphanumeric: {
+          msg: 'First name must me alphanumeric'
+        },
+        len: {
+          args: [2, 30],
+          msg: 'first Name must be at least 2 chars and less than 30 chars'
+        }
+      },
+    },
+    surname: {
+      type: DataTypes.STRING,
+      allowNull: {
+        args: false,
+        msg: 'Surname is required'
+      },
+      validate: {
+        notEmpty: {
+          msg: 'Surname is required'
+        },
+        isAlphanumeric: {
+          msg: 'Surname must me alphanumeric'
+        },
+        len: {
+          args: [2, 30],
+          msg: 'Surname must be at least 2 chars and less than 30 chars'
+        }
+      },
+    },
     username: {
       type: DataTypes.STRING,
       allowNull: {
@@ -65,6 +103,24 @@ export default (sequelize, DataTypes) => {
       type: DataTypes.BOOLEAN,
       defaultValue: false
     },
+    membershipType: {
+      type: DataTypes.STRING,
+      allowNull: {
+        args: false,
+        msg: 'Membership Type is Required'
+      },
+      defaultValue: 'Free',
+      validate: {
+        notEmpty: {
+          msg: 'Membership Type is Required'
+        }
+      }
+    },
+    isLoggedIn:{
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false,
+    }
   });
 
   User.beforeCreate((user, options) => {
@@ -74,6 +130,7 @@ export default (sequelize, DataTypes) => {
   User.associate = (models) => {
     User.hasMany(models.UserBook, { as: 'userBooks', foreignKey: 'userId' });
     User.belongsToMany(models.Book, { as: 'borrowedBooks', through: 'UserBook', foreignKey: 'userId', otherKey: 'bookId' });
+    User.belongsTo(models.MembershipType, {foreignKey: 'membershipType', targetKey: 'membershipType'});
   };
 
   return User;
