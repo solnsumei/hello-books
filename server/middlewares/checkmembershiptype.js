@@ -15,7 +15,7 @@ export default function checkMembershipType(req, res, next) {
       membershipType: req.body.membershipType
     }
   })
-    .then(membershipType => {
+    .then((membershipType) => {
       if (!membershipType) {
         return res.status(400).send({ error: 'Membership type selected not found, please choose a valid membershipType' });
       }

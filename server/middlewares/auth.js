@@ -30,6 +30,5 @@ export default function authMiddleware(req, res, next) {
 
     req.auth = decoded.user;
     next();
-
   });
 }

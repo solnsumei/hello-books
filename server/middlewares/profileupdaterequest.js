@@ -7,7 +7,6 @@
  * @returns {Request|Response|*|void|boolean} res
  */
 export default function profileUpdateRequest(req, res, next) {
-
   const errors = {};
 
   if (!req.body.firstName || !req.body.firstName.trim()) {
@@ -23,7 +22,7 @@ export default function profileUpdateRequest(req, res, next) {
   }
 
   if (Object.keys(errors).length > 0) {
-    return res.status(400).send({errors});
+    return res.status(400).send({ errors });
   }
 
   next();
