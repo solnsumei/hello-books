@@ -111,29 +111,27 @@ export default {
             if (error.name === 'SequelizeValidationError' ||
               error.name === 'SequelizeUniqueConstraintError') {
               const errors = {};
-              for (let err of error.errors) {
+              error.errors.forEach((err) => {
                 errors[err.path] = err.message;
+              });
+              if (error.name === 'SequelizeUniqueConstraintError') {
+                return res.status(409).send({ errors });
               }
-
-              if(error.name === 'SequelizeUniqueConstraintError'){
-                return res.status(409).send({errors});
-              }
-              return res.status(400).send({errors});
+              return res.status(400).send({ errors });
             }
 
             return res.status(500).send({
               error: 'Request could not be processed, please try again later'
             });
-
           });
       });
   },
 
-  addQuantity(req, res){
+  addQuantity(req, res) {
     req.book.update({
-      stockQuantity: req.book.stockQuantity + Number.parseInt(req.body.quantity)
-    }).then(result => {
-      if(result){
+      stockQuantity: req.book.stockQuantity + Number.parseInt(req.body.quantity, 10)
+    }).then((result) => {
+      if (result) {
         return res.status(200).send({
           success: true,
           message: 'Stock quantity updated successfully'
@@ -145,11 +143,11 @@ export default {
       }));
   },
 
-  delete(req, res){
+  delete(req, res) {
     req.book.update({
       isDeleted: true
-    }).then(result => {
-      if(result){
+    }).then((result) => {
+      if (result) {
         return res.status(200).send({
           success: true,
           message: 'Book has been deleted successfully'
