@@ -116,7 +116,7 @@ export default (sequelize, DataTypes) => {
         }
       }
     },
-    isLoggedIn:{
+    isLoggedIn: {
       type: DataTypes.BOOLEAN,
       allowNull: false,
       defaultValue: false,
@@ -130,7 +130,7 @@ export default (sequelize, DataTypes) => {
   User.associate = (models) => {
     User.hasMany(models.UserBook, { as: 'userBooks', foreignKey: 'userId' });
     User.belongsToMany(models.Book, { as: 'borrowedBooks', through: 'UserBook', foreignKey: 'userId', otherKey: 'bookId' });
-    User.belongsTo(models.MembershipType, {foreignKey: 'membershipType', targetKey: 'membershipType'});
+    User.belongsTo(models.MembershipType, { foreignKey: 'membershipType', targetKey: 'membershipType' });
   };
 
   return User;
