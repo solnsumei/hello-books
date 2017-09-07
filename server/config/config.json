@@ -1,8 +1,8 @@
 {
   "development": {
-    "username": "postgres",
-    "password": "root",
-    "database": "hellobooks-dev",
+    "username": "solking",
+    "password": "solomon",
+    "database": "hellobooks-db",
     "host": "127.0.0.1",
     "port": 5432,
     "dialect": "postgres"
@@ -16,4 +16,3 @@
     "dialect": "postgres"
   }
 }
-
