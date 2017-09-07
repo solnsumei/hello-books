@@ -23,25 +23,24 @@ export default {
       .then(category => res.status(201).send({ category: {
         name: category.name,
         slug: category.slug
-      }}))
-      .catch(error => {
-        if(error.name === 'SequelizeValidationError' ||
-          error.name === 'SequelizeUniqueConstraintError'){
+      }
+      }))
+      .catch((error) => {
+        if (error.name === 'SequelizeValidationError' ||
+          error.name === 'SequelizeUniqueConstraintError') {
           const errors = {};
-          for (let err of error.errors){
+          error.errors.forEach((err) => {
             errors[err.path] = err.message;
+          });
+          if (error.name === 'SequelizeUniqueConstraintError') {
+            return res.status(409).send({ errors });
           }
-
-          if(error.name === 'SequelizeUniqueConstraintError'){
-            return res.status(409).send({errors});
-          }
-          return res.status(400).send({errors});
+          return res.status(400).send({ errors });
         }
 
         return res.status(503).send({
           error: 'Request could not be processed, please try again later'
         });
-
       });
   },
 
@@ -58,8 +57,8 @@ export default {
         attributes: ['id', 'name', 'slug']
       })
       .then(categories => res.status(200).send(categories))
-      .catch(error => {
-        if(error){
+      .catch((error) => {
+        if (error) {
           return res.status(500).send({
             error: 'Request could not be processed, please try again later'
           });
@@ -87,24 +86,22 @@ export default {
         });
       }
     })
-      .catch(error => {
-        if(error.name === 'SequelizeValidationError' ||
-          error.name === 'SequelizeUniqueConstraintError'){
+      .catch((error) => {
+        if (error.name === 'SequelizeValidationError' ||
+          error.name === 'SequelizeUniqueConstraintError') {
           const errors = {};
-          for (let err of error.errors){
+          error.errors.forEach((err) => {
             errors[err.path] = err.message;
+          });
+          if (error.name === 'SequelizeUniqueConstraintError') {
+            return res.status(409).send({ errors });
           }
-
-          if(error.name === 'SequelizeUniqueConstraintError'){
-            return res.status(409).send({errors});
-          }
-          return res.status(400).send({errors});
+          return res.status(400).send({ errors });
         }
 
         return res.status(500).send({
           error: 'Request could not be processed, please try again later'
         });
-
       });
   },
 
