@@ -7,7 +7,6 @@
  * @returns {Request|Response|*|void|boolean} res
  */
 export default function editBookRequest(req, res, next) {
-
   const errors = {};
 
   if (req.params.bookId === undefined || req.params.bookId === null ||
@@ -31,13 +30,12 @@ export default function editBookRequest(req, res, next) {
     errors.coverPic = 'Cover Picture is required';
   }
 
-  if(req.body.categoryId === undefined || req.body.categoryId === null)
-  {
+  if (req.body.categoryId === undefined || req.body.categoryId === null) {
     errors.categoryId = 'Book category Id is required';
   }
 
   if (Object.keys(errors).length > 0) {
-    return res.status(400).send({errors});
+    return res.status(400).send({ errors });
   }
 
   next();

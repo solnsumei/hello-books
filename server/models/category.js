@@ -1,5 +1,4 @@
-'use strict';
-module.exports = function(sequelize, DataTypes) {
+export default (sequelize, DataTypes) => {
   const Category = sequelize.define('Category', {
     name: {
       type: DataTypes.STRING,
@@ -35,7 +34,7 @@ module.exports = function(sequelize, DataTypes) {
   });
 
   Category.associate = (models) => {
-    Category.hasMany(models.Book, {foreignKey: 'categoryId'});
+    Category.hasMany(models.Book, { foreignKey: 'categoryId' });
   };
 
   return Category;

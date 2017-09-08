@@ -18,8 +18,9 @@ export default function checkBook(req, res, next) {
     return res.status(400).send({ error: 'Quantity is required' });
   }
 
-  if (!Number.isInteger(Number.parseInt(req.body.quantity, 10)) || Number.parseInt(req.body.quantity, 10) < 1) {
-    return res.status(400).send({ error: 'Quantity must be a number not less than 1'});
+  if (!Number.isInteger(Number.parseInt(req.body.quantity, 10)) ||
+   Number.parseInt(req.body.quantity, 10) < 1) {
+    return res.status(400).send({ error: 'Quantity must be a number not less than 1' });
   }
 
   return db.Book.scope('active').findById(req.params.bookId)

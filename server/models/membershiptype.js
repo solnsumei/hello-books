@@ -1,5 +1,4 @@
-'use strict';
-module.exports = function(sequelize, DataTypes) {
+export default (sequelize, DataTypes) => {
   const MembershipType = sequelize.define('MembershipType', {
     membershipType: {
       type: DataTypes.STRING,
@@ -69,5 +68,4 @@ module.exports = function(sequelize, DataTypes) {
   };
 
   return MembershipType;
-
 };

@@ -14,7 +14,7 @@ import checkBook from '../middlewares/checkbook';
 import userCanBorrow from '../middlewares/usercanborrow';
 import profileUpdateRequest from '../middlewares/profileupdaterequest';
 import checkMembershipType from '../middlewares/checkmembershiptype';
-import {categoryRequest, validateCategoryId, validateCategoryIdParam} from '../middlewares/categoryrequest';
+import { categoryRequest, validateCategoryId, validateCategoryIdParam } from '../middlewares/categoryrequest';
 
 
 const router = express.Router();
@@ -65,4 +65,3 @@ router.get('/users', usersController.getAllUsers);
  * @export router
  */
 export default router;
-

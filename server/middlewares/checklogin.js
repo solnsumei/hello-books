@@ -7,10 +7,10 @@
  * @returns {Request|Response|*|void|boolean} res
  */
 export default function checkLogin(req, res, next) {
-
   const errors = {};
 
-  if (req.body.username === undefined || req.body.username === null || req.body.username.trim().length === 0) {
+  if (req.body.username === undefined ||
+    req.body.username === null || req.body.username.trim().length === 0) {
     errors.username = 'Username is required';
   }
 
@@ -19,7 +19,7 @@ export default function checkLogin(req, res, next) {
   }
 
   if (Object.keys(errors).length > 0) {
-    return res.status(400).send({errors});
+    return res.status(400).send({ errors });
   }
 
   next();

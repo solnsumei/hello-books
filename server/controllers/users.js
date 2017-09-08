@@ -10,7 +10,6 @@ export default {
 
   // Create a user account in database
   create(req, res) {
-
     return db.User
       .create({
         firstName: req.body.firstName,
@@ -21,28 +20,26 @@ export default {
       })
       .then(user => res.status(201).send({ message: 'User created successfully',
         user: {
-          surname: user.firstName + ' ' + user.surname,
+          surname: `${user.firstName} ${user.surname}`,
           username: user.username,
           email: user.email
         } }))
-      .catch(error => {
-        if(error.name === 'SequelizeValidationError' ||
-          error.name === 'SequelizeUniqueConstraintError'){
+      .catch((error) => {
+        if (error.name === 'SequelizeValidationError' ||
+          error.name === 'SequelizeUniqueConstraintError') {
           const errors = {};
-          for (let err of error.errors){
+          error.errors.forEach((err) => {
             errors[err.path] = err.message;
+          });
+          if (error.name === 'SequelizeUniqueConstraintError') {
+            return res.status(409).send({ errors });
           }
-
-          if(error.name === 'SequelizeUniqueConstraintError'){
-            return res.status(409).send({errors});
-          }
-          return res.status(400).send({errors});
+          return res.status(400).send({ errors });
         }
 
         return res.status(503).send({
           error: 'Request could not be processed, please try again later'
         });
-
       });
   },
 
@@ -55,69 +52,61 @@ export default {
         membershipType: req.body.membershipType
       }, { where: {
         id: req.auth.id
-      }})
-      .then(result => {
-        if(result){
+      } })
+      .then((result) => {
+        if (result) {
           return res.status(200).send({
             success: true,
             message: 'User profile updated successfully',
           });
         }
-
-        return res.status(500).send({error: 'User profile could not be updated at this time, please try again later'});
-
+        return res.status(500).send({ error: 'User profile could not be updated at this time, please try again later' });
       })
-      .catch(error => {
-        if(error.name === 'SequelizeValidationError'){
+      .catch((error) => {
+        if (error.name === 'SequelizeValidationError') {
           const errors = {};
-          for (let err of error.errors){
+          error.errors.forEach((err) => {
             errors[err.path] = err.message;
-          }
-
-          return res.status(400).send({errors});
+          });
+          return res.status(400).send({ errors });
         }
 
         return res.status(500).send({
           error: 'Request could not be processed, please try again later'
         });
-
       });
   },
 
   // Change password
   changePassword(req, res) {
-
     return db.User
       .update({
         password: bcrypt.hashSync(req.body.newPassword, 10)
       }, { where: {
         id: req.auth.id
-      }})
-      .then(result => {
-        if(result){
+      } })
+      .then((result) => {
+        if (result) {
           return res.status(200).send({
             success: true,
             message: 'Your Password changed successfully',
           });
         }
 
-        return res.status(500).send({error: 'Request could not be processed, please try again later'});
-
+        return res.status(500).send({ error: 'Request could not be processed, please try again later' });
       })
-      .catch(error => {
-        if(error.name === 'SequelizeValidationError'){
+      .catch((error) => {
+        if (error.name === 'SequelizeValidationError') {
           const errors = {};
-          for (let err of error.errors){
+          error.errors.forEach((err) => {
             errors[err.path] = err.message;
-          }
-
-          return res.status(400).send({errors});
+          });
+          return res.status(400).send({ errors });
         }
 
         return res.status(500).send({
           error: 'Request could not be processed, please try again later'
         });
-
       });
   },
 
@@ -142,7 +131,7 @@ export default {
           return res.status(401).send({ error: 'Username and/or password is incorrect' });
         } else if (bcrypt.compareSync(req.body.password, user.password)) {
           // Create token
-          const token = jwt.sign({ user:{
+          const token = jwt.sign({ user: {
             id: user.id,
             username: user.username,
             email: user.email,
@@ -153,7 +142,7 @@ export default {
           // Return logged in user
           return res.status(200).send({
             username: user.username,
-            token: token
+            token
           });
         }
         return res.status(401).send({ error: 'Username and/or password is incorrect' });
@@ -196,19 +185,20 @@ export default {
           })
           .then(borrowedBook =>
             req.book
-            .update({
-              borrowedQuantity: (req.book.borrowedQuantity + 1),
-              isBorrowed: true,
-            }).then((result) => {
-              if (result) {
-                return res.status(200).send({ message: 'Book borrowed successfully', book: {
-                  title: req.book.title,
-                  returnDate: borrowedBook.dueDate,
-                  returned: borrowedBook.returned
+              .update({
+                borrowedQuantity: (req.book.borrowedQuantity + 1),
+                isBorrowed: true,
+              }).then((result) => {
+                if (result) {
+                  return res.status(200).send({ message: 'Book borrowed successfully',
+                    book: {
+                      title: req.book.title,
+                      returnDate: borrowedBook.dueDate,
+                      returned: borrowedBook.returned
+                    }
+                  });
                 }
-                });
-              }
-            }).catch(error => res.status(400).send(error)))
+              }).catch(error => res.status(400).send(error)))
           .catch(error => res.status(500).send({
             error: 'Request could not be processed, please try again later'
           }));
@@ -218,9 +208,9 @@ export default {
   // Borrow History method with returned query string
   borrowHistory(req, res) {
     const query = { userId: req.auth.id };
-    if (req.query.returned === 'true') { query.returned = true; }
-    else if (req.query.returned === 'false') { query.returned = false; }
-
+    if (req.query.returned === 'true') {
+      query.returned = true;
+    } else if (req.query.returned === 'false') { query.returned = false; }
     return db.UserBook
       .findAll({
         include: [{
@@ -229,8 +219,8 @@ export default {
         }],
         where: query
       }).then(borrowedBooks => res.status(200).send(borrowedBooks))
-      .catch(error => {
-        if(error){
+      .catch((error) => {
+        if (error) {
           return res.status(500).send({
             error: 'Request could not be processed, please try again later'
           });
@@ -262,10 +252,11 @@ export default {
               borrowedQuantity: (req.book.borrowedQuantity - 1),
               isBorrowed: ((req.book.borrowedQuantity) - 1) > 0,
             })
-            .then(result => res.status(200).send({ message: 'Book was returned successfully', book: {
-              title: req.book.title,
-              returned: true
-            }
+            .then(result => res.status(200).send({ message: 'Book was returned successfully',
+              book: {
+                title: req.book.title,
+                returned: true
+              }
             }))
             .catch(error => res.status(500).send({
               error: 'Request could not be processed, please try again later'
