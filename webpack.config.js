@@ -1,21 +1,27 @@
+/* eslint-disable */
+
 const path = require('path');
 const webpack = require('webpack');
 
-export default {
-  entry: './index.js',
-  output: {
-    path: __dirname,
-    filename: 'bundle.js'
-  },
+const DIST_DIR = path.resolve(__dirname, 'client/dist');
+const SRC_DIR = path.resolve(__dirname, 'client/src');
 
+
+module.exports = {
+  entry: SRC_DIR + '/app/index.js',
+  output: {
+    path: DIST_DIR + '/app',
+    filename: 'bundle.js',
+    publicPath: '/app/'
+  },
   module: {
     loaders: [
       {
-        test: /.jsx?$/,
+        test: /\.js?$/,
+        include: SRC_DIR,
         loader: 'babel-loader',
-        exclude: /node_modules/,
         query: {
-          presets: ['es2015', 'react']
+          presets: ['es2015', 'react', 'stage-2']
         }
       }
     ]

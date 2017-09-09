@@ -4,9 +4,10 @@
   "description": "Hello-Books is a simple application that helps manage a library and its processes like stocking, tracking and renting books. With this application users are able to find and rent books.",
   "main": "app.js",
   "scripts": {
+    "start:client": "npm run build",
+    "build": "webpack -d && cp client/src/index.html client/dist/index.html && webpack-dev-server --content-base client/src/ --inline --hot",
+    "build:prod": "webpack -p && cp client/src/index.html client/dist/index.html",
     "start": "NODE_ENV=production&& ./node_modules/.bin/babel-node ./server/server.js",
-    "seed": "SET NODE_ENV=production&& babel-node ./server/seeders/add-user-admin",
-    "seed:dev": "babel-node ./server/seeders/add-user-admin",
     "start:dev": "nodemon ./server/server.js --exec babel-node --presets env",
     "test": "NODE_ENV=test&& mocha tests/test/* --compilers babel-core/register --timeout 10000"
   },
