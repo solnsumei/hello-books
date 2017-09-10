@@ -23,6 +23,11 @@ module.exports = {
         query: {
           presets: ['es2015', 'react', 'stage-2']
         }
+      },
+      {
+        test: /\.css$/,
+        include: SRC_DIR + "/css",
+        loader: 'css-loader'
       }
     ]
   }

@@ -7,6 +7,14 @@
     "es6": true,
     "mocha": true
   },
+  "plugins": [
+    "react", "jsx-a11y"
+  ],
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
   "rules": {
     "one-var": 0,
     "one-var-declaration-per-line": 0,
@@ -30,6 +38,7 @@
         "MethodDefinition": true,
         "ClassDeclaration": true
       }
-    }]
+    }],
+    "class-methods-use-this": ["error", { "exceptMethods": ["render"] }]
   }
 }
