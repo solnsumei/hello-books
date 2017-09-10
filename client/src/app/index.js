@@ -3,7 +3,8 @@ import { render } from 'react-dom';
 /* eslint-disable */
 import '../css/materialize.min.css';
 import '../css/style.css';
-import '../js/materialize.min.js';
+import 'jquery';
+import 'materialize-css/dist/js/materialize.js';
 /* eslint-enable */
 
 /**

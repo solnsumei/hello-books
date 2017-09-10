@@ -2,6 +2,7 @@
 
 const path = require('path');
 const webpack = require('webpack');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 const DIST_DIR = path.resolve(__dirname, 'client/dist');
 const SRC_DIR = path.resolve(__dirname, 'client/src');
@@ -12,7 +13,7 @@ module.exports = {
   output: {
     path: DIST_DIR + '/app',
     filename: 'bundle.js',
-    publicPath: '/app/'
+    publicPath: '/app/',
   },
   module: {
     loaders: [
@@ -25,10 +26,16 @@ module.exports = {
         }
       },
       {
-        test: /\.css$/,
-        include: SRC_DIR + "/css",
-        loader: 'css-loader'
-      }
+        test: /\.css/,
+        include: SRC_DIR + '/css',
+        loader: ExtractTextPlugin.extract('css-loader')
+      },
+      {
+        test: /\.(png|woff|woff2|eot|ttf|svg)$/,
+        loader: 'url-loader?limit=100000' }
     ]
-  }
+  },
+  plugins: [
+    new ExtractTextPlugin('style.css')
+  ]
 };
