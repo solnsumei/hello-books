@@ -15,6 +15,9 @@ module.exports = {
     filename: 'bundle.js',
     publicPath: '/app/',
   },
+  devServer: {
+    port: 8080
+  }
   module: {
     loaders: [
       {
