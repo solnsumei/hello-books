@@ -1,3 +1,4 @@
 tests
 server/migrations
 server/config
+client/dist

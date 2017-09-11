@@ -1,0 +1,12 @@
+.center-children {
+  height: 80% !important;
+}
+.full-height {
+  height: 100% !important;
+}
+.container-full-height {
+  height: 100% !important;
+}
+.height600 {
+  min-height: 600px;
+}
