@@ -16,9 +16,10 @@ export default class BorrowHistory extends React.Component {
           <table>
             <thead>
               <tr>
-                <th>Name</th>
-                <th>Item Name</th>
-                <th>Item Price</th>
+                <th>Book Title</th>
+                <th>Borrow Date</th>
+                <th>Due Date</th>
+                <th>Returned</th>
               </tr>
             </thead>
 
