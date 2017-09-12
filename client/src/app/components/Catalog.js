@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import Book from './Book';
 /**
  *
  */
@@ -12,118 +13,46 @@ export default class Home extends React.Component {
     return (
       <div className="container">
         <div className="row">
-          <div className="col s12">
+          <div className="col s2">
             <h4 className="center-align">Book Catalog</h4>
+          </div>
+          <div className="col s2">
+            <h4>Book Catalog</h4>
           </div>
         </div>
         <div className="row">
-          <div className="col s12 m3">
-            <div className="card">
-              <div className="card-image waves-effect waves-block waves-light">
-                <img className="activator" src="http://materializecss.com/images/office.jpg" />
-              </div>
-              <div className="card-content">
-                <span className="card-title activator grey-text text-darken-4">
-                  Card Title
-                </span>
-              </div>
-              <div className="card-reveal">
-                <span className="card-title grey-text text-darken-4">
-                  Card Title
-                  <i className="material-icons right">close</i></span>
-                <p>Here is some more information about this
-                    product that is only revealed once clicked on.
-                </p>
-                <p><Link to="book-detail">View more</Link></p>
-              </div>
-            </div>
-          </div>
 
-          <div className="col s12 m3">
-            <div className="card">
-              <div className="card-image waves-effect waves-block waves-light">
-                <img className="activator" src="http://materializecss.com/images/office.jpg" />
-              </div>
-              <div className="card-content">
-                <span className="card-title activator grey-text text-darken-4">
-                  Card Title <i className="material-icons right">more_vert</i></span>
-              </div>
-              <div className="card-reveal">
-                <span className="card-title grey-text text-darken-4">
-                  Card Title
-                  <i className="material-icons right">close</i></span>
-                <p>Here is some more information about this
-                    product that is only revealed once clicked on.
-                </p>
-                <p><Link to="book-detail">View more</Link></p>
-              </div>
-            </div>
-          </div>
+          <Book
+            title="Follow the Morning Star"
+            coverPic="https://solnsumei.github.io/hello-books/template/img/page-3_img01.jpg"
+            link="/book-detail"
+            author="Di Morrissey"
+            category="Fiction"
+            numberOfPages="142" />
 
-          <div className="col s12 m3">
-            <div className="card">
-              <div className="card-image waves-effect waves-block waves-light">
-                <img className="activator" src="http://materializecss.com/images/office.jpg" />
-              </div>
-              <div className="card-content">
-                <span className="card-title activator grey-text text-darken-4">
-                  Card Title <i className="material-icons right">more_vert</i></span>
-              </div>
-              <div className="card-reveal">
-                <span className="card-title grey-text text-darken-4">
-                  Card Title
-                  <i className="material-icons right">close</i></span>
-                <p>Here is some more information about this
-                    product that is only revealed once clicked on.
-                </p>
-                <p><Link to="book-detail">View more</Link></p>
-              </div>
-            </div>
-          </div>
+          <Book
+            title="Kimberly Sun"
+            coverPic="https://solnsumei.github.io/hello-books/template/img/page-3_img03.jpg"
+            link="/book-detail"
+            author="Di Morrissey"
+            category="Fiction"
+            numberOfPages="142" />
 
+          <Book
+            title="Ellis Chronicles"
+            coverPic="https://solnsumei.github.io/hello-books/template/img/page-3_img02.jpg"
+            link="/book-detail"
+            author="John Madsen"
+            category="Adventure"
+            numberOfPages="1000" />
 
-          <div className="col s12 m3">
-            <div className="card">
-              <div className="card-image waves-effect waves-block waves-light">
-                <img className="activator" src="http://materializecss.com/images/office.jpg" />
-              </div>
-              <div className="card-content">
-                <span className="card-title activator grey-text text-darken-4">
-                  Card Title <i className="material-icons right">more_vert</i></span>
-              </div>
-              <div className="card-reveal">
-                <span className="card-title grey-text text-darken-4">
-                  Card Title
-                  <i className="material-icons right">close</i></span>
-                <p>Here is some more information about this
-                    product that is only revealed once clicked on.
-                </p>
-                <p><Link to="book-detail">View more</Link></p>
-              </div>
-            </div>
-          </div>
-
-          <div className="col s12 m3">
-            <div className="card">
-              <div className="card-image waves-effect waves-block waves-light">
-                <img className="activator" src="http://materializecss.com/images/office.jpg" />
-              </div>
-              <div className="card-content">
-                <span className="card-title activator grey-text text-darken-4">
-                  Card Title
-                </span>
-              </div>
-              <div className="card-reveal">
-                <span className="card-title grey-text text-darken-4">
-                  Card Title
-                  <i className="material-icons right">close</i></span>
-                <p>Here is some more information about this
-                    product that is only revealed once clicked on.
-                </p>
-                <p><Link to="book-detail">View more</Link></p>
-              </div>
-            </div>
-          </div>
+          <Book
+            title="The Book Thief"
+            coverPic="https://solnsumei.github.io/hello-books/template/img/page-3_img08.jpg"
+            link="/book-detail"
+            author="Marcus Zusak"
+            category="Horror"
+            numberOfPages="122" />
 
         </div>
       </div>

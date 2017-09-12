@@ -1,9 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import Modal from './Modal';
 /**
  *
  */
-export default class Home extends React.Component {
+export default class BookDetail extends React.Component {
 /**
  * [render description]
  * @return {[type]} [description]
@@ -50,10 +51,13 @@ export default class Home extends React.Component {
             <p>(Paperback - 2014 English )</p>
             <p>142 pages</p>
             <p>Status: <label class="label label-success">Available</label> </p>
-            <button className="btn teal" id="borrow-book">Borrow</button>
+            <button className="btn teal" id="borrow-book">
+              Borrow
+            </button>
             <p><Link to="/catalog">Back to Catalog</Link></p>
           </div>
         </div>
+
       </div>
     );
   }
