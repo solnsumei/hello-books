@@ -16,7 +16,8 @@ module.exports = {
     publicPath: '/app/',
   },
   devServer: {
-    port: 8080
+    port: 8080,
+    historyApiFallback: true
   },
   module: {
     loaders: [
@@ -29,9 +30,12 @@ module.exports = {
         }
       },
       {
-        test: /\.css/,
-        include: SRC_DIR + '/css',
-        loader: ExtractTextPlugin.extract('css-loader')
+        test: /\.scss$/,
+        include: SRC_DIR + '/scss',
+        use: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: ['css-loader', 'sass-loader']
+        })
       },
       {
         test: /\.(woff|woff2|eot|ttf)$/,
@@ -44,6 +48,9 @@ module.exports = {
     ]
   },
   plugins: [
-    new ExtractTextPlugin('style.css')
+    new ExtractTextPlugin({
+      filename: 'style.css',
+      allChunks: true
+    })
   ]
 };

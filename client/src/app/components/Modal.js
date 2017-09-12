@@ -1,7 +1,7 @@
 import React from 'react';
 
 const Modal = props => (
-  <div id={props.id} class="modal">
+  <div id={props.id} className="modal">
     <div className="modal-content">
       <h4>{props.title}</h4>
       <p>{props.text}</p>

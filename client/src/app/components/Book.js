@@ -35,7 +35,7 @@ export default class Book extends React.Component {
             <p>({this.props.category})</p>
             <p>{this.props.numberOfPages} pages</p>
             <p>Status: <label className="label label-success">{this.props.status}</label> </p>
-            <button className="btn teal" id="borrow-book">
+            <button data-target="modal1" className="btn modal-trigger">
               Borrow
             </button>
             <p><Link to="/catalog">Back to Catalog</Link></p>

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Book from './Book';
+import Modal from './Modal';
 /**
  *
  */
@@ -41,6 +42,8 @@ export default class BookDetail extends React.Component {
           description={description}
           status="Available"
           numberOfPages="142" />
+
+        <Modal id="modal1" title="Confirm Borrow" text="Do you want to borrow this book?"/>
       </div>
     );
   }
