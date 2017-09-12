@@ -24,7 +24,8 @@ export default class Home extends React.Component {
               </div>
               <div className="card-content">
                 <span className="card-title activator grey-text text-darken-4">
-                  Card Title <i className="material-icons right">more_vert</i></span>
+                  Card Title
+                </span>
               </div>
               <div className="card-reveal">
                 <span className="card-title grey-text text-darken-4">
@@ -101,7 +102,6 @@ export default class Home extends React.Component {
               </div>
             </div>
           </div>
-
 
           <div className="col s12 m3">
             <div className="card">
