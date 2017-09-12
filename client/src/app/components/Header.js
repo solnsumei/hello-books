@@ -13,12 +13,12 @@ const Header = props => (
         </a>
         <ul className="right hide-on-med-and-down">
           <li><Link to='/catalog'>Catalog</Link></li>
-          <li><Link to='/login'>Login</Link></li>
+          <li><Link to='/'>Login</Link></li>
           <li><Link to='/profile'>Solomon Nsumei</Link></li>
         </ul>
         <ul className="side-nav" id="mobile-demo">
           <li><Link to='/catalog'>Catalog</Link></li>
-          <li><Link to='/login'>Login</Link></li>
+          <li><Link to='/'>Login</Link></li>
           <li><Link to='/profile'>Solomon Nsumei</Link></li>
         </ul>
       </div>

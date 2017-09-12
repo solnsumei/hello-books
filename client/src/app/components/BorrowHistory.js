@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import BorrowedItem from './BorrowedItem';
+import TopTitle from './TopTitle';
 /**
  *
  */
@@ -14,13 +15,10 @@ export default class BorrowHistory extends React.Component {
       <div className="container">
         <div className="row">
           <div className="col s12">
-            <h3 className="teal-text">
-              <strong>
-                <i className="material-icons">list</i> Borrow History
-              </strong>
-            </h3>
-            <div className="divider"></div>
 
+            <TopTitle icon="list" title="Borrow History" />
+
+            <div className="divider"></div>
             <table className="responsive-table striped">
               <thead>
                 <tr>

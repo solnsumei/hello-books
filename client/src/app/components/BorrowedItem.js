@@ -3,10 +3,10 @@ import React from 'react';
 const BorrowedItem = (props) => {
   const historyPage = props.borrowHistory ? <td>{props.isReturned}</td> : null;
 
-  const returned = props.isReturned ?
+  const returned = props.isReturned === 'no' ?
     <button className="btn waves-effect waves-light blue" name="action">
       Return
-    </button> : '-';
+    </button> : '';
 
   return (
     <tr>

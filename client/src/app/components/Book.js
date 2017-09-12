@@ -63,7 +63,7 @@ export default class Book extends React.Component {
             <p> <Link to={this.props.link}>Details »</Link></p>
           </div>
         </div>
-        <div class="margin-2x"></div>
+        <div className="margin-2x"></div>
       </div>
     );
   }
