@@ -5,7 +5,10 @@
   "main": "app.js",
   "scripts": {
     "coverage": "NODE_ENV=test nyc --reporter=lcov --reporter=text --reporter=lcovonly mocha --compilers js:babel-register tests/test/*.js",
-    "test:db": "sequelize db:migrate:undo:all && sequelize db:migrate && sequelize db:seed:all",
+    "undo:test:migration": "sequelize db:migrate:undo:all --url=postgres://vtokbpab:umDiwwHJs3NsMQZrasnYuVboumkV1GFf@stampy.db.elephantsql.com:5432/vtokbpab",
+    "migrate:test:data": "sequelize db:migrate --url=postgres://vtokbpab:umDiwwHJs3NsMQZrasnYuVboumkV1GFf@stampy.db.elephantsql.com:5432/vtokbpab",
+    "seed:data": "sequelize db:seed:all --url=postgres://vtokbpab:umDiwwHJs3NsMQZrasnYuVboumkV1GFf@stampy.db.elephantsql.com:5432/vtokbpab",
+    "test:db": "npm run undo:test:migration && migrate:test:data && seed:data",
     "start:client": "npm run build",
     "build": "webpack -d && cp client/src/index.html client/dist/index.html && webpack-dev-server --content-base client/src/ --inline --hot",
     "build:prod": "webpack -p && cp client/src/index.html client/dist/index.html",
