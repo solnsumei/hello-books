@@ -1,14 +1,10 @@
 # hello-books
 
 This app is hosted on [https://hello-book.herokuapp.com/]
-[![Build Status](https://travis-ci.org/solnsumei/hello-books.svg?branch=development)]
-(https://travis-ci.org/solnsumei/hello-books)
-[![Code Climate](https://codeclimate.com/github/solnsumei/hello-books/badges/gpa.svg)]
-(https://codeclimate.com/github/solnsumei/hello-books)
-[![Code Climate](https://codeclimate.com/github/solnsumei/hello-books/badges/gpa.svg)]
-(https://codeclimate.com/github/solnsumei/hello-books)
-[![Issue Count](https://codeclimate.com/github/solnsumei/hello-books/badges/issue_count.svg)]
-(https://codeclimate.com/github/solnsumei/hello-books)
+![Build Status](https://travis-ci.org/solnsumei/hello-books.svg?branch=development)
+![Code Climate](https://codeclimate.com/github/solnsumei/hello-books/badges/gpa.svg)
+![Test Coverage](https://codeclimate.com/github/solnsumei/hello-books/badges/coverage.svg)
+![Issue Count](https://codeclimate.com/github/solnsumei/hello-books/badges/issue_count.svg)
 
 Hello-Books is a simple application that helps manage a library and its processes like stocking, tracking and renting books. With this application users are able to find and rent books.
 
