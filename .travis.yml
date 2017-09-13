@@ -23,6 +23,7 @@ services:
   - postgresql
 before_script:
   - npm install -g codeclimate-test-reporter
+  - npm install -g sequelize-cli
   - npm install -g sequelize
   - psql -c 'drop database if exists hellobooks;' -U postgres
   - psql -c 'create database hellobooks;' -U postgres
