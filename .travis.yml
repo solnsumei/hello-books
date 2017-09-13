@@ -19,12 +19,10 @@ node_js:
   - node
 notifications:
   email: false
-services:
-  - postgresql
 before_script:
   - npm install -g codeclimate-test-reporter
   - npm install -g sequelize-cli
-  - NODE_ENV=test npm run test:db
+  - npm run test:db
 script:
   - npm test
 after_success:
