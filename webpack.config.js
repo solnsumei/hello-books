@@ -15,6 +15,10 @@ module.exports = {
     filename: 'bundle.js',
     publicPath: '/app/',
   },
+  devServer: {
+    port: 8080,
+    historyApiFallback: true
+  },
   module: {
     loaders: [
       {
@@ -26,16 +30,27 @@ module.exports = {
         }
       },
       {
-        test: /\.css/,
-        include: SRC_DIR + '/css',
-        loader: ExtractTextPlugin.extract('css-loader')
+        test: /\.scss$/,
+        include: SRC_DIR + '/scss',
+        use: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: ['css-loader', 'sass-loader']
+        })
       },
       {
-        test: /\.(png|woff|woff2|eot|ttf|svg)$/,
-        loader: 'url-loader?limit=100000' }
+        test: /\.(woff|woff2|eot|ttf)$/,
+        loader: 'url-loader?limit=100000'
+      },
+      {
+        test: /\.(png|jpg|bmp|gif|svg)$/,
+        loader: 'file-loader?limit=100000'
+      }
     ]
   },
   plugins: [
-    new ExtractTextPlugin('style.css')
+    new ExtractTextPlugin({
+      filename: 'style.css',
+      allChunks: true
+    })
   ]
 };
