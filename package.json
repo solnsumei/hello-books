@@ -4,9 +4,11 @@
   "description": "Hello-Books is a simple application that helps manage a library and its processes like stocking, tracking and renting books. With this application users are able to find and rent books.",
   "main": "app.js",
   "scripts": {
-    "coverage": "cross-env NODE_ENV=test nyc --reporter=lcov --reporter=text
-    --reporter=lcovonly mocha --compilers js:babel-register tests/test/*.js",
-    "test:db": "sequelize db:migrate",
+    "coverage": "NODE_ENV=test nyc --reporter=lcov --reporter=text --reporter=lcovonly mocha --compilers js:babel-register tests/test/*.js",
+    "undo:test:migration": "sequelize db:migrate:undo:all --url=postgres://vtokbpab:umDiwwHJs3NsMQZrasnYuVboumkV1GFf@stampy.db.elephantsql.com:5432/vtokbpab",
+    "migrate:test:data": "sequelize db:migrate --url=postgres://vtokbpab:umDiwwHJs3NsMQZrasnYuVboumkV1GFf@stampy.db.elephantsql.com:5432/vtokbpab",
+    "seed:data": "sequelize db:seed:all --url=postgres://vtokbpab:umDiwwHJs3NsMQZrasnYuVboumkV1GFf@stampy.db.elephantsql.com:5432/vtokbpab",
+    "test:db": "npm run undo:test:migration && npm run migrate:test:data && npm run seed:data",
     "start:client": "npm run build",
     "build": "webpack -d && cp client/src/index.html client/dist/index.html && webpack-dev-server --content-base client/src/ --inline --hot",
     "build:prod": "webpack -p && cp client/src/index.html client/dist/index.html",

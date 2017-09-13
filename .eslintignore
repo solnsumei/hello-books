@@ -1,4 +1,5 @@
 tests
 server/migrations
+server/seeders
 server/config
 client/dist
