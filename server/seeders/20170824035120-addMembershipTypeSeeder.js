@@ -6,8 +6,8 @@ module.exports = {
       membershipType: 'Gold',
       lendDuration: 30,
       maxBorrowable: 12,
-      createdAt : new Date(),
-      updatedAt : new Date(),
+      createdAt: new Date(),
+      updatedAt: new Date(),
     },
       {
         membershipType: 'Silver',
