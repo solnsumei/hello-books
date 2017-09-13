@@ -4,8 +4,11 @@
   "description": "Hello-Books is a simple application that helps manage a library and its processes like stocking, tracking and renting books. With this application users are able to find and rent books.",
   "main": "app.js",
   "scripts": {
+    "coverage": "cross-env NODE_ENV=test nyc --reporter=lcov --reporter=text
+    --reporter=lcovonly mocha --compilers js:babel-register tests/test/*.js",
+    "test:db": "sequelize db:migrate",
     "start:client": "npm run build",
-    "build": "webpack -d && cp client/src/index.html client/dist/index.html && webpack-dev-server --content-base client/src/ --inline --hot --history-api-fallback",
+    "build": "webpack -d && cp client/src/index.html client/dist/index.html && webpack-dev-server --content-base client/src/ --inline --hot",
     "build:prod": "webpack -p && cp client/src/index.html client/dist/index.html",
     "start": "NODE_ENV=production&& ./node_modules/.bin/babel-node ./server/server.js",
     "start:dev": "nodemon ./server/server.js --exec babel-node --presets env",
@@ -34,7 +37,9 @@
     "eslint-plugin-jsx-a11y": "^5.1.1",
     "eslint-plugin-react": "^7.1.0",
     "extract-text-webpack-plugin": "^3.0.0",
+    "node-sass": "^4.5.3",
     "nodemon": "^1.11.0",
+    "sass-loader": "^6.0.6",
     "style-loader": "^0.18.2",
     "supertest": "^3.0.0",
     "url-loader": "^0.5.9",
