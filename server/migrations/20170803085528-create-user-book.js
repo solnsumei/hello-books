@@ -1,3 +1,4 @@
+
 module.exports = {
   up: (queryInterface, Sequelize) => queryInterface.createTable('UserBooks', {
     id: {
