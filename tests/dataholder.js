@@ -1,5 +1,4 @@
-class User{
-
+export class User{
   constructor(firstName, surname, username, email, password, admin){
     this.firstName = firstName,
     this.surname = surname,
@@ -10,4 +9,19 @@ class User{
   }
 }
 
-export default User;
+export class Category{
+  constructor(name){
+    this.name = name;
+  }
+}
+
+export class Book{
+  constructor(title, categoryId, author, description, stockQuantity, coverPic){
+    this.title = title;
+    this.author = author;
+    this.categoryId = categoryId;
+    this.description = description;
+    this.stockQuantity = stockQuantity;
+    this.coverPic = coverPic;
+  }
+}
