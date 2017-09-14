@@ -115,12 +115,13 @@ describe('Book Routes', () => {
     describe('POST add book when ordinary user has a valid token', () => {
       it('it should respond with a 403 with error message access denied, admins only', (done) => {
         request(app)
-          .get('/api/v1/books')
+          .post('/api/v1/books')
           .set('Accept', 'application/json')
           .set('x-token', userToken)
           .send(book3)
           .expect(403)
-          .expect('Content-Type', /json/, done);
+          .expect('Content-Type', /json/);
+          .expect(/"error":\s*"Access denied, admins only"/, done);
 
       });
     });

@@ -119,7 +119,7 @@ describe('User', () => {
           .set('Accept', 'application/json')
           .expect(409)
           .expect('Content-Type', /json/)
-          .expect(/"errors":\s*"Username has already been taken"/, done);
+          .expect(/"username":\s*"Username has already been taken"/, done);
       });
 
       it('responds with a 400 with error message', (done) => {
@@ -129,7 +129,7 @@ describe('User', () => {
           .set('Accept', 'application/json')
           .expect(409)
           .expect('Content-Type', /json/)
-          .expect(/"errors":\s*"Email has already been taken"/, done);
+          .expect(/"email":\s*"Email has already been taken"/, done);
       });
 
     });
