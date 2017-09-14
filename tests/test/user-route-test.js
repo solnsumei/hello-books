@@ -39,7 +39,7 @@ describe('User', () => {
       it('responds with a 400 bad request', (done) => {
         request(app)
           .post('/api/v1/users/signup')
-          .send({ firstName='', surname='', username: '', email: '', password:'' })
+          .send({ firstName: '', surname: '', username: '', email: '', password:'' })
           .set('Accept', 'application/json')
           .expect(400)
           .expect('Content-Type', /json/, done)
@@ -48,7 +48,7 @@ describe('User', () => {
       it('responds with a 400 bad request', (done) => {
         request(app)
           .post('/api/users/signup')
-          .send({ firstName='', surname='', username: 'ejiro', email: 'hello@you', password: 'solomon1' })
+          .send({ firstName: '', surname: '', username: 'ejiro', email: 'hello@you', password: 'solomon1' })
           .set('Accept', 'application/json')
           .expect(400)
           .expect('Content-Type', /json/, done)
@@ -57,7 +57,7 @@ describe('User', () => {
       it('responds with a 400 bad request', (done) => {
         request(app)
           .post('/api/v1/users/signup')
-          .send({ firstName='Solomon', surname='Ejiro', username: '', email: 'hello@you', password:'solomon1' })
+          .send({ firstName: 'Solomon', surname: 'Ejiro', username: '', email: 'hello@you', password:'solomon1' })
           .set('Accept', 'application/json')
           .expect(400)
           .expect('Content-Type', /json/, done)
@@ -66,7 +66,7 @@ describe('User', () => {
       it('responds with a 400 bad request', (done) => {
         request(app)
           .post('/api/v1/users/signup')
-          .send({ firstName='Solomon', surname:'Chuks', username: '', email: '', password:'' })
+          .send({ firstName: 'Solomon', surname: 'Chuks', username: '', email: '', password:'' })
           .set('Accept', 'application/json')
           .expect(400)
           .expect('Content-Type', /json/, done)
@@ -76,7 +76,7 @@ describe('User', () => {
       it('responds with a 400 bad request', (done) => {
         request(app)
           .post('/api/v1/users/signup')
-          .send({ firstName:'', surname:'Ejiro' username: '', email: 'hello@you.com', password:'' })
+          .send({ firstName: '', surname: 'Ejiro' username: '', email: 'hello@you.com', password:'' })
           .set('Accept', 'application/json')
           .expect(400)
           .expect('Content-Type', /json/, done)
@@ -89,7 +89,7 @@ describe('User', () => {
       it('responds with a 201 with created user', (done) => {
         request(app)
           .post('/api/v1/users/signup')
-          .send({ firstName:'Chuks', surname:'Solomon', username: 'solmei', email: 'solmei@gmail.com', password: 'solomon1' })
+          .send({ firstName: 'Chuks', surname: 'Solomon', username: 'solmei', email: 'solmei@gmail.com', password: 'solomon1' })
           .set('Accept', 'application/json')
           .expect(201)
           .expect('Content-Type', /json/)
@@ -100,7 +100,7 @@ describe('User', () => {
       it('responds with a 201 with created user', (done) => {
         request(app)
           .post('/api/v1/users/signup')
-          .send({ firstName:'Chuks', surname:'Solomon', username: 'solmei23', email: 'solmei23@gmail.com', password: 'solomon1' })
+          .send({ firstName: 'Chuks', surname: 'Solomon', username: 'solmei23', email: 'solmei23@gmail.com', password: 'solomon1' })
           .set('Accept', 'application/json')
           .expect(201)
           .expect('Content-Type', /json/)
@@ -115,7 +115,7 @@ describe('User', () => {
       it('responds with a 400 with error message', (done) => {
         request(app)
           .post('/api/v1/users/signup')
-          .send({ firstName:'Chuks', surname:'Solomon', username: 'solmei', email: 'solmei@gmail.com', password:'solomon1' })
+          .send({ firstName: 'Chuks', surname: 'Solomon', username: 'solmei', email: 'solmei@gmail.com', password:'solomon1' })
           .set('Accept', 'application/json')
           .expect(409)
           .expect('Content-Type', /json/)
@@ -125,7 +125,7 @@ describe('User', () => {
       it('responds with a 400 with error message', (done) => {
         request(app)
           .post('/api/v1/users/signup')
-          .send({ firstName:'Chuks', surname:'Solomon', username: 'ejiro234', email: 'solmei@gmail.com', password:'solomon1' })
+          .send({ firstName: 'Chuks', surname: 'Solomon', username: 'ejiro234', email: 'solmei@gmail.com', password:'solomon1' })
           .set('Accept', 'application/json')
           .expect(409)
           .expect('Content-Type', /json/)
