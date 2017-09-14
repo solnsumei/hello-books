@@ -12,8 +12,8 @@ describe('Book Routes', () => {
   const admin = new User('Ejiro', 'Chuks', 'ejiro', 'ejiro@gmail.com', 'solomon1', true);
   const user = new User('Solking', 'Ejiroh', 'solking', 'solking@gmail.com', 'solomon1', false);
 
-  const category1 = new Category('Fiction');
-  const category2 = new Category('Programming');
+  const category1 = new Category('Fiction', 'fiction');
+  const category2 = new Category('Programming', 'programming');
 
   const book1 = new Book('Book One', 1, 'Andela One', 'First book in library', 12, 'image1.jpg');
   const book2 = new Book('Book Two', 1, 'Ariel J', 'Second book in library', 4, 'image2.jpg');

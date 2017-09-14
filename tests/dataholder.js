@@ -10,8 +10,9 @@ export class User{
 }
 
 export class Category{
-  constructor(name){
+  constructor(name, slug){
     this.name = name;
+    this.slug = slug;
   }
 }
 
