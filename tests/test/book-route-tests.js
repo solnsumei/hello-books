@@ -120,7 +120,7 @@ describe('Book Routes', () => {
           .set('x-token', userToken)
           .send(book3)
           .expect(403)
-          .expect('Content-Type', /json/);
+          .expect('Content-Type', /json/)
           .expect(/"error":\s*"Access denied, admins only"/, done);
 
       });
