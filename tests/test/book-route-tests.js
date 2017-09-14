@@ -10,8 +10,8 @@ describe('Book Routes', () => {
   let userToken = null;
   let adminToken = null;
 
-  const admin = new User('ejiro', 'ejiro@gmail.com', 'solomon1', true);
-  const user = new User('solking', 'solking@gmail.com', 'solomon1', false);
+  const admin = new User('ejiro', 'chuks', 'ejiro', 'ejiro@gmail.com', 'solomon1', true);
+  const user = new User('solking', 'ejiroh', 'solking', 'solking@gmail.com', 'solomon1', false);
 
   const book1 = new Book('Book One', 'Andela One', 'First book in library', 12, 'image1.jpg');
   const book2 = new Book('Book Two', 'Ariel J', 'Second book in library', 4, 'image2.jpg');
