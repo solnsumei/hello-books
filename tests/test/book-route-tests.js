@@ -2,49 +2,55 @@
 import app from '../../app';
 import request from 'supertest';
 import db from '../../server/models/index';
-import User from "../test-data/user";
-import Book from "../test-data/book";
+import { User, Book, Category } from "../dataholder";
 
 // Test add book route
 describe('Book Routes', () => {
   let userToken = null;
   let adminToken = null;
 
-  const admin = new User('ejiro', 'ejiro@gmail.com', 'solomon1', true);
-  const user = new User('solking', 'solking@gmail.com', 'solomon1', false);
+  const admin = new User('Ejiro', 'Chuks', 'ejiro', 'ejiro@gmail.com', 'solomon1', true);
+  const user = new User('Solking', 'Ejiroh', 'solking', 'solking@gmail.com', 'solomon1', false);
 
-  const book1 = new Book('Book One', 'Andela One', 'First book in library', 12, 'image1.jpg');
-  const book2 = new Book('Book Two', 'Ariel J', 'Second book in library', 4, 'image2.jpg');
-  const book3 = new Book('Book Three', 'Packard Bell', 'Third book in library', 3, 'image3.jpg');
-  const book4 = new Book('Book Four', 'Dunhill Mack', 'Four book in library', 1, 'image4.jpg');
+  const category1 = new Category('Fiction', 'fiction');
+  const category2 = new Category('Programming', 'programming');
+
+  const book1 = new Book('Book One', 1, 'Andela One', 'First book in library', 12, 'image1.jpg');
+  const book2 = new Book('Book Two', 1, 'Ariel J', 'Second book in library', 4, 'image2.jpg');
+  const book3 = new Book('Book Three', 2, 'Packard Bell', 'Third book in library', 3, 'image3.jpg');
+  const book4 = new Book('Book Four', 2, 'Dunhill Mack', 'Four book in library', 1, 'image4.jpg');
 
   before((done) => {
       db.User.bulkCreate([admin, user], { individualHooks: true })
       .then(() => {
         process.stdout.write('Test users created \n');
-        db.Book.bulkCreate([book1, book2, book3, book4], {})
-          .then(() => {
-            process.stdout.write('Test books created \n');
-              request(app)
-              .post('/api/v1/users/signin')
-              .send({ username: user.username, password: user.password })
-              .set('Accept', 'application/json')
-              .end((err, res) => {
-                userToken = res.body.token;
+        db.Category.bulkCreate([category1, category2], {})
+        .then(() => {
+          process.stdout.write('Test categories created \n');
+          db.Book.bulkCreate([book1, book2, book3, book4], {})
+            .then(() => {
+              process.stdout.write('Test books created \n');
                 request(app)
-                  .post('/api/users/signin')
-                  .send({ username: admin.username, password: admin.password })
-                  .set('Accept', 'application/json')
-                  .end((err, res) => {
-                    adminToken = res.body.token;
-                    done();
-                  });
-              });
-          });
+                .post('/api/v1/users/signin')
+                .send({ username: user.username, password: user.password })
+                .set('Accept', 'application/json')
+                .end((err, res) => {
+                  userToken = res.body.token;
+                  request(app)
+                    .post('/api/users/signin')
+                    .send({ username: admin.username, password: admin.password })
+                    .set('Accept', 'application/json')
+                    .end((err, res) => {
+                      adminToken = res.body.token;
+                      done();
+                    });
+                });
+            });
+        });
       });
   });
 
-  describe('GET Ordinary users get books routes  /api/books', () => {
+  describe('GET Ordinary users get books routes  /api/v1/books', () => {
     describe('GET books without being logged in', () => {
       it('it should respond with a 401 with access denied please log in error message', (done) => {
         request(app)
@@ -81,7 +87,7 @@ describe('Book Routes', () => {
 
   });
 
-  describe('POST Add book /api/books', () => {
+  describe('POST Add book /api/v1/books', () => {
     describe('POST try to add books without being logged in', () => {
       it('it should respond with a 401 with access denied please log in error message', (done) => {
         request(app)
@@ -109,12 +115,13 @@ describe('Book Routes', () => {
     describe('POST add book when ordinary user has a valid token', () => {
       it('it should respond with a 403 with error message access denied, admins only', (done) => {
         request(app)
-          .get('/api/books')
+          .post('/api/v1/books')
           .set('Accept', 'application/json')
           .set('x-token', userToken)
           .send(book3)
           .expect(403)
-          .expect('Content-Type', /json/, done);
+          .expect('Content-Type', /json/)
+          .expect(/"error":\s*"Forbidden, Admins Only"/, done);
 
       });
     });
@@ -154,6 +161,7 @@ describe('Book Routes', () => {
 
   after((done) => {
     db.User.truncate();
+    db.Category.truncate();
     db.Book.truncate();
     done();
   });

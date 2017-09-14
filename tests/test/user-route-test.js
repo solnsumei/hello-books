@@ -20,7 +20,7 @@ describe('User', () => {
 
       it('responds with a 400 bad request', (done) => {
         request(app)
-          .post('/api/users/signup')
+          .post('/api/v1/users/signup')
           .send({username: 'ejiro', email: 'hello@you', password: 'solomon1'})
           .set('Accept', 'application/json')
           .expect(400)
@@ -39,7 +39,7 @@ describe('User', () => {
       it('responds with a 400 bad request', (done) => {
         request(app)
           .post('/api/v1/users/signup')
-          .send({ username: '', email: '', password:'' })
+          .send({ firstName: '', surname: '', username: '', email: '', password:'' })
           .set('Accept', 'application/json')
           .expect(400)
           .expect('Content-Type', /json/, done)
@@ -48,7 +48,35 @@ describe('User', () => {
       it('responds with a 400 bad request', (done) => {
         request(app)
           .post('/api/v1/users/signup')
-          .send({ username: '', email: 'hello@you.com', password:'' })
+          .send({ firstName: '', surname: '', username: 'ejiro', email: 'hello@you', password: 'solomon1' })
+          .set('Accept', 'application/json')
+          .expect(400)
+          .expect('Content-Type', /json/, done)
+      });
+
+      it('responds with a 400 bad request', (done) => {
+        request(app)
+          .post('/api/v1/users/signup')
+          .send({ firstName: 'Solomon', surname: 'Ejiro', username: '', email: 'hello@you', password:'solomon1' })
+          .set('Accept', 'application/json')
+          .expect(400)
+          .expect('Content-Type', /json/, done)
+      });
+
+      it('responds with a 400 bad request', (done) => {
+        request(app)
+          .post('/api/v1/users/signup')
+          .send({ firstName: 'Solomon', surname: 'Chuks', username: '', email: '', password:'' })
+          .set('Accept', 'application/json')
+          .expect(400)
+          .expect('Content-Type', /json/, done)
+      });
+
+
+      it('responds with a 400 bad request', (done) => {
+        request(app)
+          .post('/api/v1/users/signup')
+          .send({ firstName: '', surname: 'Ejiro', username: '', email: 'hello@you.com', password:'' })
           .set('Accept', 'application/json')
           .expect(400)
           .expect('Content-Type', /json/, done)
@@ -61,12 +89,23 @@ describe('User', () => {
       it('responds with a 201 with created user', (done) => {
         request(app)
           .post('/api/v1/users/signup')
-          .send({username: 'solmei', email: 'solmei@gmail.com', password: 'solomon1'})
+          .send({ firstName: 'Chuks', surname: 'Solomon', username: 'solmei', email: 'solmei@gmail.com', password: 'solomon1' })
           .set('Accept', 'application/json')
           .expect(201)
           .expect('Content-Type', /json/)
           .expect(/"username":\s*"solmei"/)
           .expect(/"email":\s*"solmei@gmail.com"/, done);
+      });
+
+      it('responds with a 201 with created user', (done) => {
+        request(app)
+          .post('/api/v1/users/signup')
+          .send({ firstName: 'Chuks', surname: 'Solomon', username: 'solmei23', email: 'solmei23@gmail.com', password: 'solomon1' })
+          .set('Accept', 'application/json')
+          .expect(201)
+          .expect('Content-Type', /json/)
+          .expect(/"username":\s*"solmei23"/)
+          .expect(/"email":\s*"solmei23@gmail.com"/, done);
       });
 
     });
@@ -76,21 +115,21 @@ describe('User', () => {
       it('responds with a 400 with error message', (done) => {
         request(app)
           .post('/api/v1/users/signup')
-          .send({ username: 'solmei', email: 'solmei@gmail.com', password:'solomon1' })
+          .send({ firstName: 'Chuks', surname: 'Solomon', username: 'solmei', email: 'solmei@gmail.com', password:'solomon1' })
           .set('Accept', 'application/json')
-          .expect(400)
+          .expect(409)
           .expect('Content-Type', /json/)
-          .expect(/"message":\s*"Username has already been taken"/, done);
+          .expect(/"username":\s*"Username has already been taken"/, done);
       });
 
       it('responds with a 400 with error message', (done) => {
         request(app)
           .post('/api/v1/users/signup')
-          .send({ username: 'ejiro234', email: 'solmei@gmail.com', password:'solomon1' })
+          .send({ firstName: 'Chuks', surname: 'Solomon', username: 'ejiro234', email: 'solmei@gmail.com', password:'solomon1' })
           .set('Accept', 'application/json')
-          .expect(400)
+          .expect(409)
           .expect('Content-Type', /json/)
-          .expect(/"message":\s*"Email has already been taken"/, done);
+          .expect(/"email":\s*"Email has already been taken"/, done);
       });
 
     });
@@ -106,7 +145,7 @@ describe('User', () => {
         .set('Accept', 'application/json')
         .expect(401)
         .expect('Content-Type', /json/)
-        .expect(/"error":\s*"User not found"/, done);
+        .expect(/"error":\s*"Username and\/or password is incorrect"/, done);
     });
 
     it('responds with a 401 status and wrong password', (done) => {
@@ -116,7 +155,7 @@ describe('User', () => {
         .set('Accept', 'application/json')
         .expect(401)
         .expect('Content-Type', /json/)
-        .expect(/"error":\s*"Password is incorrect"/, done);
+        .expect(/"error":\s*"Username and\/or password is incorrect"/, done);
     });
 
     it('responds with a 200 status and success message and user token', (done) => {
@@ -126,8 +165,7 @@ describe('User', () => {
         .set('Accept', 'application/json')
         .expect(200)
         .expect('Content-Type', /json/)
-        .expect(/"username":\s*"solmei"/)
-        .expect(/"message":\s*"You are logged in successfully"/, done);
+        .expect(/"username":\s*"solmei"/, done);
     });
   });
 
