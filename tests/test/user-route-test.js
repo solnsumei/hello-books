@@ -47,7 +47,7 @@ describe('User', () => {
 
       it('responds with a 400 bad request', (done) => {
         request(app)
-          .post('/api/users/signup')
+          .post('/api/v1/users/signup')
           .send({ firstName: '', surname: '', username: 'ejiro', email: 'hello@you', password: 'solomon1' })
           .set('Accept', 'application/json')
           .expect(400)
@@ -104,8 +104,8 @@ describe('User', () => {
           .set('Accept', 'application/json')
           .expect(201)
           .expect('Content-Type', /json/)
-          .expect(/"username":\s*"solmei"/)
-          .expect(/"email":\s*"solmei@gmail.com"/, done);
+          .expect(/"username":\s*"solmei23"/)
+          .expect(/"email":\s*"solmei23@gmail.com"/, done);
       });
 
     });
@@ -119,7 +119,7 @@ describe('User', () => {
           .set('Accept', 'application/json')
           .expect(409)
           .expect('Content-Type', /json/)
-          .expect(/"message":\s*"Username has already been taken"/, done);
+          .expect(/"errors":\s*"Username has already been taken"/, done);
       });
 
       it('responds with a 400 with error message', (done) => {
@@ -129,7 +129,7 @@ describe('User', () => {
           .set('Accept', 'application/json')
           .expect(409)
           .expect('Content-Type', /json/)
-          .expect(/"message":\s*"Email has already been taken"/, done);
+          .expect(/"errors":\s*"Email has already been taken"/, done);
       });
 
     });
@@ -165,8 +165,7 @@ describe('User', () => {
         .set('Accept', 'application/json')
         .expect(200)
         .expect('Content-Type', /json/)
-        .expect(/"username":\s*"solmei"/)
-        .expect(/"message":\s*"You are logged in successfully"/, done);
+        .expect(/"username":\s*"solmei"/, done);
     });
   });
 

@@ -50,7 +50,7 @@ describe('Book Routes', () => {
       });
   });
 
-  describe('GET Ordinary users get books routes  /api/books', () => {
+  describe('GET Ordinary users get books routes  /api/v1/books', () => {
     describe('GET books without being logged in', () => {
       it('it should respond with a 401 with access denied please log in error message', (done) => {
         request(app)
@@ -87,7 +87,7 @@ describe('Book Routes', () => {
 
   });
 
-  describe('POST Add book /api/books', () => {
+  describe('POST Add book /api/v1/books', () => {
     describe('POST try to add books without being logged in', () => {
       it('it should respond with a 401 with access denied please log in error message', (done) => {
         request(app)
@@ -115,7 +115,7 @@ describe('Book Routes', () => {
     describe('POST add book when ordinary user has a valid token', () => {
       it('it should respond with a 403 with error message access denied, admins only', (done) => {
         request(app)
-          .get('/api/books')
+          .get('/api/v1/books')
           .set('Accept', 'application/json')
           .set('x-token', userToken)
           .send(book3)
