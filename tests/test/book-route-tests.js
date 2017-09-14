@@ -10,7 +10,7 @@ describe('Book Routes', () => {
   let adminToken = null;
 
   const admin = new User('Ejiro', 'Chuks', 'ejiro', 'ejiro@gmail.com', 'solomon1', true);
-  const user = new User('Solking', 'Ejiroh', 'solking24', 'solking@gmail.com', 'solomon1', false);
+  const user = new User('Solking', 'Ejiroh', 'solking', 'solking@gmail.com', 'solomon1', false);
 
   const category1 = new Category('Fiction');
   const category2 = new Category('Programming');
