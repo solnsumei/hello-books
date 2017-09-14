@@ -121,7 +121,7 @@ describe('Book Routes', () => {
           .send(book3)
           .expect(403)
           .expect('Content-Type', /json/)
-          .expect(/"error":\s*"Access denied, admins only"/, done);
+          .expect(/"error":\s*"Forbidden, Admins Only"/, done);
 
       });
     });
