@@ -10,7 +10,7 @@ describe('Book Routes', () => {
   let adminToken = null;
 
   const admin = new User('Ejiro', 'Chuks', 'ejiro', 'ejiro@gmail.com', 'solomon1', true);
-  const user = new User('Solking', 'Ejiroh', 'solking', 'solking@gmail.com', 'solomon1', false);
+  const user = new User('Solking', 'Ejiroh', 'solking24', 'solking@gmail.com', 'solomon1', false);
 
   const category1 = new Category('Fiction');
   const category2 = new Category('Programming');
@@ -24,7 +24,7 @@ describe('Book Routes', () => {
       db.User.bulkCreate([admin, user], { individualHooks: true })
       .then(() => {
         process.stdout.write('Test users created \n');
-        db.Category.bulkCreate([category1, category2])
+        db.Category.bulkCreate([category1, category2], {})
         .then(() => {
           process.stdout.write('Test categories created \n');
           db.Book.bulkCreate([book1, book2, book3, book4], {})
