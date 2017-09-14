@@ -76,7 +76,7 @@ describe('User', () => {
       it('responds with a 400 bad request', (done) => {
         request(app)
           .post('/api/v1/users/signup')
-          .send({ firstName: '', surname: 'Ejiro' username: '', email: 'hello@you.com', password:'' })
+          .send({ firstName: '', surname: 'Ejiro', username: '', email: 'hello@you.com', password:'' })
           .set('Accept', 'application/json')
           .expect(400)
           .expect('Content-Type', /json/, done)
