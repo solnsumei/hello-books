@@ -1,11 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Book from './Book';
-import Modal from './Modal';
+import Modal from '../common/Modal';
 /**
  *
  */
-export default class BookDetail extends React.Component {
+class BookDetailPage extends React.Component {
 /**
  * [render description]
  * @return {[type]} [description]
@@ -48,3 +48,5 @@ export default class BookDetail extends React.Component {
     );
   }
 }
+
+export default BookDetailPage;

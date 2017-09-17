@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Input from './Input';
+import TextInput from '../common/TextInput';
 /**
  *
  */
@@ -21,9 +21,11 @@ export default class LoginForm extends React.Component {
                 <div className="divider"></div>
                 <br />
 
-                <Input type="text" id="username" name="Username" className="validate" />
+                <TextInput type="text" name="username" label="Username"
+                  errorMsg="This field is required" required="required" />
 
-                <Input type="password" id="password" name="Password" className="validate" />
+                <TextInput type="password" name="password" label="Surname"
+                  errorMsg="This field is required" required="required" />
               </div>
               <div className="card-action">
                 <div className="row valign-wrapper">

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 /**
  *
  */
-export default class Home extends React.Component {
+export default class HomePage extends React.Component {
 /**
  * [render description]
  * @return {[type]} [description]

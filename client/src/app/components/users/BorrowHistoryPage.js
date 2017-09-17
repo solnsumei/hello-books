@@ -1,11 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import BorrowedItem from './BorrowedItem';
-import TopTitle from './TopTitle';
+import TopTitle from '../common/TopTitle';
 /**
  *
  */
-export default class BorrowHistory extends React.Component {
+export default class BorrowHistoryPage extends React.Component {
 /**
  * [render description]
  * @return {[type]} [description]
