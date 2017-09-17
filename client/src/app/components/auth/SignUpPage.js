@@ -1,11 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Input from './Input';
+import TextInput from '../common/TextInput';
 
 /**
  *
  */
-export default class Register extends React.Component {
+export default class SignUpPage extends React.Component {
   /**
    * [render description]
    * @return {[type]} [description]
@@ -22,22 +22,27 @@ export default class Register extends React.Component {
                 <div className="divider"></div>
                 <br />
 
-                <Input type="text" id="firstName" name="First name" className="validate" />
+                <TextInput type="text" name="firstName" label="First name"
+                  errorMsg="This field is required" required="required" />
 
-                <Input type="text" id="surname" name="Surname" className="validate" />
+                <TextInput type="text" name="surname" label="Surname"
+                  errorMsg="This field is required" required="required" />
 
-                <Input type="email" id="email" name="Email" className="validate" />
+                <TextInput type="email" name="email" label="Email"
+                  errorMsg="Email is invalid" required="required" />
 
-                <Input type="text" id="username" name="Username" className="validate" />
+                <TextInput type="text" name="username" label="Username"
+                  errorMsg="This field is required" required="required" />
 
-                <Input type="password" id="password" name="Password" className="validate" />
+                <TextInput type="password" name="password" label="Surname"
+                  errorMsg="This field is required" required="required" />
 
               </div>
               <div className="card-action">
                 <div className="row valign-wrapper">
                   <div className="col s5">
                     <button className="btn waves-effect waves-light" type="submit" name="action">
-                    Register <i className="material-icons right">send</i>
+                    Sign up <i className="material-icons right">send</i>
                     </button>
                   </div>
                   <div className="col s7">

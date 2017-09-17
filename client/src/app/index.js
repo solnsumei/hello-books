@@ -1,20 +1,16 @@
 import React from 'react';
 import { render } from 'react-dom';
-import { BrowserRouter } from 'react-router-dom';
+import { Router } from 'react-router-dom';
+import createBrowserHistory from 'history/createBrowserHistory';
 /* eslint-disable */
 import '../scss/materialize.min.scss';
 import '../scss/style.scss';
 import 'jquery';
 import 'materialize-css/dist/js/materialize.js';
+import './js/site.js';
 /* eslint-enable */
-import Header from './components/Header';
-import Container from './components/Container';
+import App from './components/App';
 
-const App = () => (
-  <div>
-    <Header />
-    <Container />
-  </div>
-);
+const history = createBrowserHistory();
 
-render(<BrowserRouter><App /></BrowserRouter>, window.document.getElementById('app'));
+render(<Router history={history}><App /></Router>, window.document.getElementById('app'));

@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 /**
  *
  */
-export default class Book extends React.Component {
+class Book extends React.Component {
 /**
  * [render description]
  * @return {[type]} [description]
@@ -68,3 +68,5 @@ export default class Book extends React.Component {
     );
   }
 }
+
+export default Book;
