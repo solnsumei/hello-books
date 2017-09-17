@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import UserDetail from './UserDetail';
 import BorrowedItem from './BorrowedItem';
+import TopTitle from '../common/TopTitle';
 
 /**
  *
