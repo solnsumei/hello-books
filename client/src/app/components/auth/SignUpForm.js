@@ -54,4 +54,12 @@ const SignUpForm = ({ formParams, onSubmit, onChange, loading, errors }) => {
   );
 };
 
+SignUpForm.propTypes = {
+  formParams: PropTypes.object.isRequired,
+  onSubmit: PropTypes.func.isRequired,
+  onChange: PropTypes.func.isRequired,
+  loading: PropTypes.bool,
+  errors: PropTypes.object
+};
+
 export default SignUpForm;

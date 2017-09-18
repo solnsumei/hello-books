@@ -1,24 +1,22 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { Link } from 'react-router-dom';
 import SignUpForm from './SignUpForm';
+import { userSignUpRequest, userSignUpSuccess } from '../../actions/userActions';
 
 /**
  *
  */
-export default class SignUpPage extends React.Component {
+class SignUpPage extends React.Component {
   /**
    * @param {object} props
    */
   constructor(props) {
     super(props);
     this.state = {
-      formParams: {
-        firstName: '',
-        surname: '',
-        email: '',
-        username: '',
-        password: ''
-      },
+      formParams: Object.assign({}, this.props.formParams),
       errors: {}
     };
 
@@ -42,9 +40,7 @@ export default class SignUpPage extends React.Component {
    */
   onSubmit(event) {
     event.preventDefault();
-    /* eslint-disable */
-    console.log(this.state);
-    /* eslint-enable */
+    this.props.signUpRequest(this.state.formParams);
   }
 
   /**
@@ -65,3 +61,27 @@ export default class SignUpPage extends React.Component {
     );
   }
 }
+
+SignUpPage.propTypes = {
+  signUpRequest: PropTypes.func.isRequired
+};
+
+const mapStateToProps = (state, ownProps) => {
+  const formParams = {
+    firstName: '',
+    surname: '',
+    email: '',
+    username: '',
+    password: ''
+  };
+
+  return {
+    formParams,
+  };
+};
+
+const mapDispatchToProps = dispatch => ({
+  signUpRequest: userData => dispatch(userSignUpRequest(userData))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignUpPage);
