@@ -8,6 +8,12 @@ import router from './server/routes';
 
 // Set up the express app
 const app = express();
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'POST, GET, OPTIONS, PUT, DELETE, HEAD');
+  res.header('Access-Control-Allow-Headers', 'Authorization, X-PINGOTHER, Origin, X-Requested-With, Content-Type, Accept');
+  next();
+});
 
 // Log requests to the console
 app.use(logger('dev'));

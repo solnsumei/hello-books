@@ -7,7 +7,7 @@ import BookDetailPage from './book/BookDetailPage';
 import BorrowHistoryPage from './users/BorrowHistoryPage';
 import ProfilePage from './users/ProfilePage';
 
-const Container = () => (
+const Routes = () => (
   <section id="content">
     <br/>
     <Switch>
@@ -22,4 +22,4 @@ const Container = () => (
   </section>
 );
 
-export default Container;
+export default Routes;
