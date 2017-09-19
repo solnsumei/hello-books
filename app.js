@@ -8,12 +8,8 @@ import router from './server/routes';
 
 // Set up the express app
 const app = express();
-app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Methods', 'POST, GET, OPTIONS, PUT, DELETE, HEAD');
-  res.header('Access-Control-Allow-Headers', 'Authorization, X-PINGOTHER, Origin, X-Requested-With, Content-Type, Accept');
-  next();
-});
+
+dotenv.config();
 
 // Log requests to the console
 app.use(logger('dev'));
@@ -21,26 +17,6 @@ app.use(logger('dev'));
 // Parse incoming requests data (https://github.com/expressjs/body-parser
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-
-// Express Validator Middleware
-app.use(expressValidator({
-  errorFormatter(param, msg, value) {
-    const namespace = param.split('.');
-    const root = namespace.shift();
-    let formParam = root;
-
-    while (namespace.length) {
-      formParam += `[${namespace.shift()}]`;
-    }
-    return {
-      formParam: msg,
-      msg,
-      value
-    };
-  }
-}));
-
-dotenv.config();
 
 // Api Routes
 app.use('/api/v1', router);
