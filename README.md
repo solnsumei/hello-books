@@ -1,7 +1,7 @@
 
 [![Build Status](https://travis-ci.org/solnsumei/hello-books.svg?branch=development)](https://travis-ci.org/solnsumei/hello-books)
 [![Code Climate](https://codeclimate.com/github/solnsumei/hello-books/badges/gpa.svg)](https://codeclimate.com/github/solnsumei/hello-books)
-[![Code Climate](https://codeclimate.com/github/solnsumei/hello-books/badges/coverage.svg?branch=development)](https://codeclimate.com/github/solnsumei/hello-books)
+[![Code Climate](https://codeclimate.com/github/solnsumei/hello-books/badges/coverage.svg)](https://codeclimate.com/github/solnsumei/hello-books/coverage)
 [![Coverage Status](https://coveralls.io/repos/github/solnsumei/hello-books/badge.svg?branch=development)](https://coveralls.io/github/solnsumei/hello-books?branch=development)
 [![Issue Count](https://codeclimate.com/github/solnsumei/hello-books/badges/issue_count.svg)](https://codeclimate.com/github/solnsumei/hello-books)
 
