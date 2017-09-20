@@ -1,10 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import toastr from 'toastr';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Link } from 'react-router-dom';
 import SignUpForm from './SignUpForm';
-import { userSignUpRequest, userSignUpSuccess } from '../../actions/userActions';
+import SignUpSuccess from './SignUpSuccess';
+import userSignUpRequest from '../../actions/userActions';
 
 /**
  *
@@ -17,7 +19,8 @@ class SignUpPage extends React.Component {
     super(props);
     this.state = {
       formParams: Object.assign({}, this.props.formParams),
-      errors: {}
+      errors: {},
+      successData: {}
     };
 
     this.updateFormState = this.updateFormState.bind(this);
@@ -40,7 +43,9 @@ class SignUpPage extends React.Component {
    */
   onSubmit(event) {
     event.preventDefault();
-    this.props.signUpRequest(this.state.formParams);
+    this.props.signUpRequest(this.state.formParams)
+      .then(({ data }) => this.setState({ successData: data }))
+      .catch(({ response }) => this.setState({ errors: response.data.errors }));
   }
 
   /**
@@ -48,14 +53,21 @@ class SignUpPage extends React.Component {
    * @return {[type]} [description]
    */
   render() {
+    let displayData = '';
+    if (this.state.successData.user) {
+      displayData = <SignUpSuccess data={this.state.successData} />;
+    } else {
+      displayData = <SignUpForm
+        formParams={this.state.formParams}
+        onChange={this.updateFormState}
+        onSubmit={this.onSubmit}
+        errors={this.state.errors} />;
+    }
+
     return (
       <div className="container">
         <div className="row">
-          <SignUpForm
-            formParams={this.state.formParams}
-            onChange={this.updateFormState}
-            onSubmit={this.onSubmit}
-            errors={this.state.errors} />
+          {displayData}
         </div>
       </div>
     );

@@ -9,7 +9,7 @@ const TextInput = (
       { type === 'textarea' ?
         <textarea
           name={name}
-          className="validate"
+          className={error ? 'invalid' : 'validate'}
           onChange={onChange}
           required={required}>
           {value}
@@ -18,13 +18,13 @@ const TextInput = (
         <input
           type={type}
           name={name}
-          className="validate"
+          className={error ? 'invalid' : 'validate'}
           placeholder={placeholder}
           value={value}
           required={required}
           onChange={onChange} />
       }
-      <label htmlFor={name} data-error={error && error !== '' ? error : errorMsg}> {label} </label>
+      <label htmlFor={name} data-error={ !error ? errorMsg : error }>{label}</label>
     </div>
   </div>
 );

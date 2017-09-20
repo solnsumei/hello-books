@@ -20,7 +20,7 @@ export default {
       })
       .then(user => res.status(201).send({ message: 'User created successfully',
         user: {
-          surname: `${user.firstName} ${user.surname}`,
+          name: `${user.firstName} ${user.surname}`,
           username: user.username,
           email: user.email
         } }))

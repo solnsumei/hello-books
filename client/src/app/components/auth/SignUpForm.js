@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import lodash from 'lodash';
 import { Link } from 'react-router-dom';
 import TextInput from '../common/TextInput';
 
@@ -14,6 +15,11 @@ const SignUpForm = ({ formParams, onSubmit, onChange, loading, errors }) => {
           <p>Please fill out the form to register</p>
           <div className="divider"></div>
           <br />
+
+          { Object.keys(errors).length > 0 ?
+            <p className="red-text">** There are some errors with your input</p>
+            : ''
+          }
 
           <TextInput type="text" name="firstName" label="First name"
             value={formParams.firstName} onChange={onChange} error={errors.firstName}
