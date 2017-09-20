@@ -1,6 +1,6 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
-import LoginForm from './auth/LoginForm';
+import LoginPage from './auth/LoginPage';
 import SignUpPage from './auth/SignUpPage';
 import CatalogPage from './book/CatalogPage';
 import BookDetailPage from './book/BookDetailPage';
@@ -11,8 +11,8 @@ const Routes = () => (
   <section id="content">
     <br/>
     <Switch>
-      <Route exact path='/' component={LoginForm} />
-      <Route path='/login' component={LoginForm} />
+      <Route exact path='/' component={LoginPage} />
+      <Route path='/login' component={LoginPage} />
       <Route path='/register' component={SignUpPage} />
       <Route path='/catalog' component={CatalogPage} />
       <Route path='/book-detail' component={BookDetailPage} />
