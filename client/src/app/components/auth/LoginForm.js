@@ -16,7 +16,11 @@ const LoginForm = ({ loginParams, onSubmit, onChange, errors, loading }) => (
         <br />
 
         {(errors && errors.error) &&
-          <p className="red-text">**{errors.error}</p>}
+          <p className="red-text">
+            **Login Failed! {errors.error}
+            <br/> <br/>
+          </p>
+        }
 
         <TextInput type="text" name="username" label="Username"
           value={loginParams.username} onChange={onChange} error={errors.username}

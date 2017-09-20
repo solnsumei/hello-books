@@ -9,6 +9,12 @@ const userSignUpRequest = userData => dispatch =>
   axios.post('/api/v1/users/signup', userData);
 
 const loginRequest = loginData => dispatch =>
-  axios.post('/api/v1/users/signin', loginData);
+  axios.post('/api/v1/users/signin', loginData)
+    .then(({ data }) => {
+      const token = data.token;
+      console.log(token);
+      // localStorage.setItem('userToken', data.token);
+      // return dispatch(loginUserSuccess());
+    });
 
 export { loginRequest, userSignUpRequest };

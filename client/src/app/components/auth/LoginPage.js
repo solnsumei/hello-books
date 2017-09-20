@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Link } from 'react-router-dom';
@@ -44,7 +45,8 @@ class LoginPage extends React.Component {
    */
   onSubmit(event) {
     event.preventDefault();
-    this.loginUser(this.state.loginParams);
+    this.props.loginUser(this.state.loginParams)
+      .catch(({ response }) => this.setState({ errors: response.data }));
   }
 
   /**
@@ -59,29 +61,19 @@ class LoginPage extends React.Component {
             loginParams={this.state.loginParams}
             onChange={this.updateFormState}
             onSubmit={this.onSubmit}
-            errors={this.state.errors} />;
+            errors={this.state.errors} />
         </div>
       </div>
     );
   }
 }
 
-const mapStateToProps = (state, ownProps) => {
-  const formParams = {
-    firstName: '',
-    surname: '',
-    email: '',
-    username: '',
-    password: ''
-  };
-
-  return {
-    formParams,
-  };
+LoginPage.propTypes = {
+  loginUser: PropTypes.func.isRequired
 };
 
 const mapDispatchToProps = dispatch => ({
-  loginRequest: loginData => dispatch(loginRequest(loginData))
+  loginUser: loginData => dispatch(loginRequest(loginData))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);
+export default connect(null, mapDispatchToProps)(LoginPage);
