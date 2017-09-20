@@ -1,5 +1,6 @@
 import React from 'react';
 import 'jquery';
+import dotenv from 'dotenv';
 import { render } from 'react-dom';
 import { Router } from 'react-router-dom';
 import { Provider } from 'react-redux';
@@ -11,6 +12,8 @@ import './js/site';
 
 import App from './components/App';
 import configureStore from './store/configureStore';
+
+dotenv.config();
 
 const history = createBrowserHistory();
 

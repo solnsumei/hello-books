@@ -17,7 +17,7 @@ const LoginForm = ({ loginParams, onSubmit, onChange, errors, loading }) => (
 
         {(errors && errors.error) &&
           <p className="red-text">
-            **Login Failed! {errors.error}
+            **Login failed! {errors.error}
             <br/> <br/>
           </p>
         }
