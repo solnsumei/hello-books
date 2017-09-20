@@ -5,16 +5,7 @@ import types from './actionTypes';
 // axios.defaults.headers.common['Authorization'] = AUTH_TOKEN;
 // axios.defaults.headers.post['Content-Type'] = 'application/json';
 
-
-const userSignUpSuccess = user => ({
-  type: types.SIGN_UP_USER_SUCCESS, user
-});
-
 const userSignUpRequest = userData => dispatch =>
-  axios.post('/api/v1/users/signup', userData)
-  /* eslint-disable */
-    .then(response => console.log(response))
-    .catch(error => console.log(error));
-/* eslint-enable */
+  axios.post('/api/v1/users/signup', userData);
 
-export { userSignUpSuccess, userSignUpRequest };
+export default userSignUpRequest;

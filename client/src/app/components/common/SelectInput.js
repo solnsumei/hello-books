@@ -7,7 +7,7 @@ const SelectInput = ({ name, label, onChange, defaultOption, value, error, optio
       className="browser-default"
       name={name}
       value={value}
-      onChange={onChange}>
+      onChange={onChange} required="required">
       <option value="" disabled selected>
         {defaultOption}
       </option>
@@ -15,7 +15,8 @@ const SelectInput = ({ name, label, onChange, defaultOption, value, error, optio
         <option key={option.value} value={option.value}>{option.text}</option>
       )}
     </select>
-    <label htmlFor={name}>{label}</label>
+    { error ? <label htmlFor={name} data-error={error}>{label}</label> :
+      <label htmlFor={name}>{label}</label> }
   </div>
 );
 
