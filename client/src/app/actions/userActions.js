@@ -8,4 +8,7 @@ import types from './actionTypes';
 const userSignUpRequest = userData => dispatch =>
   axios.post('/api/v1/users/signup', userData);
 
-export default userSignUpRequest;
+const loginRequest = loginData => dispatch =>
+  axios.post('/api/v1/users/signin', loginData);
+
+export { loginRequest, userSignUpRequest };

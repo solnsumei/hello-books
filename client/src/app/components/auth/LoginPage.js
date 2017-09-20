@@ -1,7 +1,10 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { Link } from 'react-router-dom';
 import TextInput from '../common/TextInput';
 import LoginForm from './LoginForm';
+import { loginRequest } from '../../actions/userActions';
 
 /**
  *
@@ -63,4 +66,22 @@ class LoginPage extends React.Component {
   }
 }
 
-export default LoginPage;
+const mapStateToProps = (state, ownProps) => {
+  const formParams = {
+    firstName: '',
+    surname: '',
+    email: '',
+    username: '',
+    password: ''
+  };
+
+  return {
+    formParams,
+  };
+};
+
+const mapDispatchToProps = dispatch => ({
+  loginRequest: loginData => dispatch(loginRequest(loginData))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);
