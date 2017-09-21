@@ -9,7 +9,7 @@ import initialState from './initialState';
 export default function (state = initialState.user, action) {
   switch (action.type) {
     case types.LOGIN_USER_SUCCESS:
-      return [...state, Object.assign({}, action.user)];
+      return Object.assign({}, ...state, action.user);
 
     default:
       return state;

@@ -6,7 +6,7 @@ import types from './actionTypes';
 // axios.defaults.baseURL = 'http://localhost:8000/api/v1';
 // axios.defaults.headers.common['Authorization'] = AUTH_TOKEN;
 // axios.defaults.headers.post['Content-Type'] = 'application/json';
-//
+
 const SECRET = 'Wd123faghye@thyggejjd231';
 const USER_TOKEN = 'userToken';
 
@@ -22,12 +22,11 @@ const setAuthUser = (token = null) => {
     }
     return false;
   }
-  console.log(decoded.user);
   return decoded.user;
 };
 
-const loginUserSuccess = token => ({
-  type: types.LOGIN_USER_SUCCESS, token
+const loginUserSuccess = user => ({
+  type: types.LOGIN_USER_SUCCESS, user
 });
 
 const userSignUpRequest = userData => dispatch =>
