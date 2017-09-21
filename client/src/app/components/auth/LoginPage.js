@@ -45,6 +45,7 @@ class LoginPage extends React.Component {
    */
   onSubmit(event) {
     event.preventDefault();
+    this.setState({ errors: {} });
     this.props.loginUser(this.state.loginParams)
       .catch(({ response }) => this.setState({ errors: response.data }));
   }
