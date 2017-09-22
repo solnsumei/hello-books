@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import Routes from './Routes';
 import Header from './common/Header';
+
+const protectedRoutes = ['/catalog', '/book-detail', '/borrow-history', '/profile'];
 /**
  * [propTypes description]
  * @type {Object}
@@ -25,7 +27,7 @@ class App extends React.Component {
 }
 
 App.propTypes = {
-  user: PropTypes.object.isRequired
+  user: PropTypes.object,
 };
 
 const mapStateToProps = (state, ownProps) => ({

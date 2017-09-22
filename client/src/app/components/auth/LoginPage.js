@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import TextInput from '../common/TextInput';
 import LoginForm from './LoginForm';
 import { loginRequest } from '../../actions/userActions';
+import setRedirectUrl from '../../actions/redirectActions';
 
 /**
  *
@@ -26,32 +27,6 @@ class LoginPage extends React.Component {
 
     this.updateFormState = this.updateFormState.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
-  }
-
-  /**
-   * [componentDidMount description]
-   * @method componentDidMount
-   * @return {[type]}          [description]
-   */
-  componentDidMount() {
-    if (this.props.user.username) {
-      this.props.history.replace('/profile');
-    }
-  }
-
-  /**
-   * [componentDidUpdate description]
-   * @method componentDidUpdate
-   * @param  {[type]}           prevProps [description]
-   * @return {[type]}                     [description]
-   */
-  componentDidUpdate(prevProps) {
-    const isLoggingIn = !prevProps.user.username && this.props.user.username;
-    const loggedOut = prevProps.user.username && !this.props.user.username;
-
-    if (isLoggingIn) {
-      this.props.history.replace('/profile');
-    }
   }
 
   /**
@@ -97,15 +72,10 @@ class LoginPage extends React.Component {
 
 LoginPage.propTypes = {
   loginUser: PropTypes.func.isRequired,
-  user: PropTypes.object
 };
 
-const mapStateToProps = (state, ownProps) => ({
-  user: state.user
-});
-
 const mapDispatchToProps = dispatch => ({
-  loginUser: loginData => dispatch(loginRequest(loginData))
+  loginUser: loginData => dispatch(loginRequest(loginData)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);
+export default connect(null, mapDispatchToProps)(LoginPage);
