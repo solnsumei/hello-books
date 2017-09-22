@@ -29,6 +29,32 @@ class LoginPage extends React.Component {
   }
 
   /**
+   * [componentDidMount description]
+   * @method componentDidMount
+   * @return {[type]}          [description]
+   */
+  componentDidMount() {
+    if (this.props.user.username) {
+      this.props.history.replace('/profile');
+    }
+  }
+
+  /**
+   * [componentDidUpdate description]
+   * @method componentDidUpdate
+   * @param  {[type]}           prevProps [description]
+   * @return {[type]}                     [description]
+   */
+  componentDidUpdate(prevProps) {
+    const isLoggingIn = !prevProps.user.username && this.props.user.username;
+    const loggedOut = prevProps.user.username && !this.props.user.username;
+
+    if (isLoggingIn) {
+      this.props.history.replace('/profile');
+    }
+  }
+
+  /**
    * @param {object} event
    * @returns {object} state
    */
@@ -70,11 +96,16 @@ class LoginPage extends React.Component {
 }
 
 LoginPage.propTypes = {
-  loginUser: PropTypes.func.isRequired
+  loginUser: PropTypes.func.isRequired,
+  user: PropTypes.object
 };
+
+const mapStateToProps = (state, ownProps) => ({
+  user: state.user
+});
 
 const mapDispatchToProps = dispatch => ({
   loginUser: loginData => dispatch(loginRequest(loginData))
 });
 
-export default connect(null, mapDispatchToProps)(LoginPage);
+export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);

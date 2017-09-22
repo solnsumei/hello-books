@@ -12,10 +12,12 @@ import './js/site';
 
 import App from './components/App';
 import configureStore from './store/configureStore';
+import { checkAuthentication } from './actions/userActions';
 
 const history = createBrowserHistory();
 
 const store = configureStore();
+store.dispatch(checkAuthentication());
 
 render(
   <Provider store={store}>

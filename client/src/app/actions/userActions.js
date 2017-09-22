@@ -10,6 +10,7 @@ import types from './actionTypes';
 const SECRET = 'Wd123faghye@thyggejjd231';
 const USER_TOKEN = 'userToken';
 
+// check token passed in and set user accordingly
 const setAuthUser = (token = null) => {
   const userToken = localStorage.getItem('userToken');
 
@@ -25,9 +26,22 @@ const setAuthUser = (token = null) => {
   return decoded.user;
 };
 
-const loginUserSuccess = user => ({
-  type: types.LOGIN_USER_SUCCESS, user
+const userAuthSuccess = user => ({
+  type: types.USER_AUTH_SUCCESS, user
 });
+
+const userAuthFailed = () => ({
+  type: types.USER_AUTH_FAILED
+});
+
+// check user authentication
+const checkAuthentication = () => (dispatch) => {
+  const user = setAuthUser();
+  if (!user) {
+    return dispatch(userAuthFailed());
+  }
+  return dispatch(userAuthSuccess(user));
+};
 
 const userSignUpRequest = userData => dispatch =>
   axios.post('/api/v1/users/signup', userData);
@@ -37,7 +51,7 @@ const loginRequest = loginData => dispatch =>
     .then(({ data }) => {
       localStorage.setItem(USER_TOKEN, data.token);
       const user = setAuthUser(data.token);
-      return dispatch(loginUserSuccess(user));
+      return dispatch(userAuthSuccess(user));
     });
 
-export { loginRequest, userSignUpRequest, loginUserSuccess, setAuthUser };
+export { loginRequest, userSignUpRequest, userAuthSuccess, checkAuthentication };
