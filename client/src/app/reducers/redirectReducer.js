@@ -9,7 +9,7 @@ import initialState from './initialState';
 export default function (state = initialState.redirectUrl, action) {
   switch (action.type) {
     case types.SET_REDIRECT_URL:
-      return Object.assign({}, ...state, action.redirectUrl);
+      return action.redirectUrl;
 
     default:
       return state;
