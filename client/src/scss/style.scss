@@ -9,6 +9,23 @@ body{
     font-smoothing: antialiased;
 }
 
+header, main, footer {
+  padding-left: 250px;
+}
+
+.side-nav {
+  width: 250px;
+}
+
+@media only screen and (max-width : 992px) {
+    header, main, footer {
+        padding-left: 0;
+    }
+    .side-nav {
+      width: 300px;
+    }
+}
+
 .input-field.col label {
   width:100% !important;
 }
@@ -47,6 +64,20 @@ h4{font-size:18px; font-weight: 400}
   height: 100% !important;
 }
 
+.top {
+  padding-top: 0 !important;
+  margin-top: 0 !important;
+}
+
+.img-thumbnail {
+  width: 100%;
+}
+
+.active-nav {
+  background-color: teal;
+  color: #fffffc !important;
+}
+
 .container-full-height {
   height: 100% !important;
 }
@@ -54,3 +85,5 @@ h4{font-size:18px; font-weight: 400}
 .height600 {
   min-height: 600px;
 }
+
+.book-details p{line-height: 12px; font-size: 12px}

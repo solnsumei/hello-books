@@ -14,7 +14,7 @@ export default class ProfilePage extends React.Component {
  */
   render() {
     return (
-      <div className="container">
+      <div>
         <div className="row">
           <UserDetail name="Solomon Nsumei"
             email="solnsumei@gmail.com"

@@ -6,8 +6,7 @@ import { bindActionCreators } from 'redux';
 import { Link } from 'react-router-dom';
 import SignUpForm from './SignUpForm';
 import SignUpSuccess from './SignUpSuccess';
-import userSignUpRequest from '../../actions/userActions';
-
+import { userSignUpRequest } from '../../actions/userActions';
 /**
  *
  */
@@ -44,7 +43,9 @@ class SignUpPage extends React.Component {
   onSubmit(event) {
     event.preventDefault();
     this.props.signUpRequest(this.state.formParams)
-      .then(({ data }) => this.setState({ successData: data }))
+      .then(({ data }) => {
+        this.props.history.push('/');
+      })
       .catch(({ response }) => this.setState({ errors: response.data.errors }));
   }
 
@@ -53,22 +54,13 @@ class SignUpPage extends React.Component {
    * @return {[type]} [description]
    */
   render() {
-    let displayData = '';
-    if (this.state.successData.user) {
-      displayData = <SignUpSuccess data={this.state.successData} />;
-    } else {
-      displayData = <SignUpForm
-        formParams={this.state.formParams}
-        onChange={this.updateFormState}
-        onSubmit={this.onSubmit}
-        errors={this.state.errors} />;
-    }
-
     return (
-      <div className="container">
-        <div className="row">
-          {displayData}
-        </div>
+      <div className="row">
+        <SignUpForm
+          formParams={this.state.formParams}
+          onChange={this.updateFormState}
+          onSubmit={this.onSubmit}
+          errors={this.state.errors} />
       </div>
     );
   }

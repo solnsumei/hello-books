@@ -1,25 +1,32 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Switch, Route } from 'react-router-dom';
-import LoginForm from './auth/LoginForm';
+import LoginPage from './auth/LoginPage';
 import SignUpPage from './auth/SignUpPage';
+import IsAuthenticated from './common/IsAuthenticated';
+import PreventAuthenticatedUsers from './common/PreventAuthenticatedUsers';
+import ProfilePage from './users/ProfilePage';
 import CatalogPage from './book/CatalogPage';
 import BookDetailPage from './book/BookDetailPage';
 import BorrowHistoryPage from './users/BorrowHistoryPage';
-import ProfilePage from './users/ProfilePage';
 
-const Routes = () => (
-  <section id="content">
+const Routes = props => (
+  <main>
     <br/>
     <Switch>
-      <Route exact path='/' component={LoginForm} />
-      <Route path='/login' component={LoginForm} />
-      <Route path='/register' component={SignUpPage} />
-      <Route path='/catalog' component={CatalogPage} />
-      <Route path='/book-detail' component={BookDetailPage} />
-      <Route path='/borrow-history' component={BorrowHistoryPage} />
-      <Route path="/profile" component={ProfilePage} />
+      <Route exact path='/' component={PreventAuthenticatedUsers(LoginPage)} />
+      <Route path='/login' component={PreventAuthenticatedUsers(LoginPage)} />
+      <Route path='/register' component={PreventAuthenticatedUsers(SignUpPage)} />
+      <Route path='/profile' component={IsAuthenticated(ProfilePage)} />
+      <Route path='/book-detail' component={IsAuthenticated(BookDetailPage)} />
+      <Route path='/catalog' component={IsAuthenticated(CatalogPage)} />
+      <Route path='/borrow-history' component={IsAuthenticated(BorrowHistoryPage)} />
     </Switch>
-  </section>
+  </main>
 );
+
+Routes.propTypes = {
+  user: PropTypes.object
+};
 
 export default Routes;

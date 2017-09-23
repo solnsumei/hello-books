@@ -6,10 +6,16 @@ import initialState from './initialState';
  * @param {object} action
  * @returns {object} state
  */
-export default function (state = '', action) {
+export default function (state = initialState.user, action) {
   switch (action.type) {
-    case types.LOGIN_USER_SUCCESS:
-      return [...state, Object.assign({}, action.user)];
+    case types.USER_AUTH_SUCCESS:
+      return Object.assign({}, ...state, action.user);
+
+    case types.USER_AUTH_FAILED:
+      return state;
+
+    case types.SIGN_OUT_USER:
+      return Object.assign({}, ...state, {});
 
     default:
       return state;

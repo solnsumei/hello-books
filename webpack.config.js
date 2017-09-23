@@ -15,6 +15,12 @@ module.exports = {
     filename: 'bundle.js',
     publicPath: '/app/',
   },
+  node: {
+    dns: 'empty',
+    fs: 'empty',
+    net: 'empty',
+    tls: 'empty'
+  },
   devServer: {
     port: 8080,
     historyApiFallback: true,

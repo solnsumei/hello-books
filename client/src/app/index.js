@@ -1,3 +1,4 @@
+import 'babel-polyfill';
 import React from 'react';
 import 'jquery';
 import { render } from 'react-dom';
@@ -11,10 +12,12 @@ import './js/site';
 
 import App from './components/App';
 import configureStore from './store/configureStore';
+import { checkAuthentication } from './actions/userActions';
 
 const history = createBrowserHistory();
 
 const store = configureStore();
+store.dispatch(checkAuthentication());
 
 render(
   <Provider store={store}>

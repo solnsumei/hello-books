@@ -134,8 +134,11 @@ export default {
           const token = jwt.sign({ user: {
             id: user.id,
             username: user.username,
+            firstName: user.firstName,
+            surname: user.surname,
             email: user.email,
-            admin: user.admin
+            admin: user.admin,
+            membershipType: user.membershipType
           } }, process.env.SECRET, {
             expiresIn: 60 * 60 * 2
           });
