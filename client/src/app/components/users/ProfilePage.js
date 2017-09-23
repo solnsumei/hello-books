@@ -1,5 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import UserDetail from './UserDetail';
 import BorrowedItem from './BorrowedItem';
 import TopTitle from '../common/TopTitle';
@@ -7,19 +9,17 @@ import TopTitle from '../common/TopTitle';
 /**
  *
  */
-export default class ProfilePage extends React.Component {
+class ProfilePage extends React.Component {
 /**
  * [render description]
  * @return {[type]} [description]
  */
   render() {
+    const { user } = this.props;
     return (
       <div>
         <div className="row">
-          <UserDetail name="Solomon Nsumei"
-            email="solnsumei@gmail.com"
-            username="solmei"
-            membershipType="Gold" />
+          <UserDetail user={user} />
 
           <div className="col s12 m8">
             <TopTitle icon="book" title="Books Not Returned" />
@@ -50,7 +50,7 @@ export default class ProfilePage extends React.Component {
             </table>
 
             <small>
-              <Link to="/borrow-history" className="btn waves-effect waves-light gray black-text">
+              <Link to="/borrow-history" className="btn waves-effect waves-light grey black-text">
                   History
               </Link>
             </small>
@@ -61,3 +61,13 @@ export default class ProfilePage extends React.Component {
     );
   }
 }
+
+ProfilePage.propTypes = {
+  user: PropTypes.object.isRequired
+};
+
+const mapStateToProps = (state, ownProps) => ({
+  user: state.user,
+});
+
+export default connect(mapStateToProps)(ProfilePage);

@@ -23,6 +23,7 @@ class App extends React.Component {
 
     this.doLogout = this.doLogout.bind(this);
   }
+
   /**
    * [doLogout description]
    * @method doLogout
@@ -43,7 +44,7 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <Header user={this.props.user} logout={this.doLogout}/>
+        <Header title={this.props.title} user={this.props.user} logout={this.doLogout}/>
         <Routes user={this.props.user}/>
       </div>
     );
