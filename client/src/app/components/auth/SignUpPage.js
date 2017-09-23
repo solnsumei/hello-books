@@ -24,6 +24,7 @@ class SignUpPage extends React.Component {
     this.updateFormState = this.updateFormState.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
+
   /**
    * @param {object} event
    * @returns {object} state
@@ -66,7 +67,8 @@ class SignUpPage extends React.Component {
 }
 
 SignUpPage.propTypes = {
-  signUpRequest: PropTypes.func.isRequired
+  signUpRequest: PropTypes.func.isRequired,
+  setTitle: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state, ownProps) => {
@@ -84,7 +86,7 @@ const mapStateToProps = (state, ownProps) => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  signUpRequest: userData => dispatch(userSignUpRequest(userData))
+  signUpRequest: userData => dispatch(userSignUpRequest(userData)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SignUpPage);

@@ -10,17 +10,24 @@ export default (ComposedComponent) => {
    */
   class IsAuthenticated extends React.Component {
     /**
+     * [redirectToLogin description]
+     * @method redirectToLogin
+     * @return {[type]}        [description]
+     */
+    redirectToLogin() {
+      if (!this.props.user.username) {
+        this.props.setRedirectUrl(this.props.currentURL);
+        this.props.history.replace('/login');
+      }
+    }
+
+    /**
      * [componentDidMount description]
      * @method componentDidMount
      * @return {[type]}          [description]
      */
     componentDidMount() {
-      const { currentURL, user, history, redirectUrl } = this.props;
-
-      if (!user.username) {
-        this.props.setRedirectUrl(currentURL);
-        history.replace('/login');
-      }
+      this.redirectToLogin();
     }
 
     /**
@@ -30,10 +37,7 @@ export default (ComposedComponent) => {
      * @return {[type]} [description]
      */
     componentDidUpdate(prevProps) {
-      if (prevProps.user.username && !this.props.user.username) {
-        this.props.setRedirectUrl(this.props.currentURL);
-        this.props.history.replace('/login');
-      }
+      this.redirectToLogin();
     }
 
     /**

@@ -34,7 +34,7 @@ export default (ComposedComponent) => {
      * @return {[type]}                     [description]
      */
     componentDidUpdate(prevProps) {
-      if (!prevProps.user.username && this.props.user.username) {
+      if (this.props.user.username) {
         if (!this.props.redirectUrl) {
           history.replace('/profile');
         } else {

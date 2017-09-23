@@ -10,10 +10,10 @@ import TopTitle from '../common/TopTitle';
  *
  */
 class ProfilePage extends React.Component {
-/**
- * [render description]
- * @return {[type]} [description]
- */
+  /**
+  * [render description]
+  * @return {[type]} [description]
+  */
   render() {
     const { user } = this.props;
     return (

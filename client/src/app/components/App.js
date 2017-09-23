@@ -53,11 +53,13 @@ class App extends React.Component {
 
 App.propTypes = {
   user: PropTypes.object,
+  pageTitle: PropTypes.string,
   logoutUser: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state, ownProps) => ({
-  user: state.user
+  user: state.user,
+  pageTitle: state.pageTitle
 });
 
 const mapDispatchToProps = dispatch => ({

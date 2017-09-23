@@ -4,7 +4,7 @@ import redirectUrl from './redirectReducer';
 
 const rootReducer = combineReducers({
   user,
-  redirectUrl
+  redirectUrl,
 });
 
 export default rootReducer;
