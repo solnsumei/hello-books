@@ -33,7 +33,7 @@ class BookDetailPage extends React.Component {
     </article>;
 
     return (
-      <div className="container">
+      <div>
         <Book
           title="Follow the Morning Star"
           coverPic="https://solnsumei.github.io/hello-books/template/img/page-3_img01.jpg"

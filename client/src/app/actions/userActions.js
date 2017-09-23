@@ -8,23 +8,26 @@ import types from './actionTypes';
 // axios.defaults.headers.post['Content-Type'] = 'application/json';
 
 const SECRET = 'Wd123faghye@thyggejjd231';
-const USER_TOKEN = 'userToken';
 
 // check token passed in and set user accordingly
 const setAuthUser = (token = null) => {
-  const userToken = localStorage.getItem('userToken');
+  const userToken = localStorage.getItem(types.USER_TOKEN);
 
   if (!token && !userToken) return false;
 
   const decoded = jwt.verify((!token ? userToken : token), SECRET);
   if (!decoded) {
     if (userToken) {
-      localStorage.removeItem(USER_TOKEN);
+      localStorage.removeItem(types.USER_TOKEN);
     }
     return false;
   }
   return decoded.user;
 };
+
+const signOutUser = () => ({
+  type: types.SIGN_OUT_USER
+});
 
 const userAuthSuccess = user => ({
   type: types.USER_AUTH_SUCCESS, user
@@ -43,15 +46,24 @@ const checkAuthentication = () => (dispatch) => {
   return dispatch(userAuthSuccess(user));
 };
 
+const logoutRequest = () => (dispatch) => {
+  const userToken = localStorage.getItem(types.USER_TOKEN);
+  if (userToken) {
+    localStorage.removeItem(types.USER_TOKEN);
+    return dispatch(signOutUser());
+  }
+  return dispatch(userAuthFailed());
+};
+
 const userSignUpRequest = userData => dispatch =>
   axios.post('/api/v1/users/signup', userData);
 
 const loginRequest = loginData => dispatch =>
   axios.post('/api/v1/users/signin', loginData)
     .then(({ data }) => {
-      localStorage.setItem(USER_TOKEN, data.token);
+      localStorage.setItem(types.USER_TOKEN, data.token);
       const user = setAuthUser(data.token);
       return dispatch(userAuthSuccess(user));
     });
 
-export { loginRequest, userSignUpRequest, userAuthSuccess, checkAuthentication };
+export { loginRequest, userSignUpRequest, userAuthSuccess, checkAuthentication, logoutRequest };

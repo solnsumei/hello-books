@@ -26,8 +26,8 @@ export default (ComposedComponent) => {
     /**
      * [componentDidUpdate description]
      * @method componentDidUpdate
-     * @param  {[type]}           prevProps [description]
-     * @return {[type]}                     [description]
+     * @param  {[type]} prevProps [description]
+     * @return {[type]} [description]
      */
     componentDidUpdate(prevProps) {
       if (prevProps.user.username && !this.props.user.username) {

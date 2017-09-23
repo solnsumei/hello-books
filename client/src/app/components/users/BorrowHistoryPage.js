@@ -12,7 +12,7 @@ export default class BorrowHistoryPage extends React.Component {
  */
   render() {
     return (
-      <div className="container">
+      <div>
         <div className="row">
           <div className="col s12">
 

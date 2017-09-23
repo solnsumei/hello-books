@@ -55,14 +55,12 @@ class SignUpPage extends React.Component {
    */
   render() {
     return (
-      <div className="container">
-        <div className="row">
-          <SignUpForm
-            formParams={this.state.formParams}
-            onChange={this.updateFormState}
-            onSubmit={this.onSubmit}
-            errors={this.state.errors} />
-        </div>
+      <div className="row">
+        <SignUpForm
+          formParams={this.state.formParams}
+          onChange={this.updateFormState}
+          onSubmit={this.onSubmit}
+          errors={this.state.errors} />
       </div>
     );
   }

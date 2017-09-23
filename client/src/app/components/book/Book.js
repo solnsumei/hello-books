@@ -54,12 +54,14 @@ class Book extends React.Component {
             </Link>
           </div>
           <div className="col s8 m7">
-            <h4>
+            <h4 className="top">
               <Link to={this.props.link}>{this.props.title}</Link>
             </h4>
-            <p className="offset-3">By {this.props.author}</p>
-            <p>({this.props.category})</p>
-            <p>{this.props.numberOfPages} pages</p>
+            <div className="book-details">
+              <p className="offset-3">By {this.props.author}</p>
+              <p>({this.props.category})</p>
+              <p>{this.props.numberOfPages} pages</p>
+            </div>
             <p> <Link to={this.props.link}>Details »</Link></p>
           </div>
         </div>

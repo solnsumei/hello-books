@@ -11,7 +11,7 @@ import BookDetailPage from './book/BookDetailPage';
 import BorrowHistoryPage from './users/BorrowHistoryPage';
 
 const Routes = props => (
-  <section id="content">
+  <main>
     <br/>
     <Switch>
       <Route exact path='/' component={PreventAuthenticatedUsers(LoginPage)} />
@@ -22,7 +22,7 @@ const Routes = props => (
       <Route path='/catalog' component={IsAuthenticated(CatalogPage)} />
       <Route path='/borrow-history' component={IsAuthenticated(BorrowHistoryPage)} />
     </Switch>
-  </section>
+  </main>
 );
 
 Routes.propTypes = {
