@@ -145,7 +145,20 @@ ProfilePage.propTypes = {
 
 const mapStateToProps = (state, ownProps) => ({
   user: state.user,
-  editUser: false
+  editUser: false,
+  membershipTypes: [{
+    value: 'Gold',
+    text: 'Gold'
+  }, {
+    value: 'Silver',
+    text: 'Silver'
+  }, {
+    value: 'Bronze',
+    text: 'Bronze'
+  }, {
+    value: 'Free',
+    text: 'Free'
+  }]
 });
 
 export default connect(mapStateToProps)(ProfilePage);

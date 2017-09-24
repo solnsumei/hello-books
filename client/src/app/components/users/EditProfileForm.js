@@ -6,7 +6,8 @@ import TextInput from '../common/TextInput';
 import SelectInput from '../common/SelectInput';
 
 
-const EditProfileForm = ({ user, onSubmit, closeForm, onChange, loading, errors }) => (
+const EditProfileForm = ({ user, onSubmit, membershipTypes,
+  closeForm, onChange, loading, errors }) => (
   <form onSubmit={onSubmit} className="col s12 m4">
     <div className="card">
       <div className="card-content">
@@ -33,6 +34,16 @@ const EditProfileForm = ({ user, onSubmit, closeForm, onChange, loading, errors 
         <TextInput type="text" name="surname" active={true} label="Surname"
           value={user.surname} onChange={onChange} error={errors.surname}
           errorMsg="This field is required" required="required" />
+
+        <SelectInput
+          name="membershipType"
+          active={true}
+          label="Membership Type"
+          value={user.membershipType}
+          defaultOption="Select Membership Type"
+          options={membershipTypes}
+          onChange={onChange}
+          error={errors.membershipType} />
 
       </div>
       <div className="card-action">

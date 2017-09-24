@@ -28,6 +28,8 @@ export default (ComposedComponent) => {
      */
     componentDidMount() {
       this.redirectToLogin();
+      $('.modal').modal();
+      $('select').material_select();
     }
 
     /**
