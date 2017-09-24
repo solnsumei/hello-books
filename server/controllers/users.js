@@ -1,5 +1,5 @@
 import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
+import createToken from '../helpers/token';
 import db from '../models/index';
 
 /**
@@ -7,7 +7,6 @@ import db from '../models/index';
  * @export userController
  */
 export default {
-
   // Create a user account in database
   create(req, res) {
     return db.User
@@ -18,12 +17,18 @@ export default {
         email: req.body.email,
         password: req.body.password,
       })
-      .then(user => res.status(201).send({ message: 'User created successfully',
-        user: {
-          name: `${user.firstName} ${user.surname}`,
+      .then((user) => {
+        const token = createToken(user);
+        if (!token) {
+          return res.status(500).send({ error: 'Request could not be processed, please try again later' });
+        }
+        // Return logged in user
+        return res.status(201).send({
+          message: 'User created successfully',
           username: user.username,
-          email: user.email
-        } }))
+          token
+        });
+      })
       .catch((error) => {
         if (error.name === 'SequelizeValidationError' ||
           error.name === 'SequelizeUniqueConstraintError') {
@@ -37,7 +42,7 @@ export default {
           return res.status(400).send({ errors });
         }
 
-        return res.status(503).send({
+        return res.status(500).send({
           error: 'Request could not be processed, please try again later'
         });
       });
@@ -131,17 +136,10 @@ export default {
           return res.status(401).send({ error: 'Username and/or password is incorrect' });
         } else if (bcrypt.compareSync(req.body.password, user.password)) {
           // Create token
-          const token = jwt.sign({ user: {
-            id: user.id,
-            username: user.username,
-            firstName: user.firstName,
-            surname: user.surname,
-            email: user.email,
-            admin: user.admin,
-            membershipType: user.membershipType
-          } }, process.env.SECRET, {
-            expiresIn: 60 * 60 * 2
-          });
+          const token = createToken(user);
+          if (!token) {
+            return res.status(500).send({ error: 'Request could not be processed, please try again later' });
+          }
           // Return logged in user
           return res.status(200).send({
             username: user.username,
@@ -152,11 +150,6 @@ export default {
       }).catch(error => res.status(500).send({
         error: 'Request could not be processed, please try again later'
       }));
-  },
-
-  // Authenticate users
-  logout(req, res) {
-
   },
 
   // Borrow book

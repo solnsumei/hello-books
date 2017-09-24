@@ -18,11 +18,10 @@ class SignUpPage extends React.Component {
     this.state = {
       formParams: Object.assign({}, this.props.formParams),
       errors: {},
-      successData: {}
     };
 
     this.updateFormState = this.updateFormState.bind(this);
-    this.onSubmit = this.onSubmit.bind(this);
+    this.onRegistrationSubmit = this.onRegistrationSubmit.bind(this);
   }
 
   /**
@@ -40,13 +39,15 @@ class SignUpPage extends React.Component {
    * @param {object} event
    * @return {object} state
    */
-  onSubmit(event) {
+  onRegistrationSubmit(event) {
     event.preventDefault();
+    this.setState({ errors: {} });
     this.props.signUpRequest(this.state.formParams)
-      .then(({ data }) => {
-        this.props.history.push('/');
-      })
-      .catch(({ response }) => this.setState({ errors: response.data.errors }));
+      .catch(({ response }) => {
+        if (response.data.errors) {
+          return this.setState({ errors: response.data.errors });
+        }
+      });
   }
 
   /**
@@ -59,7 +60,7 @@ class SignUpPage extends React.Component {
         <SignUpForm
           formParams={this.state.formParams}
           onChange={this.updateFormState}
-          onSubmit={this.onSubmit}
+          onSubmit={this.onRegistrationSubmit}
           errors={this.state.errors} />
       </div>
     );
@@ -68,7 +69,6 @@ class SignUpPage extends React.Component {
 
 SignUpPage.propTypes = {
   signUpRequest: PropTypes.func.isRequired,
-  setTitle: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state, ownProps) => {

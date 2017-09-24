@@ -9,25 +9,17 @@ body{
     font-smoothing: antialiased;
 }
 
-header, main, footer {
-  padding-left: 250px;
-}
-
-.side-nav {
-  width: 250px;
-}
-
-@media only screen and (max-width : 992px) {
-    header, main, footer {
-        padding-left: 0;
-    }
-    .side-nav {
-      width: 300px;
-    }
+nav .brand-logo {
+  padding-left: 15px;
+  font-size: 1.8rem;
 }
 
 .input-field.col label {
   width:100% !important;
+}
+
+.top-padding {
+  padding-top: 15px !important;
 }
 
 * {
@@ -74,8 +66,7 @@ h4{font-size:18px; font-weight: 400}
 }
 
 .active-nav {
-  background-color: teal;
-  color: #fffffc !important;
+  background-color: #ccc;
 }
 
 .container-full-height {

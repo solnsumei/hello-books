@@ -5,8 +5,8 @@ import { withRouter } from 'react-router-dom';
 import Routes from './Routes';
 import Header from './common/Header';
 import { logoutRequest } from '../actions/userActions';
+import routeTitles from '../helpers/constants';
 
-const protectedRoutes = ['/catalog', '/book-detail', '/borrow-history', '/profile'];
 /**
  * [propTypes description]
  * @type {Object}
@@ -44,8 +44,9 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <Header title={this.props.title} user={this.props.user} logout={this.doLogout}/>
-        <Routes user={this.props.user}/>
+        <Header title={routeTitles(this.props.pathname)}
+          user={this.props.user} logout={this.doLogout}/>
+        <Routes />
       </div>
     );
   }
@@ -53,13 +54,13 @@ class App extends React.Component {
 
 App.propTypes = {
   user: PropTypes.object,
-  pageTitle: PropTypes.string,
+  pathname: PropTypes.string,
   logoutUser: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state, ownProps) => ({
   user: state.user,
-  pageTitle: state.pageTitle
+  pathname: ownProps.location.pathname
 });
 
 const mapDispatchToProps = dispatch => ({
