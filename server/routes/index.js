@@ -14,6 +14,7 @@ import validateBook from '../middlewares/validatebook';
 import checkBook from '../middlewares/checkbook';
 import userCanBorrow from '../middlewares/usercanborrow';
 import profileUpdateRequest from '../middlewares/profileupdaterequest';
+import editMembershipTypeRequest from '../middlewares/editmembershiptyperequest';
 import checkMembershipType from '../middlewares/checkmembershiptype';
 import { categoryRequest, validateCategoryId, validateCategoryIdParam } from '../middlewares/categoryrequest';
 
@@ -44,7 +45,7 @@ router.get('/users/:userId/books', validateUser, usersController.borrowHistory);
 // Admin middleware to check if user is an admin
 router.use(adminMiddleware);
 
-router.put('/membershiptypes/:membershipTypeId', membershipController.update);
+router.put('/membershiptypes/:membershipTypeId', editMembershipTypeRequest, membershipController.update);
 
 router.post('/categories', categoryRequest, categoriesController.create);
 
