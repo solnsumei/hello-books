@@ -1,9 +1,11 @@
 import React from 'react';
+import toastr from 'toastr';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import UserDetail from './UserDetail';
 import BorrowedItem from './BorrowedItem';
+import EditProfileForm from './EditProfileForm';
 import TopTitle from '../common/TopTitle';
 
 /**
@@ -11,15 +13,89 @@ import TopTitle from '../common/TopTitle';
  */
 class ProfilePage extends React.Component {
   /**
+   * [constructor description]
+   * @method constructor
+   * @param  {[type]}    props [description]
+   * @return {[type]}          [description]
+   */
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      user: Object.assign({}, this.props.user),
+      errors: {},
+      editUser: this.props.editUser
+    };
+
+    this.onShowUpdateForm = this.onShowUpdateForm.bind(this);
+    this.updateUser = this.updateUser.bind(this);
+    this.closeEditProfileForm = this.closeEditProfileForm.bind(this);
+  }
+
+  /**
+   * [updateUser description]
+   * @method updateUser
+   * @param  {[type]}   event [description]
+   * @return {[type]}         [description]
+   */
+  updateUser(event) {
+    event.preventDefault();
+    this.setState({ errors: {} });
+  }
+
+  /**
+   * @param {object} event
+   * @returns {object} state
+   */
+  updateFormState(event) {
+    const field = event.target.name;
+    const user = this.state.user;
+    user[field] = event.target.value;
+    return this.setState({ user });
+  }
+
+  /**
+   * [onShowUpdateForm description]
+   * @method onShowUpdateForm
+   * @param  {[type]}         event [description]
+   * @return {[type]}               [description]
+   */
+  onShowUpdateForm(event) {
+    event.preventDefault();
+    this.setState({ editUser: true });
+  }
+
+  /**
+   * [closeEditProfileForm description]
+   * @method onShowUpdateForm
+   * @param  {[type]}         event [description]
+   * @return {[type]}               [description]
+   */
+  closeEditProfileForm(event) {
+    event.preventDefault();
+    this.setState({ editUser: false });
+  }
+  /**
   * [render description]
   * @return {[type]} [description]
   */
   render() {
-    const { user } = this.props;
     return (
       <div>
         <div className="row">
-          <UserDetail user={user} />
+          { !this.state.editUser ? <UserDetail
+            user={this.props.user}
+            onClickEdit={this.onShowUpdateForm}
+          /> :
+            <EditProfileForm
+              membershipTypes={this.props.membershipTypes}
+              closeForm={this.closeEditProfileForm}
+              user={this.props.user}
+              onChange={this.updateFormState}
+              onSubmit={this.updateUser}
+              errors={this.state.errors}/>
+          }
+
 
           <div className="col s12 m8">
             <TopTitle icon="book" title="Books Not Returned" />
@@ -63,11 +139,13 @@ class ProfilePage extends React.Component {
 }
 
 ProfilePage.propTypes = {
-  user: PropTypes.object.isRequired
+  user: PropTypes.object.isRequired,
+  editUser: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = (state, ownProps) => ({
   user: state.user,
+  editUser: false
 });
 
 export default connect(mapStateToProps)(ProfilePage);

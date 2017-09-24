@@ -1,11 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const UserDetail = ({ user }) => (
+const UserDetail = ({ user, onClickEdit }) => (
   <div className="col s12 m4">
     <div className="card">
       <div className="card-content profile">
-        <h3 className="card-title teal-text"><strong>Profile</strong></h3>
+        <span className="card-title teal-text"><strong>Profile</strong></span>
 
         <div className="divider"></div>
         <br />
@@ -23,13 +23,14 @@ const UserDetail = ({ user }) => (
         <div className="divider"></div>
 
         <p><strong><i className="material-icons">wc</i> Membership Type:</strong></p>
-        <h4>{user.membershipType}</h4>
-
-      </div>
-      <div className="card-action">
-        <button className="btn waves-effect waves-light teal" name="action">
-          <i className="material-icons">edit</i> Edit Profile
-        </button>
+        <h4>{user.membershipType}
+          <a href="#" title="edit profile"
+            className="right btn-floating waves-effect waves-light teal"
+            onClick={onClickEdit}
+            name="action">
+            <i className="material-icons">edit</i>
+          </a>
+        </h4>
       </div>
     </div>
   </div>

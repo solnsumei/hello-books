@@ -16,10 +16,10 @@ const Header = ({ user, logout, title }) => {
     <header>
       <nav className="teal">
         <div className="nav-wrapper">
-          <Link to="/" className="brand-logo">
+          <Link to="/" className="brand-logo center">
             <i className="material-icons prefix">local_library</i> Hello Books
           </Link>
-          <a href="#" data-activates="mobile-demo" className="button-collapse show-on-large-only">
+          <a href="#" data-activates="mobile-demo" className="button-collapse show-on-large">
             <i className="material-icons">menu</i>
           </a>
           <ul className="right hide-on-med-and-down">

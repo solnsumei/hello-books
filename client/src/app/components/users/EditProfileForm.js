@@ -3,13 +3,21 @@ import PropTypes from 'prop-types';
 import lodash from 'lodash';
 import { Link } from 'react-router-dom';
 import TextInput from '../common/TextInput';
+import SelectInput from '../common/SelectInput';
 
 
-const SignUpForm = ({ formParams, onSubmit, onChange, loading, errors }) => (
-  <form onSubmit={onSubmit} className="col s12 m6 offset-m3">
+const EditProfileForm = ({ user, onSubmit, closeForm, onChange, loading, errors }) => (
+  <form onSubmit={onSubmit} className="col s12 m4">
     <div className="card">
       <div className="card-content">
-        <span className="card-title">Edit Profile</span>
+        <span className="card-title">
+          Edit Profile
+          <a href="#" title="cancel" onClick={closeForm} className="right">
+            <small className="right-align">
+              <i className="material-icons">close</i>
+            </small>
+          </a>
+        </span>
         <div className="divider"></div>
         <br />
 
@@ -18,12 +26,12 @@ const SignUpForm = ({ formParams, onSubmit, onChange, loading, errors }) => (
           : ''
         }
 
-        <TextInput type="text" name="firstName" label="First name"
-          value={formParams.firstName} onChange={onChange} error={errors.firstName}
+        <TextInput type="text" name="firstName" label="First name" active={true}
+          value={user.firstName} onChange={onChange} error={errors.firstName}
           errorMsg="This field is required" required="required" />
 
-        <TextInput type="text" name="surname" label="Surname"
-          value={formParams.surname} onChange={onChange} error={errors.surname}
+        <TextInput type="text" name="surname" active={true} label="Surname"
+          value={user.surname} onChange={onChange} error={errors.surname}
           errorMsg="This field is required" required="required" />
 
       </div>
@@ -40,12 +48,12 @@ const SignUpForm = ({ formParams, onSubmit, onChange, loading, errors }) => (
   </form>
 );
 
-SignUpForm.propTypes = {
-  formParams: PropTypes.object.isRequired,
+EditProfileForm.propTypes = {
+  user: PropTypes.object.isRequired,
   onSubmit: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
   loading: PropTypes.bool,
   errors: PropTypes.object
 };
 
-export default SignUpForm;
+export default EditProfileForm;
