@@ -1,7 +1,7 @@
 import db from '../models/index';
 
 /**
- * Controller for adding, updating and get all books
+ * Controller for fetching, updating membershiptypes
  * @exports {Object} booksController
  */
 export default {

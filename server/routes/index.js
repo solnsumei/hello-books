@@ -2,6 +2,7 @@ import express from 'express';
 import usersController from '../controllers/users';
 import categoriesController from '../controllers/categories';
 import booksController from '../controllers/books';
+import membershipController from '../controllers/membershiptypes';
 import authMiddleware from '../middlewares/auth';
 import adminMiddleware from '../middlewares/admin';
 import checkLogin from '../middlewares/checklogin';
@@ -28,6 +29,8 @@ router.use(authMiddleware);
 
 router.put('/users/profile', profileUpdateRequest, checkMembershipType, usersController.updateProfile);
 
+router.get('/membershiptypes', membershipController.getAllMemberShipTypes);
+
 router.get('/books', booksController.getAllBooks);
 
 router.post('/users/:userId/books', validateUser, userCanBorrow, validateBook,
@@ -40,6 +43,8 @@ router.get('/users/:userId/books', validateUser, usersController.borrowHistory);
 
 // Admin middleware to check if user is an admin
 router.use(adminMiddleware);
+
+router.put('/membershiptypes/:membershipTypeId', membershipController.update);
 
 router.post('/categories', categoryRequest, categoriesController.create);
 
