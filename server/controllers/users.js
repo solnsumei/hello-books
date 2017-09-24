@@ -51,35 +51,48 @@ export default {
   // Update a user account in database
   updateProfile(req, res) {
     return db.User
-      .update({
-        firstName: req.body.firstName,
-        surname: req.body.surname,
-        membershipType: req.body.membershipType
-      }, { where: {
-        id: req.auth.id
-      } })
-      .then((result) => {
-        if (result) {
-          return res.status(200).send({
-            success: true,
-            message: 'User profile updated successfully',
-          });
-        }
-        return res.status(500).send({ error: 'User profile could not be updated at this time, please try again later' });
-      })
-      .catch((error) => {
-        if (error.name === 'SequelizeValidationError') {
-          const errors = {};
-          error.errors.forEach((err) => {
-            errors[err.path] = err.message;
-          });
-          return res.status(400).send({ errors });
-        }
+      .findById(req.auth.id)
+      .then((user) => {
+        if (user) {
+          user.update({
+            firstName: req.body.firstName,
+            surname: req.body.surname,
+            membershipType: req.body.membershipType
+          })
+            .then((result) => {
+              if (result) {
+                const token = createToken(user);
+                if (!token) {
+                  return res.status(500).send({ error: 'Request could not be processed, please try again later' });
+                }
+                // Return logged in user
+                return res.status(200).send({
+                  success: true,
+                  message: 'User profile updated successfully',
+                  username: user.username,
+                  token
+                });
+              }
+              return res.status(500).send({ error: 'User profile could not be updated at this time, please try again later' });
+            })
+            .catch((error) => {
+              if (error.name === 'SequelizeValidationError') {
+                const errors = {};
+                error.errors.forEach((err) => {
+                  errors[err.path] = err.message;
+                });
+                return res.status(400).send({ errors });
+              }
 
-        return res.status(500).send({
-          error: 'Request could not be processed, please try again later'
-        });
-      });
+              return res.status(500).send({
+                error: 'Request could not be processed, please try again later'
+              });
+            });
+        }
+      })
+      .catch(error => res.status(500).send({
+        error: 'Request could not be processed, please try again later'
+      }));
   },
 
   // Change password
