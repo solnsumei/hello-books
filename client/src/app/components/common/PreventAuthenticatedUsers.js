@@ -10,21 +10,27 @@ export default (ComposedComponent) => {
    */
   class PreventAuthenticatedUsers extends React.Component {
     /**
+     * [checkAndRedirectUser description]
+     * @method checkAndRedirectUser
+     * @return {[type]}             [description]
+     */
+    checkAndRedirectUser() {
+      if (this.props.user.username) {
+        if (!this.props.redirectUrl) {
+          this.props.history.replace('/profile');
+        } else {
+          this.props.history.replace(this.props.redirectUrl);
+          this.props.setRedirectUrl('');
+        }
+      }
+    }
+    /**
      * [componentDidMount description]
      * @method componentDidMount
      * @return {[type]}          [description]
      */
     componentDidMount() {
-      const { currentURL, user, history, redirectUrl } = this.props;
-
-      if (user.username) {
-        if (!redirectUrl) {
-          history.replace('/profile');
-        } else {
-          history.replace(redirectUrl);
-          this.props.setRedirectUrl('');
-        }
-      }
+      this.checkAndRedirectUser();
     }
 
     /**
@@ -34,14 +40,7 @@ export default (ComposedComponent) => {
      * @return {[type]}                     [description]
      */
     componentDidUpdate(prevProps) {
-      if (!prevProps.user.username && this.props.user.username) {
-        if (!this.props.redirectUrl) {
-          history.replace('/profile');
-        } else {
-          this.props.history.replace(this.props.redirectUrl);
-          this.props.setRedirectUrl('');
-        }
-      }
+      this.checkAndRedirectUser();
     }
 
     /**

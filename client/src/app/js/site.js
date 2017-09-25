@@ -2,5 +2,4 @@
 /* eslint-disable */
 $(document).ready(() => {
   $('.button-collapse').sideNav();
-  $('.modal').modal();
 });

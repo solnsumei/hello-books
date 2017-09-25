@@ -2,6 +2,7 @@ import express from 'express';
 import usersController from '../controllers/users';
 import categoriesController from '../controllers/categories';
 import booksController from '../controllers/books';
+import membershipController from '../controllers/membershiptypes';
 import authMiddleware from '../middlewares/auth';
 import adminMiddleware from '../middlewares/admin';
 import checkLogin from '../middlewares/checklogin';
@@ -13,6 +14,7 @@ import validateBook from '../middlewares/validatebook';
 import checkBook from '../middlewares/checkbook';
 import userCanBorrow from '../middlewares/usercanborrow';
 import profileUpdateRequest from '../middlewares/profileupdaterequest';
+import editMembershipTypeRequest from '../middlewares/editmembershiptyperequest';
 import checkMembershipType from '../middlewares/checkmembershiptype';
 import { categoryRequest, validateCategoryId, validateCategoryIdParam } from '../middlewares/categoryrequest';
 
@@ -28,6 +30,8 @@ router.use(authMiddleware);
 
 router.put('/users/profile', profileUpdateRequest, checkMembershipType, usersController.updateProfile);
 
+router.get('/membershiptypes', membershipController.getAllMemberShipTypes);
+
 router.get('/books', booksController.getAllBooks);
 
 router.post('/users/:userId/books', validateUser, userCanBorrow, validateBook,
@@ -40,6 +44,8 @@ router.get('/users/:userId/books', validateUser, usersController.borrowHistory);
 
 // Admin middleware to check if user is an admin
 router.use(adminMiddleware);
+
+router.put('/membershiptypes/:membershipTypeId', editMembershipTypeRequest, membershipController.update);
 
 router.post('/categories', categoryRequest, categoriesController.create);
 

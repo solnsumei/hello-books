@@ -13,7 +13,7 @@ export default (sequelize, DataTypes) => {
           msg: 'First name is required'
         },
         isAlphanumeric: {
-          msg: 'First name must me alphanumeric'
+          msg: 'First name must be alphanumeric'
         },
         len: {
           args: [2, 30],
@@ -32,7 +32,7 @@ export default (sequelize, DataTypes) => {
           msg: 'Surname is required'
         },
         isAlphanumeric: {
-          msg: 'Surname must me alphanumeric'
+          msg: 'Surname must be alphanumeric'
         },
         len: {
           args: [2, 30],

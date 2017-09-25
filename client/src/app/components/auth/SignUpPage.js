@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import toastr from 'toastr';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import { Link } from 'react-router-dom';
 import SignUpForm from './SignUpForm';
 import SignUpSuccess from './SignUpSuccess';
@@ -19,12 +18,12 @@ class SignUpPage extends React.Component {
     this.state = {
       formParams: Object.assign({}, this.props.formParams),
       errors: {},
-      successData: {}
     };
 
     this.updateFormState = this.updateFormState.bind(this);
-    this.onSubmit = this.onSubmit.bind(this);
+    this.onRegistrationSubmit = this.onRegistrationSubmit.bind(this);
   }
+
   /**
    * @param {object} event
    * @returns {object} state
@@ -40,13 +39,15 @@ class SignUpPage extends React.Component {
    * @param {object} event
    * @return {object} state
    */
-  onSubmit(event) {
+  onRegistrationSubmit(event) {
     event.preventDefault();
+    this.setState({ errors: {} });
     this.props.signUpRequest(this.state.formParams)
-      .then(({ data }) => {
-        this.props.history.push('/');
-      })
-      .catch(({ response }) => this.setState({ errors: response.data.errors }));
+      .catch(({ response }) => {
+        if (response.data.errors) {
+          return this.setState({ errors: response.data.errors });
+        }
+      });
   }
 
   /**
@@ -59,7 +60,7 @@ class SignUpPage extends React.Component {
         <SignUpForm
           formParams={this.state.formParams}
           onChange={this.updateFormState}
-          onSubmit={this.onSubmit}
+          onSubmit={this.onRegistrationSubmit}
           errors={this.state.errors} />
       </div>
     );
@@ -67,7 +68,7 @@ class SignUpPage extends React.Component {
 }
 
 SignUpPage.propTypes = {
-  signUpRequest: PropTypes.func.isRequired
+  signUpRequest: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state, ownProps) => {
@@ -85,7 +86,7 @@ const mapStateToProps = (state, ownProps) => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  signUpRequest: userData => dispatch(userSignUpRequest(userData))
+  signUpRequest: userData => dispatch(userSignUpRequest(userData)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SignUpPage);

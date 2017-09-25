@@ -10,7 +10,7 @@ export default function profileUpdateRequest(req, res, next) {
   const errors = {};
 
   if (!req.body.firstName || !req.body.firstName.trim()) {
-    errors.firstName = 'FirstName is required';
+    errors.firstName = 'First name is required';
   }
 
   if (!req.body.surname || !req.body.surname.trim()) {

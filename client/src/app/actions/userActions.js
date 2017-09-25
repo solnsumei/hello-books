@@ -15,14 +15,15 @@ const setAuthUser = (token = null) => {
 
   if (!token && !userToken) return false;
 
-  const decoded = jwt.verify((!token ? userToken : token), SECRET);
-  if (!decoded) {
+  try {
+    const decoded = jwt.verify((!token ? userToken : token), SECRET);
+    return decoded.user;
+  } catch (err) {
     if (userToken) {
       localStorage.removeItem(types.USER_TOKEN);
     }
     return false;
   }
-  return decoded.user;
 };
 
 const signOutUser = () => ({
@@ -55,8 +56,13 @@ const logoutRequest = () => (dispatch) => {
   return dispatch(userAuthFailed());
 };
 
-const userSignUpRequest = userData => dispatch =>
-  axios.post('/api/v1/users/signup', userData);
+const updateUserAccount = userData => dispatch =>
+  axios.put('/api/v1/users/profile', userData)
+    .then(({ data }) => {
+      localStorage.setItem(types.USER_TOKEN, data.token);
+      const user = setAuthUser(data.token);
+      return dispatch(userAuthSuccess(user));
+    });
 
 const loginRequest = loginData => dispatch =>
   axios.post('/api/v1/users/signin', loginData)
@@ -66,4 +72,13 @@ const loginRequest = loginData => dispatch =>
       return dispatch(userAuthSuccess(user));
     });
 
-export { loginRequest, userSignUpRequest, userAuthSuccess, checkAuthentication, logoutRequest };
+const userSignUpRequest = userData => dispatch =>
+  axios.post('/api/v1/users/signup', userData)
+    .then(({ data }) => {
+      localStorage.setItem(types.USER_TOKEN, data.token);
+      const user = setAuthUser(data.token);
+      return dispatch(userAuthSuccess(user));
+    });
+
+export { loginRequest, userSignUpRequest, userAuthSuccess,
+  updateUserAccount, checkAuthentication, logoutRequest };

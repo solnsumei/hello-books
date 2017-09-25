@@ -1,37 +1,50 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { NavLink, Link } from 'react-router-dom';
 import AuthLinks from './AuthLinks';
 
-const Header = (props) => {
-  if (props.user && props.user.firstName) {
-    props.user.name = `${props.user.firstName} ${props.user.surname}`;
+const Header = ({ user, logout, title }) => {
+  let linkToShow =
+  <NavLink to="/" activeClassName="active-top">Login</NavLink>;
+
+  if (title === 'Home' || title === 'Login') {
+    linkToShow =
+    <NavLink to="/register" activeClassName="active-top">Join</NavLink>;
   }
 
   return (
     <header>
       <nav className="teal">
         <div className="nav-wrapper">
-          <a href="#" data-activates="mobile-demo" className="button-collapse">
+          <Link to="/" className="brand-logo center">
+            <i className="material-icons prefix">local_library</i> Hello Books
+          </Link>
+          <a href="#" data-activates="mobile-demo" className="button-collapse show-on-large">
             <i className="material-icons">menu</i>
           </a>
-          <ul className="side-nav fixed" id="mobile-demo">
-            <li>
-              <Link to="/" className="teal-text">
-                <i className="material-icons prefix teal-text">local_library</i>
-                  Hello Books
-              </Link>
-            </li>
+          <ul className="right hide-on-med-and-down">
+            <li><NavLink to="/catalog" activeClassName="active-top">Catalog</NavLink></li>
+            { user.firstName ?
+              <li>
+                <a href="#" onClick={logout}>
+                  Logout
+                </a>
+              </li>
+              :
+              <li>{linkToShow}</li> }
+          </ul>
+          <ul className="side-nav" id="mobile-demo">
             <li><NavLink to="/catalog" activeClassName="active-nav">Catalog</NavLink></li>
-            { props.user.name ?
+            { user.firstName ?
               <div>
                 <AuthLinks />
                 <li>
-                  <a href="#" onClick={props.logout}>
+                  <a href="#" onClick={logout}>
                     Logout
                   </a>
                 </li>
               </div>
-              : <li><NavLink to="/" activeClassName="active-nav">Login</NavLink></li> }
+              : <li>{linkToShow}</li> }
           </ul>
         </div>
       </nav>
@@ -39,5 +52,10 @@ const Header = (props) => {
   );
 };
 
+Header.propTypes = {
+  user: PropTypes.object,
+  title: PropTypes.string.isRequired,
+  logout: PropTypes.func.isRequired
+};
 
 export default Header;

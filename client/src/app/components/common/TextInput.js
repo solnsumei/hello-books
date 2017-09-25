@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 const TextInput = (
   { type, name, label, onChange, placeholder,
-    value, error, errorMsg, required }) => (
+    value, error, errorMsg, active, required }) => (
   <div className="row">
     <div className="input-field col s12">
       { type === 'textarea' ?
@@ -24,7 +24,7 @@ const TextInput = (
           required={required}
           onChange={onChange} />
       }
-      <label htmlFor={name} data-error={ !error ? errorMsg : error }>{label}</label>
+      <label htmlFor={name} className={active ? 'active' : ''} data-error={ !error ? errorMsg : error }>{label}</label>
     </div>
   </div>
 );
@@ -32,6 +32,7 @@ const TextInput = (
 TextInput.propTypes = {
   name: PropTypes.string.isRequired,
   value: PropTypes.string,
+  active: PropTypes.bool,
   label: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
   placeholder: PropTypes.string,
