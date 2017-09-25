@@ -3,8 +3,11 @@ import PropTypes from 'prop-types';
 
 const SelectInput = ({ name, active, label, onChange, defaultOption, value, error, options }) => (
   <div className="row">
-    <div className="input-field col s12">
+    <div className="col s12">
+      { error ? <label htmlFor={name} data-error={error}>{label}</label> :
+        <label htmlFor={name} className={active ? 'active' : ''} >{label}</label> }
       <select
+        className="browser-default"
         name={name}
         value={value}
         onChange={onChange}>
@@ -12,14 +15,13 @@ const SelectInput = ({ name, active, label, onChange, defaultOption, value, erro
           {defaultOption}
         </option>
         {options.map(option =>
-          <option key={option.value} value={option.value}>{option.text}</option>
+          <option key={option.value} value={option.value}>
+            {!option.text ? option.value : option.text}
+          </option>
         )}
       </select>
-      { error ? <label htmlFor={name} data-error={error}>{label}</label> :
-        <label htmlFor={name} className={active ? 'active' : ''} >{label}</label> }
     </div>
   </div>
-
 );
 
 SelectInput.propTypes = {

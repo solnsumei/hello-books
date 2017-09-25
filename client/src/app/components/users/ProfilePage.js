@@ -7,6 +7,7 @@ import UserDetail from './UserDetail';
 import BorrowedItem from './BorrowedItem';
 import EditProfileForm from './EditProfileForm';
 import TopTitle from '../common/TopTitle';
+import { updateUserAccount } from '../../actions/userActions';
 
 /**
  *
@@ -28,6 +29,7 @@ class ProfilePage extends React.Component {
     };
 
     this.onShowUpdateForm = this.onShowUpdateForm.bind(this);
+    this.updateFormState = this.updateFormState.bind(this);
     this.updateUser = this.updateUser.bind(this);
     this.closeEditProfileForm = this.closeEditProfileForm.bind(this);
   }
@@ -41,6 +43,8 @@ class ProfilePage extends React.Component {
   updateUser(event) {
     event.preventDefault();
     this.setState({ errors: {} });
+    this.props.dispatch(updateUserAccount(this.state.user))
+      .catch(({ response }) => this.setState({ errors: response.data.errors }));
   }
 
   /**
@@ -90,7 +94,7 @@ class ProfilePage extends React.Component {
             <EditProfileForm
               membershipTypes={this.props.membershipTypes}
               closeForm={this.closeEditProfileForm}
-              user={this.props.user}
+              user={this.state.user}
               onChange={this.updateFormState}
               onSubmit={this.updateUser}
               errors={this.state.errors}/>
@@ -140,25 +144,22 @@ class ProfilePage extends React.Component {
 
 ProfilePage.propTypes = {
   user: PropTypes.object.isRequired,
-  editUser: PropTypes.bool.isRequired
+  editUser: PropTypes.bool.isRequired,
+  updateFormState: PropTypes.func
 };
 
-const mapStateToProps = (state, ownProps) => ({
-  user: state.user,
-  editUser: false,
-  membershipTypes: [{
-    value: 'Gold',
-    text: 'Gold'
-  }, {
-    value: 'Silver',
-    text: 'Silver'
-  }, {
-    value: 'Bronze',
-    text: 'Bronze'
-  }, {
-    value: 'Free',
-    text: 'Free'
-  }]
-});
+const mapStateToProps = (state, ownProps) => {
+  const membershipTypesFormatted = state.membershipTypes.map(membershipType => (
+    {
+      value: membershipType.membershipType,
+      text: membershipType.membershipType
+    }));
+
+  return ({
+    user: state.user,
+    editUser: false,
+    membershipTypes: membershipTypesFormatted
+  });
+};
 
 export default connect(mapStateToProps)(ProfilePage);

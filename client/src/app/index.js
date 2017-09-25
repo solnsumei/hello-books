@@ -1,12 +1,12 @@
 import 'babel-polyfill';
 import React from 'react';
-import 'jquery';
 import { render } from 'react-dom';
 import { Router } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import createBrowserHistory from 'history/createBrowserHistory';
+import 'jquery';
 import 'materialize-css/dist/js/materialize';
-import '../scss/materialize.min.scss';
+import 'materialize-css/dist/css/materialize.css';
 import '../scss/style.scss';
 import './js/site';
 

@@ -3,6 +3,7 @@ import { Route, Redirect, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import setRedirectUrl from '../../actions/redirectActions';
+import { loadMembershipTypes } from '../../actions/membershipTypeActions';
 
 export default (ComposedComponent) => {
   /**
@@ -28,6 +29,11 @@ export default (ComposedComponent) => {
      */
     componentDidMount() {
       this.redirectToLogin();
+
+      if (this.props.user.username && !Object.keys(this.props.membershipTypes).length > 0) {
+        this.props.loadMembershipTypes();
+      }
+
       $('.modal').modal();
       $('select').material_select();
     }
@@ -60,18 +66,21 @@ export default (ComposedComponent) => {
   const mapStateToProps = (state, ownProps) => ({
     user: state.user,
     currentURL: ownProps.location.pathname,
-    redirectUrl: state.redirectUrl
+    redirectUrl: state.redirectUrl,
+    membershipTypes: state.membershipTypes
   });
 
   const mapDispatchToProps = dispatch => ({
-    setRedirectUrl: url => dispatch(setRedirectUrl(url))
+    setRedirectUrl: url => dispatch(setRedirectUrl(url)),
+    loadMembershipTypes: () => dispatch(loadMembershipTypes())
   });
 
   IsAuthenticated.propTypes = {
     user: PropTypes.object,
     currentURL: PropTypes.string,
     redirectUrl: PropTypes.string,
-    setRedirectUrl: PropTypes.func.isRequired
+    setRedirectUrl: PropTypes.func.isRequired,
+    loadMembershipTypes: PropTypes.func,
   };
 
   return connect(mapStateToProps, mapDispatchToProps)(IsAuthenticated);

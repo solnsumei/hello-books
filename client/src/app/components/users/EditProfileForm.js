@@ -50,7 +50,7 @@ const EditProfileForm = ({ user, onSubmit, membershipTypes,
         <div className="row valign-wrapper">
           <div className="col s12">
             <button className="btn waves-effect waves-light"
-              type="submit" name="action">Save
+              type="submit">Save
             </button>
           </div>
         </div>

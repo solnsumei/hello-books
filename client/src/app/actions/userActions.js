@@ -56,6 +56,14 @@ const logoutRequest = () => (dispatch) => {
   return dispatch(userAuthFailed());
 };
 
+const updateUserAccount = userData => dispatch =>
+  axios.put('/api/v1/users/profile', userData)
+    .then(({ data }) => {
+      localStorage.setItem(types.USER_TOKEN, data.token);
+      const user = setAuthUser(data.token);
+      return dispatch(userAuthSuccess(user));
+    });
+
 const loginRequest = loginData => dispatch =>
   axios.post('/api/v1/users/signin', loginData)
     .then(({ data }) => {
@@ -72,4 +80,5 @@ const userSignUpRequest = userData => dispatch =>
       return dispatch(userAuthSuccess(user));
     });
 
-export { loginRequest, userSignUpRequest, userAuthSuccess, checkAuthentication, logoutRequest };
+export { loginRequest, userSignUpRequest, userAuthSuccess,
+  updateUserAccount, checkAuthentication, logoutRequest };
