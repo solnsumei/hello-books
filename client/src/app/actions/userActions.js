@@ -56,13 +56,15 @@ const logoutRequest = () => (dispatch) => {
   return dispatch(userAuthFailed());
 };
 
-const updateUserAccount = userData => dispatch =>
-  axios.put('/api/v1/users/profile', userData)
+const updateUserAccount = userData => (dispatch) => {
+  const token = localStorage.getItem(types.USER_TOKEN);
+  return axios.put('/api/v1/users/profile', userData, { headers: { 'x-token': token } })
     .then(({ data }) => {
       localStorage.setItem(types.USER_TOKEN, data.token);
       const user = setAuthUser(data.token);
       return dispatch(userAuthSuccess(user));
     });
+};
 
 const loginRequest = loginData => dispatch =>
   axios.post('/api/v1/users/signin', loginData)

@@ -37,7 +37,7 @@ const Header = ({ user, logout, title }) => {
             <li><NavLink to="/catalog" activeClassName="active-nav">Catalog</NavLink></li>
             { user.firstName ?
               <div>
-                <AuthLinks />
+                <AuthLinks isAdmin={user.admin} />
                 <li>
                   <a href="#" onClick={logout}>
                     Logout

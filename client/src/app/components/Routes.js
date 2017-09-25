@@ -9,6 +9,7 @@ import ProfilePage from './users/ProfilePage';
 import CatalogPage from './book/CatalogPage';
 import BookDetailPage from './book/BookDetailPage';
 import BorrowHistoryPage from './users/BorrowHistoryPage';
+import IsAdmin from './common/IsAdmin';
 
 const Routes = props => (
   <main className="top-padding">
@@ -20,6 +21,7 @@ const Routes = props => (
       <Route path='/book-detail' component={IsAuthenticated(BookDetailPage)} />
       <Route path='/catalog' component={IsAuthenticated(CatalogPage)} />
       <Route path='/borrow-history' component={IsAuthenticated(BorrowHistoryPage)} />
+      <Route component={IsAuthenticated(IsAdmin)} />
     </Switch>
   </main>
 );

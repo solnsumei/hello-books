@@ -12,9 +12,8 @@ const loadMembershipTypeSuccess = membershipTypes => ({
 
 const loadMembershipTypes = () => (dispatch) => {
   const token = localStorage.getItem(types.USER_TOKEN);
-  axios.defaults.headers.common['x-token'] = token;
 
-  return axios.get('/api/v1/membershiptypes')
+  return axios.get('/api/v1/membershiptypes', { headers: { 'x-token': token } })
     .then(({ data }) => dispatch(loadMembershipTypeSuccess(data)))
     .catch(({ response }) => {
       throw (response);

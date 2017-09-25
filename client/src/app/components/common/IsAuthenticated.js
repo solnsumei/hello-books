@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Redirect, Switch } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import setRedirectUrl from '../../actions/redirectActions';
@@ -56,7 +56,7 @@ export default (ComposedComponent) => {
     render() {
       if (this.props.user && this.props.user.username) {
         return (
-          <ComposedComponent />
+          <ComposedComponent {...this.props} {...this.state} />
         );
       }
       return null;

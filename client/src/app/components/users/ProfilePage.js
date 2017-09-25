@@ -44,7 +44,13 @@ class ProfilePage extends React.Component {
     event.preventDefault();
     this.setState({ errors: {} });
     this.props.dispatch(updateUserAccount(this.state.user))
-      .catch(({ response }) => this.setState({ errors: response.data.errors }));
+      .catch(({ response }) => {
+        if (response.data.errors) {
+          this.setState({ errors: response.data.errors });
+        } else if (response.data.error) {
+          toastr.error(response.data.error);
+        }
+      });
   }
 
   /**
