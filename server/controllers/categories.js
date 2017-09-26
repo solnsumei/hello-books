@@ -21,6 +21,7 @@ export default {
         slug: slug(req.body.name.toLowerCase()),
       })
       .then(category => res.status(201).send({ category: {
+        id: category.id,
         name: category.name,
         slug: category.slug
       }

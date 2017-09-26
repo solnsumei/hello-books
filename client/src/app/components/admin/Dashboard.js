@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import CategoryList from './CategoryList';
+import toastr from 'toastr';
 import MembershipType from './MembershipType';
+
 
 /**
  * [className description]
@@ -24,7 +25,6 @@ class Dashboard extends React.Component {
           </div>
         </div>
         <div className="row">
-          <CategoryList />
           <MembershipType membershipTypes={this.props.membershipTypes} />
         </div>
       </div>
@@ -33,7 +33,7 @@ class Dashboard extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  membershipTypes: state.membershipTypes
+  membershipTypes: state.membershipTypes,
 });
 
 Dashboard.propTypes = {
