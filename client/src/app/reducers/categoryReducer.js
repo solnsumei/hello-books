@@ -16,6 +16,11 @@ export default function (state = initialState.categories, action) {
         Object.assign({}, action.category)
       ];
 
+    case types.UPDATE_CATEGORY_SUCCESS:
+      return [...state.filter(category => category.id !== action.category.id),
+        Object.assign({}, action.category)
+      ];
+
     default:
       return state;
   }

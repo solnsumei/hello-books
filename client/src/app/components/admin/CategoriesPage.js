@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import toastr from 'toastr';
 import CategoryList from './CategoryList';
 import CategoryModal from './CategoryModal';
-import { addCategory } from '../../actions/categoryActions';
+import { saveCategory } from '../../actions/categoryActions';
 
 /**
  * [className description]
@@ -27,6 +27,43 @@ class CategoriesPage extends React.Component {
 
     this.updateCategoryFormState = this.updateCategoryFormState.bind(this);
     this.saveCategory = this.saveCategory.bind(this);
+    this.onEdit = this.onEdit.bind(this);
+    this.showAddModal = this.showAddModal.bind(this);
+  }
+
+  /**
+   * [showAddModal description]
+   * @method showAddModal
+   * @return {[type]}     [description]
+   */
+  showAddModal() {
+    const newCategory = {
+      id: '',
+      name: ''
+    };
+
+    this.setState({
+      category: newCategory,
+      errors: {}
+    });
+
+    $('#category-modal').modal('open');
+  }
+
+  /**
+   * ]
+   * @method onEdit
+   * @param  {[type]} category [description]
+   * @return {[type]}          [description]
+   */
+  onEdit(category) {
+    const newCategory = Object.assign({}, category);
+    this.setState({
+      category: newCategory,
+      errors: {}
+    });
+
+    $('#category-modal').modal('open');
   }
 
   /**
@@ -48,16 +85,16 @@ class CategoriesPage extends React.Component {
    */
   saveCategory(event) {
     event.preventDefault();
+    this.setState({ errors: {} });
     this.props.addBookCategory(this.state.category)
       .then(() => {
         $('.modal').modal('close');
-        toastr.success('category added successfully');
+        toastr.success('Category saved');
         this.setState({ category: { name: '' } });
       })
       .catch(({ response }) => {
-        if (response.data.error) {
-          this.setState({ errors: response.data.error });
-          console.log(this.state.errors);
+        if (response.data.errors) {
+          this.setState({ errors: response.data.errors });
         }
       });
   }
@@ -77,15 +114,19 @@ class CategoriesPage extends React.Component {
                 <p className="card-title teal-text">
                   <b>Book Categories</b>
                   <span className="right">
-                    <button className="btn-floating waves-effect waves-green modal-trigger"
-                      data-target="category-modal">
+                    <button onClick={this.showAddModal}
+                      className="btn-floating waves-effect waves-green">
                       <i className="material-icons">add</i>
                     </button>
                   </span>
                 </p>
                 <br/>
                 <div className="divider"></div>
-                <CategoryList {...this.props} />
+                <CategoryList
+                  categories={this.props.categories}
+                  onEdit={this.onEdit}
+                  onDelete={this.onDelete}
+                />
               </div>
             </div>
           </div>
@@ -102,7 +143,10 @@ class CategoriesPage extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const category = { name: '' };
+  const category = {
+    id: '',
+    name: '' };
+
   return ({
     category,
     categories: state.categories
@@ -110,7 +154,7 @@ const mapStateToProps = (state, ownProps) => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  addBookCategory: category => dispatch(addCategory(category))
+  addBookCategory: category => dispatch(saveCategory(category))
 });
 
 CategoriesPage.propTypes = {

@@ -13,6 +13,10 @@ const loadCategoriesSuccess = categories => ({
   type: types.LOAD_CATEGORIES_SUCCESS, categories
 });
 
+const updateCategorySuccess = category => ({
+  type: types.UPDATE_CATEGORY_SUCCESS, category
+});
+
 const loadCategories = () => (dispatch) => {
   const token = localStorage.getItem(types.USER_TOKEN);
 
@@ -23,11 +27,17 @@ const loadCategories = () => (dispatch) => {
     });
 };
 
-const addCategory = category => (dispatch) => {
+const saveCategory = category => (dispatch) => {
   const token = localStorage.getItem(types.USER_TOKEN);
+
+  if (category.id) {
+    return axios.put(`/api/v1/categories/${category.id}`,
+      category, { headers: { 'x-token': token } })
+      .then(({ data }) => dispatch(updateCategorySuccess(data.category)));
+  }
 
   return axios.post('/api/v1/categories', category, { headers: { 'x-token': token } })
     .then(({ data }) => dispatch(addCategorySuccess(data.category)));
 };
 
-export { loadCategories, loadCategoriesSuccess, addCategory };
+export { loadCategories, loadCategoriesSuccess, saveCategory };

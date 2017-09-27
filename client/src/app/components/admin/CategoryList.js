@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import CategoryListRow from './CategoryListRow';
 
-const CategoryList = ({ categories, onEdit, onDelete, onClickAddNew }) => (
+const CategoryList = ({ categories, onEdit, onDelete }) => (
   <table className="responsive-table striped bordered">
     <thead>
       <tr>
@@ -14,7 +14,7 @@ const CategoryList = ({ categories, onEdit, onDelete, onClickAddNew }) => (
     <tbody>
       { Object.keys(categories).length > 0 ?
         categories.map(category =>
-          <CategoryListRow key={category.id} onClickEdit={onEdit}
+          <CategoryListRow key={category.id} onClickEdit={myCat => onEdit(category)}
             onClickDelete={onDelete} category={category} />
         ) :
         <tr>
@@ -31,7 +31,6 @@ CategoryList.propTypes = {
   categories: PropTypes.array,
   onEdit: PropTypes.func,
   onDelete: PropTypes.func,
-  onClickAddNew: PropTypes.func
 };
 
 export default CategoryList;

@@ -2,41 +2,56 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import TextInput from '../common/TextInput';
 
-const CategoryModal = ({ category, onSubmit, errors, onChange }) => (
-  <div id="category-modal" className="modal">
-    <form onSubmit={onSubmit}>
-      <div className="modal-content">
-        <h4>Add Category</h4>
+const CategoryModal = ({ category, onSubmit, errors, onChange }) => {
+  let active = true;
+  if (!category.slug) {
+    active = false;
+  }
 
-        { Object.keys(errors).length > 0 ?
-          <p className="red-text">** There are some errors with your input</p>
-          : ''
-        }
+  return (
+    <div id="category-modal" className="modal">
+      <form onSubmit={onSubmit}>
+        <div className="modal-content">
+          <h4>{ !active ? 'Add Category' : 'Edit Category' }</h4>
 
-        <TextInput type="text" name="name" label="Category Name"
-          value={category.name} className="validate" onChange={onChange} error={errors.name}
-          errorMsg="This field is required" required="required" />
-      </div>
-      <div className="modal-footer">
-        <button type="button"
-          className="modal-action modal-close waves-effect waves-green btn-flat">
-          Cancel
-        </button>
+          { errors.slug ? <p className="red-text">** {errors.slug} </p> : ''}
 
-        <button type="submit" className="waves-effect waves-green btn-flat">
-          Save
-        </button>
-      </div>
-    </form>
-  </div>
-);
+          <TextInput
+            type="text"
+            name="name"
+            label="Category Name"
+            value={category.name}
+            className="validate"
+            onChange={onChange}
+            error={errors.name}
+            active={active}
+            errorMsg="This field is required"
+            required="required"
+          />
+
+        </div>
+        <div className="modal-footer">
+          <button type="button"
+            className="modal-action modal-close waves-effect waves-green btn-flat">
+            Cancel
+          </button>
+
+          <button type="submit" className="waves-effect waves-green btn-flat">
+            Save
+          </button>
+        </div>
+      </form>
+    </div>
+  );
+};
 
 CategoryModal.propTypes = {
   category: PropTypes.object.isRequired,
   onSubmit: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
   loading: PropTypes.bool,
-  errors: PropTypes.object
+  errors: PropTypes.object,
+  active: PropTypes.bool
 };
 
 export default CategoryModal;

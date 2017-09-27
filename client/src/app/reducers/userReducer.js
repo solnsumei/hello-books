@@ -14,9 +14,6 @@ export default function (state = initialState.user, action) {
     case types.USER_AUTH_FAILED:
       return state;
 
-    case types.SIGN_OUT_USER:
-      return Object.assign({}, ...state, {});
-
     default:
       return state;
   }

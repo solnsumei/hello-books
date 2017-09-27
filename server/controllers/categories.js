@@ -83,7 +83,11 @@ export default {
         return res.status(200).send({
           success: true,
           message: 'Category updated successfully',
-          category: req.category
+          category: {
+            id: req.category.id,
+            name: req.category.name,
+            slug: req.category.slug
+          }
         });
       }
     })
