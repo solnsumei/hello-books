@@ -5,14 +5,15 @@ const TextInput = (
   { type, name, label, onChange, placeholder,
     value, error, errorMsg, active, required }) => (
   <div className="row">
-    <div className="input-field col s12">
+    <div className="input-field cos s12">
       { type === 'textarea' ?
         <textarea
           name={name}
-          className={error ? 'invalid' : 'validate'}
+          id="description"
+          className={error ? 'materialize-textarea invalid' : 'materialize-textarea validate'}
           onChange={onChange}
+          value={value}
           required={required}>
-          {value}
         </textarea>
         :
         <input

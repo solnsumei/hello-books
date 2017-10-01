@@ -43,7 +43,7 @@ class CategoriesPage extends React.Component {
     };
 
     this.setState({
-      category: newCategory,
+      category: Object.assign({}, newCategory),
       errors: {}
     });
 
@@ -57,9 +57,8 @@ class CategoriesPage extends React.Component {
    * @return {[type]}          [description]
    */
   onEdit(category) {
-    const newCategory = Object.assign({}, category);
     this.setState({
-      category: newCategory,
+      category: Object.assign({}, category),
       errors: {}
     });
 

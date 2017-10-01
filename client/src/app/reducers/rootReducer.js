@@ -3,13 +3,14 @@ import user from './userReducer';
 import redirectUrl from './redirectReducer';
 import membershipTypes from './membershipTypeReducer';
 import categories from './categoryReducer';
-import appReducer from './appReducer';
+import books from './bookReducer';
 
 const rootReducer = combineReducers({
   user,
   redirectUrl,
   membershipTypes,
   categories,
+  books
 });
 
 export default rootReducer;

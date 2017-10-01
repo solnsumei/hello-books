@@ -6,6 +6,8 @@ import toastr from 'toastr';
 import setRedirectUrl from '../../actions/redirectActions';
 import Dashboard from '../admin/Dashboard';
 import CategoriesPage from '../admin/CategoriesPage';
+import BooksPage from '../admin/books/BooksPage';
+import ManageBookPage from '../admin/books/ManageBookPage';
 import { loadCategories } from '../../actions/categoryActions';
 
 /**
@@ -58,6 +60,9 @@ class IsAdmin extends React.Component {
         <Switch>
           <Route exact path="/admin" component={Dashboard} />
           <Route path="/admin/categories" component={CategoriesPage} />
+          <Route exact path="/admin/books" component={BooksPage} />
+          <Route path="/admin/books/create" component={ManageBookPage} />
+          <Route path="/admin/books/:id" component={ManageBookPage} />
         </Switch>
       );
     }
