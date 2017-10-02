@@ -1,28 +1,32 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
-const BookListRow = ({ book, onClickEdit, onClickDelete }) => (
+const BookListRow = ({ book, onClickAdd, onClickDelete }) => (
   <tr>
-    <td>{book.name}</td>
-    <td>{book.category.name}</td>
+    <td>{book.title}</td>
+    <td>{book.Category.name}</td>
     <td>{book.author}</td>
     <td>{book.stockQuantity}</td>
-    <td>{book.quantityBorrowed}</td>
-    <td>{book.createdAt}</td>
+    <td>{book.borrowedQuantity}</td>
+    <td>{!book.isDeleted ? 'yes' : 'no'}</td>
     <td>
-      <a title="edit" onClick={onClickEdit} className="btn-floating orange">
+      <button title="add quantity" onClick={onClickAdd} className="btn-floating">
+        <i className="material-icons">add</i>
+      </button>&nbsp;
+      <Link to={`/admin/books/${book.id}`} title="edit" className="btn-floating orange">
         <i className="material-icons">edit</i>
-      </a>&nbsp;
-      <a title="delete" onClick={onClickDelete} className="btn-floating red">
+      </Link>&nbsp;
+      <button title="delete" onClick={onClickDelete} className="btn-floating red">
         <i className="material-icons">delete</i>
-      </a>
+      </button>
     </td>
   </tr>
 );
 
 BookListRow.propTypes = {
   book: PropTypes.object.isRequired,
-  onClickEdit: PropTypes.func,
+  onClickAdd: PropTypes.func,
   onClickDelete: PropTypes.func
 };
 

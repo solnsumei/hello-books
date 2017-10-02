@@ -1,3 +1,7 @@
+import types from '../actions/actionTypes';
+
+const constants = () => ({ headers: { 'x-token': localStorage.getItem(types.USER_TOKEN) } });
+
 const routeTitles = (route) => {
   switch (route) {
     case '/login':
@@ -17,4 +21,4 @@ const routeTitles = (route) => {
   }
 };
 
-export default routeTitles;
+export { constants, routeTitles };

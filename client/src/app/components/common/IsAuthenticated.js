@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import setRedirectUrl from '../../actions/redirectActions';
 import { loadMembershipTypes } from '../../actions/membershipTypeActions';
+import { loadBooks } from '../../actions/bookActions';
 
 export default (ComposedComponent) => {
   /**
@@ -32,6 +33,10 @@ export default (ComposedComponent) => {
 
       if (this.props.user.username && !Object.keys(this.props.membershipTypes).length > 0) {
         this.props.loadMembershipTypes();
+      }
+
+      if (this.props.user.username && !Object.keys(this.props.books).length > 0) {
+        this.props.loadBooks();
       }
 
       $('.modal').modal();
@@ -67,12 +72,14 @@ export default (ComposedComponent) => {
     user: state.user,
     currentURL: ownProps.location.pathname,
     redirectUrl: state.redirectUrl,
-    membershipTypes: state.membershipTypes
+    membershipTypes: state.membershipTypes,
+    books: state.books
   });
 
   const mapDispatchToProps = dispatch => ({
     setRedirectUrl: url => dispatch(setRedirectUrl(url)),
-    loadMembershipTypes: () => dispatch(loadMembershipTypes())
+    loadMembershipTypes: () => dispatch(loadMembershipTypes()),
+    loadBooks: () => dispatch(loadBooks())
   });
 
   IsAuthenticated.propTypes = {
@@ -81,6 +88,7 @@ export default (ComposedComponent) => {
     redirectUrl: PropTypes.string,
     setRedirectUrl: PropTypes.func.isRequired,
     loadMembershipTypes: PropTypes.func,
+    loadBooks: PropTypes.func
   };
 
   return connect(mapStateToProps, mapDispatchToProps)(IsAuthenticated);

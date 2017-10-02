@@ -2,23 +2,23 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import BookListRow from './BookListRow';
 
-const BookList = ({ books, onEdit, onDelete }) => (
+const BookList = ({ books, onClickAddQuantity, onDelete }) => (
   <table className="responsive-table striped bordered">
     <thead>
       <tr>
-        <th>Name</th>
+        <th>Title</th>
         <th>Category</th>
         <th>Author</th>
         <th>Stock Qty</th>
         <th>Qty Borrowed</th>
-        <th>Date Added</th>
+        <th>Enabled</th>
         <th></th>
       </tr>
     </thead>
     <tbody>
       { Object.keys(books).length > 0 ?
         books.map(book =>
-          <BookListRow key={book.id} onClickEdit={selectedBook => onEdit(book)}
+          <BookListRow key={book.id} onClickAdd={selectedBook => onClickAddQuantity(book)}
             onClickDelete={onDelete} book={book} />
         ) :
         <tr>
@@ -33,7 +33,7 @@ const BookList = ({ books, onEdit, onDelete }) => (
 
 BookList.propTypes = {
   books: PropTypes.array,
-  onEdit: PropTypes.func,
+  onClickAddQuantity: PropTypes.func,
   onDelete: PropTypes.func,
 };
 

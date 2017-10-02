@@ -26,20 +26,47 @@ class ManageBookPage extends React.Component {
 
     this.updateFormState = this.updateFormState.bind(this);
     this.saveBook = this.saveBook.bind(this);
-    this.onEdit = this.onEdit.bind(this);
+    this.uploadCoverPicture = this.uploadCoverPicture.bind(this);
   }
 
   /**
-   * ]
-   * @method onEdit
-   * @param  {[type]} book [description]
-   * @return {[type]}          [description]
+   * [componentWillReceiveProps description]
+   * @method componentWillReceiveProps
+   * @param  {[type]}                  nextProps [description]
+   * @return {[type]}                            [description]
    */
-  onEdit(book) {
-    this.setState({
-      book: Object.assign({}, book),
-      errors: {}
-    });
+  componentWillReceiveProps(nextProps) {
+    if (this.props.book.id !== nextProps.book.id) {
+      // Necessary to populate form when existing course is loaded directly
+      this.setState({ book: Object.assign({}, nextProps.book) });
+    }
+  }
+
+  /**
+   * [uploadCoverPicture description]
+   * @method uploadCoverPicture
+   * @return {[type]} [description]
+   */
+  uploadCoverPicture() {
+    const book = this.state.book;
+    const params = {
+      cloud_name: 'solmei',
+      upload_preset: 'amoosw0e',
+      multiple: false
+    };
+
+    /* eslint-disable */
+    cloudinary.openUploadWidget(params,
+      /* eslint-enable */
+      (error, result) => {
+        if (error) {
+          return this.setState({ errors: error });
+        }
+
+        book.coverPic = result[0].url;
+
+        return this.setState({ book });
+      });
   }
 
   /**
@@ -87,6 +114,7 @@ class ManageBookPage extends React.Component {
             book={this.state.book}
             categories={this.props.categories}
             onSubmit={this.saveBook}
+            uploadCoverPic={this.uploadCoverPicture}
             onChange={this.updateFormState}
             errors={this.state.errors}
           />
@@ -96,22 +124,39 @@ class ManageBookPage extends React.Component {
   }
 }
 
+const getBookById = (books, id) => {
+  const foundBook = books.filter(book => book.id === id);
+  // since filter returns an array, you have to grab the first
+  if (foundBook) return foundBook[0];
+  return null;
+};
+
 const mapStateToProps = (state, ownProps) => {
+  // from the path '/books/:id'
+  const bookId = ownProps.match.params.id;
+
+  // Initialize book
+  let book = {
+    id: '',
+    title: '',
+    author: '',
+    stockQuantity: '',
+    coverPic: '',
+    coverPicId: '',
+    description: '',
+    categoryId: ''
+  };
+
+  // format categories
   const categoriesFormatted = state.categories.map(category => (
     {
       value: category.id,
       text: category.name
     }));
 
-  const book = {
-    id: '',
-    title: '',
-    author: '',
-    stockQuantity: '',
-    coverPic: '',
-    description: '',
-    categoryId: ''
-  };
+  if (bookId && state.books.length > 0) {
+    book = getBookById(state.books, (Number.parseInt(bookId, 10)));
+  }
 
   return ({
     categories: categoriesFormatted,

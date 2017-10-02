@@ -5,7 +5,7 @@ import { withRouter } from 'react-router-dom';
 import Routes from './Routes';
 import Header from './common/Header';
 import { logoutRequest } from '../actions/userActions';
-import routeTitles from '../helpers/constants';
+import { routeTitles } from '../helpers/constants';
 
 /**
  * [propTypes description]

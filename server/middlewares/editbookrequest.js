@@ -30,8 +30,9 @@ export default function editBookRequest(req, res, next) {
     errors.coverPic = 'Cover Picture is required';
   }
 
-  if (req.body.categoryId === undefined || req.body.categoryId === null) {
-    errors.categoryId = 'Book category Id is required';
+  if (req.body.categoryId === undefined || req.body.categoryId === null ||
+      !Number.isInteger(Number.parseInt(req.body.categoryId, 10))) {
+    errors.categoryId = 'Book category is required';
   }
 
   if (Object.keys(errors).length > 0) {

@@ -1,4 +1,3 @@
-
 import rootReducer from './rootReducer';
 import types from '../actions/actionTypes';
 import initialState from './initialState';

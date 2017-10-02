@@ -4,8 +4,7 @@ import PropTypes from 'prop-types';
 const SelectInput = ({ name, active, label, onChange, defaultOption, value, error, options }) => (
   <div className="row">
     <div className="col s12">
-      { error ? <label htmlFor={name} data-error={error}>{label}</label> :
-        <label htmlFor={name} className={active ? 'active' : ''} >{label}</label> }
+      <label htmlFor={name} className={active ? 'active' : ''} >{label}</label>
       <select
         className="browser-default"
         name={name}
@@ -20,13 +19,13 @@ const SelectInput = ({ name, active, label, onChange, defaultOption, value, erro
           </option>
         )}
       </select>
+      { error && <label className="red-text">{error}</label>}
     </div>
   </div>
 );
 
 SelectInput.propTypes = {
   name: PropTypes.string.isRequired,
-  value: PropTypes.string,
   label: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
   defaultOption: PropTypes.string,

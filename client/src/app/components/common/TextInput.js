@@ -32,7 +32,7 @@ const TextInput = (
 
 TextInput.propTypes = {
   name: PropTypes.string.isRequired,
-  value: PropTypes.string,
+  type: PropTypes.string.isRequired,
   active: PropTypes.bool,
   label: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,

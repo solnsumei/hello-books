@@ -21,6 +21,11 @@ export default function (state = initialState.books, action) {
         Object.assign({}, action.book)
       ];
 
+    case types.ADD_STOCK_QUANTITY_SUCCESS:
+      return [...state.filter(book => book.id !== action.book.id),
+        Object.assign({}, action.book)
+      ];
+
     default:
       return state;
   }

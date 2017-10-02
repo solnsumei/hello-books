@@ -29,8 +29,9 @@ export default function createBookRequest(req, res, next) {
     errors.stockQuantity = 'Stock Quantity is required';
   }
 
-  if (req.body.categoryId === undefined || req.body.categoryId === null) {
-    errors.categoryId = 'Book category Id is required';
+  if (req.body.categoryId === undefined || req.body.categoryId === null ||
+      !Number.isInteger(Number.parseInt(req.body.categoryId, 10))) {
+    errors.categoryId = 'Book category is required';
   }
 
   if (Object.keys(errors).length > 0) {

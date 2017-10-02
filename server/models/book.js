@@ -67,7 +67,7 @@ export default (sequelize, DataTypes) => {
       },
       unique: {
         args: true,
-        msg: 'Cover picture is already in database'
+        msg: 'Cover picture already exists'
       },
       validate: {
         notEmpty: {
@@ -95,7 +95,7 @@ export default (sequelize, DataTypes) => {
       },
     },
     isBorrowed: DataTypes.BOOLEAN,
-    isDeleted: DataTypes.BOOLEAN
+    isDeleted: DataTypes.BOOLEAN,
   });
 
   Book.addScope('active', {
