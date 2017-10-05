@@ -18,6 +18,10 @@ const addStockQuantitySuccess = book => ({
   type: types.ADD_STOCK_QUANTITY_SUCCESS, book
 });
 
+const deleteBookSuccess = book => ({
+  type: types.DELETE_BOOK_SUCCESS, book
+});
+
 const loadBooks = () => dispatch =>
   axios.get('/api/v1/books', constants())
     .then(({ data }) => dispatch(loadBooksSuccess(data)))
@@ -37,10 +41,14 @@ const saveBook = book => (dispatch) => {
 };
 
 const addStockQuantity = (book, quantity) => dispatch =>
-  axios.post(`/api/v1/books/${book.id}`, quantity, constants())
+  axios.post(`/api/v1/books/${book.id}`, { quantity }, constants())
     .then(({ data }) => {
-      book.stockQuantity += quantity;
+      book.stockQuantity = Number.parseInt(book.stockQuantity, 10) + Number.parseInt(quantity, 10);
       return dispatch(addStockQuantitySuccess(book));
     });
 
-export { loadBooks, saveBook, addStockQuantity };
+const deleteBook = book => dispatch =>
+  axios.delete('/api/v1/books', constants())
+    .then(({ data }) => dispatch(deleteBookSuccess(data.book)));
+
+export { loadBooks, saveBook, addStockQuantity, deleteBook };

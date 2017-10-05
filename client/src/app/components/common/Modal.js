@@ -7,9 +7,15 @@ const Modal = props => (
       <p>{props.text}</p>
     </div>
     <div className="modal-footer">
-      <a href="#!" className="modal-action modal-close waves-effect waves-green btn-flat">
-        Agree
-      </a>
+      <button type="button"
+        className="modal-action modal-close waves-effect waves-green btn-flat">
+        Cancel
+      </button>
+
+      <button type="button"
+        onClick={props.onDelete} className="waves-effect waves-green btn-flat">
+        Confirm
+      </button>
     </div>
   </div>
 );

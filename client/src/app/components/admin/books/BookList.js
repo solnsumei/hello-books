@@ -19,7 +19,7 @@ const BookList = ({ books, onClickAddQuantity, onDelete }) => (
       { Object.keys(books).length > 0 ?
         books.map(book =>
           <BookListRow key={book.id} onClickAdd={selectedBook => onClickAddQuantity(book)}
-            onClickDelete={onDelete} book={book} />
+            onClickDelete={thisBook => onDelete(book)} book={book} />
         ) :
         <tr>
           <td colSpan="7" className="center-align">

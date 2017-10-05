@@ -26,6 +26,9 @@ export default function (state = initialState.books, action) {
         Object.assign({}, action.book)
       ];
 
+    case types.DELETE_BOOK_SUCCESS:
+      return [...state.filter(book => book.id !== action.book.id)];
+
     default:
       return state;
   }

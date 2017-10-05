@@ -5,7 +5,8 @@ import { connect } from 'react-redux';
 import toastr from 'toastr';
 import BookList from './BookList';
 import AddQuantityModal from './AddQuantityModal';
-import { addStockQuantity } from '../../../actions/bookActions';
+import Modal from '../../common/Modal';
+import { addStockQuantity, deleteBook } from '../../../actions/bookActions';
 
 /**
  * [className description]
@@ -30,11 +31,13 @@ class BooksPage extends React.Component {
     this.updateQuantityFormState = this.updateQuantityFormState.bind(this);
     this.saveQuantity = this.saveQuantity.bind(this);
     this.addQuantity = this.addQuantity.bind(this);
+    this.onClickDeleteBook = this.onClickDeleteBook.bind(this);
+    this.deleteBook = this.deleteBook.bind(this);
   }
 
   /**
    * ]
-   * @method onEdit
+   * @method addQuantity
    * @param  {[type]} book [description]
    * @return {[type]}          [description]
    */
@@ -46,6 +49,39 @@ class BooksPage extends React.Component {
     });
 
     $('#add-quantity-modal').modal('open');
+  }
+
+  /**
+   * [deleteBook description]
+   * @method deleteBook
+   * @return {[type]}   [description]
+   */
+  deleteBook() {
+    this.props.deleteBook(this.state.book)
+      .then(() => {
+        $('.modal').modal('close');
+        toastr.success('Book deleted successfully');
+        this.setState({ book: Object.assign({}, {}) });
+      })
+      .catch(({ response }) => {
+        if (response.data.error) {
+          this.setState({ error: response.data.error });
+        }
+      });
+  }
+
+  /**
+   * ]
+   * @method onClickDeleteBook
+   * @param  {[type]} book [description]
+   * @return {[type]}          [description]
+   */
+  onClickDeleteBook(book) {
+    this.setState({
+      book: Object.assign({}, book)
+    });
+
+    $('#delete-book-modal').modal('open');
   }
 
   /**
@@ -107,7 +143,7 @@ class BooksPage extends React.Component {
                 <BookList
                   books={this.props.books}
                   onClickAddQuantity={this.addQuantity}
-                  onDelete={this.onDelete}
+                  onDelete={this.onClickDeleteBook}
                 />
 
                 <AddQuantityModal
@@ -115,6 +151,13 @@ class BooksPage extends React.Component {
                   error={this.state.error}
                   onSubmit={this.saveQuantity}
                   onChange={this.updateQuantityFormState}
+                />
+
+                <Modal
+                  id="delete-book-modal"
+                  title="Confirm Delete"
+                  onDelete={this.deleteBook}
+                  text={`Do you want to delete book with title ${this.state.book.title}?`}
                 />
               </div>
             </div>
@@ -130,13 +173,15 @@ const mapStateToProps = (state, ownProps) => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  addStockQuantity: (book, quantity) => dispatch(addStockQuantity(book, quantity))
+  addStockQuantity: (book, quantity) => dispatch(addStockQuantity(book, quantity)),
+  deleteBook: book => dispatch(deleteBook(book))
 });
 
 BooksPage.propTypes = {
   books: PropTypes.array.isRequired,
   book: PropTypes.object,
   addStockQuantity: PropTypes.func,
+  deleteBook: PropTypes.func
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(BooksPage);

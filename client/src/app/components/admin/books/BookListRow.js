@@ -17,9 +17,10 @@ const BookListRow = ({ book, onClickAdd, onClickDelete }) => (
       <Link to={`/admin/books/${book.id}`} title="edit" className="btn-floating orange">
         <i className="material-icons">edit</i>
       </Link>&nbsp;
-      <button title="delete" onClick={onClickDelete} className="btn-floating red">
-        <i className="material-icons">delete</i>
-      </button>
+      {!book.isDeleted &&
+        <button title="delete" onClick={onClickDelete} className="btn-floating red">
+          <i className="material-icons">delete</i>
+        </button>}
     </td>
   </tr>
 );
