@@ -1,5 +1,4 @@
 import db from '../models/index';
-
 /**
  * Controller for adding, updating and get all books
  * @exports {Object} booksController
@@ -69,15 +68,18 @@ export default {
    * @returns {Promise.<Object>} books
    */
   getAllBooks(req, res) {
-    let attributes = ['id', 'title', 'categoryId', 'author', 'description', 'coverPic'];
+    let attributes = ['id', 'title', 'categoryId', 'author', 'description', 'coverPic', 'stockQuantity',
+      'borrowedQuantity'];
+    const query = { title: { $ne: null } };
 
     if (req.auth.admin) {
       attributes = [...attributes,
-        'stockQuantity',
-        'borrowedQuantity',
         'isDeleted',
+        'isBorrowed',
         'createdAt'
       ];
+    } else {
+      query.isDeleted = false;
     }
 
     return db.Book
@@ -86,7 +88,8 @@ export default {
         include: [{
           model: db.Category,
           attributes: ['name', 'slug']
-        }]
+        }],
+        where: query
       })
       .then(books => res.status(200).send(books))
       .catch((error) => {

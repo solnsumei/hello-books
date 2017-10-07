@@ -18,8 +18,8 @@ const Routes = props => (
       <Route path='/login' component={PreventAuthenticatedUsers(LoginPage)} />
       <Route path='/register' component={PreventAuthenticatedUsers(SignUpPage)} />
       <Route path='/profile' component={IsAuthenticated(ProfilePage)} />
-      <Route path='/book-detail' component={IsAuthenticated(BookDetailPage)} />
-      <Route path='/catalog' component={IsAuthenticated(CatalogPage)} />
+      <Route exact path='/books' component={IsAuthenticated(CatalogPage)} />
+      <Route path='/books/:id' component={IsAuthenticated(BookDetailPage)} />
       <Route path='/borrow-history' component={IsAuthenticated(BorrowHistoryPage)} />
       <Route component={IsAuthenticated(IsAdmin)} />
     </Switch>

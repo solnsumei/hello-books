@@ -23,7 +23,7 @@ const Header = ({ user, logout, title }) => {
             <i className="material-icons">menu</i>
           </a>
           <ul className="right hide-on-med-and-down">
-            <li><NavLink to="/catalog" activeClassName="active-top">Catalog</NavLink></li>
+            <li><NavLink to="/books" activeClassName="active-top">Catalog</NavLink></li>
             { user.firstName ?
               <li>
                 <a href="#" onClick={logout}>
@@ -34,7 +34,7 @@ const Header = ({ user, logout, title }) => {
               <li>{linkToShow}</li> }
           </ul>
           <ul className="side-nav" id="mobile-demo">
-            <li><NavLink to="/catalog" activeClassName="active-nav">Catalog</NavLink></li>
+            <li><NavLink to="/books" activeClassName="active-nav">Catalog</NavLink></li>
             { user.firstName ?
               <div>
                 <AuthLinks isAdmin={user.admin} />

@@ -200,10 +200,14 @@ export default {
               }).then((result) => {
                 if (result) {
                   return res.status(200).send({ message: 'Book borrowed successfully',
-                    book: {
-                      title: req.book.title,
-                      returnDate: borrowedBook.dueDate,
-                      returned: borrowedBook.returned
+                    borrowedBook: {
+                      id: borrowedBook.id,
+                      bookId: req.book.id,
+                      createdAt: borrowedBook.createdAt,
+                      dueDate: borrowedBook.dueDate,
+                      returned: borrowedBook.returned,
+                      surcharge: borrowedBook.surcharge,
+                      Book: { title: req.book.title }
                     }
                   });
                 }
@@ -222,9 +226,10 @@ export default {
     } else if (req.query.returned === 'false') { query.returned = false; }
     return db.UserBook
       .findAll({
+        attributes: ['id', 'bookId', 'createdAt', 'dueDate', 'returned', 'surcharge'],
         include: [{
           model: db.Book,
-          attributes: ['title', 'author'],
+          attributes: ['title'],
         }],
         where: query
       }).then(borrowedBooks => res.status(200).send(borrowedBooks))
@@ -245,37 +250,49 @@ export default {
     }
 
     return db.UserBook
-      .update({
-        returned: true
-      }, {
+      .findOne({
         where: {
-          userId: req.auth.id,
           bookId: req.book.id,
-          returned: false,
+          userId: req.auth.id,
+          returned: false
         }
       })
-      .then((updateResult) => {
-        if (Number.parseInt(updateResult, [10]) === 1) {
-          return req.book
-            .update({
-              borrowedQuantity: (req.book.borrowedQuantity - 1),
-              isBorrowed: ((req.book.borrowedQuantity) - 1) > 0,
-            })
-            .then(result => res.status(200).send({ message: 'Book was returned successfully',
-              book: {
-                title: req.book.title,
-                returned: true
-              }
-            }))
-            .catch(error => res.status(500).send({
-              error: 'Request could not be processed, please try again later'
-            }));
+      .then((borrowedBook) => {
+        if (!borrowedBook) {
+          return res.status(404).send({
+            error: 'Book was not found in your borrowed list'
+          });
         }
-        return res.status(404).send({ error: 'Book was not found in your borrowed list' });
+
+        return borrowedBook
+          .update({
+            returned: true
+          })
+          .then((updateResult) => {
+            if (updateResult.dataValues.returned) {
+              return req.book
+                .update({
+                  borrowedQuantity: (req.book.borrowedQuantity - 1),
+                  isBorrowed: ((req.book.borrowedQuantity) - 1) > 0,
+                })
+                .then(result => res.status(200).send({ message: 'Book was returned successfully',
+                  returnedBook: {
+                    id: borrowedBook.id,
+                    bookId: req.book.id,
+                    createdAt: borrowedBook.createdAt,
+                    dueDate: borrowedBook.dueDate,
+                    returned: borrowedBook.returned,
+                    surcharge: borrowedBook.surcharge,
+                    Book: { title: req.book.title }
+                  }
+                }))
+                .catch(error => res.status(500).send(error));
+            }
+          })
+          .catch(error => res.status(500).send(error));
       })
       .catch(error => res.status(500).send({
         error: 'Request could not be processed, please try again later'
       }));
   },
-
 };
