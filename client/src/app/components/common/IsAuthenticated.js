@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import setRedirectUrl from '../../actions/redirectActions';
 import { loadMembershipTypes } from '../../actions/membershipTypeActions';
 import { loadBooks } from '../../actions/bookActions';
+import { loadBorrowedBooks } from '../../actions/borrowActions';
 
 export default (ComposedComponent) => {
   /**
@@ -37,6 +38,10 @@ export default (ComposedComponent) => {
 
       if (this.props.user.username && !Object.keys(this.props.books).length > 0) {
         this.props.loadBooks();
+      }
+
+      if (this.props.user.username && !Object.keys(this.props.borrowedBooks).length > 0) {
+        this.props.loadBorrowedBooks(this.props.user);
       }
 
       $('.modal').modal();
@@ -73,13 +78,15 @@ export default (ComposedComponent) => {
     currentURL: ownProps.location.pathname,
     redirectUrl: state.redirectUrl,
     membershipTypes: state.membershipTypes,
-    books: state.books
+    books: state.books,
+    borrowedBooks: state.borrowedBooks
   });
 
   const mapDispatchToProps = dispatch => ({
     setRedirectUrl: url => dispatch(setRedirectUrl(url)),
     loadMembershipTypes: () => dispatch(loadMembershipTypes()),
-    loadBooks: () => dispatch(loadBooks())
+    loadBooks: () => dispatch(loadBooks()),
+    loadBorrowedBooks: user => dispatch(loadBorrowedBooks(user))
   });
 
   IsAuthenticated.propTypes = {
@@ -88,7 +95,8 @@ export default (ComposedComponent) => {
     redirectUrl: PropTypes.string,
     setRedirectUrl: PropTypes.func.isRequired,
     loadMembershipTypes: PropTypes.func,
-    loadBooks: PropTypes.func
+    loadBooks: PropTypes.func,
+    loadBorrowedBooks: PropTypes.func,
   };
 
   return connect(mapStateToProps, mapDispatchToProps)(IsAuthenticated);

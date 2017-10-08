@@ -249,8 +249,12 @@ export default {
       return res.status(400).send({ error: 'You cannot return a book that has not been borrowed' });
     }
 
+    const attributes = ['id', 'userId', 'bookId',
+      'dueDate', 'returned', 'surcharge', 'createdAt', 'updatedAt'];
+
     return db.UserBook
       .findOne({
+        attributes,
         where: {
           bookId: req.book.id,
           userId: req.auth.id,

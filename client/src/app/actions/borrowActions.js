@@ -1,54 +1,47 @@
 import axios from 'axios';
+import toastr from 'toastr';
 import types from './actionTypes';
-import { constants } from '../helpers/constants';
+import { authCheck } from './userActions';
 
-const addBookSuccess = book => ({
-  type: types.ADD_BOOK_SUCCESS, book
+const borrowBookSuccess = borrowedBook => ({
+  type: types.BORROW_BOOK_SUCCESS, borrowedBook
 });
 
-const loadBooksSuccess = books => ({
-  type: types.LOAD_BOOKS_SUCCESS, books
+const loadBorrowedBooksSuccess = borrowedBooks => ({
+  type: types.LOAD_BORROWED_BOOKS_SUCCESS, borrowedBooks
 });
 
-const updateBookSuccess = book => ({
-  type: types.UPDATE_BOOK_SUCCESS, book
+const returnBookSuccess = returnedBook => ({
+  type: types.RETURN_BOOK_SUCCESS, returnedBook
 });
 
-const addStockQuantitySuccess = book => ({
-  type: types.ADD_STOCK_QUANTITY_SUCCESS, book
-});
-
-const deleteBookSuccess = book => ({
-  type: types.DELETE_BOOK_SUCCESS, book
-});
-
-const loadBooks = () => dispatch =>
-  axios.get('/api/v1/books', constants())
-    .then(({ data }) => dispatch(loadBooksSuccess(data)))
+const loadBorrowedBooks = user => (dispatch) => {
+  const headers = authCheck(dispatch);
+  return axios.get(`/api/v1/users/${user.id}/books`, headers)
+    .then(({ data }) => dispatch(loadBorrowedBooksSuccess(data)))
     .catch((error) => {
       throw (error);
     });
-
-const saveBook = book => (dispatch) => {
-  if (book.id) {
-    return axios.put(`/api/v1/books/${book.id}`,
-      book, constants())
-      .then(({ data }) => dispatch(updateBookSuccess(data.book)));
-  }
-
-  return axios.post('/api/v1/books', book, constants())
-    .then(({ data }) => dispatch(addBookSuccess(data.book)));
 };
 
-const addStockQuantity = (book, quantity) => dispatch =>
-  axios.post(`/api/v1/books/${book.id}`, { quantity }, constants())
+const borrowBook = (user, bookId) => (dispatch) => {
+  const headers = authCheck(dispatch);
+  return axios.post(`/api/v1/users/${user.id}/books`,
+    { bookId }, headers)
     .then(({ data }) => {
-      book.stockQuantity = Number.parseInt(book.stockQuantity, 10) + Number.parseInt(quantity, 10);
-      return dispatch(addStockQuantitySuccess(book));
+      toastr.success(data.message);
+      dispatch(borrowBookSuccess(data.borrowedBook));
     });
+};
 
-const deleteBook = book => dispatch =>
-  axios.delete('/api/v1/books', constants())
-    .then(({ data }) => dispatch(deleteBookSuccess(data.book)));
+const returnBook = (user, bookId) => (dispatch) => {
+  const headers = authCheck(dispatch);
+  return axios.put(`/api/v1/users/${user.id}/books`,
+    { bookId }, headers)
+    .then(({ data }) => {
+      toastr.success(data.message);
+      dispatch(returnBookSuccess(data.returnedBook));
+    });
+};
 
-export { loadBooks, saveBook, addStockQuantity, deleteBook };
+export { loadBorrowedBooks, borrowBook, returnBook };

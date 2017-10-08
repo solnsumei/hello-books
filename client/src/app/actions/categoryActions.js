@@ -1,6 +1,6 @@
 import axios from 'axios';
 import types from './actionTypes';
-import { constants } from '../helpers/constants';
+import { authCheck } from './userActions';
 
 // axios.defaults.baseURL = 'http://localhost:8000/api/v1';
 
@@ -18,22 +18,25 @@ const updateCategorySuccess = category => ({
   type: types.UPDATE_CATEGORY_SUCCESS, category
 });
 
-const loadCategories = () => dispatch =>
-  axios.get('/api/v1/categories', constants())
+const loadCategories = () => (dispatch) => {
+  const headers = authCheck(dispatch);
+  return axios.get('/api/v1/categories', headers)
     .then(({ data }) => dispatch(loadCategoriesSuccess(data)))
     .catch((error) => {
       throw (error);
     });
+};
 
 
 const saveCategory = category => (dispatch) => {
+  const headers = authCheck(dispatch);
   if (category.id) {
     return axios.put(`/api/v1/categories/${category.id}`,
-      category, constants())
+      category, headers)
       .then(({ data }) => dispatch(updateCategorySuccess(data.category)));
   }
 
-  return axios.post('/api/v1/categories', category, constants())
+  return axios.post('/api/v1/categories', category, headers)
     .then(({ data }) => dispatch(addCategorySuccess(data.category)));
 };
 

@@ -1,10 +1,10 @@
 import React from 'react';
 
-const Modal = props => (
-  <div id={props.id} className="modal">
+const Modal = ({ id, title, text, action }) => (
+  <div id={id} className="modal">
     <div className="modal-content">
-      <h4>{props.title}</h4>
-      <p>{props.text}</p>
+      <h4>{title}</h4>
+      <p>{text}</p>
     </div>
     <div className="modal-footer">
       <button type="button"
@@ -13,7 +13,7 @@ const Modal = props => (
       </button>
 
       <button type="button"
-        onClick={props.onDelete} className="waves-effect waves-green btn-flat">
+        onClick={action} className="waves-effect waves-green btn-flat">
         Confirm
       </button>
     </div>
