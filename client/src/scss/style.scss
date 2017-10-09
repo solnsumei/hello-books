@@ -1,0 +1,92 @@
+body{
+    font-family:'Source Sans Pro', sans-serif;
+    color:#444;
+    background-color: #F5F5F5;
+    font-size:16px;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    font-smoothing: antialiased;
+}
+
+nav .brand-logo {
+  padding-left: 15px;
+  font-size: 1.8rem;
+}
+
+.input-field label::after {
+  min-width: 600px;
+}
+
+.card-title {
+  font-size: 18px !important;
+}
+
+.card-title a {
+  color: inherit !important;
+}
+
+.input-field.col label {
+  width:100% !important;
+}
+
+.top-padding {
+  padding-top: 15px !important;
+}
+
+* {
+    text-shadow: 0 1px 1px rgba(255,255,255,.3);
+}
+
+p{line-height: 24px; font-size: 14px}
+
+h1,h2,h3,h4,h5,h6{ font-family:'Source Sans Pro', sans-serif}
+
+h1{font-size:50px; font-weight: 200; color: #555; margin-bottom: 20px;}
+h2{font-size: 30px; font-weight: 300; color:#444; margin: 30px 0}
+h3{font-size: 20px; font-weight: 400; margin: 20px 0;}
+h4{font-size:18px; font-weight: 400}
+
+.material-icons{
+     display: inline-flex;
+     vertical-align: middle;
+     padding-bottom: 3px !important;
+}
+
+.profile p{
+  margin-top: 10px !important;
+}
+
+.margin-2x{
+    margin-top: 20px !important;
+}
+
+.center-children {
+  height: 80% !important;
+}
+
+.full-height {
+  height: 100% !important;
+}
+
+.top {
+  padding-top: 0 !important;
+  margin-top: 0 !important;
+}
+
+.img-thumbnail {
+  width: 100%;
+}
+
+.active-nav {
+  background-color: #ccc;
+}
+
+.container-full-height {
+  height: 100% !important;
+}
+
+.height600 {
+  min-height: 600px;
+}
+
+.book-details p{line-height: 12px; font-size: 12px}

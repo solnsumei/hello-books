@@ -1,0 +1,180 @@
+import React from 'react';
+import { Link } from 'react-router-dom';
+import toastr from 'toastr';
+import { connect } from 'react-redux';
+import Modal from '../common/Modal';
+import { borrowBook, returnBook } from '../../actions/borrowActions';
+/**
+ *
+ */
+class BookDetailPage extends React.Component {
+  /**
+   * [constructor description]
+   * @method constructor
+   * @param  {[type]}    props [description]
+   * @return {[type]}          [description]
+   */
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      isBorrowed: this.props.isBorrowed
+    };
+
+    this.confirmBorrow = this.confirmBorrow.bind(this);
+    this.confirmReturn = this.confirmReturn.bind(this);
+  }
+
+  /**
+   * [componentWillReceiveProps description]
+   * @method componentWillReceiveProps
+   * @param  {[type]} nextProps [description]
+   * @return {[type]} [description]
+   */
+  componentWillReceiveProps(nextProps) {
+    if (this.props.isBorrowed !== nextProps.isBorrowed) {
+      // Necessary to populate form when existing course is loaded directly
+      this.setState({ isBorrowed: nextProps.isBorrowed });
+    }
+  }
+
+  /**
+   * [confirmBorrow description]
+   * @method confirmBorrow
+   * @return {[type]} [description]
+   */
+  confirmBorrow() {
+    const { user, book } = this.props;
+
+    $('.modal').modal('close');
+
+    this.props.borrow(user, book.id)
+      .then((response) => {
+        this.setState({ isBorrowed: true });
+      })
+      .catch(({ response }) => toastr.error(response.data.error)
+      );
+  }
+
+  /**
+   * [confirmReturn description]
+   * @method confirmReturn
+   * @return {[type]} [description]
+   */
+  confirmReturn() {
+    const { user, book } = this.props;
+
+    $('.modal').modal('close');
+
+    this.props.return(user, book.id)
+      .then((response) => {
+        this.setState({ isBorrowed: false });
+      })
+      .catch(({ response }) => toastr.error(response.data.error));
+  }
+
+  /**
+  * [render description]
+  * @return {[type]} [description]
+  */
+  render() {
+    const { book, user } = this.props;
+    return (
+      <div>
+        <div className="row">
+          <div className="col s12 m5">
+            <h3>
+              <strong>{book.title}</strong>
+            </h3>
+            <p className="offset-3"><i>By {book.author}</i></p>
+
+            {book.description}
+
+          </div>
+
+          <div className="col s12 m4">
+            <div className="card">
+              <div className="card-image">
+                <img src={book.coverPic} />
+              </div>
+            </div>
+          </div>
+
+          <div className="col s12 m3">
+            <p>({book.Category.name})</p>
+            <p>Status: { book.borrowedQuantity < book.stockQuantity ?
+              <label className="label label-success">Available</label> :
+              <label className="label label-danger">Out of Stock</label>}
+            </p>
+            {book.borrowedQuantity < book.stockQuantity && !user.admin && !this.state.isBorrowed &&
+              <button data-target="modal1" className="btn modal-trigger">
+                Borrow
+              </button>}
+
+            {!user.admin && this.state.isBorrowed &&
+              <button data-target="modal1" className="btn modal-trigger">
+                Return Book
+              </button>}
+
+            <p><Link to="/books">Back to Catalog</Link></p>
+          </div>
+        </div>
+        <Modal id="modal1"
+          title={!this.state.isBorrowed ? 'Confirm Borrow' : 'Confirm Return'}
+          text={!this.state.isBorrowed ?
+            'Do you want to borrow this book?' :
+            'Do you want to return this book?' }
+          action={!this.state.isBorrowed ? this.confirmBorrow : this.confirmReturn}
+        />
+      </div>
+    );
+  }
+}
+
+const inBorrowedList = (borrowedBooks, id) => {
+  const foundInList = borrowedBooks.filter(borrowedBook =>
+    borrowedBook.bookId === id && !borrowedBook.returned);
+
+  if (foundInList[0]) return true;
+  return false;
+};
+
+const getBookById = (books, id) => {
+  const foundBook = books.filter(book => book.id === id);
+  // since filter returns an array, you have to grab the first
+  if (foundBook) return foundBook[0];
+  return null;
+};
+
+const mapStateToProps = (state, ownProps) => {
+  // from the path '/books/:id'
+  const bookId = ownProps.match.params.id;
+  let isBorrowed = false;
+
+  let book = {
+    Category: {
+      name: ''
+    }
+  };
+
+  if (bookId && state.books.length > 0) {
+    book = getBookById(state.books, (Number.parseInt(bookId, 10)));
+  }
+
+  if (bookId && state.borrowedBooks.length > 0) {
+    isBorrowed = inBorrowedList(state.borrowedBooks, (Number.parseInt(bookId, 10)));
+  }
+
+  return ({
+    book,
+    user: state.user,
+    isBorrowed
+  });
+};
+
+const mapDispatchToProps = dispatch => ({
+  borrow: (user, bookId) => dispatch(borrowBook(user, bookId)),
+  return: (user, bookId) => dispatch(returnBook(user, bookId))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(BookDetailPage);

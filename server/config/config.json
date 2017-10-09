@@ -1,0 +1,18 @@
+{
+  "development": {
+    "username": "solking",
+    "password": "solomon",
+    "database": "hellobooks_db",
+    "host": "127.0.0.1",
+    "port": 5432,
+    "dialect": "postgres"
+  },
+  "test": {
+    "use_env_variable": "TEST_DB",
+    "dialect": "postgres"
+  },
+  "production": {
+    "use_env_variable": "DATABASE_URL",
+    "dialect": "postgres"
+  }
+}
