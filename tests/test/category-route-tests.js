@@ -34,7 +34,7 @@ describe('Category Routes', () => {
             .end((err, res) => {
               adminToken = res.body.token;
               request(app)
-                .post('/api/v1/categories/signin')
+                .post('/api/v1/categories')
                 .set('Accept', 'application/json')
                 .set('x-token', adminToken)
                 .send(category3)
@@ -197,7 +197,7 @@ describe('Category Routes', () => {
 
     });
 
-    describe('POST add category when ordinary user has a valid token', () => {
+    describe('PUT update category when ordinary user has a valid token', () => {
       it('it should respond with a 403 with error message access denied, admins only', (done) => {
         request(app)
           .put(`/api/v1/categories/${categoryId}`)
@@ -211,7 +211,7 @@ describe('Category Routes', () => {
       });
     });
 
-    describe('POST add category when admin has a valid token', () => {
+    describe('PUT update category when admin has a valid token', () => {
       it('it should respond with a 400 with errors', (done) => {
         request(app)
           .put(`/api/v1/categories/${categoryId}`)
