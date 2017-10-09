@@ -1,6 +1,7 @@
 import axios from 'axios';
 import jwt from 'jsonwebtoken';
 import types from './actionTypes';
+import { constants } from '../helpers/constants';
 
 
 // axios.defaults.baseURL = 'http://localhost:8000/api/v1';
@@ -42,9 +43,17 @@ const userAuthFailed = () => ({
 const checkAuthentication = () => (dispatch) => {
   const user = setAuthUser();
   if (!user) {
-    return dispatch(userAuthFailed());
+    return dispatch(signOutUser());
   }
   return dispatch(userAuthSuccess(user));
+};
+
+const authCheck = (dispatch) => {
+  const user = setAuthUser();
+  if (!user) {
+    return dispatch(signOutUser());
+  }
+  return ({ headers: { 'x-token': localStorage.getItem(types.USER_TOKEN) } });
 };
 
 const logoutRequest = () => (dispatch) => {
@@ -56,13 +65,17 @@ const logoutRequest = () => (dispatch) => {
   return dispatch(userAuthFailed());
 };
 
-const updateUserAccount = userData => dispatch =>
-  axios.put('/api/v1/users/profile', userData)
+const updateUserAccount = userData => (dispatch) => {
+  const headers = authCheck(dispatch);
+
+  return axios.put('/api/v1/users/profile', userData, headers)
     .then(({ data }) => {
       localStorage.setItem(types.USER_TOKEN, data.token);
       const user = setAuthUser(data.token);
       return dispatch(userAuthSuccess(user));
     });
+};
+
 
 const loginRequest = loginData => dispatch =>
   axios.post('/api/v1/users/signin', loginData)
@@ -81,4 +94,4 @@ const userSignUpRequest = userData => dispatch =>
     });
 
 export { loginRequest, userSignUpRequest, userAuthSuccess,
-  updateUserAccount, checkAuthentication, logoutRequest };
+  updateUserAccount, checkAuthentication, logoutRequest, authCheck };

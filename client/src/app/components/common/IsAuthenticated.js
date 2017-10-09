@@ -1,9 +1,11 @@
 import React from 'react';
-import { Route, Redirect, Switch } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import setRedirectUrl from '../../actions/redirectActions';
 import { loadMembershipTypes } from '../../actions/membershipTypeActions';
+import { loadBooks } from '../../actions/bookActions';
+import { loadBorrowedBooks } from '../../actions/borrowActions';
 
 export default (ComposedComponent) => {
   /**
@@ -34,6 +36,14 @@ export default (ComposedComponent) => {
         this.props.loadMembershipTypes();
       }
 
+      if (this.props.user.username && !Object.keys(this.props.books).length > 0) {
+        this.props.loadBooks();
+      }
+
+      if (this.props.user.username && !Object.keys(this.props.borrowedBooks).length > 0) {
+        this.props.loadBorrowedBooks(this.props.user);
+      }
+
       $('.modal').modal();
       $('select').material_select();
     }
@@ -56,7 +66,7 @@ export default (ComposedComponent) => {
     render() {
       if (this.props.user && this.props.user.username) {
         return (
-          <ComposedComponent />
+          <ComposedComponent {...this.props} {...this.state} />
         );
       }
       return null;
@@ -67,12 +77,16 @@ export default (ComposedComponent) => {
     user: state.user,
     currentURL: ownProps.location.pathname,
     redirectUrl: state.redirectUrl,
-    membershipTypes: state.membershipTypes
+    membershipTypes: state.membershipTypes,
+    books: state.books,
+    borrowedBooks: state.borrowedBooks
   });
 
   const mapDispatchToProps = dispatch => ({
     setRedirectUrl: url => dispatch(setRedirectUrl(url)),
-    loadMembershipTypes: () => dispatch(loadMembershipTypes())
+    loadMembershipTypes: () => dispatch(loadMembershipTypes()),
+    loadBooks: () => dispatch(loadBooks()),
+    loadBorrowedBooks: user => dispatch(loadBorrowedBooks(user))
   });
 
   IsAuthenticated.propTypes = {
@@ -81,6 +95,8 @@ export default (ComposedComponent) => {
     redirectUrl: PropTypes.string,
     setRedirectUrl: PropTypes.func.isRequired,
     loadMembershipTypes: PropTypes.func,
+    loadBooks: PropTypes.func,
+    loadBorrowedBooks: PropTypes.func,
   };
 
   return connect(mapStateToProps, mapDispatchToProps)(IsAuthenticated);

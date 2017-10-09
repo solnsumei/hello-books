@@ -1,24 +1,35 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { formatDate } from '../../helpers/constants';
 
-const BorrowedItem = (props) => {
-  const historyPage = props.borrowHistory ? <td>{props.isReturned}</td> : null;
+const BorrowedItem = ({ borrowedBook, page, action }) => {
+  const historyPage = page ? <td>{borrowedBook.returned ? 'yes' : 'no'}</td> : null;
 
-  const returned = props.isReturned === 'no' ?
-    <button className="btn waves-effect waves-light blue" name="action">
+  const returned = !borrowedBook.returned ?
+    <button
+      onClick={action}
+      className="btn waves-effect waves-light blue">
       Return
     </button> : '';
 
   return (
     <tr>
-      <td>{props.bookTitle}</td>
-      <td>{props.borrowDate}</td>
-      <td>{props.dueDate}</td>
+      <td><Link to={`/books/${borrowedBook.bookId}`}>
+        {borrowedBook.Book.title}</Link>
+      </td>
+      <td>{formatDate(borrowedBook.createdAt)}</td>
+      <td>{formatDate(borrowedBook.dueDate)}</td>
       {historyPage}
       <td>
         { returned }
       </td>
     </tr>
   );
+};
+
+BorrowedItem.propTypes = {
+  borrowedBook: PropTypes.object.isRequired,
 };
 
 export default BorrowedItem;

@@ -1,5 +1,7 @@
 import axios from 'axios';
 import types from './actionTypes';
+import { authCheck } from './userActions';
+import { constants } from '../helpers/constants';
 
 // axios.defaults.baseURL = 'http://localhost:8000/api/v1';
 
@@ -11,10 +13,8 @@ const loadMembershipTypeSuccess = membershipTypes => ({
 });
 
 const loadMembershipTypes = () => (dispatch) => {
-  const token = localStorage.getItem(types.USER_TOKEN);
-  axios.defaults.headers.common['x-token'] = token;
-
-  return axios.get('/api/v1/membershiptypes')
+  const headers = authCheck(dispatch);
+  return axios.get('/api/v1/membershiptypes', constants())
     .then(({ data }) => dispatch(loadMembershipTypeSuccess(data)))
     .catch(({ response }) => {
       throw (response);

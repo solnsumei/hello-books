@@ -1,5 +1,4 @@
 import db from '../models/index';
-
 /**
  * Controller for adding, updating and get all books
  * @exports {Object} booksController
@@ -23,7 +22,24 @@ export default {
         coverPic: req.body.coverPic,
         stockQuantity: req.body.stockQuantity,
       })
-      .then(book => res.status(201).send(book))
+      .then(book => res.status(201).send({
+        book: {
+          id: book.id,
+          title: book.title,
+          categoryId: book.categoryId,
+          author: book.author,
+          description: book.description,
+          coverPic: book.coverPic,
+          stockQuantity: book.stockQuantity,
+          borrowedQuantity: book.borrowedQuantity,
+          isDeleted: book.isDeleted,
+          createdAt: book.createdAt,
+          Category: {
+            name: req.category.name,
+            slug: req.category.slug
+          }
+        }
+      }))
       .catch((error) => {
         if (error.name === 'SequelizeValidationError' ||
           error.name === 'SequelizeUniqueConstraintError') {
@@ -38,7 +54,7 @@ export default {
         }
 
         return res.status(500).send({
-          error: 'Request could not be processed, please try again later'
+          error
         });
       }
       );
@@ -52,24 +68,28 @@ export default {
    * @returns {Promise.<Object>} books
    */
   getAllBooks(req, res) {
-    let attributes = ['id', 'title', 'categoryId', 'author', 'description', 'coverPic'];
+    let attributes = ['id', 'title', 'categoryId', 'author', 'description', 'coverPic', 'stockQuantity',
+      'borrowedQuantity'];
+    const query = { title: { $ne: null } };
 
     if (req.auth.admin) {
       attributes = [...attributes,
-        'stockQuantity',
-        'borrowedQuantity',
-        'isDeleted'
+        'isDeleted',
+        'isBorrowed',
+        'createdAt'
       ];
+    } else {
+      query.isDeleted = false;
     }
 
     return db.Book
-      .scope('active')
       .findAll({
         attributes,
         include: [{
           model: db.Category,
           attributes: ['name', 'slug']
-        }]
+        }],
+        where: query
       })
       .then(books => res.status(200).send(books))
       .catch((error) => {
@@ -90,7 +110,6 @@ export default {
    */
   update(req, res) {
     return db.Book
-      .scope('active')
       .findById(req.params.bookId)
       .then((book) => {
         if (!book) {
@@ -101,10 +120,27 @@ export default {
           categoryId: req.body.categoryId,
           author: req.body.author,
           description: req.body.description,
-          coverPic: req.body.coverPic
+          coverPic: req.body.coverPic,
         }).then((result) => {
           if (result) {
-            return res.status(200).send(book);
+            return res.status(200).send({
+              book: {
+                id: book.id,
+                title: book.title,
+                categoryId: book.categoryId,
+                author: book.author,
+                description: book.description,
+                coverPic: book.coverPic,
+                stockQuantity: book.stockQuantity,
+                borrowedQuantity: book.borrowedQuantity,
+                isDeleted: book.isDeleted,
+                createdAt: book.createdAt,
+                Category: {
+                  name: req.category.name,
+                  slug: req.category.slug
+                }
+              }
+            });
           }
         })
           .catch((error) => {
@@ -134,7 +170,7 @@ export default {
       if (result) {
         return res.status(200).send({
           success: true,
-          message: 'Stock quantity updated successfully'
+          message: 'Stock quantity updated successfully',
         });
       }
     })

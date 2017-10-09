@@ -21,6 +21,7 @@ export default {
         slug: slug(req.body.name.toLowerCase()),
       })
       .then(category => res.status(201).send({ category: {
+        id: category.id,
         name: category.name,
         slug: category.slug
       }
@@ -82,7 +83,11 @@ export default {
         return res.status(200).send({
           success: true,
           message: 'Category updated successfully',
-          category: req.category
+          category: {
+            id: req.category.id,
+            name: req.category.name,
+            slug: req.category.slug
+          }
         });
       }
     })

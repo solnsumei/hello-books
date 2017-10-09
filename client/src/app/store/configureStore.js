@@ -1,6 +1,6 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
-import rootReducer from '../reducers/rootReducer';
+import appReducer from '../reducers/appReducer';
 
 /* eslint-disable */
 const composeEnhancers =
@@ -22,5 +22,5 @@ const enhancer = composeEnhancers(
  * @return {[type]}                    [description]
  */
 export default function configureStore() {
-  return createStore(rootReducer, enhancer);
+  return createStore(appReducer, enhancer);
 }
