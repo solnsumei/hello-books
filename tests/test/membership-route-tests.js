@@ -79,7 +79,7 @@ describe('Admin Membership Routes', () => {
           .expect(/"lendDuration":\s*"Lend-duration must be a number"/, done);
       });
 
-      it('it should respond with a 200 with the category name', (done) => {
+      it('it should respond with a 200 with the updated membership type', (done) => {
         request(app)
           .put(`/api/v1/membershiptypes/${membershipTypeId}`)
           .set('Accept', 'application/json')
