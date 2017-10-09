@@ -257,7 +257,7 @@ describe('Category Routes', () => {
           .send({ name: category2.name })
           .expect(200)
           .expect('Content-Type', /json/)
-          .expect(/"message":\s*"Category updated successfully"/, done);
+          .expect(/"message":\s*"Category updated successfully"/);
           .expect(/"name":\s*"Programming"/, done);
       });
 
