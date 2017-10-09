@@ -94,7 +94,7 @@ describe('User', () => {
           .expect(201)
           .expect('Content-Type', /json/)
           .expect(/"username":\s*"solmei"/)
-          .expect(/"email":\s*"solmei@gmail.com"/, done);
+          .expect(/"message":\s*"User created successfully"/, done);
       });
 
       it('responds with a 201 with created user', (done) => {
@@ -105,7 +105,7 @@ describe('User', () => {
           .expect(201)
           .expect('Content-Type', /json/)
           .expect(/"username":\s*"solmei23"/)
-          .expect(/"email":\s*"solmei23@gmail.com"/, done);
+          .expect(/"message":\s*"User created successfully"/, done);
       });
 
     });

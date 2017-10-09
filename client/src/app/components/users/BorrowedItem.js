@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { formatDate } from '../../helpers/constants';
 
 const BorrowedItem = ({ borrowedBook, page, action }) => {
   const historyPage = page ? <td>{borrowedBook.returned ? 'yes' : 'no'}</td> : null;
@@ -17,8 +18,8 @@ const BorrowedItem = ({ borrowedBook, page, action }) => {
       <td><Link to={`/books/${borrowedBook.bookId}`}>
         {borrowedBook.Book.title}</Link>
       </td>
-      <td>{borrowedBook.createdAt}</td>
-      <td>{borrowedBook.dueDate}</td>
+      <td>{formatDate(borrowedBook.createdAt)}</td>
+      <td>{formatDate(borrowedBook.dueDate)}</td>
       {historyPage}
       <td>
         { returned }

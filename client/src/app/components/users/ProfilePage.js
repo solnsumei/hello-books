@@ -84,7 +84,7 @@ class ProfilePage extends React.Component {
   updateUser(event) {
     event.preventDefault();
     this.setState({ errors: {} });
-    this.props.dispatch(updateUserAccount(this.state.user))
+    this.props.updateUser(this.state.user)
       .catch(({ response }) => {
         if (response.data.errors) {
           this.setState({ errors: response.data.errors });
@@ -202,6 +202,7 @@ ProfilePage.propTypes = {
   user: PropTypes.object.isRequired,
   borrowedBooks: PropTypes.array,
   editUser: PropTypes.bool.isRequired,
+  updateUser: PropTypes.func,
   updateFormState: PropTypes.func
 };
 
@@ -225,7 +226,8 @@ const mapStateToProps = (state, ownProps) => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  returnBook: (user, bookId) => dispatch(returnBook(user, bookId))
+  returnBook: (user, bookId) => dispatch(returnBook(user, bookId)),
+  updateUser: user => dispatch(updateUserAccount(user))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProfilePage);

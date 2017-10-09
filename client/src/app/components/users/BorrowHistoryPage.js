@@ -117,10 +117,14 @@ class BorrowHistoryPage extends React.Component {
   }
 }
 
-const mapStateToProps = (state, ownProps) => ({
-  borrowedBooks: state.borrowedBooks,
-  user: state.user
-});
+const mapStateToProps = (state, ownProps) => {
+  let borrowedBooks = [];
+  borrowedBooks = state.borrowedBooks.sort((a, b) => (b.id - a.id));
+  return ({
+    borrowedBooks,
+    user: state.user
+  });
+};
 
 const mapDispatchToProps = dispatch => ({
   returnBook: (user, bookId) => dispatch(returnBook(user, bookId))
