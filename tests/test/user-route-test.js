@@ -138,6 +138,37 @@ describe('User', () => {
 
   describe('POST /api/users/signin', () => {
 
+    it('responds with a 400 status and username and password required', (done) => {
+      request(app)
+        .post('/api/v1/users/signin')
+        .send({})
+        .set('Accept', 'application/json')
+        .expect(400)
+        .expect('Content-Type', /json/)
+        .expect(/"username":\s*"Username is required"/)
+        .expect(/"password":\s*"Password is required"/, done);
+    });
+
+    it('responds with a 400 status and password is required', (done) => {
+      request(app)
+        .post('/api/v1/users/signin')
+        .send({ username: 'solmei' })
+        .set('Accept', 'application/json')
+        .expect(400)
+        .expect('Content-Type', /json/)
+        .expect(/"password":\s*"Password is required"/, done);
+    });
+
+    it('responds with a 400 status with username is required', (done) => {
+      request(app)
+        .post('/api/v1/users/signin')
+        .send({ password: 'solking' })
+        .set('Accept', 'application/json')
+        .expect(400)
+        .expect('Content-Type', /json/)
+        .expect(/"username":\s*"Username is required"/, done);
+    });
+
     it('responds with a 401 status and user not found error', (done) => {
       request(app)
         .post('/api/v1/users/signin')
