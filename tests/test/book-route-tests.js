@@ -204,7 +204,7 @@ describe('Book Routes', () => {
           .post(`/api/v1/books/${book2.id}`)
           .set('Accept', 'application/json')
           .set('x-token', adminToken)
-          send({})
+          .send({})
           .end((err, res) => {
             assert.equal(res.status, 400);
             assert.equal(res.body.error, 'Quantity is required');
@@ -263,7 +263,7 @@ describe('Book Routes', () => {
           .put('/api/v1/books/89')
           .set('Accept', 'application/json')
           .set('x-token', adminToken)
-          .send(book1)
+          .send(book3)
           .end((err, res) => {
             assert.equal(res.status, 404);
             assert.equal(res.body.error, 'Book not found');
@@ -294,7 +294,7 @@ describe('Book Routes', () => {
             assert.equal(res.status, 200);
             assert.equal(res.body.book.title, 'Book Three');
             assert.equal(res.body.book.author, 'Packard Bell');
-            assert.equal(res.body.categoryId, book3.categoryId);
+            assert.equal(res.body.book.categoryId, book3.categoryId);
             done();
           });
       });
