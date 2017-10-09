@@ -25,6 +25,7 @@ export default {
         // Return logged in user
         return res.status(201).send({
           message: 'User created successfully',
+          userId: user.id,
           username: user.username,
           token
         });
@@ -155,6 +156,7 @@ export default {
           }
           // Return logged in user
           return res.status(200).send({
+            userId: user.id,
             username: user.username,
             token
           });

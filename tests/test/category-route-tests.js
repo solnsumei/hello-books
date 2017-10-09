@@ -173,7 +173,7 @@ describe('Category Routes', () => {
 
   describe('PUT update category /api/v1/categories', () => {
 
-    describe('POST try to add a category without being logged in', () => {
+    describe('POST try to update a category without being logged in', () => {
       it('it should respond with a 401 with access denied please log in error message', (done) => {
         request(app)
           .put(`/api/v1/categories/${categoryId}`)

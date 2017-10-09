@@ -27,7 +27,7 @@ export default function userCanBorrow(req, res, next) {
         })
           .then((result) => {
             if (result > 0 && result >= user.MembershipType.maxBorrowable) {
-              return res.status(400).send({ error: 'You have exceeded the maximum bok you can hold at a time' });
+              return res.status(400).send({ error: 'You have exceeded the maximum book you can hold at a time' });
             }
             req.lendDuration = user.MembershipType.lendDuration;
 
