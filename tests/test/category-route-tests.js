@@ -10,9 +10,9 @@ describe('Category Routes', () => {
   let adminToken = null;
 
   let categoryId = null;
-  const category1 = new Category('Fiction');
-  const category2 = new Category('Programming');
-  const category3 = new Category('Android');
+  const category1 = new Category('Fiction', 'fiction');
+  const category2 = new Category('Programming', 'programming');
+  const category3 = new Category('Android', 'android');
 
   const admin = new User('Ejiro', 'Chuks', 'ejiro', 'ejiro@gmail.com', 'solomon1', true);
   const user = new User('Solking', 'Ejiroh', 'solking', 'solking@gmail.com', 'solomon1', false);
@@ -33,7 +33,15 @@ describe('Category Routes', () => {
             .set('Accept', 'application/json')
             .end((err, res) => {
               adminToken = res.body.token;
-              done();
+              request(app)
+                .post('/api/v1/categories/signin')
+                .set('Accept', 'application/json')
+                .set('x-token', adminToken)
+                .send(category3)
+                .end((err, res) => {
+                  categoryId = res.body.category.id;
+                  done();
+                });
             });
         });
       });
@@ -88,18 +96,6 @@ describe('Category Routes', () => {
   });
 
   describe('POST Add category /api/v1/categories', () => {
-    before((done) => {
-      request(app)
-        .post('/api/v1/categories/signin')
-        .set('Accept', 'application/json')
-        .set('x-token', adminToken)
-        .send({ name: category3.name })
-        .end((err, res) => {
-          categoryId = res.body.category.id;
-          done();
-        });
-    });
-
     describe('POST try to add a category without being logged in', () => {
       it('it should respond with a 401 with access denied please log in error message', (done) => {
         request(app)
@@ -190,7 +186,7 @@ describe('Category Routes', () => {
 
       it('it should respond with a 401 with access denied token not authenticated', (done) => {
         request(app)
-          .post(`/api/v1/categories/${categoryId}`)
+          .put(`/api/v1/categories/${categoryId}`)
           .set('Accept', 'application/json')
           .set('x-token', "hyssgsheejhusssy234558393")
           .send(category1)
@@ -204,7 +200,7 @@ describe('Category Routes', () => {
     describe('POST add category when ordinary user has a valid token', () => {
       it('it should respond with a 403 with error message access denied, admins only', (done) => {
         request(app)
-          .post(`/api/v1/categories/${categoryId}`)
+          .put(`/api/v1/categories/${categoryId}`)
           .set('Accept', 'application/json')
           .set('x-token', userToken)
           .send(category1)
@@ -218,7 +214,7 @@ describe('Category Routes', () => {
     describe('POST add category when admin has a valid token', () => {
       it('it should respond with a 400 with errors', (done) => {
         request(app)
-          .post(`/api/v1/categories/${categoryId}`)
+          .put(`/api/v1/categories/${categoryId}`)
           .set('Accept', 'application/json')
           .set('x-token', adminToken)
           .send({})
@@ -229,10 +225,10 @@ describe('Category Routes', () => {
 
       it('it should respond with a 400 with invalid category Id', (done) => {
         request(app)
-          .post('/api/v1/categories/whatsup')
+          .put('/api/v1/categories/whatsup')
           .set('Accept', 'application/json')
           .set('x-token', adminToken)
-          .send({ name: category2.name })
+          .send(category2)
           .expect(400)
           .expect('Content-Type', /json/)
           .expect(/"error":\s*"a valid category id is required"/, done);
@@ -240,10 +236,10 @@ describe('Category Routes', () => {
 
       it('it should respond with a 400 with duplicate category name error', (done) => {
         request(app)
-          .post('/api/v1/categories/24')
+          .put('/api/v1/categories/24')
           .set('Accept', 'application/json')
           .set('x-token', adminToken)
-          .send({ name: category2.name })
+          .send(category2)
           .expect(404)
           .expect('Content-Type', /json/)
           .expect(/"error":\s*"Category not found"/, done);
@@ -251,10 +247,10 @@ describe('Category Routes', () => {
 
       it('it should respond with a 200 with the category name', (done) => {
         request(app)
-          .post(`/api/v1/categories/${categoryId}`)
+          .put(`/api/v1/categories/${categoryId}`)
           .set('Accept', 'application/json')
           .set('x-token', adminToken)
-          .send({ name: category2.name })
+          .send(category2)
           .expect(200)
           .expect('Content-Type', /json/)
           .expect(/"message":\s*"Category updated successfully"/)
@@ -263,10 +259,10 @@ describe('Category Routes', () => {
 
       it('it should respond with a 409 with duplicate category name error', (done) => {
         request(app)
-          .post(`/api/v1/categories/${categoryId}`)
+          .put(`/api/v1/categories/${categoryId}`)
           .set('Accept', 'application/json')
           .set('x-token', adminToken)
-          .send({ name: category1.name })
+          .send(category3)
           .expect(409)
           .expect('Content-Type', /json/)
           .expect(/"name":\s*"Category name has already been used"/, done);
