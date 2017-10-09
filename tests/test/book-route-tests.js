@@ -16,7 +16,6 @@ describe('Book Routes', () => {
   const admin = new User('Ejiro', 'Chuks', 'ejiro', 'ejiro@gmail.com', 'solomon1', true);
   const user = new User('Solking', 'Ejiroh', 'solking', 'solking@gmail.com', 'solomon1', false);
 
-
   const category1 = new Category('Fiction', 'fiction');
   const category2 = new Category('Programming', 'programming');
 
@@ -41,6 +40,7 @@ describe('Book Routes', () => {
           .set('Accept', 'application/json')
           .end((err, res) => {
             userToken = res.body.token;
+            user.id = res.body.userId;
             request(app)
               .post('/api/v1/users/signin')
               .send({ username: admin.username, password: admin.password })
@@ -300,6 +300,177 @@ describe('Book Routes', () => {
       });
     });
   });
+
+  // Test borrow and return books
+  describe('Borrow borrow  and return book /api/v1/users/:userId/books', () => {
+    describe('POST borrow book when user has a valid token', () => {
+      it('it should respond with a 404 with book not found', (done) => {
+        request(app)
+          .post(`/api/v1/users/${user.id}/books`)
+          .set('Accept', 'application/json')
+          .set('x-token', userToken)
+          .send({})
+          .end((err, res) => {
+            assert.equal(res.status, 400);
+            assert.equal(res.body.error, 'a valid book id is required');
+            done();
+          })
+      });
+
+      it('it should respond with a 404 with book not found', (done) => {
+        request(app)
+          .post(`/api/v1/users/${user.id}/books`)
+          .set('Accept', 'application/json')
+          .set('x-token', userToken)
+          .send({ bookId: 34 })
+          .end((err, res) => {
+            assert.equal(res.status, 404);
+            assert.equal(res.body.error, 'Book not found');
+            done();
+          });
+      });
+
+      it('it should respond with a 400 with invalid user Id', (done) => {
+        request(app)
+          .post('/api/v1/users/hello/books')
+          .set('Accept', 'application/json')
+          .set('x-token', userToken)
+          .send({})
+          .end((err, res) => {
+            assert.equal(res.status, 400);
+            assert.equal(res.body.error, 'a valid user id is required');
+            done();
+          })
+      });
+
+      it('it should respond with a 401 with user not authorised', (done) => {
+        request(app)
+          .post(`/api/v1/users/12/books`)
+          .set('Accept', 'application/json')
+          .set('x-token', userToken)
+          .send({ bookId: book2.id })
+          .end((err, res) => {
+            assert.equal(res.status, 401);
+            assert.equal(res.body.error, 'You are not authorised to perform this action');
+            done();
+          });
+      });
+
+      it('it should respond with a 200 with borrowed book', (done) => {
+        request(app)
+          .post(`/api/v1/users/${user.id}/books`)
+          .set('Accept', 'application/json')
+          .set('x-token', userToken)
+          .send({ bookId: book2.id })
+          .end((err, res) => {
+            assert.equal(res.status, 200);
+            assert.equal(res.body.message, 'Book borrowed successfully');
+            assert.equal(res.body.borrowedBook.Book.title, 'Book Three');
+            assert.equal(res.body.borrowedBook.userId, user.id);
+            assert.equal(res.body.borrowedBook.bookId, book2.id);
+            done();
+          });
+      });
+
+      it('it should respond with a 409 with error', (done) => {
+        request(app)
+          .post(`/api/v1/users/${user.id}/books`)
+          .set('Accept', 'application/json')
+          .set('x-token', userToken)
+          .send({ bookId: book2.id })
+          .end((err, res) => {
+            assert.equal(res.status, 409);
+            assert.equal(res.body.error, 'You already borrowed this book');
+            done();
+          });
+      });
+
+    });
+
+    describe('PUT return book when user has a valid token', () => {
+      it('it should respond with a 404 with book not found', (done) => {
+        request(app)
+          .put(`/api/v1/users/${user.id}/books`)
+          .set('Accept', 'application/json')
+          .set('x-token', userToken)
+          .send({})
+          .end((err, res) => {
+            assert.equal(res.status, 400);
+            assert.equal(res.body.error, 'a valid book id is required');
+            done();
+          })
+      });
+
+      it('it should respond with a 404 with book not found', (done) => {
+        request(app)
+          .put(`/api/v1/users/${user.id}/books`)
+          .set('Accept', 'application/json')
+          .set('x-token', userToken)
+          .send({ bookId: 34 })
+          .end((err, res) => {
+            assert.equal(res.status, 404);
+            assert.equal(res.body.error, 'Book not found');
+            done();
+          });
+      });
+
+      it('it should respond with a 400 with invalid user id', (done) => {
+        request(app)
+          .post('/api/v1/users/hello/books')
+          .set('Accept', 'application/json')
+          .set('x-token', userToken)
+          .send({})
+          .end((err, res) => {
+            assert.equal(res.status, 400);
+            assert.equal(res.body.error, 'a valid user id is required');
+            done();
+          })
+      });
+
+      it('it should respond with a 401 with user not authorised', (done) => {
+        request(app)
+          .post(`/api/v1/users/12/books`)
+          .set('Accept', 'application/json')
+          .set('x-token', userToken)
+          .send({ bookId: book2.id })
+          .end((err, res) => {
+            assert.equal(res.status, 401);
+            assert.equal(res.body.error, 'You are not authorised to perform this action');
+            done();
+          });
+      });
+
+      it('it should respond with a 200 with returned book', (done) => {
+        request(app)
+          .put(`/api/v1/users/${user.id}/books`)
+          .set('Accept', 'application/json')
+          .set('x-token', userToken)
+          .send({ bookId: book2.id })
+          .end((err, res) => {
+            assert.equal(res.status, 200);
+            assert.equal(res.body.message, 'Book was returned successfully');
+            assert.equal(res.body.returnedBook.Book.title, 'Book Three');
+            assert.equal(res.body.returnedBook.userId, user.id);
+            assert.equal(res.body.returnedBook.bookId, book2.id);
+            done();
+          });
+      });
+
+      it('it should respond with a 400 with error', (done) => {
+        request(app)
+          .put(`/api/v1/users/${user.id}/books`)
+          .set('Accept', 'application/json')
+          .set('x-token', userToken)
+          .send({ bookId: book2.id })
+          .end((err, res) => {
+            assert.equal(res.status, 400);
+            assert.equal(res.body.error, 'You cannot return a book that has not been borrowed');
+            done();
+          });
+      });
+    });
+
+  })
 
   after((done) => {
     db.User.truncate();

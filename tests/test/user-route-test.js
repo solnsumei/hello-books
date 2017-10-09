@@ -5,9 +5,7 @@ import db from '../../server/models/index';
 
 // Test user sign up route
 describe('User', () => {
-
   describe('POST /api/v1/users/signup', () => {
-
     describe('POST Validation Errors /api/users/signup', () => {
       it('responds with a 400 bad request for empty body', (done) => {
         request(app)
