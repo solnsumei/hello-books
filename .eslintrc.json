@@ -10,7 +10,7 @@
   },
   "plugins": [
     "react", "jsx-a11y",
-    "jquery", "jquery"
+    "jquery"
   ],
   "parserOptions": {
     "ecmaFeatures": {
