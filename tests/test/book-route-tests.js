@@ -50,6 +50,7 @@ describe('Book Routes', () => {
                 request(app)
                   .post('/api/v1/categories')
                   .send(category2)
+                  .set('x-token', adminToken)
                   .set('Accept', 'application/json')
                   .end((err, res) => {
                     categoryId = res.body.category.id;
