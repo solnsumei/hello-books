@@ -51,7 +51,7 @@ describe('Admin Membership Routes', () => {
           .send(membershipType1)
           .expect(400)
           .expect('Content-Type', /json/)
-          .expect('{ "error": "Please provide a valid membership type id" }', done);
+          .expect('{"error": "Please provide a valid membership type id"}', done);
       });
 
       it('it should respond with a 400 with errors', (done) => {
@@ -60,7 +60,7 @@ describe('Admin Membership Routes', () => {
           .set('Accept', 'application/json')
           .set('x-token', adminToken)
           .send({})
-          .expect(404)
+          .expect(400)
           .expect('Content-Type', /json/)
           .expect(/"maxBorrowable":\s*"Max-borrowable is required"/)
           .expect(/"lendDuration":\s*"Lend-duration is required"/, done);
@@ -72,7 +72,7 @@ describe('Admin Membership Routes', () => {
           .set('Accept', 'application/json')
           .set('x-token', adminToken)
           .send({ lendDuration: 'hi', maxBorrowable: 'whatsup' })
-          .expect(404)
+          .expect(400)
           .expect('Content-Type', /json/)
           .expect(/"maxBorrowable":\s*"Max-borrowable must be a number"/)
           .expect(/"lendDuration":\s*"Lend-duration must be a number"/, done);
