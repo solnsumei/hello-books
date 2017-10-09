@@ -1,6 +1,7 @@
 // Import the required files and classes for test
 import app from '../../app';
 import request from 'supertest';
+import assert from 'assert';
 import db from '../../server/models/index';
 import { User, Category } from "../dataholder";
 
@@ -51,7 +52,7 @@ describe('Admin Membership Routes', () => {
           .send(membershipType1)
           .expect(400)
           .expect('Content-Type', /json/)
-          .expect('{"error": "Please provide a valid membership type id"}', done);
+          .expect('{"error":"Please provide a valid membership type id"}', done);
       });
 
       it('it should respond with a 400 with errors', (done) => {
@@ -84,10 +85,12 @@ describe('Admin Membership Routes', () => {
           .set('Accept', 'application/json')
           .set('x-token', adminToken)
           .send(membershipType1)
-          .expect(200)
-          .expect('Content-Type', /json/)
-          .expect(/"lendDuration":\s*"10"/)
-          .expect(/"maxBorrowable":\s*"15"/, done);
+          .end((err, res) => {
+            assert.equal(res.status, 200);
+            assert.equal(res.body.lendDuration, '10');
+            assert.equal(res.body.maxBorrowable, '15');
+            done();
+          })
       });
     });
   });
