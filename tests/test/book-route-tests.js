@@ -177,8 +177,8 @@ describe('Book Routes', () => {
             assert.equal(res.status, 201);
             assert.equal(res.body.book.title, 'Book Two');
             assert.equal(res.body.book.author, 'Ariel J');
-            assert.equal(res.body.categoryId, book2.categoryId);
-            book2.id = res.status.book.id;
+            assert.equal(res.body.book.categoryId, book2.categoryId);
+            book2.id = res.body.book.id;
             done();
           });
       });
@@ -225,7 +225,7 @@ describe('Book Routes', () => {
           });
       });
 
-      it('it should respond with a 201 with created book', (done) => {
+      it('it should respond with a 200 with success message', (done) => {
         request(app)
           .post(`/api/v1/books/${book2.id}`)
           .set('Accept', 'application/json')
@@ -247,7 +247,7 @@ describe('Book Routes', () => {
     describe('PUT update book when admin has a valid token', () => {
       it('it should respond with a 400 with bad request errors', (done) => {
         request(app)
-          .put(`/api/v1/books/${categoryId}`)
+          .put(`/api/v1/books/${book2.id}`)
           .set('Accept', 'application/json')
           .set('x-token', adminToken)
           .send({})
@@ -258,9 +258,22 @@ describe('Book Routes', () => {
           .expect(/"categoryId":\s*"Book category is required"/, done);
       });
 
+      it('it should respond with a 404 with book not found', (done) => {
+        request(app)
+          .put('/api/v1/books/89')
+          .set('Accept', 'application/json')
+          .set('x-token', adminToken)
+          .send(book1)
+          .end((err, res) => {
+            assert.equal(res.status, 404);
+            assert.equal(res.body.error, 'Book not found');
+            done();
+          });
+      });
+
       it('it should respond with a 404 with category not found', (done) => {
         request(app)
-          .put('/api/v1/books')
+          .put(`/api/v1/books/${book2.id}`)
           .set('Accept', 'application/json')
           .set('x-token', adminToken)
           .send(book1)
@@ -271,9 +284,9 @@ describe('Book Routes', () => {
           });
       });
 
-      it('it should respond with a 201 with created book', (done) => {
+      it('it should respond with a 200 with updated book', (done) => {
         request(app)
-          .put('/api/v1/books')
+          .put(`/api/v1/books/${book2.id}`)
           .set('Accept', 'application/json')
           .set('x-token', adminToken)
           .send(book3)
