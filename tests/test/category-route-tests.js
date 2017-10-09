@@ -143,7 +143,7 @@ describe('Category Routes', () => {
           .send({})
           .expect(400)
           .expect('Content-Type', /json/)
-          .expect(/"error":\s*"Category name is required'"/, done);
+          .expect('{"error":"Category name is required"}', done);
       });
 
       it('it should respond with a 201 with the category name', (done) => {
@@ -220,7 +220,7 @@ describe('Category Routes', () => {
           .send({})
           .expect(400)
           .expect('Content-Type', /json/)
-          .expect(/"error":\s*"Category name is required'"/, done);
+          .expect('{"error":"Category name is required"}', done);
       });
 
       it('it should respond with a 400 with invalid category Id', (done) => {
@@ -262,7 +262,7 @@ describe('Category Routes', () => {
           .put(`/api/v1/categories/${categoryId}`)
           .set('Accept', 'application/json')
           .set('x-token', adminToken)
-          .send(category3)
+          .send(category1)
           .expect(409)
           .expect('Content-Type', /json/)
           .expect(/"name":\s*"Category name has already been used"/, done);
