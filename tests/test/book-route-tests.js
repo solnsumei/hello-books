@@ -366,7 +366,6 @@ describe('Book Routes', () => {
             assert.equal(res.status, 200);
             assert.equal(res.body.message, 'Book borrowed successfully');
             assert.equal(res.body.borrowedBook.Book.title, 'Book Three');
-            assert.equal(res.body.borrowedBook.userId, user.id);
             assert.equal(res.body.borrowedBook.bookId, book2.id);
             done();
           });
@@ -450,7 +449,6 @@ describe('Book Routes', () => {
             assert.equal(res.status, 200);
             assert.equal(res.body.message, 'Book was returned successfully');
             assert.equal(res.body.returnedBook.Book.title, 'Book Three');
-            assert.equal(res.body.returnedBook.userId, user.id);
             assert.equal(res.body.returnedBook.bookId, book2.id);
             done();
           });
