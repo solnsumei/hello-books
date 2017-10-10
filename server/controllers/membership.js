@@ -5,7 +5,6 @@ import db from '../models/index';
  * @exports {Object} booksController
  */
 export default {
-
   /**
    * Method to get all membershipTypes from the library
    * @param {Object} req

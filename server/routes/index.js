@@ -2,7 +2,7 @@ import express from 'express';
 import usersController from '../controllers/users';
 import categoriesController from '../controllers/categories';
 import booksController from '../controllers/books';
-import membershipController from '../controllers/membershipTypes';
+import membershipController from '../controllers/membership';
 import authMiddleware from '../middlewares/auth';
 import adminMiddleware from '../middlewares/admin';
 import checkLogin from '../middlewares/checkLogin';
