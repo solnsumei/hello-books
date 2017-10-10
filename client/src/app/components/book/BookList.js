@@ -4,7 +4,7 @@ import Book from './Book';
 
 const BookList = ({ books, link }) => (
   <div className="row">
-    { Object.keys(books).length > 0 ?
+    { books.length > 0 ?
       books.map(book =>
         <Book key={book.id} book={book} link={link} />
       ) :

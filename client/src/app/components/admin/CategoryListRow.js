@@ -5,7 +5,7 @@ const CategoryListRow = ({ category, onClickEdit, onClickDelete }) => (
   <tr>
     <td>{category.name}</td>
     <td>{category.slug}</td>
-    <td>
+    <td className="right-align">
       <a title="edit" onClick={onClickEdit} className="btn-floating orange">
         <i className="material-icons">edit</i>
       </a>&nbsp;

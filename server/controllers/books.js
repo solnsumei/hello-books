@@ -68,28 +68,24 @@ export default {
    * @returns {Promise.<Object>} books
    */
   getAllBooks(req, res) {
-    let attributes = ['id', 'title', 'categoryId', 'author', 'description', 'coverPic', 'stockQuantity',
+    let attributes = ['id', 'title', 'categoryId', 'author', 'description', 'coverPic', 'isDeleted', 'stockQuantity',
       'borrowedQuantity'];
-    const query = { title: { $ne: null } };
 
     if (req.auth.admin) {
       attributes = [...attributes,
-        'isDeleted',
         'isBorrowed',
         'createdAt'
       ];
-    } else {
-      query.isDeleted = false;
     }
 
     return db.Book
+      .scope('active')
       .findAll({
         attributes,
         include: [{
           model: db.Category,
           attributes: ['name', 'slug']
         }],
-        where: query
       })
       .then(books => res.status(200).send(books))
       .catch((error) => {
@@ -180,13 +176,22 @@ export default {
   },
 
   delete(req, res) {
+    if (req.book.isBorrowed) {
+      return res.status(400).send({
+        error: 'Book is borrowed and cannot be deleted at this time'
+      });
+    }
+
     req.book.update({
       isDeleted: true
     }).then((result) => {
       if (result) {
         return res.status(200).send({
           success: true,
-          message: 'Book has been deleted successfully'
+          message: 'Book has been deleted successfully',
+          book: {
+            id: req.book.id,
+          }
         });
       }
     })

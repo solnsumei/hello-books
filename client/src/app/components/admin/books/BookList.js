@@ -16,7 +16,7 @@ const BookList = ({ books, onClickAddQuantity, onDelete }) => (
       </tr>
     </thead>
     <tbody>
-      { Object.keys(books).length > 0 ?
+      { books.length > 0 ?
         books.map(book =>
           <BookListRow key={book.id} onClickAdd={selectedBook => onClickAddQuantity(book)}
             onClickDelete={thisBook => onDelete(book)} book={book} />

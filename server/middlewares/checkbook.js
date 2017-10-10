@@ -10,7 +10,7 @@ import db from '../models/index';
  */
 export default function checkBook(req, res, next) {
   if (req.params.bookId === undefined || req.params.bookId === null ||
-    !Number.isInteger(Number.parseInt(req.params.bookId, 10))) {
+    !Number.isInteger(parseInt(req.params.bookId, 10))) {
     return res.status(400).send({ error: 'Please provide a valid book id' });
   }
 
@@ -18,8 +18,8 @@ export default function checkBook(req, res, next) {
     return res.status(400).send({ error: 'Quantity is required' });
   }
 
-  if (!Number.isInteger(Number.parseInt(req.body.quantity, 10)) ||
-   Number.parseInt(req.body.quantity, 10) < 1) {
+  if (!Number.isInteger(parseInt(req.body.quantity, 10)) ||
+   parseInt(req.body.quantity, 10) < 1) {
     return res.status(400).send({ error: 'Quantity must be a number not less than 1' });
   }
 

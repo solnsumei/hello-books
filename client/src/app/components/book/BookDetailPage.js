@@ -3,7 +3,8 @@ import { Link } from 'react-router-dom';
 import toastr from 'toastr';
 import { connect } from 'react-redux';
 import Modal from '../common/Modal';
-import { borrowBook, returnBook } from '../../actions/borrowActions';
+import actionTypes from '../../actions/actionTypes';
+import selectBorrowAction from '../../actions/borrowActions';
 /**
  *
  */
@@ -81,51 +82,62 @@ class BookDetailPage extends React.Component {
     const { book, user } = this.props;
     return (
       <div>
-        <div className="row">
-          <div className="col s12 m5">
-            <h3>
-              <strong>{book.title}</strong>
-            </h3>
-            <p className="offset-3"><i>By {book.author}</i></p>
+        { book ? <div className="container">
+          <div className="row">
+            <div className="col s12 m5">
+              <h3>
+                <strong>{book.title}</strong>
+              </h3>
+              <p className="offset-3"><i>By {book.author}</i></p>
 
-            {book.description}
+              <p>{book.description}</p>
 
+            </div>
+
+            <div className="col s12 m4">
+              <div className="card">
+                <div className="card-image">
+                  <img src={book.coverPic} />
+                </div>
+              </div>
+            </div>
+
+            <div className="col s12 m3">
+              <p>({book.Category.name})</p>
+              <p>Status: { book.borrowedQuantity < book.stockQuantity ?
+                <label className="label label-success">Available</label> :
+                <label className="label label-danger">Out of Stock</label>}
+              </p>
+              {book.borrowedQuantity < book.stockQuantity &&
+                 !user.admin && !this.state.isBorrowed &&
+                <button data-target="modal1" className="btn modal-trigger">
+                  Borrow
+                </button>}
+
+              {!user.admin && this.state.isBorrowed &&
+                <button data-target="modal1" className="btn modal-trigger">
+                  Return Book
+                </button>}
+
+              <p><Link to="/books">Back to Catalog</Link></p>
+            </div>
           </div>
-
-          <div className="col s12 m4">
-            <div className="card">
-              <div className="card-image">
-                <img src={book.coverPic} />
+          <Modal id="modal1"
+            title={!this.state.isBorrowed ? 'Confirm Borrow' : 'Confirm Return'}
+            text={!this.state.isBorrowed ?
+              'Do you want to borrow this book?' :
+              'Do you want to return this book?' }
+            action={!this.state.isBorrowed ? this.confirmBorrow : this.confirmReturn}
+          />
+        </div> :
+          <div className="container">
+            <div className="row">
+              <div className="col s12 center-align">
+                <h4>Book not found</h4>
               </div>
             </div>
           </div>
-
-          <div className="col s12 m3">
-            <p>({book.Category.name})</p>
-            <p>Status: { book.borrowedQuantity < book.stockQuantity ?
-              <label className="label label-success">Available</label> :
-              <label className="label label-danger">Out of Stock</label>}
-            </p>
-            {book.borrowedQuantity < book.stockQuantity && !user.admin && !this.state.isBorrowed &&
-              <button data-target="modal1" className="btn modal-trigger">
-                Borrow
-              </button>}
-
-            {!user.admin && this.state.isBorrowed &&
-              <button data-target="modal1" className="btn modal-trigger">
-                Return Book
-              </button>}
-
-            <p><Link to="/books">Back to Catalog</Link></p>
-          </div>
-        </div>
-        <Modal id="modal1"
-          title={!this.state.isBorrowed ? 'Confirm Borrow' : 'Confirm Return'}
-          text={!this.state.isBorrowed ?
-            'Do you want to borrow this book?' :
-            'Do you want to return this book?' }
-          action={!this.state.isBorrowed ? this.confirmBorrow : this.confirmReturn}
-        />
+        }
       </div>
     );
   }
@@ -158,11 +170,11 @@ const mapStateToProps = (state, ownProps) => {
   };
 
   if (bookId && state.books.length > 0) {
-    book = getBookById(state.books, (Number.parseInt(bookId, 10)));
+    book = getBookById(state.books, (parseInt(bookId, 10)));
   }
 
   if (bookId && state.borrowedBooks.length > 0) {
-    isBorrowed = inBorrowedList(state.borrowedBooks, (Number.parseInt(bookId, 10)));
+    isBorrowed = inBorrowedList(state.borrowedBooks, (parseInt(bookId, 10)));
   }
 
   return ({
@@ -172,9 +184,13 @@ const mapStateToProps = (state, ownProps) => {
   });
 };
 
+// map dispatch actions to borrow actions
 const mapDispatchToProps = dispatch => ({
-  borrow: (user, bookId) => dispatch(borrowBook(user, bookId)),
-  return: (user, bookId) => dispatch(returnBook(user, bookId))
+  borrow: (user, bookId) =>
+    dispatch(selectBorrowAction(actionTypes.BORROW_BOOK, user, bookId)),
+
+  return: (user, bookId) =>
+    dispatch(selectBorrowAction(actionTypes.RETURN_BOOK, user, bookId))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(BookDetailPage);

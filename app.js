@@ -1,15 +1,38 @@
 // import required files
 import express from 'express';
 import logger from 'morgan';
-import expressValidator from 'express-validator';
 import bodyParser from 'body-parser';
 import dotenv from 'dotenv';
+import path from 'path';
+import webpackDevMiddleware from 'webpack-dev-middleware';
+import webpackHotMiddleware from 'webpack-hot-middleware';
+import webpack from 'webpack';
 import router from './server/routes';
+import webpackConfig from './webpack.config';
 
 // Set up the express app
 const app = express();
 
-dotenv.config();
+const compiler = webpack(webpackConfig);
+
+const env = process.env.NODE_ENV || 'development';
+
+if (env !== 'production') {
+  dotenv.config();
+}
+
+if (env === 'development') {
+  app.use(webpackDevMiddleware(compiler, {
+    historyApiFallback: true,
+    hot: true,
+    noInfo: true,
+    publicPath: webpackConfig.output.publicPath
+  }));
+
+  app.use(webpackHotMiddleware(compiler, {
+    // log: console.log
+  }));
+}
 
 // Log requests to the console
 app.use(logger('dev'));
@@ -18,12 +41,24 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
+const publicPath = path.join(__dirname, './client/dist/');
+const indexPath = path.resolve(__dirname, publicPath, 'index.html');
+
 // Api Routes
 app.use('/api/v1', router);
 
-// Default catch all route to test on Heroku if app is working
-app.get('*', (req, res) => res.status(200).send({
-  message: 'Welcome to Hello-Books'
+app.use('/', express.static(publicPath));
+
+app.get('/api/*', (req, res) => res.status(404).send({
+  error: 'Route not found',
 }));
+
+app.post('/api/*', (req, res) => res.status(404).send({
+  error: 'Route does not exist',
+}));
+
+app.get('*', (req, res) => {
+  res.sendFile(indexPath);
+});
 
 export default app;

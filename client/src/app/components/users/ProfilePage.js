@@ -9,7 +9,8 @@ import EditProfileForm from './EditProfileForm';
 import TopTitle from '../common/TopTitle';
 import { updateUserAccount } from '../../actions/userActions';
 import Modal from '../common/Modal';
-import { returnBook } from '../../actions/borrowActions';
+import actionTypes from '../../actions/actionTypes';
+import selectBorrowAction from '../../actions/borrowActions';
 
 /**
  *
@@ -226,7 +227,8 @@ const mapStateToProps = (state, ownProps) => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  returnBook: (user, bookId) => dispatch(returnBook(user, bookId)),
+  returnBook: (user, bookId) =>
+    dispatch(selectBorrowAction(actionTypes.RETURN_BOOK, user, bookId)),
   updateUser: user => dispatch(updateUserAccount(user))
 });
 

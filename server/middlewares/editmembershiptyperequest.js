@@ -10,7 +10,7 @@ export default function editMembershipTypeRequest(req, res, next) {
   const errors = {};
 
   if (req.params.membershipTypeId === undefined || req.params.membershipTypeId === null ||
-    !Number.isInteger(Number.parseInt(req.params.membershipTypeId, 10))) {
+    !Number.isInteger(parseInt(req.params.membershipTypeId, 10))) {
     return res.status(400).send({ error: 'Please provide a valid membership type id' });
   }
 
@@ -19,7 +19,7 @@ export default function editMembershipTypeRequest(req, res, next) {
   }
 
   if (req.body.lendDuration &&
-     !Number.isInteger(Number.parseInt(req.body.lendDuration, 10))) {
+     !Number.isInteger(parseInt(req.body.lendDuration, 10))) {
     errors.lendDuration = 'Lend-duration must be a number';
   }
 
@@ -28,11 +28,11 @@ export default function editMembershipTypeRequest(req, res, next) {
   }
 
   if (req.body.maxBorrowable &&
-     !Number.isInteger(Number.parseInt(req.body.maxBorrowable, 10))) {
+     !Number.isInteger(parseInt(req.body.maxBorrowable, 10))) {
     errors.maxBorrowable = 'Max-borrowable must be a number';
   }
 
-  if (Object.keys(errors).length > 0) {
+  if (errors.length > 0) {
     return res.status(400).send({ errors });
   }
 

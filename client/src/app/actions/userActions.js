@@ -3,28 +3,20 @@ import jwt from 'jsonwebtoken';
 import types from './actionTypes';
 import { constants } from '../helpers/constants';
 
-
-// axios.defaults.baseURL = 'http://localhost:8000/api/v1';
-// axios.defaults.headers.common['Authorization'] = AUTH_TOKEN;
-// axios.defaults.headers.post['Content-Type'] = 'application/json';
-
-const SECRET = 'Wd123faghye@thyggejjd231';
-
 // check token passed in and set user accordingly
 const setAuthUser = (token = null) => {
   const userToken = localStorage.getItem(types.USER_TOKEN);
 
   if (!token && !userToken) return false;
-
-  try {
-    const decoded = jwt.verify((!token ? userToken : token), SECRET);
-    return decoded.user;
-  } catch (err) {
+  const decoded = jwt.decode(!token ? userToken : token);
+  if (decoded.exp * 1000 < (new Date().getTime())) {
     if (userToken) {
       localStorage.removeItem(types.USER_TOKEN);
     }
     return false;
   }
+
+  return decoded.user;
 };
 
 const signOutUser = () => ({

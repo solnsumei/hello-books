@@ -10,7 +10,6 @@ const BookForm = ({ book, onSubmit, categories, uploadCoverPic, onChange, errors
     <div className="card">
       <div className="card-content">
         <p className="card-title">
-          {book.id ? 'Edit Book' : 'Add Book'}
           <span className="right">
             <Link to="/admin/books" className="btn-floating">
               <i className="material-icons">arrow_back</i>

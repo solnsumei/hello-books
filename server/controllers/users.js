@@ -209,7 +209,7 @@ export default {
                       dueDate: borrowedBook.dueDate,
                       returned: borrowedBook.returned,
                       surcharge: borrowedBook.surcharge,
-                      Book: { title: req.book.title }
+                      Book: { title: req.book.title, isDeleted: req.book.isDeleted }
                     }
                   });
                 }
@@ -231,7 +231,7 @@ export default {
         attributes: ['id', 'bookId', 'createdAt', 'dueDate', 'returned', 'surcharge'],
         include: [{
           model: db.Book,
-          attributes: ['title'],
+          attributes: ['title', 'isDeleted'],
         }],
         where: query
       }).then(borrowedBooks => res.status(200).send(borrowedBooks))
@@ -289,7 +289,7 @@ export default {
                     dueDate: borrowedBook.dueDate,
                     returned: borrowedBook.returned,
                     surcharge: borrowedBook.surcharge,
-                    Book: { title: req.book.title }
+                    Book: { title: req.book.title, isDeleted: req.book.isDeleted }
                   }
                 }))
                 .catch(error => res.status(500).send(error));

@@ -1,9 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import toastr from 'toastr';
-import MembershipType from './MembershipType';
-
+import { Link } from 'react-router-dom';
 
 /**
  * [className description]
@@ -24,8 +22,41 @@ class Dashboard extends React.Component {
             <div className="divider"></div>
           </div>
         </div>
-        <div className="row">
-          <MembershipType membershipTypes={this.props.membershipTypes} />
+        <div className="container">
+          <div className="row">
+            <div className="col s12 m4">
+              <div className="card">
+                <Link to="/admin/membership-types">
+                  <div className="card-content">
+                    <h1 className="center-align">
+                      {this.props.membershipTypes}
+                    </h1>
+                    <h3 className="center-align">Membership Types</h3>
+                  </div>
+                </Link>
+              </div>
+            </div>
+            <div className="col s12 m4">
+              <div className="card">
+                <Link to="/admin/categories">
+                  <div className="card-content">
+                    <h1 className="center-align">{this.props.books}</h1>
+                    <h3 className="center-align">Books in Library</h3>
+                  </div>
+                </Link>
+              </div>
+            </div>
+            <div className="col s12 m4">
+              <div className="card">
+                <Link to="/admin/categories">
+                  <div className="card-content">
+                    <h1 className="center-align">{this.props.categories}</h1>
+                    <h3 className="center-align">Categories Added</h3>
+                  </div>
+                </Link>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     );
@@ -33,11 +64,15 @@ class Dashboard extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  membershipTypes: state.membershipTypes,
+  membershipTypes: state.membershipTypes.length,
+  books: state.books.length,
+  categories: state.categories.length
 });
 
 Dashboard.propTypes = {
-  membershipTypes: PropTypes.array,
+  membershipTypes: PropTypes.number,
+  books: PropTypes.number,
+  categories: PropTypes.number
 };
 
 export default connect(mapStateToProps)(Dashboard);

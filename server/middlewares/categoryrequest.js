@@ -63,7 +63,7 @@ function validateCategory(req, res, next, id) {
  */
 export function validateCategoryId(req, res, next) {
   if (req.body.categoryId === undefined || req.body.categoryId === null ||
-    !Number.isInteger(Number.parseInt(req.body.categoryId, 10))) {
+    !Number.isInteger(parseInt(req.body.categoryId, 10))) {
     return res.status(400).send({ error: 'a valid category id is required' });
   }
 
@@ -80,7 +80,7 @@ export function validateCategoryId(req, res, next) {
  */
 export function validateCategoryIdParam(req, res, next) {
   if (req.params.categoryId === undefined || req.params.categoryId === null ||
-    !Number.isInteger(Number.parseInt(req.params.categoryId, 10))) {
+    !Number.isInteger(parseInt(req.params.categoryId, 10))) {
     return res.status(400).send({ error: 'a valid category id is required' });
   }
 

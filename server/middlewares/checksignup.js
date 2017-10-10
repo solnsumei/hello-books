@@ -29,7 +29,7 @@ export default function checkSignUp(req, res, next) {
     errors.password = 'Password is required';
   }
 
-  if (Object.keys(errors).length > 0) {
+  if (errors.length > 0) {
     return res.status(400).send({ errors });
   }
 

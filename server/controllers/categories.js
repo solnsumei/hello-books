@@ -111,10 +111,22 @@ export default {
   },
 
   delete(req, res) {
-    return req.category.destroy()
-      .then(() => res.status(200).send({
-        success: true,
-        message: 'Category was deleted successfully'
-      }));
+    return req.category.getBooks()
+      .then((books) => {
+        if (books.length > 0) {
+          return res.status(400).send({
+            error: 'This category still has books attached to it so cannot be deleted at this time'
+          });
+        }
+        return req.category.destroy()
+          .then(() => res.status(200).send({
+            success: true,
+            message: 'Category was deleted successfully'
+          })).catch((error) => {
+            if (error) {
+              return res.status(500).send({ error: 'Request could not be completed at this time' });
+            }
+          });
+      });
   }
 };

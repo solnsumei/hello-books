@@ -2,10 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import MembershipTypeRow from './MembershipTypeRow';
 
-const MembershipType = ({ membershipTypes, onEdit }) => (
+const MembershipTypeList = ({ membershipTypes, onEdit }) => (
   <div className="col s12">
-    <h4><b>Membership Types</b></h4>
-    <div className="divider"></div>
     <table className="responsive-table striped bordered">
       <thead>
         <tr>
@@ -24,9 +22,9 @@ const MembershipType = ({ membershipTypes, onEdit }) => (
   </div>
 );
 
-MembershipType.propTypes = {
+MembershipTypeList.propTypes = {
   membershipTypes: PropTypes.array,
   onEdit: PropTypes.func
 };
 
-export default MembershipType;
+export default MembershipTypeList;
