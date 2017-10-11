@@ -35,7 +35,7 @@ export default function editBookRequest(req, res, next) {
     errors.categoryId = 'Book category is required';
   }
 
-  if (errors.length > 0) {
+  if (Object.keys(errors).length > 0) {
     return res.status(400).send({ errors });
   }
 

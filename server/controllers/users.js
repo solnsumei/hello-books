@@ -68,8 +68,8 @@ export default {
                 }
                 // Return logged in user
                 return res.status(200).send({
-                  success: true,
                   message: 'User profile updated successfully',
+                  success: true,
                   username: user.username,
                   token
                 });
@@ -108,7 +108,7 @@ export default {
         if (result) {
           return res.status(200).send({
             success: true,
-            message: 'Your Password changed successfully',
+            message: 'Your Password was changed successfully',
           });
         }
 
@@ -156,6 +156,7 @@ export default {
           }
           // Return logged in user
           return res.status(200).send({
+            message: `Welcome back ${user.username}`,
             userId: user.id,
             username: user.username,
             token

@@ -17,9 +17,22 @@ const compiler = webpack(webpackConfig);
 
 const env = process.env.NODE_ENV || 'development';
 
+const publicPath = path.join(__dirname, './client/dist/');
+const indexPath = path.resolve(__dirname, publicPath, 'index.html');
+
 if (env !== 'production') {
   dotenv.config();
 }
+
+// Log requests to the console
+app.use(logger('dev'));
+
+// Parse incoming requests data (https://github.com/expressjs/body-parser
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+
+// Api Routes
+app.use('/api/v1', router);
 
 if (env === 'development') {
   app.use(webpackDevMiddleware(compiler, {
@@ -33,19 +46,6 @@ if (env === 'development') {
     // log: console.log
   }));
 }
-
-// Log requests to the console
-app.use(logger('dev'));
-
-// Parse incoming requests data (https://github.com/expressjs/body-parser
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-
-const publicPath = path.join(__dirname, './client/dist/');
-const indexPath = path.resolve(__dirname, publicPath, 'index.html');
-
-// Api Routes
-app.use('/api/v1', router);
 
 app.use('/', express.static(publicPath));
 

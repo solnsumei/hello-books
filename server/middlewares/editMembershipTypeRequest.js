@@ -32,9 +32,10 @@ export default function editMembershipTypeRequest(req, res, next) {
     errors.maxBorrowable = 'Max-borrowable must be a number';
   }
 
-  if (errors.length > 0) {
+  if (Object.keys(errors).length > 0) {
     return res.status(400).send({ errors });
   }
+
 
   next();
 }

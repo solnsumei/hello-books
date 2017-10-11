@@ -21,7 +21,7 @@ export default function profileUpdateRequest(req, res, next) {
     errors.membershipType = 'MembershipType is required';
   }
 
-  if (errors.length > 0) {
+  if (Object.keys(errors).length > 0) {
     return res.status(400).send({ errors });
   }
 

@@ -134,7 +134,7 @@ describe('User', () => {
 
   });
 
-  describe('POST /api/users/signin', () => {
+  describe('POST /api/v1/users/signin', () => {
 
     it('responds with a 400 status and username and password required', (done) => {
       request(app)
