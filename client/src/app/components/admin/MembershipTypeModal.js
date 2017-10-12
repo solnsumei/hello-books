@@ -15,7 +15,7 @@ const MembershipTypeModal = ({ membershipType, onSubmit, errors, onChange }) => 
           <TextInput
             type="number"
             name="lendDuration"
-            label="Lend Duration"
+            label="Lend Duration(Days)"
             value={membershipType.lendDuration}
             className="validate"
             onChange={onChange}
