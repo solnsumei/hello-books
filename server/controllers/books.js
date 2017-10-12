@@ -1,10 +1,10 @@
 import db from '../models/index';
+import { formatBookObject } from '../helpers/formatData';
 /**
  * Controller for adding, updating and get all books
  * @exports {Object} booksController
  */
 export default {
-
   /**
    * This creates book in the library
    * @param {Object} req
@@ -23,22 +23,7 @@ export default {
         stockQuantity: req.body.stockQuantity,
       })
       .then(book => res.status(201).send({
-        book: {
-          id: book.id,
-          title: book.title,
-          categoryId: book.categoryId,
-          author: book.author,
-          description: book.description,
-          coverPic: book.coverPic,
-          stockQuantity: book.stockQuantity,
-          borrowedQuantity: book.borrowedQuantity,
-          isDeleted: book.isDeleted,
-          createdAt: book.createdAt,
-          Category: {
-            name: req.category.name,
-            slug: req.category.slug
-          }
-        }
+        book: formatBookObject(book, req.category)
       }))
       .catch((error) => {
         if (error.name === 'SequelizeValidationError' ||
@@ -87,7 +72,7 @@ export default {
           attributes: ['name', 'slug']
         }],
       })
-      .then(books => res.status(200).send(books))
+      .then(books => res.status(200).send({ books }))
       .catch((error) => {
         if (error) {
           return res.status(500).send({
@@ -120,22 +105,7 @@ export default {
         }).then((result) => {
           if (result) {
             return res.status(200).send({
-              book: {
-                id: book.id,
-                title: book.title,
-                categoryId: book.categoryId,
-                author: book.author,
-                description: book.description,
-                coverPic: book.coverPic,
-                stockQuantity: book.stockQuantity,
-                borrowedQuantity: book.borrowedQuantity,
-                isDeleted: book.isDeleted,
-                createdAt: book.createdAt,
-                Category: {
-                  name: req.category.name,
-                  slug: req.category.slug
-                }
-              }
+              book: formatBookObject(book, req.category)
             });
           }
         })
@@ -161,7 +131,7 @@ export default {
 
   addQuantity(req, res) {
     req.book.update({
-      stockQuantity: req.book.stockQuantity + Number.parseInt(req.body.quantity, 10)
+      stockQuantity: req.book.stockQuantity + parseInt(req.body.quantity, 10)
     }).then((result) => {
       if (result) {
         return res.status(200).send({

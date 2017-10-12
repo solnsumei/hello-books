@@ -57,7 +57,7 @@ export default {
       .findAll({
         attributes: ['id', 'name', 'slug']
       })
-      .then(categories => res.status(200).send(categories))
+      .then(categories => res.status(200).send({ categories }))
       .catch((error) => {
         if (error) {
           return res.status(500).send({

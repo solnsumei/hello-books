@@ -8,6 +8,7 @@
  */
 export default function editMembershipTypeRequest(req, res, next) {
   const errors = {};
+  console.log(req);
 
   if (req.params.membershipTypeId === undefined || req.params.membershipTypeId === null ||
     !Number.isInteger(parseInt(req.params.membershipTypeId, 10))) {

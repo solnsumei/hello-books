@@ -17,7 +17,7 @@ const returnBookSuccess = returnedBook => ({
 
 const loadBorrowedBooks = (user, headers) => dispatch =>
   axios.get(`/api/v1/users/${user.id}/books`, headers)
-    .then(({ data }) => dispatch(loadBorrowedBooksSuccess(data)))
+    .then(({ data }) => dispatch(loadBorrowedBooksSuccess(data.borrowedBooks)))
     .catch((error) => {
       throw (error);
     });
@@ -39,7 +39,7 @@ const returnBook = (user, bookId, headers) => dispatch =>
     });
 
 // entry point for all borrowing actions
-const selectBorrowAction = (action, user, bookId = null) => (dispatch) => {
+const borrowActions = (action, user, bookId = null) => (dispatch) => {
   const headers = authCheck(dispatch);
 
   switch (action) {
@@ -57,4 +57,4 @@ const selectBorrowAction = (action, user, bookId = null) => (dispatch) => {
   }
 };
 
-export default selectBorrowAction;
+export default borrowActions;

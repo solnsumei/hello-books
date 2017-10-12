@@ -5,7 +5,7 @@ import toastr from 'toastr';
 import CategoryList from './CategoryList';
 import CategoryModal from './CategoryModal';
 import actionTypes from '../../actions/actionTypes';
-import chooseCategoryAction from '../../actions/categoryActions';
+import categoryActions from '../../actions/categoryActions';
 import Modal from '../common/Modal';
 
 /**
@@ -85,7 +85,7 @@ class CategoriesPage extends React.Component {
   }
 
   /**
-   * [showReturnModal description]
+   * [showDeleteModal description]
    * @method showReturnModal
    * @param  {[type]}        borrowedBook [description]
    * @return {[type]}                     [description]
@@ -193,15 +193,15 @@ const mapStateToProps = (state, ownProps) => {
 
   return ({
     category,
-    categories: state.categories
+    categories: state.categories.sort((a, b) => (a.id - b.id))
   });
 };
 
 const mapDispatchToProps = dispatch => ({
   saveOrUpdateCategory: category =>
-    dispatch(chooseCategoryAction(actionTypes.SAVE_OR_UPDATE_CATEGORY, category)),
+    dispatch(categoryActions(actionTypes.SAVE_OR_UPDATE_CATEGORY, category)),
   deleteCategory: category =>
-    dispatch(chooseCategoryAction(actionTypes.DELETE_CATEGORY, category))
+    dispatch(categoryActions(actionTypes.DELETE_CATEGORY, category))
 });
 
 CategoriesPage.propTypes = {

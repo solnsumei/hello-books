@@ -22,7 +22,7 @@ const deleteCategorySuccess = category => ({
 // load book categories from server
 const loadCategories = headers => dispatch =>
   axios.get('/api/v1/categories', headers)
-    .then(({ data }) => dispatch(loadCategoriesSuccess(data)))
+    .then(({ data }) => dispatch(loadCategoriesSuccess(data.categories)))
     .catch((error) => {
       throw (error);
     });
@@ -59,7 +59,7 @@ const deleteCategory = category => dispatch =>
 
 
 // action entry point for category actions
-const chooseCategoryAction = (action, category = null) => (dispatch) => {
+const categoryActions = (action, category = null) => (dispatch) => {
   const headers = authCheck(dispatch);
 
   switch (action) {
@@ -77,4 +77,4 @@ const chooseCategoryAction = (action, category = null) => (dispatch) => {
   }
 };
 
-export default chooseCategoryAction;
+export default categoryActions;

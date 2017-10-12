@@ -3,10 +3,10 @@ import { Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import setRedirectUrl from '../../actions/redirectActions';
-import { loadMembershipTypes } from '../../actions/membershipTypeActions';
+import membershipTypeActions from '../../actions/membershipTypeActions';
 import actionTypes from '../../actions/actionTypes';
-import selectBookAction from '../../actions/bookActions';
-import selectBorrowAction from '../../actions/borrowActions';
+import bookActions from '../../actions/bookActions';
+import borrowActions from '../../actions/borrowActions';
 
 export default (ComposedComponent) => {
   /**
@@ -85,10 +85,11 @@ export default (ComposedComponent) => {
 
   const mapDispatchToProps = dispatch => ({
     setRedirectUrl: url => dispatch(setRedirectUrl(url)),
-    loadMembershipTypes: () => dispatch(loadMembershipTypes()),
-    loadBooks: () => dispatch(selectBookAction(actionTypes.LOAD_BOOKS)),
+    loadMembershipTypes: () =>
+      dispatch(membershipTypeActions(actionTypes.LOAD_MEMBERSHIP_TYPES)),
+    loadBooks: () => dispatch(bookActions(actionTypes.LOAD_BOOKS)),
     loadBorrowedBooks: user =>
-      dispatch(selectBorrowAction(actionTypes.LOAD_BORROWED_BOOKS, user))
+      dispatch(borrowActions(actionTypes.LOAD_BORROWED_BOOKS, user))
   });
 
   IsAuthenticated.propTypes = {

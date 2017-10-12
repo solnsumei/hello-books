@@ -4,7 +4,7 @@ import toastr from 'toastr';
 import { connect } from 'react-redux';
 import Modal from '../common/Modal';
 import actionTypes from '../../actions/actionTypes';
-import selectBorrowAction from '../../actions/borrowActions';
+import borrowActions from '../../actions/borrowActions';
 /**
  *
  */
@@ -187,10 +187,10 @@ const mapStateToProps = (state, ownProps) => {
 // map dispatch actions to borrow actions
 const mapDispatchToProps = dispatch => ({
   borrow: (user, bookId) =>
-    dispatch(selectBorrowAction(actionTypes.BORROW_BOOK, user, bookId)),
+    dispatch(borrowActions(actionTypes.BORROW_BOOK, user, bookId)),
 
   return: (user, bookId) =>
-    dispatch(selectBorrowAction(actionTypes.RETURN_BOOK, user, bookId))
+    dispatch(borrowActions(actionTypes.RETURN_BOOK, user, bookId))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(BookDetailPage);

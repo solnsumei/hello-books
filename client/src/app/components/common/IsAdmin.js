@@ -10,7 +10,7 @@ import BooksPage from '../admin/books/BooksPage';
 import ManageBookPage from '../admin/books/ManageBookPage';
 import MembershipTypePage from '../admin/MembershipTypePage';
 import actionTypes from '../../actions/actionTypes';
-import chooseCategoryAction from '../../actions/categoryActions';
+import categoryActions from '../../actions/categoryActions';
 
 /**
 *
@@ -81,7 +81,7 @@ const mapStateToProps = (state, ownProps) => ({
 const mapDispatchToProps = dispatch => ({
   setRedirectUrl: url => dispatch(setRedirectUrl(url)),
   loadBookCategories: () =>
-    dispatch(chooseCategoryAction(actionTypes.LOAD_CATEGORIES))
+    dispatch(categoryActions(actionTypes.LOAD_CATEGORIES))
 });
 
 IsAdmin.propTypes = {

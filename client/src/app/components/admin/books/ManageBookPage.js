@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import toastr from 'toastr';
 import BookForm from './BookForm';
 import actionTypes from '../../../actions/actionTypes';
-import selectBookAction from '../../../actions/bookActions';
+import bookActions from '../../../actions/bookActions';
 
 /**
  * [className description]
@@ -175,7 +175,7 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = dispatch => ({
   saveBook: book =>
-    dispatch(selectBookAction(actionTypes.SAVE_OR_UPDATE_BOOK, book))
+    dispatch(bookActions(actionTypes.SAVE_OR_UPDATE_BOOK, book))
 });
 
 ManageBookPage.propTypes = {

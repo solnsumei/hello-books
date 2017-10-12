@@ -1,5 +1,6 @@
 import bcrypt from 'bcryptjs';
 import createToken from '../helpers/token';
+import { formatBorrowedBookObject } from '../helpers/formatData';
 import db from '../models/index';
 
 /**
@@ -48,7 +49,6 @@ export default {
         });
       });
   },
-
   // Update a user account in database
   updateProfile(req, res) {
     return db.User
@@ -107,7 +107,6 @@ export default {
       .then((result) => {
         if (result) {
           return res.status(200).send({
-            success: true,
             message: 'Your Password was changed successfully',
           });
         }
@@ -203,15 +202,7 @@ export default {
               }).then((result) => {
                 if (result) {
                   return res.status(200).send({ message: 'Book borrowed successfully',
-                    borrowedBook: {
-                      id: borrowedBook.id,
-                      bookId: req.book.id,
-                      createdAt: borrowedBook.createdAt,
-                      dueDate: borrowedBook.dueDate,
-                      returned: borrowedBook.returned,
-                      surcharge: borrowedBook.surcharge,
-                      Book: { title: req.book.title, isDeleted: req.book.isDeleted }
-                    }
+                    borrowBook: formatBorrowedBookObject(borrowedBook, req.book),
                   });
                 }
               }).catch(error => res.status(400).send(error)))
@@ -235,7 +226,7 @@ export default {
           attributes: ['title', 'isDeleted'],
         }],
         where: query
-      }).then(borrowedBooks => res.status(200).send(borrowedBooks))
+      }).then(borrowedBooks => res.status(200).send({ borrowedBooks }))
       .catch((error) => {
         if (error) {
           return res.status(500).send({
@@ -283,15 +274,7 @@ export default {
                   isBorrowed: ((req.book.borrowedQuantity) - 1) > 0,
                 })
                 .then(result => res.status(200).send({ message: 'Book was returned successfully',
-                  returnedBook: {
-                    id: borrowedBook.id,
-                    bookId: req.book.id,
-                    createdAt: borrowedBook.createdAt,
-                    dueDate: borrowedBook.dueDate,
-                    returned: borrowedBook.returned,
-                    surcharge: borrowedBook.surcharge,
-                    Book: { title: req.book.title, isDeleted: req.book.isDeleted }
-                  }
+                  returnedBook: formatBorrowedBookObject(borrowedBook, req.book),
                 }))
                 .catch(error => res.status(500).send(error));
             }

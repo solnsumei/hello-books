@@ -15,7 +15,8 @@ const MembershipTypeList = ({ membershipTypes, onEdit }) => (
       </thead>
       <tbody>
         {membershipTypes.map(membershipType =>
-          <MembershipTypeRow key={membershipType.id} membershipType={membershipType} />
+          <MembershipTypeRow key={membershipType.id}
+            onClickEdit={membership => onEdit(membershipType)} membershipType={membershipType} />
         )}
       </tbody>
     </table>

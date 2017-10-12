@@ -7,7 +7,7 @@ import BookList from './BookList';
 import AddQuantityModal from './AddQuantityModal';
 import Modal from '../../common/Modal';
 import actionTypes from '../../../actions/actionTypes';
-import selectBookAction from '../../../actions/bookActions';
+import bookActions from '../../../actions/bookActions';
 
 /**
  * [className description]
@@ -171,15 +171,15 @@ class BooksPage extends React.Component {
 
 // Map state from store to component properties
 const mapStateToProps = (state, ownProps) => ({
-  books: state.books
+  books: state.books.sort((a, b) => (b.id - a.id))
 });
 
 const mapDispatchToProps = dispatch => ({
   addStockQuantity: (book, quantity) =>
-    dispatch(selectBookAction(actionTypes.ADD_STOCK_QUANTITY, book, quantity)),
+    dispatch(bookActions(actionTypes.ADD_STOCK_QUANTITY, book, quantity)),
 
   deleteBook: book =>
-    dispatch(selectBookAction(actionTypes.DELETE_BOOK, book))
+    dispatch(bookActions(actionTypes.DELETE_BOOK, book))
 });
 
 BooksPage.propTypes = {

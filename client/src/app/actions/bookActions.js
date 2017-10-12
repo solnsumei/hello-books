@@ -26,7 +26,7 @@ const deleteBookSuccess = book => ({
 // load all books
 const loadBooks = headers => dispatch =>
   axios.get('/api/v1/books', headers)
-    .then(({ data }) => dispatch(loadBooksSuccess(data)))
+    .then(({ data }) => dispatch(loadBooksSuccess(data.books)))
     .catch((error) => {
       throw (error);
     });
@@ -70,7 +70,7 @@ const deleteBook = book => dispatch =>
     });
 
 // entry point for all book actions
-const selectBookAction = (action, book = null, quantity = null) => (dispatch) => {
+const bookActions = (action, book = null, quantity = null) => (dispatch) => {
   const headers = authCheck(dispatch);
 
   switch (action) {
@@ -91,4 +91,4 @@ const selectBookAction = (action, book = null, quantity = null) => (dispatch) =>
   }
 };
 
-export default selectBookAction;
+export default bookActions;
