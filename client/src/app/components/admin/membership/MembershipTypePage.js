@@ -4,8 +4,8 @@ import { connect } from 'react-redux';
 import toastr from 'toastr';
 import MembershipTypeList from './MembershipTypeList';
 import MembershipTypeModal from './MembershipTypeModal';
-import actionTypes from '../../actions/actionTypes';
-import membershipTypeActions from '../../actions/membershipTypeActions';
+import actionTypes from '../../../actions/actionTypes';
+import membershipTypeActions from '../../../actions/membershipTypeActions';
 
 
 /**

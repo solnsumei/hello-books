@@ -112,7 +112,7 @@ class ManageBookPage extends React.Component {
       <div>
         <div className="row">
           <div className="col s12">
-            <h3 className="center-align">{this.state.book.id ? 'Edit Book' : 'Add New Book'}</h3>
+            <h3 className="center-align teal-text"><b>{this.state.book.id ? 'Edit Book' : 'Add New Book'}</b></h3>
             <div className="divider"></div>
           </div>
         </div>

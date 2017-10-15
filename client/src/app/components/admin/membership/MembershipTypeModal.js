@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import TextInput from '../common/TextInput';
+import TextInput from '../../common/TextInput';
 
 const MembershipTypeModal = ({ membershipType, onSubmit, errors, onChange }) => {
   const active = true;

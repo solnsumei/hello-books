@@ -38,7 +38,7 @@ class Dashboard extends React.Component {
             </div>
             <div className="col s12 m4">
               <div className="card">
-                <Link to="/admin/categories">
+                <Link to="/admin/books">
                   <div className="card-content">
                     <h1 className="center-align">{this.props.books}</h1>
                     <h3 className="center-align">Books in Library</h3>

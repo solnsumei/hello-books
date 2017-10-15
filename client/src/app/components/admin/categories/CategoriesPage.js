@@ -4,9 +4,9 @@ import { connect } from 'react-redux';
 import toastr from 'toastr';
 import CategoryList from './CategoryList';
 import CategoryModal from './CategoryModal';
-import actionTypes from '../../actions/actionTypes';
-import categoryActions from '../../actions/categoryActions';
-import Modal from '../common/Modal';
+import actionTypes from '../../../actions/actionTypes';
+import categoryActions from '../../../actions/categoryActions';
+import Modal from '../../common/Modal';
 
 /**
  * [className description]

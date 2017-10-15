@@ -5,10 +5,10 @@ import PropTypes from 'prop-types';
 import toastr from 'toastr';
 import setRedirectUrl from '../../actions/redirectActions';
 import Dashboard from '../admin/Dashboard';
-import CategoriesPage from '../admin/CategoriesPage';
+import CategoriesPage from '../admin/categories/CategoriesPage';
 import BooksPage from '../admin/books/BooksPage';
 import ManageBookPage from '../admin/books/ManageBookPage';
-import MembershipTypePage from '../admin/MembershipTypePage';
+import MembershipTypePage from '../admin/membership/MembershipTypePage';
 import actionTypes from '../../actions/actionTypes';
 import categoryActions from '../../actions/categoryActions';
 

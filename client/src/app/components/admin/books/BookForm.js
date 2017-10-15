@@ -7,7 +7,7 @@ import SelectInput from '../../common/SelectInput';
 
 const BookForm = ({ book, onSubmit, categories, uploadCoverPic, onChange, errors }) => (
   <form onSubmit={onSubmit} className="col s12 m8 offset-m2">
-    <div className="card">
+    <div className="card transparent">
       <div className="card-content">
         <p className="card-title">
           <span className="right">
@@ -16,9 +16,6 @@ const BookForm = ({ book, onSubmit, categories, uploadCoverPic, onChange, errors
             </Link>
           </span>
         </p>
-        <br />
-        <div className="divider"></div>
-        <br />
 
         { Object.keys(errors).length > 0 ?
           <p className="red-text">** There are some errors with your input</p>
@@ -30,18 +27,24 @@ const BookForm = ({ book, onSubmit, categories, uploadCoverPic, onChange, errors
           onChange={onChange} active={book.id !== ''} error={errors.title}
           errorMsg="This field is required" required="required" />
 
-        <TextInput type="text" name="author" label="Author"
-          value={book.author} active={book.id !== ''} onChange={onChange} error={errors.author}
-          errorMsg="This field is required" required="required" />
+        <div className="row">
+          <div className="col s12 m6">
+            <SelectInput
+              name="categoryId"
+              label="Category"
+              value={book.categoryId}
+              defaultOption="Select Book Category"
+              options={categories}
+              onChange={onChange}
+              error={errors.categoryId} />
+          </div>
 
-        <SelectInput
-          name="categoryId"
-          label="Category"
-          value={book.categoryId}
-          defaultOption="Select Book Category"
-          options={categories}
-          onChange={onChange}
-          error={errors.categoryId} />
+          <div className="col s12 m6">
+            <TextInput type="text" name="author" label="Author"
+              value={book.author} active={book.id !== ''} onChange={onChange} error={errors.author}
+              errorMsg="This field is required" required="required" />
+          </div>
+        </div>
 
         <br/>
         <TextInput type="textarea" name="description" label="Description"
@@ -72,7 +75,7 @@ const BookForm = ({ book, onSubmit, categories, uploadCoverPic, onChange, errors
           <div className="row valign-wrapper">
             <div className="col s12">
               { book.coverPic && <button className="btn waves-effect waves-light"
-                type="submit">Save
+                type="submit">Save <i className="material-icons">send</i>
               </button>}
             </div>
           </div>
