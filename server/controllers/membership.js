@@ -5,7 +5,6 @@ import db from '../models/index';
  * @exports {Object} booksController
  */
 export default {
-
   /**
    * Method to get all membershipTypes from the library
    * @param {Object} req
@@ -28,7 +27,7 @@ export default {
       .findAll({
         attributes,
       })
-      .then(membershipTypes => res.status(200).send(membershipTypes))
+      .then(membershipTypes => res.status(200).send({ membershipTypes }))
       .catch((error) => {
         if (error) {
           return res.status(500).send({
@@ -57,7 +56,15 @@ export default {
           maxBorrowable: req.body.maxBorrowable,
         }).then((result) => {
           if (result) {
-            return res.status(200).send(membershipType);
+            return res.status(200).send({
+              message: 'Membership type updated successfully',
+              membershipType: {
+                id: membershipType.id,
+                membershipType: membershipType.membershipType,
+                lendDuration: membershipType.lendDuration,
+                maxBorrowable: membershipType.maxBorrowable
+              }
+            });
           }
         })
           .catch((error) => {

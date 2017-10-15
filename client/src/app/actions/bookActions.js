@@ -1,4 +1,5 @@
 import axios from 'axios';
+import toastr from 'toastr';
 import types from './actionTypes';
 import { authCheck } from './userActions';
 
@@ -22,17 +23,16 @@ const deleteBookSuccess = book => ({
   type: types.DELETE_BOOK_SUCCESS, book
 });
 
-const loadBooks = () => (dispatch) => {
-  const headers = authCheck(dispatch);
-  return axios.get('/api/v1/books', headers)
-    .then(({ data }) => dispatch(loadBooksSuccess(data)))
+// load all books
+const loadBooks = headers => dispatch =>
+  axios.get('/api/v1/books', headers)
+    .then(({ data }) => dispatch(loadBooksSuccess(data.books)))
     .catch((error) => {
       throw (error);
     });
-};
 
-const saveBook = book => (dispatch) => {
-  const headers = authCheck(dispatch);
+// save or update book
+const saveOrUpdateBook = (book, headers) => (dispatch) => {
   if (book.id) {
     return axios.put(`/api/v1/books/${book.id}`,
       book, headers)
@@ -43,19 +43,52 @@ const saveBook = book => (dispatch) => {
     .then(({ data }) => dispatch(addBookSuccess(data.book)));
 };
 
-const addStockQuantity = (book, quantity) => (dispatch) => {
-  const headers = authCheck(dispatch);
-  return axios.post(`/api/v1/books/${book.id}`, { quantity }, headers)
+// add quantity to book stock
+const addStockQuantity = (book, quantity, headers) => dispatch =>
+  axios.post(`/api/v1/books/${book.id}`, { quantity }, headers)
     .then(({ data }) => {
-      book.stockQuantity = Number.parseInt(book.stockQuantity, 10) + Number.parseInt(quantity, 10);
+      book.stockQuantity = parseInt(book.stockQuantity, 10) + parseInt(quantity, 10);
       return dispatch(addStockQuantitySuccess(book));
     });
-};
 
-const deleteBook = book => (dispatch) => {
+// delete book
+const deleteBook = book => dispatch =>
+  axios({
+    method: 'delete',
+    url: '/api/v1/books',
+    data: { bookId: book.id },
+    headers: { 'x-token': localStorage.getItem(types.USER_TOKEN) },
+  })
+    .then(({ data }) => {
+      toastr.success('Book was deleted successfully');
+      return dispatch(deleteBookSuccess(data.book));
+    })
+    .catch(({ response }) => {
+      if (response) {
+        toastr.error(response.data.error);
+      }
+    });
+
+// entry point for all book actions
+const bookActions = (action, book = null, quantity = null) => (dispatch) => {
   const headers = authCheck(dispatch);
-  return axios.delete('/api/v1/books', headers)
-    .then(({ data }) => dispatch(deleteBookSuccess(data.book)));
+
+  switch (action) {
+    case types.LOAD_BOOKS:
+      return dispatch(loadBooks(headers));
+
+    case types.SAVE_OR_UPDATE_BOOK:
+      return dispatch(saveOrUpdateBook(book, headers));
+
+    case types.ADD_STOCK_QUANTITY:
+      return dispatch(addStockQuantity(book, quantity, headers));
+
+    case types.DELETE_BOOK:
+      return dispatch(deleteBook(book));
+
+    default:
+      break;
+  }
 };
 
-export { loadBooks, saveBook, addStockQuantity, deleteBook };
+export default bookActions;

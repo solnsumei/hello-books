@@ -15,8 +15,10 @@ const BorrowedItem = ({ borrowedBook, page, action }) => {
 
   return (
     <tr>
-      <td><Link to={`/books/${borrowedBook.bookId}`}>
-        {borrowedBook.Book.title}</Link>
+      <td>{borrowedBook.Book.isDeleted ? borrowedBook.Book.title :
+        <Link to={`/books/${borrowedBook.bookId}`}>
+          {borrowedBook.Book.title}</Link>
+      }
       </td>
       <td>{formatDate(borrowedBook.createdAt)}</td>
       <td>{formatDate(borrowedBook.dueDate)}</td>

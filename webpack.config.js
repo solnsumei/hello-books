@@ -1,5 +1,4 @@
 /* eslint-disable */
-
 const path = require('path');
 const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
@@ -9,28 +8,17 @@ const SRC_DIR = path.resolve(__dirname, 'client/src');
 
 
 module.exports = {
-  entry: SRC_DIR + '/app/index.js',
+  entry: ['webpack-hot-middleware/client', SRC_DIR + '/app/index.js'],
   output: {
-    path: DIST_DIR + '/app',
+    path: DIST_DIR,
     filename: 'bundle.js',
-    publicPath: '/app/',
+    publicPath: '/',
   },
   node: {
     dns: 'empty',
     fs: 'empty',
     net: 'empty',
     tls: 'empty'
-  },
-  devServer: {
-    port: 8080,
-    historyApiFallback: true,
-    proxy:{
-      '/api/*':{
-        target:'http://localhost:8000/',
-        secure:false,
-        changeOrigin: true,
-      }
-    }
   },
   module: {
     loaders: [
@@ -68,6 +56,7 @@ module.exports = {
     ]
   },
   plugins: [
+    new webpack.HotModuleReplacementPlugin(),
     new ExtractTextPlugin({
       filename: 'style.css',
       allChunks: true

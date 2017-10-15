@@ -5,10 +5,12 @@ import PropTypes from 'prop-types';
 import toastr from 'toastr';
 import setRedirectUrl from '../../actions/redirectActions';
 import Dashboard from '../admin/Dashboard';
-import CategoriesPage from '../admin/CategoriesPage';
+import CategoriesPage from '../admin/categories/CategoriesPage';
 import BooksPage from '../admin/books/BooksPage';
 import ManageBookPage from '../admin/books/ManageBookPage';
-import { loadCategories } from '../../actions/categoryActions';
+import MembershipTypePage from '../admin/membership/MembershipTypePage';
+import actionTypes from '../../actions/actionTypes';
+import categoryActions from '../../actions/categoryActions';
 
 /**
 *
@@ -60,6 +62,7 @@ class IsAdmin extends React.Component {
         <Switch>
           <Route exact path="/admin" component={Dashboard} />
           <Route path="/admin/categories" component={CategoriesPage} />
+          <Route path="/admin/membership-types" component={MembershipTypePage} />
           <Route exact path="/admin/books" component={BooksPage} />
           <Route path="/admin/books/create" component={ManageBookPage} />
           <Route path="/admin/books/:id" component={ManageBookPage} />
@@ -77,7 +80,8 @@ const mapStateToProps = (state, ownProps) => ({
 
 const mapDispatchToProps = dispatch => ({
   setRedirectUrl: url => dispatch(setRedirectUrl(url)),
-  loadBookCategories: () => dispatch(loadCategories())
+  loadBookCategories: () =>
+    dispatch(categoryActions(actionTypes.LOAD_CATEGORIES))
 });
 
 IsAdmin.propTypes = {

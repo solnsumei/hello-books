@@ -9,8 +9,7 @@
     "mocha": true
   },
   "plugins": [
-    "react", "jsx-a11y",
-    "jquery"
+    "react", "jsx-a11y"
   ],
   "parserOptions": {
     "ecmaFeatures": {

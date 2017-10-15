@@ -7,10 +7,10 @@ const MembershipTypeRow = ({ membershipType, onClickEdit }) => (
     <td>{membershipType.lendDuration}</td>
     <td>{membershipType.maxBorrowable}</td>
     <td>
-      <a title="edit" href="#" onClick={onClickEdit}
+      <button title="edit" onClick={onClickEdit}
         data-id={membershipType.id} className="btn-floating orange">
         <i className="material-icons">edit</i>
-      </a>
+      </button>
     </td>
   </tr>
 );

@@ -6,7 +6,8 @@ import toastr from 'toastr';
 import BookList from './BookList';
 import AddQuantityModal from './AddQuantityModal';
 import Modal from '../../common/Modal';
-import { addStockQuantity, deleteBook } from '../../../actions/bookActions';
+import actionTypes from '../../../actions/actionTypes';
+import bookActions from '../../../actions/bookActions';
 
 /**
  * [className description]
@@ -60,7 +61,6 @@ class BooksPage extends React.Component {
     this.props.deleteBook(this.state.book)
       .then(() => {
         $('.modal').modal('close');
-        toastr.success('Book deleted successfully');
         this.setState({ book: Object.assign({}, {}) });
       })
       .catch(({ response }) => {
@@ -126,40 +126,41 @@ class BooksPage extends React.Component {
       <div>
         <div className="row">
           <div className="col s12">
-            <div className="card">
-              <div className="card-content">
-                <p className="card-title teal-text">
-                  <b>Book List</b>
-                  <span className="right">
-                    <Link to="/admin/books/create">
-                      <button className="btn-floating waves-effect waves-green">
-                        <i className="material-icons">add</i>
-                      </button>
-                    </Link>
-                  </span>
-                </p>
-                <br/>
-                <div className="divider"></div>
-                <BookList
-                  books={this.props.books}
-                  onClickAddQuantity={this.addQuantity}
-                  onDelete={this.onClickDeleteBook}
-                />
+            <h3 className="center-align teal-text">Books</h3>
+            <div className="divider"></div>
+          </div>
+        </div>
+        <div className="container">
+          <div className="row">
+            <div className="col s12">
+              <p className="card-title teal-text">
+                <span className="right">
+                  <Link to="/admin/books/create">
+                    <button className="btn-floating waves-effect waves-green">
+                      <i className="material-icons">add</i>
+                    </button>
+                  </Link>
+                </span>
+              </p>
+              <BookList
+                books={this.props.books}
+                onClickAddQuantity={this.addQuantity}
+                onDelete={this.onClickDeleteBook}
+              />
 
-                <AddQuantityModal
-                  quantity={this.state.quantity}
-                  error={this.state.error}
-                  onSubmit={this.saveQuantity}
-                  onChange={this.updateQuantityFormState}
-                />
+              <AddQuantityModal
+                quantity={this.state.quantity}
+                error={this.state.error}
+                onSubmit={this.saveQuantity}
+                onChange={this.updateQuantityFormState}
+              />
 
-                <Modal
-                  id="delete-book-modal"
-                  title="Confirm Delete"
-                  onDelete={this.deleteBook}
-                  text={`Do you want to delete book with title ${this.state.book.title}?`}
-                />
-              </div>
+              <Modal
+                id="delete-book-modal"
+                title="Confirm Delete"
+                action={this.deleteBook}
+                text={`Do you want to delete book with title ${this.state.book.title}?`}
+              />
             </div>
           </div>
         </div>
@@ -168,13 +169,17 @@ class BooksPage extends React.Component {
   }
 }
 
+// Map state from store to component properties
 const mapStateToProps = (state, ownProps) => ({
-  books: state.books
+  books: state.books.sort((a, b) => (b.id - a.id))
 });
 
 const mapDispatchToProps = dispatch => ({
-  addStockQuantity: (book, quantity) => dispatch(addStockQuantity(book, quantity)),
-  deleteBook: book => dispatch(deleteBook(book))
+  addStockQuantity: (book, quantity) =>
+    dispatch(bookActions(actionTypes.ADD_STOCK_QUANTITY, book, quantity)),
+
+  deleteBook: book =>
+    dispatch(bookActions(actionTypes.DELETE_BOOK, book))
 });
 
 BooksPage.propTypes = {

@@ -5,7 +5,7 @@ const TextInput = (
   { type, name, label, onChange, placeholder,
     value, error, errorMsg, active, required }) => (
   <div className="row">
-    <div className="input-field cos s12">
+    <div className="input-field col s12">
       { type === 'textarea' ?
         <textarea
           name={name}

@@ -10,7 +10,7 @@ import db from '../models/index';
  */
 export default function validateBook(req, res, next) {
   if (req.body.bookId === undefined || req.body.bookId === null ||
-    !Number.isInteger(Number.parseInt(req.body.bookId, 10))) {
+    !Number.isInteger(parseInt(req.body.bookId, 10))) {
     return res.status(400).send({ error: 'a valid book id is required' });
   }
 

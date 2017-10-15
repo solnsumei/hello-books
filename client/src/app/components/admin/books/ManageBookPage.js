@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import toastr from 'toastr';
 import BookForm from './BookForm';
-import { saveBook } from '../../../actions/bookActions';
+import actionTypes from '../../../actions/actionTypes';
+import bookActions from '../../../actions/bookActions';
 
 /**
  * [className description]
@@ -110,14 +111,22 @@ class ManageBookPage extends React.Component {
     return (
       <div>
         <div className="row">
-          <BookForm
-            book={this.state.book}
-            categories={this.props.categories}
-            onSubmit={this.saveBook}
-            uploadCoverPic={this.uploadCoverPicture}
-            onChange={this.updateFormState}
-            errors={this.state.errors}
-          />
+          <div className="col s12">
+            <h3 className="center-align teal-text"><b>{this.state.book.id ? 'Edit Book' : 'Add New Book'}</b></h3>
+            <div className="divider"></div>
+          </div>
+        </div>
+        <div className="container">
+          <div className="row">
+            <BookForm
+              book={this.state.book}
+              categories={this.props.categories}
+              onSubmit={this.saveBook}
+              uploadCoverPic={this.uploadCoverPicture}
+              onChange={this.updateFormState}
+              errors={this.state.errors}
+            />
+          </div>
         </div>
       </div>
     );
@@ -155,7 +164,7 @@ const mapStateToProps = (state, ownProps) => {
     }));
 
   if (bookId && state.books.length > 0) {
-    book = getBookById(state.books, (Number.parseInt(bookId, 10)));
+    book = getBookById(state.books, (parseInt(bookId, 10)));
   }
 
   return ({
@@ -165,7 +174,8 @@ const mapStateToProps = (state, ownProps) => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  saveBook: book => dispatch(saveBook(book))
+  saveBook: book =>
+    dispatch(bookActions(actionTypes.SAVE_OR_UPDATE_BOOK, book))
 });
 
 ManageBookPage.propTypes = {

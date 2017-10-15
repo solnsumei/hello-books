@@ -10,7 +10,7 @@ export default function editBookRequest(req, res, next) {
   const errors = {};
 
   if (req.params.bookId === undefined || req.params.bookId === null ||
-    !Number.isInteger(Number.parseInt(req.params.bookId, 10))) {
+    !Number.isInteger(parseInt(req.params.bookId, 10))) {
     return res.status(400).send({ error: 'Please provide a valid book id' });
   }
 
@@ -31,7 +31,7 @@ export default function editBookRequest(req, res, next) {
   }
 
   if (req.body.categoryId === undefined || req.body.categoryId === null ||
-      !Number.isInteger(Number.parseInt(req.body.categoryId, 10))) {
+      !Number.isInteger(parseInt(req.body.categoryId, 10))) {
     errors.categoryId = 'Book category is required';
   }
 

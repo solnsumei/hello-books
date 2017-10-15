@@ -87,8 +87,8 @@ describe('Admin Membership Routes', () => {
           .send(membershipType1)
           .end((err, res) => {
             assert.equal(res.status, 200);
-            assert.equal(res.body.lendDuration, '10');
-            assert.equal(res.body.maxBorrowable, '15');
+            assert.equal(res.body.membershipType.lendDuration, '10');
+            assert.equal(res.body.membershipType.maxBorrowable, '15');
             done();
           })
       });

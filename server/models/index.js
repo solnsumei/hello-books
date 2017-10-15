@@ -11,10 +11,6 @@ const config = DbConfig[env];
 
 dotenv.config();
 
-// console.log(process.env.DATABASE_URL);
-// console.log(DbConfig['test']);
-// console.log(DbConfig['production']);
-
 const db = {};
 
 // Configure Sequelize

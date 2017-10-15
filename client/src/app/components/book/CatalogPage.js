@@ -14,11 +14,9 @@ class CatalogPage extends React.Component {
     return (
       <div>
         <div className="row">
-          <div className="col s6">
-            <h4 className="center-align">Book Catalog</h4>
-          </div>
-          <div className="col s6">
-            <h4>Book Catalog</h4>
+          <div className="col s12">
+            <h3 className="center-align teal-text">Book Catalog</h3>
+            <div className="divider"></div>
           </div>
         </div>
         <BookList books={this.props.books} link="/books/"/>

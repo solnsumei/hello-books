@@ -30,7 +30,7 @@ export default function createBookRequest(req, res, next) {
   }
 
   if (req.body.categoryId === undefined || req.body.categoryId === null ||
-      !Number.isInteger(Number.parseInt(req.body.categoryId, 10))) {
+      !Number.isInteger(parseInt(req.body.categoryId, 10))) {
     errors.categoryId = 'Book category is required';
   }
 

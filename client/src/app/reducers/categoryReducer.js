@@ -21,6 +21,9 @@ export default function (state = initialState.categories, action) {
         Object.assign({}, action.category)
       ];
 
+    case types.DELETE_CATEGORY_SUCCESS:
+      return [...state.filter(category => category.id !== action.category.id)];
+
     default:
       return state;
   }

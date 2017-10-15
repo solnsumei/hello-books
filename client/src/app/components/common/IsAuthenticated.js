@@ -3,9 +3,10 @@ import { Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import setRedirectUrl from '../../actions/redirectActions';
-import { loadMembershipTypes } from '../../actions/membershipTypeActions';
-import { loadBooks } from '../../actions/bookActions';
-import { loadBorrowedBooks } from '../../actions/borrowActions';
+import membershipTypeActions from '../../actions/membershipTypeActions';
+import actionTypes from '../../actions/actionTypes';
+import bookActions from '../../actions/bookActions';
+import borrowActions from '../../actions/borrowActions';
 
 export default (ComposedComponent) => {
   /**
@@ -32,15 +33,15 @@ export default (ComposedComponent) => {
     componentDidMount() {
       this.redirectToLogin();
 
-      if (this.props.user.username && !Object.keys(this.props.membershipTypes).length > 0) {
+      if (this.props.user.username && this.props.membershipTypes.length <= 0) {
         this.props.loadMembershipTypes();
       }
 
-      if (this.props.user.username && !Object.keys(this.props.books).length > 0) {
+      if (this.props.user.username && this.props.books.length <= 0) {
         this.props.loadBooks();
       }
 
-      if (this.props.user.username && !Object.keys(this.props.borrowedBooks).length > 0) {
+      if (this.props.user.username && this.props.borrowedBooks.length <= 0) {
         this.props.loadBorrowedBooks(this.props.user);
       }
 
@@ -84,9 +85,11 @@ export default (ComposedComponent) => {
 
   const mapDispatchToProps = dispatch => ({
     setRedirectUrl: url => dispatch(setRedirectUrl(url)),
-    loadMembershipTypes: () => dispatch(loadMembershipTypes()),
-    loadBooks: () => dispatch(loadBooks()),
-    loadBorrowedBooks: user => dispatch(loadBorrowedBooks(user))
+    loadMembershipTypes: () =>
+      dispatch(membershipTypeActions(actionTypes.LOAD_MEMBERSHIP_TYPES)),
+    loadBooks: () => dispatch(bookActions(actionTypes.LOAD_BOOKS)),
+    loadBorrowedBooks: user =>
+      dispatch(borrowActions(actionTypes.LOAD_BORROWED_BOOKS, user))
   });
 
   IsAuthenticated.propTypes = {

@@ -4,7 +4,9 @@ import { connect } from 'react-redux';
 import toastr from 'toastr';
 import CategoryList from './CategoryList';
 import CategoryModal from './CategoryModal';
-import { saveCategory } from '../../actions/categoryActions';
+import actionTypes from '../../../actions/actionTypes';
+import categoryActions from '../../../actions/categoryActions';
+import Modal from '../../common/Modal';
 
 /**
  * [className description]
@@ -28,6 +30,8 @@ class CategoriesPage extends React.Component {
     this.updateCategoryFormState = this.updateCategoryFormState.bind(this);
     this.saveCategory = this.saveCategory.bind(this);
     this.onEdit = this.onEdit.bind(this);
+    this.onDelete = this.onDelete.bind(this);
+    this.confirmDelete = this.confirmDelete.bind(this);
     this.showAddModal = this.showAddModal.bind(this);
   }
 
@@ -66,6 +70,40 @@ class CategoriesPage extends React.Component {
   }
 
   /**
+   * ]
+   * @method onDelete
+   * @param  {[type]} category [description]
+   * @return {[type]}          [description]
+   */
+  onDelete(category) {
+    this.setState({
+      category: Object.assign({}, category),
+      errors: {}
+    });
+
+    $('#modal1').modal('open');
+  }
+
+  /**
+   * [showDeleteModal description]
+   * @method showReturnModal
+   * @param  {[type]}        borrowedBook [description]
+   * @return {[type]}                     [description]
+   */
+  confirmDelete() {
+    $('.modal').modal('close');
+
+    this.props.deleteCategory(this.state.category)
+      .catch(({ response }) => toastr.error(response.data.error));
+
+    this.setState({
+      category: {
+        id: '',
+        name: '' }
+    });
+  }
+
+  /**
    * @param {object} event
    * @returns {object} state
    */
@@ -85,7 +123,7 @@ class CategoriesPage extends React.Component {
   saveCategory(event) {
     event.preventDefault();
     this.setState({ errors: {} });
-    this.props.addBookCategory(this.state.category)
+    this.props.saveOrUpdateCategory(this.state.category)
       .then(() => {
         $('.modal').modal('close');
         toastr.success('Category saved');
@@ -108,34 +146,41 @@ class CategoriesPage extends React.Component {
       <div>
         <div className="row">
           <div className="col s12">
-            <div className="card">
-              <div className="card-content">
-                <p className="card-title teal-text">
-                  <b>Book Categories</b>
-                  <span className="right">
-                    <button onClick={this.showAddModal}
-                      className="btn-floating waves-effect waves-green">
-                      <i className="material-icons">add</i>
-                    </button>
-                  </span>
-                </p>
-                <br/>
-                <div className="divider"></div>
-                <CategoryList
-                  categories={this.props.categories}
-                  onEdit={this.onEdit}
-                  onDelete={this.onDelete}
-                />
-              </div>
+            <h3 className="center-align teal-text">Book Categories</h3>
+            <div className="divider"></div>
+          </div>
+        </div>
+        <div className="container">
+          <div className="row">
+            <div className="col s12">
+              <p className="card-title teal-text">
+                <span className="right">
+                  <button onClick={this.showAddModal}
+                    className="btn-floating waves-effect waves-green">
+                    <i className="material-icons">add</i>
+                  </button>
+                </span>
+              </p>
+              <CategoryList
+                categories={this.props.categories}
+                onEdit={this.onEdit}
+                onDelete={this.onDelete}
+              />
             </div>
           </div>
         </div>
+
         <CategoryModal
           category={this.state.category}
           errors={this.state.errors}
           onSubmit={this.saveCategory}
           onChange={this.updateCategoryFormState}
         />
+        <Modal id="modal1"
+          title="Confirm Delete"
+          text={`Do you want to delete category with name ${this.state.category.name}`}
+          action={this.confirmDelete}
+        />;
       </div>
     );
   }
@@ -148,18 +193,21 @@ const mapStateToProps = (state, ownProps) => {
 
   return ({
     category,
-    categories: state.categories
+    categories: state.categories.sort((a, b) => (a.id - b.id))
   });
 };
 
 const mapDispatchToProps = dispatch => ({
-  addBookCategory: category => dispatch(saveCategory(category))
+  saveOrUpdateCategory: category =>
+    dispatch(categoryActions(actionTypes.SAVE_OR_UPDATE_CATEGORY, category)),
+  deleteCategory: category =>
+    dispatch(categoryActions(actionTypes.DELETE_CATEGORY, category))
 });
 
 CategoriesPage.propTypes = {
   categories: PropTypes.array,
   category: PropTypes.object,
-  addBookCategory: PropTypes.func
+  saveOrUpdateCategory: PropTypes.func
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(CategoriesPage);
