@@ -57,6 +57,7 @@ export default {
         }).then((result) => {
           if (result) {
             return res.status(200).send({
+              message: 'Membership type updated successfully',
               membershipType: {
                 id: membershipType.id,
                 membershipType: membershipType.membershipType,

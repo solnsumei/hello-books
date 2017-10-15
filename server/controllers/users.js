@@ -202,7 +202,7 @@ export default {
               }).then((result) => {
                 if (result) {
                   return res.status(200).send({ message: 'Book borrowed successfully',
-                    borrowBook: formatBorrowedBookObject(borrowedBook, req.book),
+                    borrowedBook: formatBorrowedBookObject(borrowedBook, req.book),
                   });
                 }
               }).catch(error => res.status(400).send(error)))
@@ -276,10 +276,14 @@ export default {
                 .then(result => res.status(200).send({ message: 'Book was returned successfully',
                   returnedBook: formatBorrowedBookObject(borrowedBook, req.book),
                 }))
-                .catch(error => res.status(500).send(error));
+                .catch(error => res.status(500).send({
+                  error: 'Request could not be processed, please try again later'
+                }));
             }
           })
-          .catch(error => res.status(500).send(error));
+          .catch(error => res.status(500).send({
+            error: 'Request could not be processed, please try again later'
+          }));
       })
       .catch(error => res.status(500).send({
         error: 'Request could not be processed, please try again later'

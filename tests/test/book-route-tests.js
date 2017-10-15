@@ -448,7 +448,7 @@ describe('Book Routes', () => {
           .end((err, res) => {
             assert.equal(res.status, 200);
             assert.equal(res.body.message, 'Book was returned successfully');
-            assert.equal(res.body.returnedBook.Book.title, 'Book Three');
+            assert.equal(res.body.returnedBook.Book.title, book3.title);
             assert.equal(res.body.returnedBook.bookId, book2.id);
             done();
           });
