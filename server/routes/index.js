@@ -16,6 +16,7 @@ import userCanBorrow from '../middlewares/userCanBorrow';
 import profileUpdateRequest from '../middlewares/profileUpdateRequest';
 import editMembershipTypeRequest from '../middlewares/editMembershipTypeRequest';
 import checkMembershipType from '../middlewares/checkMembershipType';
+import changePasswordRequest from '../middlewares/changePasswordRequest';
 import { categoryRequest, validateCategoryId, validateCategoryIdParam } from '../middlewares/categoryRequest';
 
 
@@ -29,6 +30,8 @@ router.post('/users/signin', checkLogin, usersController.login);
 router.use(authMiddleware);
 
 router.put('/users/profile', profileUpdateRequest, checkMembershipType, usersController.updateProfile);
+
+router.post('/users/change-password', changePasswordRequest, usersController.changePassword);
 
 router.get('/membershiptypes', membershipController.getAllMemberShipTypes);
 
