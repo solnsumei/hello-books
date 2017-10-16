@@ -25,7 +25,10 @@ if (env !== 'production') {
 }
 
 // Log requests to the console
-app.use(logger('dev'));
+if (env === 'development') {
+  app.use(logger('dev'));
+}
+
 
 // Parse incoming requests data (https://github.com/expressjs/body-parser
 app.use(bodyParser.json());

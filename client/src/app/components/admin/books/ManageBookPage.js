@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import toastr from 'toastr';
 import BookForm from './BookForm';
 import actionTypes from '../../../actions/actionTypes';
@@ -112,12 +113,18 @@ class ManageBookPage extends React.Component {
       <div>
         <div className="row">
           <div className="col s12">
-            <h3 className="center-align teal-text"><b>{this.state.book.id ? 'Edit Book' : 'Add New Book'}</b></h3>
+            <h3 className="teal-text"><b>{this.state.book.id ? 'Edit Book' : 'Add New Book'}</b>
+              <span className="right">
+                <Link to="/admin/books" className="btn-floating">
+                  <i className="material-icons">arrow_back</i>
+                </Link>
+              </span>
+            </h3>
             <div className="divider"></div>
           </div>
         </div>
-        <div className="container">
-          <div className="row">
+        <div className="row">
+          <div className="col s12 m8 offset-m2">
             <BookForm
               book={this.state.book}
               categories={this.props.categories}

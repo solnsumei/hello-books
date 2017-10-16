@@ -146,27 +146,25 @@ class CategoriesPage extends React.Component {
       <div>
         <div className="row">
           <div className="col s12">
-            <h3 className="center-align teal-text">Book Categories</h3>
+            <h3 className="teal-text">
+              <b>Book Categories</b>
+              <span className="right">
+                <button onClick={this.showAddModal} title="add new category"
+                  className="btn-floating waves-effect waves-green">
+                  <i className="material-icons">add</i>
+                </button>
+              </span>
+            </h3>
             <div className="divider"></div>
           </div>
         </div>
-        <div className="container">
-          <div className="row">
-            <div className="col s12">
-              <p className="card-title teal-text">
-                <span className="right">
-                  <button onClick={this.showAddModal}
-                    className="btn-floating waves-effect waves-green">
-                    <i className="material-icons">add</i>
-                  </button>
-                </span>
-              </p>
-              <CategoryList
-                categories={this.props.categories}
-                onEdit={this.onEdit}
-                onDelete={this.onDelete}
-              />
-            </div>
+        <div className="row">
+          <div className="col s12">
+            <CategoryList
+              categories={this.props.categories}
+              onEdit={this.onEdit}
+              onDelete={this.onDelete}
+            />
           </div>
         </div>
 

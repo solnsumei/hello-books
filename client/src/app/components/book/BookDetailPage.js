@@ -82,45 +82,43 @@ class BookDetailPage extends React.Component {
     const { book, user } = this.props;
     return (
       <div>
-        { book ? <div className="container">
-          <div className="row">
-            <div className="col s12 m5">
-              <h3>
-                <strong>{book.title}</strong>
-              </h3>
-              <p className="offset-3"><i>By {book.author}</i></p>
+        { book ? <div className="row">
+          <div className="col s12 m5">
+            <h3>
+              <strong>{book.title}</strong>
+            </h3>
+            <p className="offset-3"><i>By {book.author}</i></p>
 
-              <p>{book.description}</p>
+            <p>{book.description}</p>
 
-            </div>
+          </div>
 
-            <div className="col s12 m4">
-              <div className="card">
-                <div className="card-image">
-                  <img src={book.coverPic} />
-                </div>
+          <div className="col s12 m4">
+            <div className="card">
+              <div className="card-image">
+                <img src={book.coverPic} />
               </div>
             </div>
+          </div>
 
-            <div className="col s12 m3">
-              <p>({book.Category.name})</p>
-              <p>Status: { book.borrowedQuantity < book.stockQuantity ?
-                <label className="label label-success">Available</label> :
-                <label className="label label-danger">Out of Stock</label>}
-              </p>
-              {book.borrowedQuantity < book.stockQuantity &&
-                 !user.admin && !this.state.isBorrowed &&
-                <button data-target="modal1" className="btn modal-trigger">
-                  Borrow
-                </button>}
+          <div className="col s12 m3">
+            <p>({book.Category.name})</p>
+            <p>Status: { book.borrowedQuantity < book.stockQuantity ?
+              <label className="label label-success">Available</label> :
+              <label className="label label-danger">Out of Stock</label>}
+            </p>
+            {book.borrowedQuantity < book.stockQuantity &&
+               !user.admin && !this.state.isBorrowed &&
+              <button data-target="modal1" className="btn modal-trigger">
+                Borrow
+              </button>}
 
-              {!user.admin && this.state.isBorrowed &&
-                <button data-target="modal1" className="btn modal-trigger">
-                  Return Book
-                </button>}
+            {!user.admin && this.state.isBorrowed &&
+              <button data-target="modal1" className="btn modal-trigger">
+                Return Book
+              </button>}
 
-              <p><Link to="/books">Back to Catalog</Link></p>
-            </div>
+            <p><Link to="/books">Back to Catalog</Link></p>
           </div>
           <Modal id="modal1"
             title={!this.state.isBorrowed ? 'Confirm Borrow' : 'Confirm Return'}

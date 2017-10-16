@@ -11,8 +11,8 @@ import BookDetailPage from './book/BookDetailPage';
 import BorrowHistoryPage from './users/BorrowHistoryPage';
 import IsAdmin from './common/IsAdmin';
 
-const Routes = props => (
-  <main className="top-padding">
+const Routes = ({ user }) => (
+  <main className={user.username ? 'top-padding main' : 'top-padding'}>
     <Switch>
       <Route exact path='/' component={PreventAuthenticatedUsers(LoginPage)} />
       <Route path='/login' component={PreventAuthenticatedUsers(LoginPage)} />

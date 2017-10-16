@@ -25,6 +25,18 @@ class App extends React.Component {
   }
 
   /**
+   * [componentDidUpdate description]
+   * @method componentDidUpdate
+   * @param  {[type]}           prevProps [description]
+   * @return {[type]}                     [description]
+   */
+  componentDidUpdate(prevProps) {
+    if (!prevProps.user.username && this.props.user.username) {
+      const user = this.props.user;
+    }
+  }
+
+  /**
    * [doLogout description]
    * @method doLogout
    * @param  {[type]} event [description]
@@ -46,7 +58,7 @@ class App extends React.Component {
       <div>
         <Header title={routeTitles(this.props.pathname)}
           user={this.props.user} logout={this.doLogout}/>
-        <Routes />
+        <Routes user={this.props.user}/>
       </div>
     );
   }

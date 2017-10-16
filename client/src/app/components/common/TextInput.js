@@ -2,10 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const TextInput = (
-  { type, name, label, onChange, placeholder,
+  { type, name, label, onChange, placeholder, prefix,
     value, error, errorMsg, active, required }) => (
   <div className="row">
     <div className="input-field col s12">
+      { prefix && <i className="material-icons prefix">{prefix}</i> }
       { type === 'textarea' ?
         <textarea
           name={name}

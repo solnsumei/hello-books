@@ -1,21 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 import TextInput from '../../common/TextInput';
 import SelectInput from '../../common/SelectInput';
 
 
 const BookForm = ({ book, onSubmit, categories, uploadCoverPic, onChange, errors }) => (
-  <form onSubmit={onSubmit} className="col s12 m8 offset-m2">
-    <div className="card transparent">
+  <div className="card">
+    <form onSubmit={onSubmit}>
       <div className="card-content">
-        <p className="card-title">
-          <span className="right">
-            <Link to="/admin/books" className="btn-floating">
-              <i className="material-icons">arrow_back</i>
-            </Link>
-          </span>
-        </p>
 
         { Object.keys(errors).length > 0 ?
           <p className="red-text">** There are some errors with your input</p>
@@ -47,15 +39,16 @@ const BookForm = ({ book, onSubmit, categories, uploadCoverPic, onChange, errors
         </div>
 
         <br/>
-        <TextInput type="textarea" name="description" label="Description"
-          value={book.description} active={book.id !== ''} onChange={onChange} error={errors.description}
-          errorMsg="This field is required" required="required" />
 
         {!book.id && <TextInput type="number" name="stockQuantity" label="Stock Quantity"
           value={book.stockQuantity}
           active={book.id !== ''} onChange={onChange}
           error={errors.stockQuantity}
           errorMsg="This field is required" required="required" />}
+
+        <TextInput type="textarea" name="description" label="Description"
+          value={book.description} active={book.id !== ''} onChange={onChange} error={errors.description}
+          errorMsg="This field is required" required="required" />
 
         <div className="row">
           { book.coverPic && <div className="col s6 m4">
@@ -81,8 +74,8 @@ const BookForm = ({ book, onSubmit, categories, uploadCoverPic, onChange, errors
           </div>
         </div>
       </div>
-    </div>
-  </form>
+    </form>
+  </div>
 );
 
 BookForm.propTypes = {
