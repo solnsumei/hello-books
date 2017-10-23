@@ -50,6 +50,8 @@ if (env === 'development') {
   }));
 }
 
+app.use(webpackHotMiddleware(compiler));
+
 app.use('/', express.static(publicPath));
 
 app.get('/api/*', (req, res) => res.status(404).send({
