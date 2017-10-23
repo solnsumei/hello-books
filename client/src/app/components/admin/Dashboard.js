@@ -15,42 +15,45 @@ class Dashboard extends React.Component {
    */
   render() {
     return (
-      <div>
+      <div className="top-padding">
         <div className="row">
           <div className="col s12">
-            <h3 className="teal-text"><b>Admin Dashboard</b></h3>
-            <div className="divider"></div>
+            <h3 className="center-align">Admin Dashboard</h3>
           </div>
         </div>
         <div className="row">
           <div className="col s12 m4">
             <div className="card">
+              <br/>
               <Link to="/admin/membership-types">
-                <div className="card-content">
-                  <h1 className="center-align">
-                    {this.props.membershipTypes}
-                  </h1>
-                  <h3 className="center-align">Membership Types</h3>
+                <div className="card-content center-align primary-color">
+                  <i className="large material-icons">collections</i>
+                  <br/>
+                  <h4>Membership Types</h4>
                 </div>
               </Link>
             </div>
           </div>
           <div className="col s12 m4">
             <div className="card">
+              <br/>
               <Link to="/admin/books">
-                <div className="card-content">
-                  <h1 className="center-align">{this.props.books}</h1>
-                  <h3 className="center-align">Books in Library</h3>
+                <div className="card-content center-align primary-color">
+                  <i className="large material-icons">book</i>
+                  <br/>
+                  <h4>Books</h4>
                 </div>
               </Link>
             </div>
           </div>
           <div className="col s12 m4">
             <div className="card">
+              <br/>
               <Link to="/admin/categories">
-                <div className="card-content">
-                  <h1 className="center-align">{this.props.categories}</h1>
-                  <h3 className="center-align">Categories Added</h3>
+                <div className="card-content center-align primary-color">
+                  <i className="large material-icons">collections_bookmark</i>
+                  <br/>
+                  <h4>Categories</h4>
                 </div>
               </Link>
             </div>

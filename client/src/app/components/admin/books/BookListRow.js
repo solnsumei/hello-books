@@ -11,8 +11,8 @@ const BookListRow = ({ book, onClickAdd, onClickDelete }) => (
     <td>{book.borrowedQuantity}</td>
     <td>{!book.isDeleted ? 'yes' : 'no'}</td>
     <td>
-      <button title="add quantity" onClick={onClickAdd} className="btn-floating">
-        <i className="material-icons">add</i>
+      <button title="add quantity" onClick={onClickAdd} className="btn-floating bg-primary">
+        <i className="material-icons">store</i>
       </button>&nbsp;
       <Link to={`/admin/books/${book.id}`} title="edit" className="btn-floating orange">
         <i className="material-icons">edit</i>

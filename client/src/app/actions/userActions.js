@@ -68,6 +68,11 @@ const updateUserAccount = userData => (dispatch) => {
     });
 };
 
+const changeUserPassword = passwordObject => (dispatch) => {
+  const headers = authCheck(dispatch);
+
+  return axios.post('/api/v1/users/change-password', passwordObject, headers);
+};
 
 const loginRequest = loginData => dispatch =>
   axios.post('/api/v1/users/signin', loginData)
@@ -85,5 +90,5 @@ const userSignUpRequest = userData => dispatch =>
       return dispatch(userAuthSuccess(user));
     });
 
-export { loginRequest, userSignUpRequest, userAuthSuccess,
-  updateUserAccount, checkAuthentication, logoutRequest, authCheck };
+export { loginRequest, userSignUpRequest, updateUserAccount,
+  checkAuthentication, logoutRequest, authCheck, changeUserPassword };

@@ -11,7 +11,6 @@ import ManageBookPage from '../admin/books/ManageBookPage';
 import MembershipTypePage from '../admin/membership/MembershipTypePage';
 import actionTypes from '../../actions/actionTypes';
 import categoryActions from '../../actions/categoryActions';
-
 /**
 *
 */
@@ -34,11 +33,7 @@ class IsAdmin extends React.Component {
    */
   componentDidMount() {
     this.redirectUnauthorisedUser();
-    if (this.props.user.admin) {
-      if (!Object.keys(this.props.categories).length > 0) {
-        this.props.loadBookCategories();
-      }
-    }
+    this.props.loadCategories();
   }
 
   /**
@@ -75,19 +70,16 @@ class IsAdmin extends React.Component {
 
 const mapStateToProps = (state, ownProps) => ({
   user: ownProps.user,
-  categories: state.categories
 });
 
 const mapDispatchToProps = dispatch => ({
   setRedirectUrl: url => dispatch(setRedirectUrl(url)),
-  loadBookCategories: () =>
-    dispatch(categoryActions(actionTypes.LOAD_CATEGORIES))
+  loadCategories: () => dispatch(categoryActions(actionTypes.LOAD_CATEGORIES))
 });
 
 IsAdmin.propTypes = {
   user: PropTypes.object,
-  categories: PropTypes.array,
-  loadBookCategories: PropTypes.func
+  loadCategories: PropTypes.func.isRequired
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(IsAdmin);

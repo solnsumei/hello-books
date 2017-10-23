@@ -7,8 +7,11 @@ import TextInput from '../common/TextInput';
 
 const SignUpForm = ({ formParams, onSubmit, onChange, loading, errors }) => (
   <div className="col s12 m8 offset-m2 l8 offset-l2">
-    <h5 className="center-align teal-text">Create An Account</h5>
     <div className="card login-form">
+      <h3 className="center-align">
+        <i className="material-icons large">local_library</i>
+      </h3>
+      <h3 className="center-align">Create an account</h3>
       <form onSubmit={onSubmit}>
         <div className="card-content">
 
@@ -35,7 +38,7 @@ const SignUpForm = ({ formParams, onSubmit, onChange, loading, errors }) => (
 
           <section className="row">
             <div className="col s12">
-              <h3>Personal Details</h3>
+              <h5>Personal Details</h5>
             </div>
 
             <div className="col s12 m6">
@@ -60,9 +63,9 @@ const SignUpForm = ({ formParams, onSubmit, onChange, loading, errors }) => (
               Sign up <i className="material-icons right">send</i>
               </button>
             </div>
-            <div className="col s12">
+            <div className="col s12 center-align link">
               <br/>
-              Already registered? <Link to="/login">Log in</Link>
+              <Link to="/login">Already registered? Log in</Link>
             </div>
           </div>
         </div>

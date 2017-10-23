@@ -1,12 +1,13 @@
 import React from 'react';
 import toastr from 'toastr';
+import queryString from 'query-string';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import BorrowedItem from './BorrowedItem';
 import TopTitle from '../common/TopTitle';
 import Modal from '../common/Modal';
 import actionTypes from '../../actions/actionTypes';
-import selectBorrowAction from '../../actions/borrowActions';
+import borrowActions from '../../actions/borrowActions';
 
 /**
  *
@@ -73,44 +74,51 @@ class BorrowHistoryPage extends React.Component {
     return (
       <div>
         <div className="row">
-          <div className="col s12 center-align">
-
-            <TopTitle icon="list" title="Borrow History" />
-
-            <div className="divider"></div>
-          </div>
-        </div>
-        <div className="container">
-          <div className="row">
-            <div className="col s12">
-              <table className="responsive-table striped">
-                <thead>
-                  <tr>
-                    <th>Book Title</th>
-                    <th>Borrow Date</th>
-                    <th>Due Date</th>
-                    <th>Returned</th>
-                    <th>Action</th>
-                  </tr>
-                </thead>
-
-                <tbody>
-                  { this.props.borrowedBooks.length > 0 ?
-                    this.props.borrowedBooks.map(borrowedBook =>
-                      <BorrowedItem key={borrowedBook.id}
-                        page="historyPage"
-                        action={selectedBook =>
-                          this.showReturnModal(borrowedBook)}
-                        borrowedBook={borrowedBook} />
-                    ) :
+          <div className="col s12">
+            <div className="card">
+              <div className="card-content">
+                <div className="row">
+                  <span className="right">
+                    {this.props.returnedQueryString ?
+                      <Link to="borrow-history" className="btn">
+                        <i className="material-icons">arrow_back</i> Back
+                      </Link>
+                      :
+                      <Link to="borrow-history?returned=false" className="btn">
+                        Books Not Returned
+                      </Link>
+                    }
+                  </span>
+                </div>
+                <table className="responsive-table striped">
+                  <thead>
                     <tr>
-                      <td colSpan="5" className="center-align">
-                        No books added
-                      </td>
+                      <th>Book Title</th>
+                      <th>Borrow Date</th>
+                      <th>Due Date</th>
+                      <th>Returned</th>
+                      <th>Action</th>
                     </tr>
-                  }
-                </tbody>
-              </table>
+                  </thead>
+
+                  <tbody>
+                    { this.props.borrowedBooks.length > 0 ?
+                      this.props.borrowedBooks.map(borrowedBook =>
+                        <BorrowedItem key={borrowedBook.id}
+                          page="historyPage"
+                          action={selectedBook =>
+                            this.showReturnModal(borrowedBook)}
+                          borrowedBook={borrowedBook} />
+                      ) :
+                      <tr>
+                        <td colSpan="5" className="center-align">
+                          No books added
+                        </td>
+                      </tr>
+                    }
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
         </div>
@@ -118,24 +126,35 @@ class BorrowHistoryPage extends React.Component {
           title="Confirm Return"
           text={`Do you want to return book with title ${this.state.borrowedBook.Book.title}`}
           action={this.confirmReturn}
-        />;
+        />
       </div>
     );
   }
 }
 
 const mapStateToProps = (state, ownProps) => {
-  let borrowedBooks = [];
-  borrowedBooks = state.borrowedBooks.sort((a, b) => (b.id - a.id));
+  let borrowedBooks = state.borrowedBooks.sort((a, b) => (b.id - a.id));
+  let returnedQueryString = ownProps.location.search;
+
+  if (returnedQueryString) {
+    returnedQueryString = queryString.parse(returnedQueryString);
+  }
+
+  if (returnedQueryString.returned) {
+    borrowedBooks =
+    borrowedBooks.filter(borrowedBook => !borrowedBook.returned);
+  }
+
   return ({
-    borrowedBooks,
-    user: state.user
+    returnedQueryString,
+    user: state.user,
+    borrowedBooks
   });
 };
 
 const mapDispatchToProps = dispatch => ({
   returnBook: (user, bookId) =>
-    dispatch(selectBorrowAction(actionTypes.RETURN_BOOK, user, bookId))
+    dispatch(borrowActions(actionTypes.RETURN_BOOK, user, bookId))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(BorrowHistoryPage);

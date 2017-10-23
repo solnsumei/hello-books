@@ -32,6 +32,17 @@ class ManageBookPage extends React.Component {
   }
 
   /**
+   * [componentDidMount description]
+   * @method componentDidMount
+   * @return {[type]}          [description]
+   */
+  componentDidMount() {
+    if (this.props.bookId) {
+      this.props.getBook(this.props.bookId);
+    }
+  }
+
+  /**
    * [componentWillReceiveProps description]
    * @method componentWillReceiveProps
    * @param  {[type]}                  nextProps [description]
@@ -110,30 +121,16 @@ class ManageBookPage extends React.Component {
    */
   render() {
     return (
-      <div>
-        <div className="row">
-          <div className="col s12">
-            <h3 className="teal-text"><b>{this.state.book.id ? 'Edit Book' : 'Add New Book'}</b>
-              <span className="right">
-                <Link to="/admin/books" className="btn-floating">
-                  <i className="material-icons">arrow_back</i>
-                </Link>
-              </span>
-            </h3>
-            <div className="divider"></div>
-          </div>
-        </div>
-        <div className="row">
-          <div className="col s12 m8 offset-m2">
-            <BookForm
-              book={this.state.book}
-              categories={this.props.categories}
-              onSubmit={this.saveBook}
-              uploadCoverPic={this.uploadCoverPicture}
-              onChange={this.updateFormState}
-              errors={this.state.errors}
-            />
-          </div>
+      <div className="row">
+        <div className="col s12">
+          <BookForm
+            book={this.state.book}
+            categories={this.props.categories}
+            onSubmit={this.saveBook}
+            uploadCoverPic={this.uploadCoverPicture}
+            onChange={this.updateFormState}
+            errors={this.state.errors}
+          />
         </div>
       </div>
     );
@@ -175,12 +172,15 @@ const mapStateToProps = (state, ownProps) => {
   }
 
   return ({
+    bookId,
     categories: categoriesFormatted,
     book
   });
 };
 
 const mapDispatchToProps = dispatch => ({
+  getBook: bookId =>
+    dispatch(bookActions(actionTypes.GET_BOOK, null, bookId)),
   saveBook: book =>
     dispatch(bookActions(actionTypes.SAVE_OR_UPDATE_BOOK, book))
 });

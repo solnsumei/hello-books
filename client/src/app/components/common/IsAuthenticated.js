@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import setRedirectUrl from '../../actions/redirectActions';
 import membershipTypeActions from '../../actions/membershipTypeActions';
 import actionTypes from '../../actions/actionTypes';
-import bookActions from '../../actions/bookActions';
 import borrowActions from '../../actions/borrowActions';
 
 export default (ComposedComponent) => {
@@ -37,16 +36,11 @@ export default (ComposedComponent) => {
         this.props.loadMembershipTypes();
       }
 
-      if (this.props.user.username && this.props.books.length <= 0) {
-        this.props.loadBooks();
-      }
-
       if (this.props.user.username && this.props.borrowedBooks.length <= 0) {
         this.props.loadBorrowedBooks(this.props.user);
       }
 
       $('.modal').modal();
-      $('select').material_select();
     }
 
     /**
@@ -79,17 +73,15 @@ export default (ComposedComponent) => {
     currentURL: ownProps.location.pathname,
     redirectUrl: state.redirectUrl,
     membershipTypes: state.membershipTypes,
-    books: state.books,
-    borrowedBooks: state.borrowedBooks
+    borrowedBooks: state.borrowedBooks,
   });
 
   const mapDispatchToProps = dispatch => ({
     setRedirectUrl: url => dispatch(setRedirectUrl(url)),
     loadMembershipTypes: () =>
       dispatch(membershipTypeActions(actionTypes.LOAD_MEMBERSHIP_TYPES)),
-    loadBooks: () => dispatch(bookActions(actionTypes.LOAD_BOOKS)),
     loadBorrowedBooks: user =>
-      dispatch(borrowActions(actionTypes.LOAD_BORROWED_BOOKS, user))
+      dispatch(borrowActions(actionTypes.LOAD_BORROWED_BOOKS, user)),
   });
 
   IsAuthenticated.propTypes = {
@@ -98,7 +90,6 @@ export default (ComposedComponent) => {
     redirectUrl: PropTypes.string,
     setRedirectUrl: PropTypes.func.isRequired,
     loadMembershipTypes: PropTypes.func,
-    loadBooks: PropTypes.func,
     loadBorrowedBooks: PropTypes.func,
   };
 

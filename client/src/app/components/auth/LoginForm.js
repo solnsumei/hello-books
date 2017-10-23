@@ -7,9 +7,12 @@ import TextInput from '../common/TextInput';
  * @returns {object} component
  */
 const LoginForm = ({ loginParams, onSubmit, onChange, errors, loading }) => (
-  <div className="col s12 m8 offset-m2 l8 offset-l2">
-    <h5 className="center-align teal-text">Login to your Account</h5>
+  <div className="col s12 m6 offset-m3">
     <div className="card login-form">
+      <h3 className="center-align">
+        <i className="material-icons large">local_library</i>
+      </h3>
+      <h3 className="center-align">Log in to your account</h3>
       <form onSubmit={onSubmit}>
         <div className="card-content">
           {(errors && errors.error) &&
@@ -36,9 +39,9 @@ const LoginForm = ({ loginParams, onSubmit, onChange, errors, loading }) => (
               Log in <i className="material-icons right">lock</i>
               </button>
             </div>
-            <div className="col s12 center-align">
+            <div className="col s12 center-align link">
               <br/>
-                New to Hello books? <Link to="/register">Sign up</Link>
+              <Link to="/register">New to Hello books? Sign up</Link>
             </div>
           </div>
         </div>

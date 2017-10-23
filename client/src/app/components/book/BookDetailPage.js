@@ -4,16 +4,17 @@ import toastr from 'toastr';
 import { connect } from 'react-redux';
 import Modal from '../common/Modal';
 import actionTypes from '../../actions/actionTypes';
+import bookActions from '../../actions/bookActions';
 import borrowActions from '../../actions/borrowActions';
 /**
  *
  */
 class BookDetailPage extends React.Component {
   /**
-   * [constructor description]
+   * Book detail constructor
    * @method constructor
-   * @param  {[type]}    props [description]
-   * @return {[type]}          [description]
+   * @param  {obj} props react properties
+   * @return {null} set default states and bind functions
    */
   constructor(props) {
     super(props);
@@ -24,6 +25,15 @@ class BookDetailPage extends React.Component {
 
     this.confirmBorrow = this.confirmBorrow.bind(this);
     this.confirmReturn = this.confirmReturn.bind(this);
+  }
+
+  /**
+   * [componentDidMount description]
+   * @method componentDidMount
+   * @return {[type]}          [description]
+   */
+  componentDidMount() {
+    this.props.getBook(this.props.bookId);
   }
 
   /**
@@ -79,12 +89,12 @@ class BookDetailPage extends React.Component {
   * @return {[type]} [description]
   */
   render() {
-    const { book, user } = this.props;
+    const { user, book } = this.props;
     return (
-      <div>
+      <div className="book-page white-text">
         { book ? <div className="row">
           <div className="col s12 m5">
-            <h3>
+            <h3 className="white-text">
               <strong>{book.title}</strong>
             </h3>
             <p className="offset-3"><i>By {book.author}</i></p>
@@ -177,6 +187,7 @@ const mapStateToProps = (state, ownProps) => {
 
   return ({
     book,
+    bookId,
     user: state.user,
     isBorrowed
   });
@@ -184,6 +195,7 @@ const mapStateToProps = (state, ownProps) => {
 
 // map dispatch actions to borrow actions
 const mapDispatchToProps = dispatch => ({
+  getBook: bookId => dispatch(bookActions(actionTypes.GET_BOOK, null, bookId)),
   borrow: (user, bookId) =>
     dispatch(borrowActions(actionTypes.BORROW_BOOK, user, bookId)),
 

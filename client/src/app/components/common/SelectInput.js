@@ -5,20 +5,22 @@ const SelectInput = ({ name, active, label, onChange, defaultOption, value, erro
   <div className="row">
     <div className="col s12">
       <label htmlFor={name} className={active ? 'active' : ''} >{label}</label>
-      <select
-        className="browser-default"
-        name={name}
-        value={value}
-        onChange={onChange}>
-        <option value="" disabled>
-          {defaultOption}
-        </option>
-        {options.map(option =>
-          <option key={option.value} value={option.value}>
-            {!option.text ? option.value : option.text}
+      <div className="select-box">
+        <span className="caret"><small>▼</small></span>
+        <select
+          name={name}
+          value={value}
+          onChange={onChange}>
+          <option value="" disabled>
+            {defaultOption}
           </option>
-        )}
-      </select>
+          {options.map(option =>
+            <option key={option.value} value={option.value}>
+              {!option.text ? option.value : option.text}
+            </option>
+          )}
+        </select>
+      </div>
       { error && <label className="red-text">{error}</label>}
     </div>
   </div>

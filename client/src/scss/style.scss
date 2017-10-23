@@ -1,15 +1,47 @@
-body{
-    color:#444;
-    background-color: #F5F5F5;
-    background-image: url('../images/bgcard.jpg');
-    background-repeat: true;
-    -webkit-font-smoothing: antialiased;
-    font-smoothing: antialiased;
+/* =========== Default variables =========== */
+$secondary-color: #1B5E20;
+$offset-color: #212121;
+$primary-color: #388E3C;
+$offset-text-color: #f5f5f5;
+$offset-input-color: #f5f5f5;
+$primary-text-color: #offset-color;
+$btn-text-color: #f5f5f5;
+$active-nav-link-color: #cccccc;
+$float-padding: 300px !important;
+$default-padding: 5px 0;
+$default-margin: 10px;
+
+/* ==========  Select Field Variables ========== */
+$color-black: "0,0,0";
+$select-background-color: transparent;
+$input-border-color: #9e9e9e;
+$input-field-active-color: $primary-color;
+$select-font-size: 1rem;
+$select-color: $offset-color;
+
+body {
+  color: $primary-text-color;
+  background-color: $offset-color !important;
+  background-repeat: true;
+  -webkit-font-smoothing: antialiased;
+  font-smoothing: antialiased;
+}
+
+.book-page {
+  // background-image: url('../images/bgcard.jpg');
+}
+
+nav {
+  background-color: $primary-color;
 }
 
 nav .brand-logo {
   padding-left: 15px;
   font-size: 1.8rem;
+}
+
+.dropdown-content li > span {
+  color: inherit !important;
 }
 
 .input-field label::after {
@@ -21,11 +53,46 @@ nav .brand-logo {
 }
 
 .card-title a {
-  color: teal !important;
+  color: $primary-color !important;
 }
 
 a {
-  color: #333;
+  color: $primary-text-color !important;
+}
+
+main a {
+  color: $primary-color !important;
+}
+
+.card a {
+  color: $primary-text-color !important;
+}
+
+.background {
+  background-color: $secondary-color;
+}
+
+.link a {
+  color: $offset-text-color !important;
+}
+
+.link a:hover {
+  color: $primary-color !important;
+  text-decoration: underline !important;
+}
+
+.btn {
+  background-color: $primary-color !important;
+  color: $btn-text-color !important;
+}
+
+.btn:hover{
+  background-color: $secondary-color !important;
+}
+
+.grey-btn {
+  background-color: grey;
+  color: $primary-text-color;
 }
 
 .input-field.col label {
@@ -36,21 +103,43 @@ a {
   padding-top: 15px !important;
 }
 
-* {
-    text-shadow: 0 1px 1px rgba(255,255,255,.3);
+.bg-primary {
+  background-color: $primary-color !important;
+}
+
+.bg-offset {
+  background-color: $offset-color !important;
 }
 
 p { line-height: 18px; font-size: 12px !important; }
 
-h1 { font-size:80px; font-weight: 400; margin-bottom: 20px; }
-h2 { font-size: 30px; font-weight: 300; color:#444; margin: 30px 0 }
-h3 { font-size: 20px; font-weight: 400; margin: 20px 0; }
-h4 { font-size:14px; font-weight: 400 }
+h1, h2, h3 {
+  color: $primary-color;
+  padding: $default-padding;
+}
+
+.card h5 {
+  color: $primary-color;
+}
+
+.primary-color {
+  color: $primary-color;
+}
+
+h1 { font-size:50px; font-weight: 400; }
+h2 { font-size: 36px; font-weight: 300; }
+h3 { font-size: 24px; font-weight: 400; }
+h4 { font-size:16px; font-weight: 400 }
+h5 { font-size:16px; font-weight: 400 }
 
 .material-icons {
      display: inline-flex;
      vertical-align: middle;
      padding-bottom: 3px !important;
+}
+
+.login-form h3, .login-form h4, .login-form h5 {
+  color: $primary-color !important;
 }
 
 .profile p {
@@ -79,7 +168,7 @@ h4 { font-size:14px; font-weight: 400 }
 }
 
 .active-nav {
-  background-color: #ccc;
+  background-color: $active-nav-link-color;
 }
 
 .container-full-height {
@@ -90,22 +179,106 @@ h4 { font-size:14px; font-weight: 400 }
   min-height: 600px;
 }
 
-.book-details p{line-height: 12px; font-size: 12px}
-
-.card a {
-  color: #444 !important;
-}
+.book-details p { line-height: 12px; font-size: 12px }
 
 .header, .main, .footer {
-  padding-left: 300px !important;
+  padding-left: $float-padding;
 }
 
 .login-form {
   margin-top: 15px;
+  background-color: black;
+}
+
+.login-form .input-field {
+  color: $offset-input-color;
+}
+
+.login-form .input-field input:focus {
+  border-bottom: 1px solid $primary-color !important;
+  box-shadow: 0 1px 0 0 $offset-input-color !important;
+  color: $offset-text-color !important;
+  font-size: 14px;
+}
+
+.login-form .input-field input[type=text]:focus+label,
+.login-form .input-field input[type=email]:focus+label,
+.login-form .input-field input[type=password]:focus+label,
+.login-form .input-field .prefix.active {
+    color: $primary-color !important;
+}
+
+.login-form .input-field .prefix {
+    color: $offset-text-color !important;
 }
 
 @media only screen and (max-width : 992px) {
   .header, .main, .footer {
     padding-left: 0 !important;
   }
+}
+
+/***** Form Customization  *******/
+/* label focus color */
+
+.input-field input:focus, {
+    border-bottom: 1px solid $input-field-active-color !important;
+    box-shadow: 0 1px 0 0 $input-field-active-color !important;
+    color: $offset-color !important;
+    font-size: 14px;
+}
+
+textarea.materialize-textarea:focus:not([readonly]) {
+    border-bottom: 1px solid $input-field-active-color !important;
+    box-shadow: 0 1px 0 0 $input-field-active-color !important;
+    color: $offset-color !important;
+    font-size: 14px;
+}
+
+.input-field textarea:focus+label,
+.input-field input[type=text]:focus+label,
+.input-field input[type=email]:focus+label,
+.input-field input[type=password]:focus+label,
+.input-field .prefix.active {
+    color: $input-field-active-color !important;
+}
+
+.card .card-action a:not(.btn):not(.btn-large):not(.btn-large):not(.btn-floating) {
+  margin-right: 0px !important;
+  text-transform: none !important;
+}
+
+/* ==========  Select Field ========== */
+
+/* Style Select Field */
+select {
+  font-family: inherit;
+  -webkit-appearance: none;
+  background: transparent;
+  display: block !important;
+  width: 100% !important;
+  font-size: $select-font-size;
+  color: $select-color;
+  border: none;
+  border-radius: 0 !important;
+  height: 2.7rem !important;
+  padding: 0px !important;
+  margin: 0px !important;
+  border-bottom: 1px solid $input-border-color;
+}
+
+/* Remove focus */
+select:focus {
+  outline: none;
+  border-bottom: 2px solid $primary-color;
+}
+
+.select-box {
+  position: relative;
+}
+
+.caret {
+  position: absolute;
+  right: 8px;
+  top: 8px;
 }

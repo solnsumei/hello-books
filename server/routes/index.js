@@ -35,6 +35,8 @@ router.post('/users/change-password', changePasswordRequest, usersController.cha
 
 router.get('/membershiptypes', membershipController.getAllMemberShipTypes);
 
+router.get('/books/:bookId', booksController.getBook);
+
 router.get('/books', booksController.getAllBooks);
 
 router.post('/users/:userId/books', validateUser, userCanBorrow, validateBook,

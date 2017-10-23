@@ -130,7 +130,9 @@ export default {
               });
           }
           return res.status(400).send({
-            error: 'Wrong password entered'
+            errors: {
+              oldPassword: 'Wrong password entered'
+            }
           });
         }
         return res.status(404).send({

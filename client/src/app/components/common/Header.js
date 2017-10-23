@@ -21,7 +21,7 @@ const Header = ({ user, logout, title }) => {
 
   return (
     <header className={user.username && 'header'}>
-      <nav className="teal">
+      <nav>
         <div className="nav-wrapper">
           <Link to="/" className="brand-logo">
             <i className="material-icons prefix">local_library</i> Hello Books
@@ -30,7 +30,6 @@ const Header = ({ user, logout, title }) => {
             <i className="material-icons">menu</i>
           </a>
           <ul className="right hide-on-med-and-down">
-            <li><NavLink to="/books" activeClassName="active-top">Catalog</NavLink></li>
             { user.firstName ?
               <li>
                 <a href="#" onClick={logout}>
@@ -43,27 +42,33 @@ const Header = ({ user, logout, title }) => {
           <ul className={sideNavClass} id="slide-out">
             {user.username &&
               <li>
-                <div className="user-view teal">
+                <div className="user-view">
                   <div className="background">
                     <img src="images/office.jpg" />
                   </div>
                   <a href="#!user">
                     <img className="circle" src="images/yuna.jpg"/>
                   </a>
-                  <a href="#!name">
-                    <span className="white-text name">John Doe</span>
-                  </a>
-                  <a href="#!email">
-                    <span className="white-text email">
-                      jdandturk@gmail.com
+                  <Link to="/profile">
+                    <span className="white-text name">
+                      {`${user.firstName} ${user.surname}`}
                     </span>
-                  </a>
+                  </Link>
+                  <Link to="/profile">
+                    <span className="white-text email">
+                      {user.email}
+                    </span>
+                  </Link>
                 </div>
               </li>
             }
-            <li><NavLink to="/books" activeClassName="active-nav">Catalog</NavLink></li>
-            { user.firstName ?
+            { user.username ?
               <div>
+                <li>
+                  <NavLink to="/books" activeClassName="active-nav">
+                    Catalog
+                  </NavLink>
+                </li>
                 <AuthLinks isAdmin={user.admin} />
                 <li>
                   <a href="#" onClick={logout}>

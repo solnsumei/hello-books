@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import TextInput from '../../common/TextInput';
 import SelectInput from '../../common/SelectInput';
 
@@ -7,7 +8,15 @@ import SelectInput from '../../common/SelectInput';
 const BookForm = ({ book, onSubmit, categories, uploadCoverPic, onChange, errors }) => (
   <div className="card">
     <form onSubmit={onSubmit}>
-      <div className="card-content">
+      <div className="card-content row">
+        <h4 className="primary-color">
+          {!book.id ? 'Add New Book' : 'Edit Book'}
+          <Link to="/admin/books" title="cancel" className="right">
+            <small className="right-align">
+              <i className="material-icons">close</i>
+            </small>
+          </Link>
+        </h4>
 
         { Object.keys(errors).length > 0 ?
           <p className="red-text">** There are some errors with your input</p>
@@ -55,7 +64,7 @@ const BookForm = ({ book, onSubmit, categories, uploadCoverPic, onChange, errors
             <img width="100" src={book.coverPic} />
           </div>}
 
-          <div className="col s6 m8">
+          <div className="col s6 m6">
             <button onClick={uploadCoverPic} type="button" className="btn">
               { !book.coverPic ? 'Add Cover Pic' : 'Change Cover Pic'}
             </button>
