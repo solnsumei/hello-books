@@ -3,7 +3,7 @@ import app from '../../app';
 import request from 'supertest';
 import assert from 'assert';
 import db from '../../server/models/index';
-import { User, Category } from "../dataholder";
+import { User, Book, Category } from "../dataholder";
 
 // Test add book route
 describe('Category Routes', () => {
