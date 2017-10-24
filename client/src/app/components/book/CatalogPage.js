@@ -1,21 +1,34 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import actionTypes from '../../actions/actionTypes';
+import bookActions from '../../actions/bookActions';
+import borrowActions from '../../actions/borrowActions';
 import BookList from './BookList';
 /**
  *
  */
 class CatalogPage extends React.Component {
-/**
+  /**
+   * [componentDidMount description]
+   * @method componentDidMount
+   * @return {[type]}          [description]
+   */
+  componentDidMount() {
+    this.props.loadBooks();
+  }
+
+  /**
  * [render description]
  * @return {[type]} [description]
  */
   render() {
     return (
-      <div>
+      <div className="book-page">
         <div className="row">
           <div className="col s12">
-            <h3 className="center-align teal-text">Book Catalog</h3>
+            <h3 className="center-align">Book Catalog</h3>
             <div className="divider"></div>
           </div>
         </div>
@@ -26,7 +39,16 @@ class CatalogPage extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  books: state.books
+  books: state.books.sort((a, b) => (b.id - a.id))
 });
 
-export default connect(mapStateToProps)(CatalogPage);
+const mapDispatchToProps = dispatch => ({
+  loadBooks: () => dispatch(bookActions(actionTypes.LOAD_BOOKS)),
+});
+
+CatalogPage.propTypes = {
+  books: PropTypes.array,
+  loadBooks: PropTypes.func.isRequired,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(CatalogPage);

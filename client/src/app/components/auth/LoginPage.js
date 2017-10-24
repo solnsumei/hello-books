@@ -56,12 +56,14 @@ class LoginPage extends React.Component {
    */
   render() {
     return (
-      <div className="row">
-        <LoginForm
-          loginParams={this.state.loginParams}
-          onChange={this.updateFormState}
-          onSubmit={this.onSubmit}
-          errors={this.state.errors} />
+      <div className="container">
+        <div className="row">
+          <LoginForm
+            loginParams={this.state.loginParams}
+            onChange={this.updateFormState}
+            onSubmit={this.onSubmit}
+            errors={this.state.errors} />
+        </div>
       </div>
     );
   }

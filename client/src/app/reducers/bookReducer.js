@@ -16,6 +16,11 @@ export default function (state = initialState.books, action) {
         Object.assign({}, action.book)
       ];
 
+    case types.GET_BOOK_SUCCESS:
+      return [...state.filter(book => book.id !== action.book.id),
+        Object.assign({}, action.book)
+      ];
+
     case types.UPDATE_BOOK_SUCCESS:
       return [...state.filter(book => book.id !== action.book.id),
         Object.assign({}, action.book)

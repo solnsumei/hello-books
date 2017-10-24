@@ -94,17 +94,16 @@ class MembershipTypePage extends React.Component {
       <div>
         <div className="row">
           <div className="col s12">
-            <h3 className="center-align teal-text">Membership Types</h3>
-            <div className="divider"></div>
+            <div className="card">
+              <div className="card-content">
+                <MembershipTypeList
+                  membershipTypes={this.props.membershipTypes}
+                  onEdit={this.onEdit}
+                />
+              </div>
+            </div>
           </div>
-        </div>
-        <div className="container">
-          <div className="row">
-            <MembershipTypeList
-              membershipTypes={this.props.membershipTypes}
-              onEdit={this.onEdit}
-            />
-          </div>
+
         </div>
         { this.state.membershipType &&
           <MembershipTypeModal

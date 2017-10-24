@@ -4,6 +4,10 @@ import { formatBookObject } from '../helpers/formatData';
  * Controller for adding, updating and get all books
  * @exports {Object} booksController
  */
+
+let attributes = ['id', 'title', 'categoryId', 'author', 'description', 'coverPic', 'isDeleted', 'stockQuantity',
+  'borrowedQuantity'];
+
 export default {
   /**
    * This creates book in the library
@@ -53,9 +57,6 @@ export default {
    * @returns {Promise.<Object>} books
    */
   getAllBooks(req, res) {
-    let attributes = ['id', 'title', 'categoryId', 'author', 'description', 'coverPic', 'isDeleted', 'stockQuantity',
-      'borrowedQuantity'];
-
     if (req.auth.admin) {
       attributes = [...attributes,
         'isBorrowed',
@@ -73,6 +74,50 @@ export default {
         }],
       })
       .then(books => res.status(200).send({ books }))
+      .catch((error) => {
+        if (error) {
+          return res.status(500).send({
+            error: 'Request could not be processed, please try again later'
+          });
+        }
+      });
+  },
+
+  /**
+   * [getBook description]
+   * @method getBook
+   * @param  {[type]} req [description]
+   * @param  {[type]} res [description]
+   * @return {[type]}     [description]
+   */
+  getBook(req, res) {
+    if (req.auth.admin) {
+      attributes = [...attributes,
+        'isBorrowed',
+        'createdAt'
+      ];
+    }
+
+    if (!req.params.bookId || !Number.isInteger(parseInt(req.params.bookId, 10))) {
+      return res.status(400).send({ error: 'Book Id is invalid' });
+    }
+
+    return db.Book
+      .findOne({
+        attributes,
+        include: [{
+          model: db.Category,
+          attributes: ['name', 'slug'],
+        }],
+        where: { id: req.params.bookId }
+      })
+      .then((book) => {
+        if (!book) {
+          return res.status(404).send({ error: 'Book not found' });
+        }
+
+        return res.status(200).send({ book });
+      })
       .catch((error) => {
         if (error) {
           return res.status(500).send({

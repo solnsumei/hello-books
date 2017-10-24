@@ -3,3 +3,4 @@ server/seeders/addAdminSeeder.js
 client/dist
 .env
 env
+.DS_STORE

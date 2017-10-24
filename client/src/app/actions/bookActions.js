@@ -7,6 +7,10 @@ const addBookSuccess = book => ({
   type: types.ADD_BOOK_SUCCESS, book
 });
 
+const getBookSuccess = book => ({
+  type: types.GET_BOOK_SUCCESS, book
+});
+
 const loadBooksSuccess = books => ({
   type: types.LOAD_BOOKS_SUCCESS, books
 });
@@ -27,6 +31,14 @@ const deleteBookSuccess = book => ({
 const loadBooks = headers => dispatch =>
   axios.get('/api/v1/books', headers)
     .then(({ data }) => dispatch(loadBooksSuccess(data.books)))
+    .catch((error) => {
+      throw (error);
+    });
+
+  // get a single book
+const getBook = (bookId, headers) => dispatch =>
+  axios.get(`/api/v1/books/${bookId}`, headers)
+    .then(({ data }) => dispatch(getBookSuccess(data.book)))
     .catch((error) => {
       throw (error);
     });
@@ -70,12 +82,15 @@ const deleteBook = book => dispatch =>
     });
 
 // entry point for all book actions
-const bookActions = (action, book = null, quantity = null) => (dispatch) => {
+const bookActions = (action, book = null, bookId = null, quantity = null) => (dispatch) => {
   const headers = authCheck(dispatch);
 
   switch (action) {
     case types.LOAD_BOOKS:
       return dispatch(loadBooks(headers));
+
+    case types.GET_BOOK:
+      return dispatch(getBook(bookId, headers));
 
     case types.SAVE_OR_UPDATE_BOOK:
       return dispatch(saveOrUpdateBook(book, headers));

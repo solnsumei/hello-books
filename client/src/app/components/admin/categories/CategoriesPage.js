@@ -36,6 +36,15 @@ class CategoriesPage extends React.Component {
   }
 
   /**
+   * [componentDidMount description]
+   * @method componentDidMount
+   * @return {[type]}          [description]
+   */
+  componentDidMount() {
+    this.props.loadCategories();
+  }
+
+  /**
    * [showAddModal description]
    * @method showAddModal
    * @return {[type]}     [description]
@@ -146,26 +155,22 @@ class CategoriesPage extends React.Component {
       <div>
         <div className="row">
           <div className="col s12">
-            <h3 className="center-align teal-text">Book Categories</h3>
-            <div className="divider"></div>
-          </div>
-        </div>
-        <div className="container">
-          <div className="row">
-            <div className="col s12">
-              <p className="card-title teal-text">
-                <span className="right">
-                  <button onClick={this.showAddModal}
-                    className="btn-floating waves-effect waves-green">
-                    <i className="material-icons">add</i>
-                  </button>
-                </span>
-              </p>
-              <CategoryList
-                categories={this.props.categories}
-                onEdit={this.onEdit}
-                onDelete={this.onDelete}
-              />
+            <div className="card">
+              <div className="card-content">
+                <CategoryList
+                  categories={this.props.categories}
+                  onEdit={this.onEdit}
+                  onDelete={this.onDelete}
+                />
+              </div>
+            </div>
+
+            <div className="fixed-action-btn">
+              <button onClick={this.showAddModal} title="add new"
+                className="btn-floating waves-effect waves-green
+                 bg-primary btn-large">
+                <i className="material-icons">add</i>
+              </button>
             </div>
           </div>
         </div>
@@ -180,7 +185,7 @@ class CategoriesPage extends React.Component {
           title="Confirm Delete"
           text={`Do you want to delete category with name ${this.state.category.name}`}
           action={this.confirmDelete}
-        />;
+        />
       </div>
     );
   }
@@ -198,6 +203,8 @@ const mapStateToProps = (state, ownProps) => {
 };
 
 const mapDispatchToProps = dispatch => ({
+  loadCategories: () =>
+    dispatch(categoryActions(actionTypes.LOAD_CATEGORIES)),
   saveOrUpdateCategory: category =>
     dispatch(categoryActions(actionTypes.SAVE_OR_UPDATE_CATEGORY, category)),
   deleteCategory: category =>

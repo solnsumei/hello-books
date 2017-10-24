@@ -11,10 +11,10 @@ const Book = ({ book, link }) => (
         </Link>
       </div>
       <div className="col s8 m7">
-        <h4 className="top">
+        <h4 className="top white-text">
           <Link to={`${link}${book.id}`}>{book.title}</Link>
         </h4>
-        <div className="book-details">
+        <div className="book-details white-text">
           <p className="offset-3">By {book.author}</p>
           <p>({book.Category.name})</p>
         </div>

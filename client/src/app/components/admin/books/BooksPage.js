@@ -37,6 +37,15 @@ class BooksPage extends React.Component {
   }
 
   /**
+   * [componentDidMount description]
+   * @method componentDidMount
+   * @return {[type]}          [description]
+   */
+  componentDidMount() {
+    this.props.loadBooks();
+  }
+
+  /**
    * ]
    * @method addQuantity
    * @param  {[type]} book [description]
@@ -126,42 +135,36 @@ class BooksPage extends React.Component {
       <div>
         <div className="row">
           <div className="col s12">
-            <h3 className="center-align teal-text">Books</h3>
-            <div className="divider"></div>
-          </div>
-        </div>
-        <div className="container">
-          <div className="row">
-            <div className="col s12">
-              <p className="card-title teal-text">
-                <span className="right">
-                  <Link to="/admin/books/create">
-                    <button className="btn-floating waves-effect waves-green">
+            <div className="card">
+              <div className="card-content">
+                <BookList
+                  books={this.props.books}
+                  onClickAddQuantity={this.addQuantity}
+                  onDelete={this.onClickDeleteBook}
+                />
+                <div className="fixed-action-btn">
+                  <Link to="/admin/books/create" title="add new">
+                    <button className="btn-floating waves-effect waves-green
+                      bg-primary btn-large">
                       <i className="material-icons">add</i>
                     </button>
                   </Link>
-                </span>
-              </p>
-              <BookList
-                books={this.props.books}
-                onClickAddQuantity={this.addQuantity}
-                onDelete={this.onClickDeleteBook}
-              />
-
-              <AddQuantityModal
-                quantity={this.state.quantity}
-                error={this.state.error}
-                onSubmit={this.saveQuantity}
-                onChange={this.updateQuantityFormState}
-              />
-
-              <Modal
-                id="delete-book-modal"
-                title="Confirm Delete"
-                action={this.deleteBook}
-                text={`Do you want to delete book with title ${this.state.book.title}?`}
-              />
+                </div>
+              </div>
             </div>
+            <AddQuantityModal
+              quantity={this.state.quantity}
+              error={this.state.error}
+              onSubmit={this.saveQuantity}
+              onChange={this.updateQuantityFormState}
+            />
+
+            <Modal
+              id="delete-book-modal"
+              title="Confirm Delete"
+              action={this.deleteBook}
+              text={`Do you want to delete book with title ${this.state.book.title}?`}
+            />
           </div>
         </div>
       </div>
@@ -176,8 +179,9 @@ const mapStateToProps = (state, ownProps) => ({
 
 const mapDispatchToProps = dispatch => ({
   addStockQuantity: (book, quantity) =>
-    dispatch(bookActions(actionTypes.ADD_STOCK_QUANTITY, book, quantity)),
-
+    dispatch(bookActions(actionTypes.ADD_STOCK_QUANTITY, book, null, quantity)),
+  loadBooks: book =>
+    dispatch(bookActions(actionTypes.LOAD_BOOKS)),
   deleteBook: book =>
     dispatch(bookActions(actionTypes.DELETE_BOOK, book))
 });
@@ -185,6 +189,7 @@ const mapDispatchToProps = dispatch => ({
 BooksPage.propTypes = {
   books: PropTypes.array.isRequired,
   book: PropTypes.object,
+  loadBooks: PropTypes.func.isRequired,
   addStockQuantity: PropTypes.func,
   deleteBook: PropTypes.func
 };

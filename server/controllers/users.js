@@ -96,36 +96,52 @@ export default {
       }));
   },
 
-  // Change password
+  // Change user password
   changePassword(req, res) {
     return db.User
-      .update({
-        password: bcrypt.hashSync(req.body.newPassword, 10)
-      }, { where: {
-        id: req.auth.id
-      } })
-      .then((result) => {
-        if (result) {
-          return res.status(200).send({
-            message: 'Your Password was changed successfully',
+      .findById(req.auth.id)
+      .then((user) => {
+        if (user) {
+          if (bcrypt.compareSync(req.body.oldPassword, user.password)) {
+            // update password if the old password was entered correctly
+            return user.update({
+              password: bcrypt.hashSync(req.body.password, 10)
+            })
+              .then((result) => {
+                if (result) {
+                  return res.status(200).send({
+                    message: 'Your Password was changed successfully',
+                  });
+                }
+                return res.status(500).send({ error: 'Request could not be processed, please try again later' });
+              })
+              .catch((error) => {
+                if (error.name === 'SequelizeValidationError') {
+                  const errors = {};
+                  error.errors.forEach((err) => {
+                    errors[err.path] = err.message;
+                  });
+                  return res.status(400).send({ errors });
+                }
+
+                return res.status(500).send({
+                  error: 'Request could not be processed, please try again later'
+                });
+              });
+          }
+          return res.status(400).send({
+            errors: {
+              oldPassword: 'Wrong password entered'
+            }
           });
         }
-
-        return res.status(500).send({ error: 'Request could not be processed, please try again later' });
-      })
-      .catch((error) => {
-        if (error.name === 'SequelizeValidationError') {
-          const errors = {};
-          error.errors.forEach((err) => {
-            errors[err.path] = err.message;
-          });
-          return res.status(400).send({ errors });
-        }
-
-        return res.status(500).send({
-          error: 'Request could not be processed, please try again later'
+        return res.status(404).send({
+          error: 'User not found'
         });
-      });
+      })
+      .catch(error => res.status(500).send({
+        error: 'Request could not be processed, please try again later'
+      }));
   },
 
   // Get all users

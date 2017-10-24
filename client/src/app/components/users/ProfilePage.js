@@ -10,7 +10,7 @@ import TopTitle from '../common/TopTitle';
 import { updateUserAccount } from '../../actions/userActions';
 import Modal from '../common/Modal';
 import actionTypes from '../../actions/actionTypes';
-import selectBorrowAction from '../../actions/borrowActions';
+import borrowActions from '../../actions/borrowActions';
 
 /**
  *
@@ -28,52 +28,13 @@ class ProfilePage extends React.Component {
     this.state = {
       user: Object.assign({}, this.props.user),
       errors: {},
-      editUser: this.props.editUser,
-      borrowedBook: {
-        Book: {
-          title: ''
-        }
-      }
+      editUser: false,
     };
 
     this.onShowUpdateForm = this.onShowUpdateForm.bind(this);
     this.updateFormState = this.updateFormState.bind(this);
     this.updateUser = this.updateUser.bind(this);
     this.closeEditProfileForm = this.closeEditProfileForm.bind(this);
-    this.confirmReturn = this.confirmReturn.bind(this);
-    this.showReturnModal = this.showReturnModal.bind(this);
-  }
-
-  /**
-   * [showReturnModal description]
-   * @method showReturnModal
-   * @param  {[type]}        borrowedBook [description]
-   * @return {[type]}                     [description]
-   */
-  showReturnModal(borrowedBook) {
-    this.setState({ borrowedBook });
-    $('.modal').modal('open');
-  }
-
-  /**
-   * [showReturnModal description]
-   * @method showReturnModal
-   * @param  {[type]}        borrowedBook [description]
-   * @return {[type]}                     [description]
-   */
-  confirmReturn() {
-    $('.modal').modal('close');
-
-    this.props.returnBook(this.props.user, this.state.borrowedBook.bookId)
-      .catch(({ response }) => toastr.error(response.data.error));
-
-    this.setState({
-      borrowedBook: {
-        Book: {
-          title: ''
-        }
-      }
-    });
   }
 
   /**
@@ -118,6 +79,21 @@ class ProfilePage extends React.Component {
   }
 
   /**
+   * [componentWillUpdate description]
+   * @method componentWillUpdate
+   * @param  {[type]}            nextProps [description]
+   * @param  {[type]}            nextState [description]
+   * @return {[type]}                      [description]
+   */
+  componentWillUpdate(nextProps, nextState) {
+    if (!this.state.editUser && nextState.editUser) {
+      $(document).ready(() => {
+        $('#select-field').material_select();
+      });
+    }
+  }
+
+  /**
    * [closeEditProfileForm description]
    * @method onShowUpdateForm
    * @param  {[type]}         event [description]
@@ -137,6 +113,8 @@ class ProfilePage extends React.Component {
         <div className="row">
           { !this.state.editUser ? <UserDetail
             user={this.props.user}
+            borrowedCount={this.props.borrowedCount}
+            noOfBooksNotReturned={this.props.noOfBooksNotReturned}
             onClickEdit={this.onShowUpdateForm}
           /> :
             <EditProfileForm
@@ -147,53 +125,7 @@ class ProfilePage extends React.Component {
               onSubmit={this.updateUser}
               errors={this.state.errors}/>
           }
-
-
-          <div className="col s12 m8">
-            <TopTitle icon="book" title="Books Not Returned" />
-
-            <div className="divider"></div>
-
-            <table className="responsive-table striped">
-              <thead>
-                <tr>
-                  <th>Book Title</th>
-                  <th>Borrow Date</th>
-                  <th>Due Date</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-
-              <tbody>
-                { Object.keys(this.props.borrowedBooks).length > 0 ?
-                  this.props.borrowedBooks.map(borrowedBook =>
-                    <BorrowedItem key={borrowedBook.id}
-                      action={selectedBook =>
-                        this.showReturnModal(borrowedBook)}
-                      borrowedBook={borrowedBook} />
-                  ) :
-                  <tr>
-                    <td colSpan="4" className="center-align">
-                      No borrowed books added
-                    </td>
-                  </tr>
-                }
-              </tbody>
-            </table>
-
-            <small>
-              <Link to="/borrow-history" className="btn waves-effect waves-light grey black-text">
-                  History
-              </Link>
-            </small>
-
-          </div>
         </div>
-        <Modal id="modal1"
-          title="Confirm Return"
-          text={`Do you want to return book with title ${this.state.borrowedBook.Book.title}`}
-          action={this.confirmReturn}
-        />;
       </div>
     );
   }
@@ -202,7 +134,6 @@ class ProfilePage extends React.Component {
 ProfilePage.propTypes = {
   user: PropTypes.object.isRequired,
   borrowedBooks: PropTypes.array,
-  editUser: PropTypes.bool.isRequired,
   updateUser: PropTypes.func,
   updateFormState: PropTypes.func
 };
@@ -220,15 +151,14 @@ const mapStateToProps = (state, ownProps) => {
 
   return ({
     user: state.user,
+    borrowedCount: state.borrowedBooks.length,
+    noOfBooksNotReturned: booksNotReturned.length,
     borrowedBooks: booksNotReturned,
-    editUser: false,
     membershipTypes: membershipTypesFormatted
   });
 };
 
 const mapDispatchToProps = dispatch => ({
-  returnBook: (user, bookId) =>
-    dispatch(selectBorrowAction(actionTypes.RETURN_BOOK, user, bookId)),
   updateUser: user => dispatch(updateUserAccount(user))
 });
 
