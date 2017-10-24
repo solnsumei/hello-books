@@ -14,6 +14,7 @@ describe('Category Routes', () => {
   const category1 = new Category('Fiction', 'fiction');
   const category2 = new Category('Programming', 'programming');
   const category3 = new Category('Android', 'android');
+  const category4 = new Category('A', 'a');
 
   const admin = new User('Ejiro', 'Chuks', 'ejiro', 'ejiro@gmail.com', 'solomon1', true);
   const user = new User('Solking', 'Ejiroh', 'solking', 'solking@gmail.com', 'solomon1', false);
@@ -161,6 +162,19 @@ describe('Category Routes', () => {
           .expect('{"error":"Category name is required"}', done);
       });
 
+      it('it should respond with a 400 with category name length error', (done) => {
+        request(app)
+          .post('/api/v1/categories')
+          .set('Accept', 'application/json')
+          .set('x-token', adminToken)
+          .send(category4)
+          .end((err, res) => {
+            assert.equal(res.status, 400);
+            assert.equal(res.body.errors.name, 'Category name must be at least 2 chars and less than 30 chars');
+            done();
+          });
+      });
+
       it('it should respond with a 201 with the category name', (done) => {
         request(app)
           .post('/api/v1/categories')
@@ -257,6 +271,19 @@ describe('Category Routes', () => {
           .expect(404)
           .expect('Content-Type', /json/)
           .expect(/"error":\s*"Category not found"/, done);
+      });
+
+      it('it should respond with a 400 with category name length error', (done) => {
+        request(app)
+          .put(`/api/v1/categories/${categoryId}`)
+          .set('Accept', 'application/json')
+          .set('x-token', adminToken)
+          .send(category4)
+          .end((err, res) => {
+            assert.equal(res.status, 400);
+            assert.equal(res.body.errors.name, 'Category name must be at least 2 chars and less than 30 chars');
+            done();
+          });
       });
 
       it('it should respond with a 200 with the category name', (done) => {
