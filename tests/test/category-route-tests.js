@@ -290,7 +290,7 @@ describe('Category Routes', () => {
     describe('Delete category when admin has a valid token with empty body object', () => {
       it('it should respond with a 400 with errors', (done) => {
         request(app)
-          .delete(`/api/v1/categories/${categoryId}`)
+          .delete('/api/v1/categories/')
           .set('Accept', 'application/json')
           .set('x-token', adminToken)
           .send({})
