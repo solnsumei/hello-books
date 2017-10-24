@@ -28,13 +28,9 @@ export default {
         attributes,
       })
       .then(membershipTypes => res.status(200).send({ membershipTypes }))
-      .catch((error) => {
-        if (error) {
-          return res.status(500).send({
-            error: 'Request could not be processed, please try again later'
-          });
-        }
-      });
+      .catch(() => res.status(500).send({
+        error: 'Request could not be processed, please try again later'
+      }));
   },
 
   /**
@@ -51,7 +47,7 @@ export default {
         if (!membershipType) {
           return res.status(404).send({ error: 'MembershipType was not found' });
         }
-        membershipType.update({
+        return membershipType.update({
           lendDuration: req.body.lendDuration,
           maxBorrowable: req.body.maxBorrowable,
         }).then((result) => {
@@ -67,23 +63,9 @@ export default {
             });
           }
         })
-          .catch((error) => {
-            if (error.name === 'SequelizeValidationError' ||
-              error.name === 'SequelizeUniqueConstraintError') {
-              const errors = {};
-              error.errors.forEach((err) => {
-                errors[err.path] = err.message;
-              });
-              if (error.name === 'SequelizeUniqueConstraintError') {
-                return res.status(409).send({ errors });
-              }
-              return res.status(400).send({ errors });
-            }
-
-            return res.status(500).send({
-              error: 'Request could not be processed, please try again later'
-            });
-          });
+          .catch(() => res.status(500).send({
+            error: 'Request could not be processed, please try again later'
+          }));
       });
   },
 };

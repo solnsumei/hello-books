@@ -36,9 +36,6 @@ export default {
           error.errors.forEach((err) => {
             errors[err.path] = err.message;
           });
-          if (error.name === 'SequelizeUniqueConstraintError') {
-            return res.status(409).send({ errors });
-          }
           return res.status(400).send({ errors });
         }
 
@@ -74,13 +71,9 @@ export default {
         }],
       })
       .then(books => res.status(200).send({ books }))
-      .catch((error) => {
-        if (error) {
-          return res.status(500).send({
-            error: 'Request could not be processed, please try again later'
-          });
-        }
-      });
+      .catch(() => res.status(500).send({
+        error: 'Request could not be processed, please try again later'
+      }));
   },
 
   /**
@@ -118,13 +111,9 @@ export default {
 
         return res.status(200).send({ book });
       })
-      .catch((error) => {
-        if (error) {
-          return res.status(500).send({
-            error: 'Request could not be processed, please try again later'
-          });
-        }
-      });
+      .catch(() => res.status(500).send({
+        error: 'Request could not be processed, please try again later'
+      }));
   },
 
   /**
@@ -161,9 +150,6 @@ export default {
               error.errors.forEach((err) => {
                 errors[err.path] = err.message;
               });
-              if (error.name === 'SequelizeUniqueConstraintError') {
-                return res.status(409).send({ errors });
-              }
               return res.status(400).send({ errors });
             }
 
@@ -185,7 +171,7 @@ export default {
         });
       }
     })
-      .catch(error => res.status(500).send({
+      .catch(() => res.status(500).send({
         error: 'Stock quantity could not be updated, please try again later.'
       }));
   },
@@ -210,7 +196,7 @@ export default {
         });
       }
     })
-      .catch(error => res.status(500).send({
+      .catch(() => res.status(500).send({
         error: 'Book could not be deleted at this time, please try again later.'
       }));
   }

@@ -1,6 +1,7 @@
 // Import the required files and classes for test
 import app from '../../app';
 import request from 'supertest';
+import assert from 'assert';
 import db from '../../server/models/index';
 import { User, Category } from "../dataholder";
 
@@ -47,7 +48,7 @@ describe('Category Routes', () => {
       });
   });
 
-  describe('GET Ordinary users get categories routes  /api/v1/categories', () => {
+  describe('GET Ordinary users categories routes  /api/v1/categories', () => {
     describe('GET categories without being logged in', () => {
       it('it should respond with a 401 with access denied please log in error message', (done) => {
         request(app)
@@ -167,13 +168,12 @@ describe('Category Routes', () => {
           .expect('Content-Type', /json/)
           .expect(/"name":\s*"Category name has already been used"/, done);
       });
+    });
   });
-
-});
 
   describe('PUT update category /api/v1/categories', () => {
 
-    describe('POST try to update a category without being logged in', () => {
+    describe('PUT try to update a category without being logged in', () => {
       it('it should respond with a 401 with access denied please log in error message', (done) => {
         request(app)
           .put(`/api/v1/categories/${categoryId}`)
@@ -268,6 +268,99 @@ describe('Category Routes', () => {
           .expect(/"name":\s*"Category name has already been used"/, done);
       });
     });
+
+  });
+
+  describe('DELETE category /api/v1/categories', () => {
+    
+    // book to insert
+    const book1 = new Book('Book One', categoryId, 'Andela One', 'First book in library', 12, 'image1.jpg');
+
+    before((done) => {
+      db.Book.bulkCreate([book1], {})
+      .then(() => {
+        process.stdout.write('Book added \n');
+        done();
+      });
+    });
+    
+    describe('Delete category when admin has a valid token with empty body object', () => {
+      it('it should respond with a 400 with errors', (done) => {
+        request(app)
+          .delete(`/api/v1/categories/${categoryId}`)
+          .set('Accept', 'application/json')
+          .set('x-token', adminToken)
+          .send({})
+          .end((err, res) => {
+            assert.equal(res.status, 400);
+            assert.equal(res.body.error, 'a valid category id is required');
+            done();
+          });
+      });
+    });
+        
+    describe('Delete category when admin has an invalid categoryId', () => {
+      it('it should respond with a 400 with invalid category Id', (done) => {
+        request(app)
+          .delete('/api/v1/categories')
+          .set('Accept', 'application/json')
+          .set('x-token', adminToken)
+          .send({ categoryId: 'wheres'})
+          .end((err, res) => {
+            assert.equal(res.status, 400);
+            assert.equal(res.body.error, 'a valid category id is required');
+            done();
+          });
+      });
+    });
+
+    describe('Delete category when admin has an invalid categoryId but category has books attached', () => {
+      it('it should respond with a 400 with invalid category Id', (done) => {
+        request(app)
+          .delete('/api/v1/categories')
+          .set('Accept', 'application/json')
+          .set('x-token', adminToken)
+          .send({ categoryId: categoryId })
+          .end((err, res) => {
+            assert.equal(res.status, 400);
+            assert.equal(res.body.error, 'This category still has books attached to it so cannot be deleted at this time');
+            db.Book.truncate();
+            done();
+          });
+      });
+    });
+
+    describe('Delete category when admin has a valid categoryId', () => {
+      it('it should respond with a 200 with message', (done) => {
+        request(app)
+          .delete('/api/v1/categories')
+          .set('Accept', 'application/json')
+          .set('x-token', adminToken)
+          .send({ categoryId: categoryId })
+          .end((err, res) => {
+            assert.equal(res.status, 200);
+            assert.equal(res.body.success, true);
+            assert.equal(res.body.message, 'Category was deleted successfully');
+            done();
+          });
+      });
+    });
+
+    describe('Delete category when admin tries to delete an unavailable category', () => {
+      it('it should respond with a 404 with error category not found', (done) => {
+        request(app)
+        .delete('/api/v1/categories')
+        .set('Accept', 'application/json')
+        .set('x-token', adminToken)
+        .send({ categoryId: categoryId })
+        .end((err, res) => {
+          assert.equal(res.status, 404);
+          assert.equal(res.body.error, 'Category not found');
+          done();
+        });
+      });
+    });    
+    
   });
 
   after((done) => {

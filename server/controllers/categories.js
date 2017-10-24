@@ -39,7 +39,7 @@ export default {
           return res.status(400).send({ errors });
         }
 
-        return res.status(503).send({
+        return res.status(500).send({
           error: 'Request could not be processed, please try again later'
         });
       });
@@ -58,13 +58,9 @@ export default {
         attributes: ['id', 'name', 'slug']
       })
       .then(categories => res.status(200).send({ categories }))
-      .catch((error) => {
-        if (error) {
-          return res.status(500).send({
-            error: 'Request could not be processed, please try again later'
-          });
-        }
-      });
+      .catch(() => res.status(500).send({
+        error: 'Request could not be processed, please try again later'
+      }));
   },
 
   /**
@@ -122,11 +118,10 @@ export default {
           .then(() => res.status(200).send({
             success: true,
             message: 'Category was deleted successfully'
-          })).catch((error) => {
-            if (error) {
-              return res.status(500).send({ error: 'Request could not be completed at this time' });
-            }
-          });
+          }))
+          .catch(() => res.status(500).send({
+            error: 'Request could not be completed at this time'
+          }));
       });
   }
 };

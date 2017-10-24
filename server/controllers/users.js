@@ -91,7 +91,7 @@ export default {
             });
         }
       })
-      .catch(error => res.status(500).send({
+      .catch(() => res.status(500).send({
         error: 'Request could not be processed, please try again later'
       }));
   },
@@ -139,7 +139,7 @@ export default {
           error: 'User not found'
         });
       })
-      .catch(error => res.status(500).send({
+      .catch(() => res.status(500).send({
         error: 'Request could not be processed, please try again later'
       }));
   },
@@ -151,7 +151,9 @@ export default {
         attributes: ['id', 'username', 'email', 'admin']
       })
       .then(users => res.status(200).send(users))
-      .catch(error => res.status(500).send(error));
+      .catch(() => res.status(500).send({
+        error: 'Request could not be processed, please try again later'
+      }));
   },
 
   // Authenticate users
@@ -178,7 +180,7 @@ export default {
           });
         }
         return res.status(401).send({ error: 'Username and/or password is incorrect' });
-      }).catch(error => res.status(500).send({
+      }).catch(() => res.status(500).send({
         error: 'Request could not be processed, please try again later'
       }));
   },
@@ -222,7 +224,7 @@ export default {
                   });
                 }
               }).catch(error => res.status(400).send(error)))
-          .catch(error => res.status(500).send({
+          .catch(() => res.status(500).send({
             error: 'Request could not be processed, please try again later'
           }));
       });
@@ -243,13 +245,9 @@ export default {
         }],
         where: query
       }).then(borrowedBooks => res.status(200).send({ borrowedBooks }))
-      .catch((error) => {
-        if (error) {
-          return res.status(500).send({
-            error: 'Request could not be processed, please try again later'
-          });
-        }
-      });
+      .catch(() => res.status(500).send({
+        error: 'Request could not be processed, please try again later'
+      }));
   },
 
   // Return book method
@@ -301,7 +299,7 @@ export default {
             error: 'Request could not be processed, please try again later'
           }));
       })
-      .catch(error => res.status(500).send({
+      .catch(() => res.status(500).send({
         error: 'Request could not be processed, please try again later'
       }));
   },

@@ -44,7 +44,7 @@ describe('Admin Membership Routes', () => {
 
   describe('PUT update membership type /api/v1/membershiptype/:membershipId', () => {
     describe('PUT update a membership type when admin is logged in with a token', () => {
-      it('it should respond with a 400 with invalid category Id', (done) => {
+      it('it should respond with a 400 with invalid membershipTypeId', (done) => {
         request(app)
           .put('/api/v1/membershiptypes/hello')
           .set('Accept', 'application/json')
@@ -87,6 +87,7 @@ describe('Admin Membership Routes', () => {
           .send(membershipType1)
           .end((err, res) => {
             assert.equal(res.status, 200);
+            assert.equal(res.body.message, 'Membership type updated successfully');
             assert.equal(res.body.membershipType.lendDuration, '10');
             assert.equal(res.body.membershipType.maxBorrowable, '15');
             done();
