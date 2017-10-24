@@ -17,21 +17,6 @@ export function categoryRequest(req, res, next) {
 }
 
 /**
- * Find category by id
- * @param  {Integer} id [description]
- * @return {Object}    [description]
- */
-function findCategory(id) {
-  return db.Category.findById(id)
-    .then((category) => {
-      if (!category) {
-        return false;
-      }
-      return category;
-    });
-}
-
-/**
  * Middleware to check if category is valid
  * @param {Object} req
  * @param {Object} res
