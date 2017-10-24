@@ -18,6 +18,9 @@ describe('Category Routes', () => {
   const admin = new User('Ejiro', 'Chuks', 'ejiro', 'ejiro@gmail.com', 'solomon1', true);
   const user = new User('Solking', 'Ejiroh', 'solking', 'solking@gmail.com', 'solomon1', false);
 
+  // book to insert
+  const book1 = new Book('Book One', 80, 'Andela One', 'First book in library', 12, 'image1.jpg');
+
   before((done) => {
       db.User.bulkCreate([admin, user], { individualHooks: true })
       .then(() => {
@@ -41,7 +44,18 @@ describe('Category Routes', () => {
                 .send(category3)
                 .end((err, res) => {
                   categoryId = res.body.category.id;
-                  done();
+                  book1.categoryId = categoryId;
+                  request(app)
+                  .post('/api/v1/books')
+                  .set('Accept', 'application/json')
+                  .set('x-token', adminToken)
+                  .send(book1)
+                  .end((err, res) => {
+                    if(res) {
+                      process.stdout.write('Test book added \n');
+                    }
+                    done();
+                  });
                 });
             });
         });
@@ -272,18 +286,7 @@ describe('Category Routes', () => {
   });
 
   describe('DELETE category /api/v1/categories', () => {
-    
-    // book to insert
-    const book1 = new Book('Book One', categoryId, 'Andela One', 'First book in library', 12, 'image1.jpg');
 
-    before((done) => {
-      db.Book.bulkCreate([book1], {})
-      .then(() => {
-        process.stdout.write('Book added \n');
-        done();
-      });
-    });
-    
     describe('Delete category when admin has a valid token with empty body object', () => {
       it('it should respond with a 400 with errors', (done) => {
         request(app)
