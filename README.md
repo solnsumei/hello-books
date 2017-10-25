@@ -20,12 +20,12 @@ Hello-books was built with the following technologies:
 *  **[Redux.js](http://redux.js.org/)**
 
 ## Installation and setup
-*  Navigate to a directory of choice on `terminal`.
+*  Navigate to a directory of choice on `terminal` or `cmd`.
 *  Clone this repository on that directory.
-    >`https://github.com/rkterungwa16/postIt-app`
+    >`https://github.com/solnsumei/hello-books.git`
 
 *  Navigate to the repo's folder on your computer
-  *  `cd postIt-app/`
+  *  `cd hello-books/`
 *  Install the app's dependencies. For best results, using a node package manager.
   *  `npm install`
 * 
