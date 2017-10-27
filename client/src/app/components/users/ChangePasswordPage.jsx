@@ -1,5 +1,4 @@
 import React from 'react';
-import toastr from 'toastr';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -19,8 +18,8 @@ class ChangePasswordPage extends React.Component {
   /**
    * [constructor description]
    * @method constructor
-   * @param  {[type]}    props [description]
-   * @return {[type]}          [description]
+   * @param  {Object} props
+   * @return {void}
    */
   constructor(props) {
     super(props);
@@ -39,10 +38,10 @@ class ChangePasswordPage extends React.Component {
   }
 
   /**
-   * [updateUser description]
-   * @method updateUser
-   * @param  {[type]}   event [description]
-   * @return {[type]}         [description]
+   * Change user password
+   * @method changeUserPassword
+   * @param  {Object} event
+   * @return {void}
    */
   changeUserPassword(event) {
     const Materialize = window.Materialize;

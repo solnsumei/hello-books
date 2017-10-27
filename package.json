@@ -4,17 +4,17 @@
   "description": "Hello-Books is a simple application that helps manage a library and its processes like stocking, tracking and renting books. With this application users are able to find and rent books.",
   "main": "app.js",
   "scripts": {
-    "coverage": "NODE_ENV=test nyc --reporter=lcov --reporter=text --reporter=lcovonly mocha --compilers js:babel-register tests/test/*.js",
+    "coverage": "NODE_ENV=test nyc --reporter=lcov --reporter=text --reporter=lcovonly mocha --compilers js:babel-register tests/test/* --timeout 10000",
     "undo:test:migration": "sequelize db:migrate:undo:all --url=postgres://vtokbpab:umDiwwHJs3NsMQZrasnYuVboumkV1GFf@stampy.db.elephantsql.com:5432/vtokbpab",
     "migrate:test:data": "sequelize db:migrate --url=postgres://vtokbpab:umDiwwHJs3NsMQZrasnYuVboumkV1GFf@stampy.db.elephantsql.com:5432/vtokbpab",
-    "seed:data": "sequelize db:seed:all --url=postgres://vtokbpab:umDiwwHJs3NsMQZrasnYuVboumkV1GFf@stampy.db.elephantsql.com:5432/vtokbpab",
+    "seed:data": "sequelize db:seed --seed 20170824035120-addMembershipTypeSeeder.js --url=postgres://vtokbpab:umDiwwHJs3NsMQZrasnYuVboumkV1GFf@stampy.db.elephantsql.com:5432/vtokbpab",
     "test:db": "npm run undo:test:migration && npm run migrate:test:data && npm run seed:data",
     "start:client": "npm run build",
     "build": "webpack -d",
     "heroku-postbuild": "webpack -p && cp client/src/index.html client/dist/index.html",
     "start": "NODE_ENV=production&& ./node_modules/.bin/babel-node ./server/server.js",
     "start:dev": "nodemon ./server/server.js --exec babel-node --presets env",
-    "test": "NODE_ENV=test&& mocha tests/test/* --compilers babel-core/register --timeout 10000"
+    "test": "npm run test:db && npm run coverage"
   },
   "repository": {
     "type": "git",
@@ -45,7 +45,6 @@
     "nodemon": "^1.11.0",
     "nyc": "^11.2.1",
     "supertest": "^3.0.0",
-    "webpack-dev-middleware": "^1.12.0",
     "webpack-dev-server": "^2.7.1"
   },
   "dependencies": {
@@ -58,6 +57,7 @@
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-2": "^6.24.1",
+    "webpack-dev-middleware": "^1.12.0",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.17.2",
     "cloudinary": "^1.9.0",

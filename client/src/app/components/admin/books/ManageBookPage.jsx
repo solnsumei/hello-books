@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import toastr from 'toastr';
 import BookForm from './BookForm';
 import actionTypes from '../../../actions/actionTypes';
 import bookActions from '../../../actions/bookActions';
@@ -50,7 +49,7 @@ class ManageBookPage extends React.Component {
    */
   componentWillReceiveProps(nextProps) {
     if (this.props.book.id !== nextProps.book.id) {
-      // Necessary to populate form when existing course is loaded directly
+      // Necessary to populate form when existing book is loaded directly
       this.setState({ book: Object.assign({}, nextProps.book) });
     }
   }
@@ -58,7 +57,7 @@ class ManageBookPage extends React.Component {
   /**
    * [uploadCoverPicture description]
    * @method uploadCoverPicture
-   * @return {[type]} [description]
+   * @return {null} [description]
    */
   uploadCoverPicture() {
     const book = this.state.book;
@@ -73,7 +72,7 @@ class ManageBookPage extends React.Component {
       /* eslint-enable */
       (error, result) => {
         if (error) {
-          return this.setState({ errors: error });
+          return;
         }
 
         book.coverPic = result[0].url;
@@ -83,8 +82,8 @@ class ManageBookPage extends React.Component {
   }
 
   /**
-   * @param {object} event
-   * @returns {object} state
+   * @param {Object} event
+   * @returns {Object} state
    */
   updateFormState(event) {
     const field = event.target.name;
@@ -96,15 +95,14 @@ class ManageBookPage extends React.Component {
   /**
    * [saveCategory description]
    * @method saveCategory
-   * @param  {[type]} event [description]
-   * @return {[type]} [description]
+   * @param  {Object} event [description]
+   * @return {null} [description]
    */
   saveBook(event) {
     event.preventDefault();
     this.setState({ errors: {} });
     this.props.saveBook(this.state.book)
       .then(() => {
-        toastr.success('Book saved successfully');
         this.props.history.replace('/admin/books');
       })
       .catch(({ response }) => {
@@ -117,7 +115,7 @@ class ManageBookPage extends React.Component {
   /**
    * [render description]
    * @method render
-   * @return {[type]} [description]
+   * @return {Object} jsxObject
    */
   render() {
     return (

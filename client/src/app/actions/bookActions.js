@@ -29,37 +29,44 @@ const deleteBookSuccess = book => ({
 
 // load all books
 const loadBooks = headers => dispatch =>
-  axios.get('/api/v1/books', headers)
+  axios.get('/books', headers)
     .then(({ data }) => dispatch(loadBooksSuccess(data.books)))
-    .catch((error) => {
-      throw (error);
+    .catch(({ response }) => {
+      toastr.error(response.data.error);
     });
 
   // get a single book
 const getBook = (bookId, headers) => dispatch =>
-  axios.get(`/api/v1/books/${bookId}`, headers)
+  axios.get(`/books/${bookId}`, headers)
     .then(({ data }) => dispatch(getBookSuccess(data.book)))
-    .catch((error) => {
-      throw (error);
+    .catch(({ response }) => {
+      toastr.error(response.data.error);
     });
 
 // save or update book
 const saveOrUpdateBook = (book, headers) => (dispatch) => {
   if (book.id) {
-    return axios.put(`/api/v1/books/${book.id}`,
+    return axios.put(`/books/${book.id}`,
       book, headers)
-      .then(({ data }) => dispatch(updateBookSuccess(data.book)));
+      .then(({ data }) => {
+        toastr.success(data.message);
+        return dispatch(updateBookSuccess(data.book));
+      });
   }
 
-  return axios.post('/api/v1/books', book, headers)
-    .then(({ data }) => dispatch(addBookSuccess(data.book)));
+  return axios.post('/books', book, headers)
+    .then(({ data }) => {
+      toastr.success(data.message);
+      return dispatch(addBookSuccess(data.book));
+    });
 };
 
 // add quantity to book stock
 const addStockQuantity = (book, quantity, headers) => dispatch =>
-  axios.post(`/api/v1/books/${book.id}`, { quantity }, headers)
+  axios.post(`/books/${book.id}`, { quantity }, headers)
     .then(({ data }) => {
       book.stockQuantity = parseInt(book.stockQuantity, 10) + parseInt(quantity, 10);
+      toastr.success(data.message);
       return dispatch(addStockQuantitySuccess(book));
     });
 
@@ -67,12 +74,12 @@ const addStockQuantity = (book, quantity, headers) => dispatch =>
 const deleteBook = book => dispatch =>
   axios({
     method: 'delete',
-    url: '/api/v1/books',
+    url: '/books',
     data: { bookId: book.id },
     headers: { 'x-token': localStorage.getItem(types.USER_TOKEN) },
   })
     .then(({ data }) => {
-      toastr.success('Book was deleted successfully');
+      toastr.success(data.message);
       return dispatch(deleteBookSuccess(data.book));
     })
     .catch(({ response }) => {

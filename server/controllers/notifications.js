@@ -27,7 +27,6 @@ export default {
         stockQuantity: req.body.stockQuantity,
       })
       .then(book => res.status(201).send({
-        message: 'Book added successfully',
         book: formatBookObject(book, req.category)
       }))
       .catch((error) => {
@@ -140,7 +139,6 @@ export default {
         }).then((result) => {
           if (result) {
             return res.status(200).send({
-              message: 'Book updated successfully',
               book: formatBookObject(book, req.category)
             });
           }

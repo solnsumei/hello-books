@@ -1,5 +1,6 @@
 import axios from 'axios';
 import jwt from 'jsonwebtoken';
+import toastr from 'toastr';
 import types from './actionTypes';
 import { constants } from '../helpers/constants';
 
@@ -60,10 +61,11 @@ const logoutRequest = () => (dispatch) => {
 const updateUserAccount = userData => (dispatch) => {
   const headers = authCheck(dispatch);
 
-  return axios.put('/api/v1/users/profile', userData, headers)
+  return axios.put('/users/profile', userData, headers)
     .then(({ data }) => {
       localStorage.setItem(types.USER_TOKEN, data.token);
       const user = setAuthUser(data.token);
+      toastr.success(data.message);
       return dispatch(userAuthSuccess(user));
     });
 };
@@ -71,22 +73,27 @@ const updateUserAccount = userData => (dispatch) => {
 const changeUserPassword = passwordObject => (dispatch) => {
   const headers = authCheck(dispatch);
 
-  return axios.post('/api/v1/users/change-password', passwordObject, headers);
+  return axios.post('/users/change-password', passwordObject, headers)
+    .then(({ data }) => {
+      toastr.success(data.message);
+    });
 };
 
 const loginRequest = loginData => dispatch =>
-  axios.post('/api/v1/users/signin', loginData)
+  axios.post('/users/signin', loginData)
     .then(({ data }) => {
       localStorage.setItem(types.USER_TOKEN, data.token);
       const user = setAuthUser(data.token);
+      toastr.success(data.message);
       return dispatch(userAuthSuccess(user));
     });
 
 const userSignUpRequest = userData => dispatch =>
-  axios.post('/api/v1/users/signup', userData)
+  axios.post('/users/signup', userData)
     .then(({ data }) => {
       localStorage.setItem(types.USER_TOKEN, data.token);
       const user = setAuthUser(data.token);
+      toastr.success(data.message);
       return dispatch(userAuthSuccess(user));
     });
 

@@ -144,18 +144,6 @@ export default {
       }));
   },
 
-  // Get all users
-  getAllUsers(req, res) {
-    return db.User
-      .findAll({
-        attributes: ['id', 'username', 'email', 'admin']
-      })
-      .then(users => res.status(200).send(users))
-      .catch(() => res.status(500).send({
-        error: 'Request could not be processed, please try again later'
-      }));
-  },
-
   // Authenticate users
   login(req, res) {
     return db.User
@@ -223,11 +211,17 @@ export default {
                     borrowedBook: formatBorrowedBookObject(borrowedBook, req.book),
                   });
                 }
-              }).catch(error => res.status(400).send(error)))
-          .catch(() => res.status(500).send({
-            error: 'Request could not be processed, please try again later'
+              })
+              .catch(error => res.status(500).send({
+                error
+              })))
+          .catch(error => res.status(500).send({
+            error
           }));
-      });
+      })
+      .catch(error => res.status(500).send({
+        error
+      }));
   },
 
   // Borrow History method with returned query string
@@ -238,7 +232,7 @@ export default {
     } else if (req.query.returned === 'false') { query.returned = false; }
     return db.UserBook
       .findAll({
-        attributes: ['id', 'bookId', 'createdAt', 'dueDate', 'returned', 'surcharge'],
+        attributes: ['id', 'bookId', 'dueDate', 'isSeen', 'returned', 'createdAt', 'updatedAt'],
         include: [{
           model: db.Book,
           attributes: ['title', 'isDeleted'],
@@ -258,7 +252,7 @@ export default {
     }
 
     const attributes = ['id', 'userId', 'bookId',
-      'dueDate', 'returned', 'surcharge', 'createdAt', 'updatedAt'];
+      'dueDate', 'isSeen', 'returned', 'createdAt', 'updatedAt'];
 
     return db.UserBook
       .findOne({

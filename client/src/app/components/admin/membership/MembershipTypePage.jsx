@@ -9,15 +9,14 @@ import membershipTypeActions from '../../../actions/membershipTypeActions';
 
 
 /**
- * [className description]
+ * Membership type react component class
  * @type {String}
  */
 class MembershipTypePage extends React.Component {
   /**
-   * [constructor description]
    * @method constructor
-   * @param  {[type]}    props [description]
-   * @return {[type]}          [description]
+   * @param  {Object} props
+   * @return {void}
    */
   constructor(props) {
     super(props);
@@ -32,10 +31,10 @@ class MembershipTypePage extends React.Component {
     this.onEdit = this.onEdit.bind(this);
   }
   /**
-   * ]
+   * Open modal to edit a membership type
    * @method onEdit
-   * @param  {[type]} membershipType [description]
-   * @return {[type]}          [description]
+   * @param  {Object} membershipType
+   * @return {void}
    */
   onEdit(membershipType) {
     this.setState({
@@ -60,8 +59,8 @@ class MembershipTypePage extends React.Component {
   /**
    * [saveMembershipType description]
    * @method saveMembershipType
-   * @param  {[type]} event [description]
-   * @return {[type]} [description]
+   * @param  {Object} event [description]
+   * @return {void}
    */
   updateMembershipType(event) {
     event.preventDefault();
@@ -69,7 +68,6 @@ class MembershipTypePage extends React.Component {
     this.props.updateMembershipType(this.state.membershipType)
       .then(() => {
         $('.modal').modal('close');
-        toastr.success('Membership type updated successfully');
         this.setState({ membershipType: {
           id: '',
           membershipType: '',

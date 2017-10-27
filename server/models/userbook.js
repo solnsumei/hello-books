@@ -46,18 +46,10 @@ export default (sequelize, DataTypes) => {
       type: DataTypes.BOOLEAN,
       defaultValue: false,
     },
-    surcharge: {
-      type: DataTypes.INTEGER,
-      allowNull: true,
-      validate: {
-        isDecimal: {
-          msg: 'Surcharge must be a number'
-        },
-        min: {
-          args: 0.1,
-          msg: 'Surcharge cannot be less than 0.1'
-        },
-      },
+    isSeen: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false,
     },
   }, {
     scopes: {

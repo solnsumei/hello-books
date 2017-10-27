@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import toastr from 'toastr';
 import { connect } from 'react-redux';
 import Modal from '../common/Modal';
 import actionTypes from '../../actions/actionTypes';
@@ -59,12 +58,7 @@ class BookDetailPage extends React.Component {
 
     $('.modal').modal('close');
 
-    this.props.borrow(user, book.id)
-      .then((response) => {
-        this.setState({ isBorrowed: true });
-      })
-      .catch(({ response }) => toastr.error(response.data.error)
-      );
+    this.props.borrow(user, book.id);
   }
 
   /**
@@ -77,11 +71,7 @@ class BookDetailPage extends React.Component {
 
     $('.modal').modal('close');
 
-    this.props.return(user, book.id)
-      .then((response) => {
-        this.setState({ isBorrowed: false });
-      })
-      .catch(({ response }) => toastr.error(response.data.error));
+    this.props.return(user, book.id);
   }
 
   /**

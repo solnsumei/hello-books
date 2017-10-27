@@ -69,8 +69,6 @@ router.put('/books/:bookId', editBookRequest, validateCategoryId, booksControlle
 
 router.delete('/books', validateBook, booksController.delete);
 
-router.get('/users', usersController.getAllUsers);
-
 /**
  * Route file for api routes
  * @export router

@@ -14,10 +14,10 @@ import Modal from '../../common/Modal';
  */
 class CategoriesPage extends React.Component {
   /**
-   * [constructor description]
+   * Category page constructor
    * @method constructor
-   * @param  {[type]}    props [description]
-   * @return {[type]}          [description]
+   * @param  {Object} props
+   * @return {void}
    */
   constructor(props) {
     super(props);
@@ -36,18 +36,18 @@ class CategoriesPage extends React.Component {
   }
 
   /**
-   * [componentDidMount description]
+   * Load categories when component mounts
    * @method componentDidMount
-   * @return {[type]}          [description]
+   * @return {void}
    */
   componentDidMount() {
     this.props.loadCategories();
   }
 
   /**
-   * [showAddModal description]
+   * Show modal to add a category
    * @method showAddModal
-   * @return {[type]}     [description]
+   * @return {void}
    */
   showAddModal() {
     const newCategory = {
@@ -64,10 +64,10 @@ class CategoriesPage extends React.Component {
   }
 
   /**
-   * ]
+   * Show modal to edit a category
    * @method onEdit
-   * @param  {[type]} category [description]
-   * @return {[type]}          [description]
+   * @param  {Object} category
+   * @return {void}
    */
   onEdit(category) {
     this.setState({
@@ -79,10 +79,10 @@ class CategoriesPage extends React.Component {
   }
 
   /**
-   * ]
+   * Delete a category
    * @method onDelete
-   * @param  {[type]} category [description]
-   * @return {[type]}          [description]
+   * @param  {Object} category
+   * @return {void}
    */
   onDelete(category) {
     this.setState({
@@ -94,16 +94,14 @@ class CategoriesPage extends React.Component {
   }
 
   /**
-   * [showDeleteModal description]
+   * show delete modal
    * @method showReturnModal
-   * @param  {[type]}        borrowedBook [description]
-   * @return {[type]}                     [description]
+   * @return {void}
    */
   confirmDelete() {
     $('.modal').modal('close');
 
-    this.props.deleteCategory(this.state.category)
-      .catch(({ response }) => toastr.error(response.data.error));
+    this.props.deleteCategory(this.state.category);
 
     this.setState({
       category: {
@@ -135,7 +133,6 @@ class CategoriesPage extends React.Component {
     this.props.saveOrUpdateCategory(this.state.category)
       .then(() => {
         $('.modal').modal('close');
-        toastr.success('Category saved');
         this.setState({ category: { name: '' } });
       })
       .catch(({ response }) => {
@@ -146,9 +143,8 @@ class CategoriesPage extends React.Component {
   }
 
   /**
-   * [render description]
    * @method render
-   * @return {[type]} [description]
+   * @return {Object} jsxObject
    */
   render() {
     return (
@@ -167,8 +163,7 @@ class CategoriesPage extends React.Component {
 
             <div className="fixed-action-btn">
               <button onClick={this.showAddModal} title="add new"
-                className="btn-floating waves-effect waves-green
-                 bg-primary btn-large">
+                className="btn-floating waves-effect waves-green bg-primary btn-large">
                 <i className="material-icons">add</i>
               </button>
             </div>

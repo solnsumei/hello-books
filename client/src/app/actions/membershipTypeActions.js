@@ -1,4 +1,5 @@
 import axios from 'axios';
+import toastr from 'toastr';
 import types from './actionTypes';
 import { authCheck } from './userActions';
 
@@ -11,15 +12,18 @@ const updateMembershipTypeSuccess = membershipType => ({
 });
 
 const loadMembershipTypes = headers => dispatch =>
-  axios.get('/api/v1/membershiptypes', headers)
+  axios.get('/membershiptypes', headers)
     .then(({ data }) => dispatch(loadMembershipTypesSuccess(data.membershipTypes)))
     .catch(({ response }) => {
-      throw (response);
+      toastr(response.data.error);
     });
 
 const updateMembershipType = (membershipType, headers) => dispatch =>
-  axios.put(`/api/v1/membershiptypes/${membershipType.id}`, membershipType, headers)
-    .then(({ data }) => dispatch(updateMembershipTypeSuccess(data.membershipType)));
+  axios.put(`/membershiptypes/${membershipType.id}`, membershipType, headers)
+    .then(({ data }) => {
+      toastr.success(data.message);
+      return dispatch(updateMembershipTypeSuccess(data.membershipType));
+    });
 
 
 // action entry point for memebrship type actions

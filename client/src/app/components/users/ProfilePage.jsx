@@ -19,8 +19,8 @@ class ProfilePage extends React.Component {
   /**
    * [constructor description]
    * @method constructor
-   * @param  {[type]}    props [description]
-   * @return {[type]}          [description]
+   * @param  {Object} props
+   * @return {void}
    */
   constructor(props) {
     super(props);
@@ -40,8 +40,8 @@ class ProfilePage extends React.Component {
   /**
    * [updateUser description]
    * @method updateUser
-   * @param  {[type]}   event [description]
-   * @return {[type]}         [description]
+   * @param  {Object} event
+   * @return {void}
    */
   updateUser(event) {
     event.preventDefault();
@@ -51,7 +51,7 @@ class ProfilePage extends React.Component {
         if (response.data.errors) {
           this.setState({ errors: response.data.errors });
         } else if (response.data.error) {
-          toastr.error(response.data.error);
+          window.Materialize.toast(response.data.error, 4000, 'red darken-3');
         }
       });
   }
@@ -88,7 +88,7 @@ class ProfilePage extends React.Component {
   componentWillUpdate(nextProps, nextState) {
     if (!this.state.editUser && nextState.editUser) {
       $(document).ready(() => {
-        $('#select-field').material_select();
+        // $('#select-field').material_select();
       });
     }
   }

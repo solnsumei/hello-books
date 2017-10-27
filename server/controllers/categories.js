@@ -20,11 +20,13 @@ export default {
         name: req.body.name.trim(),
         slug: slug(req.body.name.toLowerCase()),
       })
-      .then(category => res.status(201).send({ category: {
-        id: category.id,
-        name: category.name,
-        slug: category.slug
-      }
+      .then(category => res.status(201).send({
+        message: 'Category was saved successfully',
+        category: {
+          id: category.id,
+          name: category.name,
+          slug: category.slug
+        }
       }))
       .catch((error) => {
         if (error.name === 'SequelizeValidationError' ||

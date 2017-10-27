@@ -1,5 +1,5 @@
 export default {
-  API_URL: 'https://hello-book.herokuapp.com/api/v1',
+  API_URL: '/api/v1',
   SIGN_UP_USER: 'SIGN_UP_USER',
   SIGN_UP_USER_SUCCESS: 'SIGN_UP_USER_SUCCESS',
   LOGIN_USER: 'LOGIN_USER',

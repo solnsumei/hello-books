@@ -116,11 +116,6 @@ export default (sequelize, DataTypes) => {
         }
       }
     },
-    isLoggedIn: {
-      type: DataTypes.BOOLEAN,
-      allowNull: false,
-      defaultValue: false,
-    }
   });
 
   User.beforeCreate((user, options) => {

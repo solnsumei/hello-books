@@ -24,13 +24,10 @@ module.exports = {
       allowNull: false,
       defaultValue: false,
     },
-    surcharge: {
-      type: Sequelize.DECIMAL(5, 2),
-      allowNull: true,
-    },
     isSeen: {
       type: Sequelize.BOOLEAN,
-      allowNull: true,
+      allowNull: false,
+      defaultValue: false,
     },
     createdAt: {
       allowNull: false,

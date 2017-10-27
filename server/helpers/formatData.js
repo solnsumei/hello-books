@@ -22,9 +22,10 @@ const formatBorrowedBookObject = (borrowedBook, book) => ({
   id: borrowedBook.id,
   bookId: borrowedBook.bookId,
   createdAt: borrowedBook.createdAt,
+  updatedAt: borrowedBook.updatedAt,
   dueDate: borrowedBook.dueDate,
   returned: borrowedBook.returned,
-  surcharge: borrowedBook.surcharge,
+  isSeen: borrowedBook.isSeen,
   Book: { title: book.title, isDeleted: book.isDeleted }
 });
 

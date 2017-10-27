@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import toastr from 'toastr';
 import BookList from './BookList';
 import AddQuantityModal from './AddQuantityModal';
 import Modal from '../../common/Modal';
@@ -39,17 +38,17 @@ class BooksPage extends React.Component {
   /**
    * [componentDidMount description]
    * @method componentDidMount
-   * @return {[type]}          [description]
+   * @return {void}
    */
   componentDidMount() {
     this.props.loadBooks();
   }
 
   /**
-   * ]
+   * Add quantity to book
    * @method addQuantity
-   * @param  {[type]} book [description]
-   * @return {[type]}          [description]
+   * @param  {Object} book
+   * @return {void}
    */
   addQuantity(book) {
     this.setState({
@@ -62,9 +61,9 @@ class BooksPage extends React.Component {
   }
 
   /**
-   * [deleteBook description]
+   * delete a book from library
    * @method deleteBook
-   * @return {[type]}   [description]
+   * @return {void}
    */
   deleteBook() {
     this.props.deleteBook(this.state.book)
@@ -80,10 +79,10 @@ class BooksPage extends React.Component {
   }
 
   /**
-   * ]
+   * Open modal to confirm delete book
    * @method onClickDeleteBook
-   * @param  {[type]} book [description]
-   * @return {[type]}          [description]
+   * @param  {Object} book
+   * @return {void}
    */
   onClickDeleteBook(book) {
     this.setState({
@@ -115,7 +114,6 @@ class BooksPage extends React.Component {
     this.props.addStockQuantity(this.state.book, this.state.quantity)
       .then(() => {
         $('.modal').modal('close');
-        toastr.success('Quantity added successfully');
         this.setState({ quantity: 1 });
       })
       .catch(({ response }) => {
@@ -144,8 +142,7 @@ class BooksPage extends React.Component {
                 />
                 <div className="fixed-action-btn">
                   <Link to="/admin/books/create" title="add new">
-                    <button className="btn-floating waves-effect waves-green
-                      bg-primary btn-large">
+                    <button className="btn-floating waves-effect waves-green bg-primary btn-large">
                       <i className="material-icons">add</i>
                     </button>
                   </Link>

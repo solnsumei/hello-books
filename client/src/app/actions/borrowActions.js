@@ -16,26 +16,32 @@ const returnBookSuccess = returnedBook => ({
 });
 
 const loadBorrowedBooks = (user, headers) => dispatch =>
-  axios.get(`/api/v1/users/${user.id}/books`, headers)
+  axios.get(`/users/${user.id}/books`, headers)
     .then(({ data }) => dispatch(loadBorrowedBooksSuccess(data.borrowedBooks)))
-    .catch((error) => {
-      throw (error);
+    .catch(({ response }) => {
+      toastr(response.data.error);
     });
 
 const borrowBook = (user, bookId, headers) => dispatch =>
-  axios.post(`/api/v1/users/${user.id}/books`,
+  axios.post(`/users/${user.id}/books`,
     { bookId }, headers)
     .then(({ data }) => {
       toastr.success(data.message);
       dispatch(borrowBookSuccess(data.borrowedBook));
+    })
+    .catch(({ response }) => {
+      toastr(response.data.error);
     });
 
 const returnBook = (user, bookId, headers) => dispatch =>
-  axios.put(`/api/v1/users/${user.id}/books`,
+  axios.put(`/users/${user.id}/books`,
     { bookId }, headers)
     .then(({ data }) => {
       toastr.success(data.message);
       dispatch(returnBookSuccess(data.returnedBook));
+    })
+    .catch(({ response }) => {
+      toastr(response.data.error);
     });
 
 // entry point for all borrowing actions

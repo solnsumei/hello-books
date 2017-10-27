@@ -16,8 +16,8 @@ class BorrowHistoryPage extends React.Component {
   /**
   * [constructor description]
   * @method constructor
-  * @param  {[type]}    props [description]
-  * @return {[type]}          [description]
+  * @param  {Object} props
+  * @return {void} 
  */
   constructor(props) {
     super(props);
@@ -35,10 +35,10 @@ class BorrowHistoryPage extends React.Component {
   }
 
   /**
-   * [showReturnModal description]
+   * Method to show modal to confirm returning book
    * @method showReturnModal
-   * @param  {[type]}        borrowedBook [description]
-   * @return {[type]}                     [description]
+   * @param  {Object} borrowedBook [description]
+   * @return {void}
    */
   showReturnModal(borrowedBook) {
     this.setState({ borrowedBook });
@@ -46,16 +46,15 @@ class BorrowHistoryPage extends React.Component {
   }
 
   /**
-   * [showReturnModal description]
-   * @method showReturnModal
-   * @param  {[type]}        borrowedBook [description]
-   * @return {[type]}                     [description]
+   * Confirm book return to library
+   * @method confirmReturn
+   * @param  {Object} borrowedBook
+   * @return {void}
    */
   confirmReturn() {
     $('.modal').modal('close');
 
-    this.props.returnBook(this.props.user, this.state.borrowedBook.bookId)
-      .catch(({ response }) => toastr.error(response.data.error));
+    this.props.returnBook(this.props.user, this.state.borrowedBook.bookId);
 
     this.setState({
       borrowedBook: {
