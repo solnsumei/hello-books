@@ -15,7 +15,7 @@ import App from './components/App';
 import configureStore from './store/configureStore';
 import { checkAuthentication } from './actions/userActions';
 
-axios.defaults.baseURL = 'http://localhost:8000/api/v1';
+axios.defaults.baseURL = '/api/v1';
 
 const history = createBrowserHistory();
 
