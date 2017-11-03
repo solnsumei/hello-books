@@ -1,5 +1,4 @@
 env:
-  - NODE_ENV='test'
   global:
     - CC_TEST_REPORTER_ID=$CODECLIMATE_REPO_TOKEN
     - GIT_COMMITTED_AT=$(if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then git log -1 --pretty=format:%ct; else git log -1 --skip 1 --pretty=format:%ct; fi)
@@ -18,6 +17,8 @@ script:
   - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
 node_js:
   - node
+env:
+  - NODE_ENV='test'
 notifications:
   email: false
 before_script:
