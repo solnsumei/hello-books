@@ -7,6 +7,15 @@
     "port": 5432,
     "dialect": "postgres"
   },
+  "local": {
+    "username": "solking",
+    "password": "solomon",
+    "database": "hellobooks-test",
+    "host": "127.0.0.1",
+    "port": 5432,
+    "dialect": "postgres",
+    "logging": false
+  },
   "test": {
     "use_env_variable": "TEST_DB",
     "dialect": "postgres"

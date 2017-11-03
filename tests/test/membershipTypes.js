@@ -36,8 +36,11 @@ describe('Admin Membership Routes', () => {
           .get('/api/v1/membershiptypes')
           .set('Accept', 'application/json')
           .set('x-token', adminToken)
-          .expect(200)
-          .expect('Content-Type', /json/, done);
+          .end((err, res) => {
+            assert.equal(res.status, 200);
+            assert.equal(res.body.membershipTypes.length, 4);
+            done();
+          });
       });
     });
   });
@@ -49,10 +52,11 @@ describe('Admin Membership Routes', () => {
           .put('/api/v1/membershiptypes/hello')
           .set('Accept', 'application/json')
           .set('x-token', adminToken)
-          .send(membershipType1)
-          .expect(400)
-          .expect('Content-Type', /json/)
-          .expect('{"error":"Please provide a valid membership type id"}', done);
+          .send(membershipType1).end((err, res) => {
+            assert.equal(res.status, 400);
+            assert.equal(res.body.error, 'Please provide a valid membership type id');
+            done();
+          });
       });
 
       it('it should respond with a 400 with errors', (done) => {
@@ -61,22 +65,42 @@ describe('Admin Membership Routes', () => {
           .set('Accept', 'application/json')
           .set('x-token', adminToken)
           .send({})
-          .expect(400)
-          .expect('Content-Type', /json/)
-          .expect(/"maxBorrowable":\s*"Max-borrowable is required"/)
-          .expect(/"lendDuration":\s*"Lend-duration is required"/, done);
+          .end((err, res) => {
+            assert.equal(res.status, 400);
+            assert.equal(res.body.errors.lendDuration[0], 'The lendDuration field is required.');
+            assert.equal(res.body.errors.maxBorrowable[0], 'The maxBorrowable field is required.');
+            done();
+          });
       });
 
-      it('it should respond with a 400 with parse errors', (done) => {
+      it('it should respond with a 400 with error message array', (done) => {
         request(app)
           .put(`/api/v1/membershiptypes/${membershipTypeId}`)
           .set('Accept', 'application/json')
           .set('x-token', adminToken)
           .send({ lendDuration: 'hi', maxBorrowable: 'whatsup' })
-          .expect(400)
-          .expect('Content-Type', /json/)
-          .expect(/"maxBorrowable":\s*"Max-borrowable must be a number"/)
-          .expect(/"lendDuration":\s*"Lend-duration must be a number"/, done);
+          .end((err, res) => {
+            assert.equal(res.status, 400);
+            assert.equal(res.body.errors.lendDuration[0], 'The lendDuration must be an integer.');
+            assert.equal(res.body.errors.lendDuration[1], 'The lendDuration must be at least 1.');
+            assert.equal(res.body.errors.maxBorrowable[0], 'The maxBorrowable must be an integer.');
+            assert.equal(res.body.errors.maxBorrowable[1], 'The maxBorrowable must be at least 1.');
+            done();
+          });
+      });
+
+      it('it should respond with a 400 with lendDuration at least 1', (done) => {
+        request(app)
+          .put(`/api/v1/membershiptypes/${membershipTypeId}`)
+          .set('Accept', 'application/json')
+          .set('x-token', adminToken)
+          .send({ lendDuration: 0, maxBorrowable: 0 })
+          .end((err, res) => {
+            assert.equal(res.status, 400);
+            assert.equal(res.body.errors.lendDuration[0], 'The lendDuration must be at least 1.');
+            assert.equal(res.body.errors.maxBorrowable[0], 'The maxBorrowable must be at least 1.');
+            done();
+          });
       });
 
       it('it should respond with a 200 with the updated membership type', (done) => {
@@ -91,7 +115,7 @@ describe('Admin Membership Routes', () => {
             assert.equal(res.body.membershipType.lendDuration, '10');
             assert.equal(res.body.membershipType.maxBorrowable, '15');
             done();
-          })
+          });
       });
     });
   });

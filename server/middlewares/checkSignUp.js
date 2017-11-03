@@ -1,3 +1,5 @@
+import validationHelper from '../helpers/validationHelper';
+
 /**
  * Middleware to check if body parameters is null
  * @param {Object} req
@@ -7,31 +9,13 @@
  * @returns {Request|Response|*|void|boolean} res
  */
 export default function checkSignUp(req, res, next) {
-  const errors = {};
+  const rules = {
+    firstName: 'required|string|min:2|max:30',
+    surname: 'required|string|min:2|max:30',
+    username: 'required|string|min:2|max:30',
+    email: 'required|email',
+    password: 'required|min:8|max:255'
+  };
 
-  if (!req.body.firstName || !req.body.firstName.trim()) {
-    errors.firstName = 'First name is required';
-  }
-
-  if (!req.body.surname || !req.body.surname.trim()) {
-    errors.surname = 'Surname is required';
-  }
-
-  if (!req.body.username || !req.body.username.trim()) {
-    errors.username = 'Username is required';
-  }
-
-  if (!req.body.email || !req.body.email.trim()) {
-    errors.email = 'Email is required';
-  }
-
-  if (!req.body.password || !req.body.password.trim()) {
-    errors.password = 'Password is required';
-  }
-
-  if (Object.keys(errors).length > 0) {
-    return res.status(400).send({ errors });
-  }
-
-  next();
+  return validationHelper(req, res, next, rules);
 }

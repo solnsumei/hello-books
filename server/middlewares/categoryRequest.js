@@ -26,6 +26,10 @@ export function categoryRequest(req, res, next) {
  * @returns {Request|Response|*|void|boolean} res
  */
 function validateCategory(req, res, next, id) {
+  if (!parseInt(id, 10)) {
+    return res.status(400).send({ error: 'a valid category id is required' });
+  }
+
   return db.Category.findById(id)
     .then((category) => {
       if (!category) {
@@ -38,6 +42,7 @@ function validateCategory(req, res, next, id) {
     });
 }
 
+
 /**
  * Middleware to check for valid category Id
  * @param {Object} req
@@ -47,11 +52,6 @@ function validateCategory(req, res, next, id) {
  * @returns {Request|Response|*|void|boolean} res
  */
 export function validateCategoryId(req, res, next) {
-  if (req.body.categoryId === undefined || req.body.categoryId === null ||
-    !Number.isInteger(parseInt(req.body.categoryId, 10))) {
-    return res.status(400).send({ error: 'a valid category id is required' });
-  }
-
   return validateCategory(req, res, next, req.body.categoryId);
 }
 
@@ -64,10 +64,5 @@ export function validateCategoryId(req, res, next) {
  * @returns {Request|Response|*|void|boolean} res
  */
 export function validateCategoryIdParam(req, res, next) {
-  if (req.params.categoryId === undefined || req.params.categoryId === null ||
-    !Number.isInteger(parseInt(req.params.categoryId, 10))) {
-    return res.status(400).send({ error: 'a valid category id is required' });
-  }
-
   return validateCategory(req, res, next, req.params.categoryId);
 }

@@ -1,3 +1,5 @@
+import validationHelper from '../helpers/validationHelper';
+
 /**
  * Middleware to check the create book request
  * @param {Object} req
@@ -7,36 +9,18 @@
  * @returns {Request|Response|*|void|boolean} res
  */
 export default function createBookRequest(req, res, next) {
-  const errors = {};
+  const rules = {
+    title: 'required|string|min:2|max:150',
+    author: 'required|string|min:2|max:50',
+    categoryId: 'required|numeric|min:1',
+    stockQuantity: 'required|numeric|min:1',
+    description: 'required',
+    coverPic: 'required|string'
+  };
 
-  if (req.body.title === undefined || req.body.title === null) {
-    errors.title = 'Title is required';
-  }
-
-  if (req.body.author === undefined || req.body.author === null) {
-    errors.author = 'Author is required';
-  }
-
-  if (req.body.description === undefined || req.body.description === null) {
-    errors.description = 'Description is required';
-  }
-
-  if (req.body.coverPic === undefined || req.body.coverPic === null) {
-    errors.coverPic = 'Cover Picture is required';
-  }
-
-  if (req.body.stockQuantity === undefined || req.body.stockQuantity === null) {
-    errors.stockQuantity = 'Stock Quantity is required';
-  }
-
-  if (req.body.categoryId === undefined || req.body.categoryId === null ||
-      !Number.isInteger(parseInt(req.body.categoryId, 10))) {
-    errors.categoryId = 'Book category is required';
-  }
-
-  if (Object.keys(errors).length > 0) {
-    return res.status(400).send({ errors });
-  }
-
-  next();
+  return validationHelper(req, res, next, rules, {
+    categoryId: 'book category',
+    stockQuantity: 'stock quantity',
+    coverPic: 'cover picture'
+  });
 }

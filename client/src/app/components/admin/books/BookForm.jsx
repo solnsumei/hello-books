@@ -25,7 +25,8 @@ const BookForm = ({ book, onSubmit, categories, uploadCoverPic, onChange, errors
 
         <TextInput type="text" name="title" label="Book Title"
           value={book.title}
-          onChange={onChange} active={book.id !== ''} error={errors.title}
+          onChange={onChange} active={book.id !== ''}
+          error={errors.title ? errors.title[0] : null}
           errorMsg="This field is required" required="required" />
 
         <div className="row">
@@ -37,12 +38,13 @@ const BookForm = ({ book, onSubmit, categories, uploadCoverPic, onChange, errors
               defaultOption="Select Book Category"
               options={categories}
               onChange={onChange}
-              error={errors.categoryId} />
+              error={errors.categoryId ? errors.categoryId[0] : null } />
           </div>
 
           <div className="col s12 m6">
             <TextInput type="text" name="author" label="Author"
-              value={book.author} active={book.id !== ''} onChange={onChange} error={errors.author}
+              value={book.author} active={book.id !== ''} onChange={onChange}
+              error={errors.author ? errors.author[0] : null}
               errorMsg="This field is required" required="required" />
           </div>
         </div>
@@ -52,7 +54,7 @@ const BookForm = ({ book, onSubmit, categories, uploadCoverPic, onChange, errors
         {!book.id && <TextInput type="number" name="stockQuantity" label="Stock Quantity"
           value={book.stockQuantity}
           active={book.id !== ''} onChange={onChange}
-          error={errors.stockQuantity}
+          error={errors.stockQuantity ? errors.stockQuantity[0] : null}
           errorMsg="This field is required" required="required" />}
 
         <TextInput type="textarea" name="description" label="Description"

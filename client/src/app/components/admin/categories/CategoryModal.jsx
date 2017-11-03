@@ -23,7 +23,7 @@ const CategoryModal = ({ category, onSubmit, errors, onChange }) => {
             value={category.name}
             className="validate"
             onChange={onChange}
-            error={errors.name}
+            error={errors.name ? errors.name[0] : null}
             active={active}
             errorMsg="This field is required"
             required="required"

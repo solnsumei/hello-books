@@ -1,4 +1,5 @@
 import db from '../models/index';
+import errorResponseHandler from '../helpers/errorResponseHandler';
 
 /**
  * Controller for fetching, updating membershiptypes
@@ -28,9 +29,7 @@ export default {
         attributes,
       })
       .then(membershipTypes => res.status(200).send({ membershipTypes }))
-      .catch(() => res.status(500).send({
-        error: 'Request could not be processed, please try again later'
-      }));
+      .catch(() => errorResponseHandler(res));
   },
 
   /**
@@ -45,7 +44,7 @@ export default {
       .findById(req.params.membershipTypeId)
       .then((membershipType) => {
         if (!membershipType) {
-          return res.status(404).send({ error: 'MembershipType was not found' });
+          return errorResponseHandler(res, 'MembershipType was not found', 404);
         }
         return membershipType.update({
           lendDuration: req.body.lendDuration,
@@ -63,9 +62,7 @@ export default {
             });
           }
         })
-          .catch(() => res.status(500).send({
-            error: 'Request could not be processed, please try again later'
-          }));
+          .catch(() => errorResponseHandler(res));
       });
   },
 };

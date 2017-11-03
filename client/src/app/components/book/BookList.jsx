@@ -9,8 +9,9 @@ const BookList = ({ books, link }) => (
         <Book key={book.id} book={book} link={link} />
       ) :
 
-      <p>No book added</p>
-
+      <div className="col s12">
+        <p className="white-text">No book added</p>
+      </div>
     }
   </div>
 );

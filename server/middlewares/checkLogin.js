@@ -1,3 +1,5 @@
+import validationHelper from '../helpers/validationHelper';
+
 /**
  * Middleware to check if body parameters is null
  * @param {Object} req
@@ -7,20 +9,10 @@
  * @returns {Request|Response|*|void|boolean} res
  */
 export default function checkLogin(req, res, next) {
-  const errors = {};
+  const rules = {
+    username: 'required',
+    password: 'required'
+  };
 
-  if (req.body.username === undefined ||
-    req.body.username === null || req.body.username.trim().length === 0) {
-    errors.username = 'Username is required';
-  }
-
-  if (req.body.password === undefined || req.body.password === null) {
-    errors.password = 'Password is required';
-  }
-
-  if (Object.keys(errors).length > 0) {
-    return res.status(400).send({ errors });
-  }
-
-  next();
+  return validationHelper(req, res, next, rules);
 }

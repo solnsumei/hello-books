@@ -22,16 +22,19 @@ const ChangePasswordForm = ({ passwordObject, onSubmit, onChange, loading, error
           <h3>Change Password</h3>
 
           <TextInput type="password" name="oldPassword" label="Old Password"
-            value={passwordObject.oldPassword} onChange={onChange} error={errors.oldPassword}
+            value={passwordObject.oldPassword} onChange={onChange}
+            error={errors.oldPassword ? errors.oldPassword[0] : null}
             errorMsg="This field is required" required="required" />
 
           <TextInput type="password" name="password" label="New Password"
-            value={passwordObject.password} onChange={onChange} error={errors.password}
+            value={passwordObject.password} onChange={onChange}
+            error={errors.password ? errors.password[0] : null}
             errorMsg="This field is required" required="required" />
 
-          <TextInput type="password" name="confirmPassword"
-            label="Confirm Password" value={passwordObject.confirmPassword}
-            onChange={onChange} error={errors.confirmPassword}
+          <TextInput type="password" name="password_confirmation"
+            label="Confirm Password" value={passwordObject.password_confirmation}
+            onChange={onChange}
+            error={null}
             errorMsg="This field is required" required="required" />
 
           <br/>

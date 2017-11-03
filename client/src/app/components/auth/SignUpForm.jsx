@@ -21,19 +21,21 @@ const SignUpForm = ({ formParams, onSubmit, onChange, loading, errors }) => (
           }
 
           <TextInput type="text" name="username" label="Username"
-            value={formParams.username} onChange={onChange} error={errors.username}
+            value={formParams.username} onChange={onChange}
+            error={errors.username ? errors.username[0] : null}
             prefix="account_box"
             errorMsg="This field is required" required="required" />
 
           <TextInput type="email" name="email" label="Email"
             prefix="email"
-            value={formParams.email} onChange={onChange} error={errors.email}
+            value={formParams.email} onChange={onChange}
+            error={errors.email ? errors.email[0] : null}
             errorMsg="Email is invalid" required="required" />
 
           <TextInput type="password" name="password" label="Password"
             value={formParams.password} onChange={onChange}
             prefix="lock"
-            error={errors.password}
+            error={errors.password ? errors.password[0] : null}
             errorMsg="This field is required" required="required" />
 
           <section className="row">
@@ -43,13 +45,15 @@ const SignUpForm = ({ formParams, onSubmit, onChange, loading, errors }) => (
 
             <div className="col s12 m6">
               <TextInput type="text" name="firstName" label="First name"
-                value={formParams.firstName} onChange={onChange} error={errors.firstName}
+                value={formParams.firstName} onChange={onChange}
+                error={errors.firstName ? errors.firstName[0] : null}
                 errorMsg="This field is required" required="required" />
             </div>
 
             <div className="col s12 m6">
               <TextInput type="text" name="surname" label="Surname"
-                value={formParams.surname} onChange={onChange} error={errors.surname}
+                value={formParams.surname} onChange={onChange}
+                error={errors.surname ? errors.surname[0] : null}
                 errorMsg="This field is required" required="required" />
             </div>
           </section>

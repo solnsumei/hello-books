@@ -106,8 +106,8 @@ class ManageBookPage extends React.Component {
         this.props.history.replace('/admin/books');
       })
       .catch(({ response }) => {
-        if (response.data.errors) {
-          this.setState({ errors: response.data.errors });
+        if (response.data.error.errors) {
+          this.setState({ errors: response.data.error.errors });
         }
       });
   }

@@ -23,11 +23,13 @@ const LoginForm = ({ loginParams, onSubmit, onChange, errors, loading }) => (
           }
 
           <TextInput type="text" name="username" label="Username"
-            value={loginParams.username} onChange={onChange} error={errors.username}
+            value={loginParams.username} onChange={onChange}
+            error={errors.username ? errors.username[0] : null}
             errorMsg="This field is required" required="required" />
 
           <TextInput type="password" name="password" label="Password"
-            value={loginParams.password} onChange={onChange} error={errors.password}
+            value={loginParams.password} onChange={onChange}
+            error={errors.password ? errors.password[0] : null}
             errorMsg="This field is required" required="required" />
 
         </div>

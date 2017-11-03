@@ -23,9 +23,7 @@ const publicPath = path.join(__dirname, './client/dist/');
 const indexPath = path.resolve(__dirname, publicPath, 'index.html');
 
 // Log requests to the console
-if (env === 'development') {
-  app.use(logger('dev'));
-}
+app.use(logger('dev'));
 
 // Parse incoming requests data (https://github.com/expressjs/body-parser
 app.use(bodyParser.json());
@@ -47,7 +45,7 @@ if (env === 'development') {
   }));
 }
 
-app.use(webpackHotMiddleware(compiler));
+// app.use(webpackHotMiddleware(compiler));
 
 app.use('/', express.static(publicPath));
 

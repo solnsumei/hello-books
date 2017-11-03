@@ -19,7 +19,7 @@ const MembershipTypeModal = ({ membershipType, onSubmit, errors, onChange }) => 
             value={membershipType.lendDuration}
             className="validate"
             onChange={onChange}
-            error={errors.lendDuration}
+            error={errors.lendDuration ? errors.lendDuration[0] : null}
             active={active}
             errorMsg="This field is required"
             required="required"
@@ -32,7 +32,7 @@ const MembershipTypeModal = ({ membershipType, onSubmit, errors, onChange }) => 
             value={membershipType.maxBorrowable}
             className="validate"
             onChange={onChange}
-            error={errors.maxBorrowable}
+            error={errors.maxBorrowable ? errors.maxBorrowable[0] : null}
             active={active}
             errorMsg="This field is required"
             required="required"

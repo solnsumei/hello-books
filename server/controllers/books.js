@@ -1,7 +1,9 @@
 import db from '../models/index';
 import { formatBookObject } from '../helpers/formatData';
+import errorResponseHandler from '../helpers/errorResponseHandler';
+
 /**
- * Controller for adding, updating and get all books
+ * Controller for adding, updating and getting books
  * @exports {Object} booksController
  */
 
@@ -17,34 +19,21 @@ export default {
    * @return {Bluebird<Object> | Promise.<Object>} res
    */
   create(req, res) {
+    const { title, categoryId, author, description, coverPic, stockQuantity } = req.body;
     return db.Book
       .create({
-        title: req.body.title,
-        categoryId: req.body.categoryId,
-        author: req.body.author,
-        description: req.body.description,
-        coverPic: req.body.coverPic,
-        stockQuantity: req.body.stockQuantity,
+        title,
+        categoryId,
+        author,
+        description,
+        coverPic,
+        stockQuantity,
       })
       .then(book => res.status(201).send({
         message: 'Book added successfully',
         book: formatBookObject(book, req.category)
       }))
-      .catch((error) => {
-        if (error.name === 'SequelizeValidationError' ||
-          error.name === 'SequelizeUniqueConstraintError') {
-          const errors = {};
-          error.errors.forEach((err) => {
-            errors[err.path] = err.message;
-          });
-          return res.status(400).send({ errors });
-        }
-
-        return res.status(500).send({
-          error
-        });
-      }
-      );
+      .catch(error => errorResponseHandler(res, null, null, error));
   },
 
   /**
@@ -69,12 +58,10 @@ export default {
         include: [{
           model: db.Category,
           attributes: ['name', 'slug']
-        }],
+        }]
       })
       .then(books => res.status(200).send({ books }))
-      .catch(() => res.status(500).send({
-        error: 'Request could not be processed, please try again later'
-      }));
+      .catch(() => errorResponseHandler(res));
   },
 
   /**
@@ -92,8 +79,8 @@ export default {
       ];
     }
 
-    if (!req.params.bookId || !Number.isInteger(parseInt(req.params.bookId, 10))) {
-      return res.status(400).send({ error: 'Book Id is invalid' });
+    if (!parseInt(req.params.bookId, 10)) {
+      return errorResponseHandler(res, 'Book Id is invalid', 400);
     }
 
     return db.Book
@@ -107,14 +94,12 @@ export default {
       })
       .then((book) => {
         if (!book) {
-          return res.status(404).send({ error: 'Book not found' });
+          return errorResponseHandler(res, 'Book not found', 404);
         }
 
         return res.status(200).send({ book });
       })
-      .catch(() => res.status(500).send({
-        error: 'Request could not be processed, please try again later'
-      }));
+      .catch(() => errorResponseHandler(res));
   },
 
   /**
@@ -129,7 +114,7 @@ export default {
       .findById(req.params.bookId)
       .then((book) => {
         if (!book) {
-          return res.status(404).send({ error: 'Book not found' });
+          return errorResponseHandler(res, 'Book not found', 404);
         }
         book.update({
           title: req.body.title,
@@ -145,20 +130,7 @@ export default {
             });
           }
         })
-          .catch((error) => {
-            if (error.name === 'SequelizeValidationError' ||
-              error.name === 'SequelizeUniqueConstraintError') {
-              const errors = {};
-              error.errors.forEach((err) => {
-                errors[err.path] = err.message;
-              });
-              return res.status(400).send({ errors });
-            }
-
-            return res.status(500).send({
-              error: 'Request could not be processed, please try again later'
-            });
-          });
+          .catch(error => errorResponseHandler(res, null, null, error));
       });
   },
 
@@ -173,19 +145,15 @@ export default {
         });
       }
     })
-      .catch(() => res.status(500).send({
-        error: 'Stock quantity could not be updated, please try again later.'
-      }));
+      .catch(() => errorResponseHandler(res, 'Stock quantity could not be updated, please try again later.', 500));
   },
 
   delete(req, res) {
     if (req.book.isBorrowed) {
-      return res.status(400).send({
-        error: 'Book is borrowed and cannot be deleted at this time'
-      });
+      return errorResponseHandler(res, 'Book is borrowed and cannot be deleted at this time', 400);
     }
 
-    req.book.update({
+    return req.book.update({
       isDeleted: true
     }).then((result) => {
       if (result) {
@@ -198,8 +166,6 @@ export default {
         });
       }
     })
-      .catch(() => res.status(500).send({
-        error: 'Book could not be deleted at this time, please try again later.'
-      }));
+      .catch(() => errorResponseHandler(res, 'Book could not be deleted at this time, please try again later.', 500));
   }
 };

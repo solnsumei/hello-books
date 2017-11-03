@@ -2,6 +2,7 @@ import bcrypt from 'bcryptjs';
 import createToken from '../helpers/token';
 import { formatBorrowedBookObject } from '../helpers/formatData';
 import db from '../models/index';
+import errorResponseHandler from '../helpers/errorResponseHandler';
 
 /**
  * User controller to handle user request
@@ -10,18 +11,19 @@ import db from '../models/index';
 export default {
   // Create a user account in database
   create(req, res) {
+    const { firstName, surname, username, email, password } = req.body;
     return db.User
       .create({
-        firstName: req.body.firstName,
-        surname: req.body.surname,
-        username: (req.body.username.toLowerCase()),
-        email: req.body.email,
-        password: req.body.password,
+        firstName,
+        surname,
+        username: username.toLowerCase(),
+        email,
+        password
       })
       .then((user) => {
         const token = createToken(user);
         if (!token) {
-          return res.status(500).send({ error: 'Request could not be processed, please try again later' });
+          return errorResponseHandler(res);
         }
         // Return logged in user
         return res.status(201).send({
@@ -31,40 +33,50 @@ export default {
           token
         });
       })
-      .catch((error) => {
-        if (error.name === 'SequelizeValidationError' ||
-          error.name === 'SequelizeUniqueConstraintError') {
-          const errors = {};
-          error.errors.forEach((err) => {
-            errors[err.path] = err.message;
-          });
-          if (error.name === 'SequelizeUniqueConstraintError') {
-            return res.status(409).send({ errors });
-          }
-          return res.status(400).send({ errors });
-        }
-
-        return res.status(500).send({
-          error: 'Request could not be processed, please try again later'
-        });
-      });
+      .catch(error => errorResponseHandler(res, null, null, error));
   },
+
+  // Get a single user
+  getUser(req, res) {
+    if (!parseInt(req.params.userId, 10)) {
+      return errorResponseHandler(res, 'User Id is invalid', 400);
+    }
+
+    if (req.auth.id !== parseInt(req.params.userId, 10)) {
+      return errorResponseHandler(res, 'You are not authorised to perform this action', 401);
+    }
+
+    return db.User
+      .findOne({
+        attributes: ['id', 'firstName', 'surname', 'email', 'username', 'admin'],
+        where: { id: req.auth.id }
+      })
+      .then((user) => {
+        if (user) {
+          return res.status(200).send({ user });
+        }
+        return errorResponseHandler(res, 'User not found', 404);
+      })
+      .catch(() => errorResponseHandler(res));
+  },
+
   // Update a user account in database
   updateProfile(req, res) {
+    const { firstName, surname, membershipType } = req.body;
     return db.User
       .findById(req.auth.id)
       .then((user) => {
         if (user) {
           user.update({
-            firstName: req.body.firstName,
-            surname: req.body.surname,
-            membershipType: req.body.membershipType
+            firstName,
+            surname,
+            membershipType
           })
             .then((result) => {
               if (result) {
                 const token = createToken(user);
                 if (!token) {
-                  return res.status(500).send({ error: 'Request could not be processed, please try again later' });
+                  return errorResponseHandler(res);
                 }
                 // Return logged in user
                 return res.status(200).send({
@@ -74,26 +86,12 @@ export default {
                   token
                 });
               }
-              return res.status(500).send({ error: 'User profile could not be updated at this time, please try again later' });
+              return errorResponseHandler(res);
             })
-            .catch((error) => {
-              if (error.name === 'SequelizeValidationError') {
-                const errors = {};
-                error.errors.forEach((err) => {
-                  errors[err.path] = err.message;
-                });
-                return res.status(400).send({ errors });
-              }
-
-              return res.status(500).send({
-                error: 'Request could not be processed, please try again later'
-              });
-            });
+            .catch(error => errorResponseHandler(res, null, null, error));
         }
       })
-      .catch(() => res.status(500).send({
-        error: 'Request could not be processed, please try again later'
-      }));
+      .catch(() => errorResponseHandler(res));
   },
 
   // Change user password
@@ -113,35 +111,19 @@ export default {
                     message: 'Your Password was changed successfully',
                   });
                 }
-                return res.status(500).send({ error: 'Request could not be processed, please try again later' });
+                return errorResponseHandler(res);
               })
-              .catch((error) => {
-                if (error.name === 'SequelizeValidationError') {
-                  const errors = {};
-                  error.errors.forEach((err) => {
-                    errors[err.path] = err.message;
-                  });
-                  return res.status(400).send({ errors });
-                }
-
-                return res.status(500).send({
-                  error: 'Request could not be processed, please try again later'
-                });
-              });
+              .catch(error => errorResponseHandler(res, null, null, error));
           }
           return res.status(400).send({
             errors: {
-              oldPassword: 'Wrong password entered'
+              oldPassword: ['Wrong password entered']
             }
           });
         }
-        return res.status(404).send({
-          error: 'User not found'
-        });
+        return errorResponseHandler(res, 'User not found', 404);
       })
-      .catch(() => res.status(500).send({
-        error: 'Request could not be processed, please try again later'
-      }));
+      .catch(() => errorResponseHandler(res));
   },
 
   // Authenticate users
@@ -157,7 +139,7 @@ export default {
           // Create token
           const token = createToken(user);
           if (!token) {
-            return res.status(500).send({ error: 'Request could not be processed, please try again later' });
+            return errorResponseHandler(res);
           }
           // Return logged in user
           return res.status(200).send({
@@ -167,16 +149,14 @@ export default {
             token
           });
         }
-        return res.status(401).send({ error: 'Username and/or password is incorrect' });
-      }).catch(() => res.status(500).send({
-        error: 'Request could not be processed, please try again later'
-      }));
+        return errorResponseHandler(res, 'Username and/or password is incorrect', 401);
+      }).catch(() => errorResponseHandler(res));
   },
 
   // Borrow book
   borrowBook(req, res) {
     if (req.book.stockQuantity === req.book.borrowedQuantity) {
-      return res.status(404).send({ error: 'No copies available for borrowing' });
+      return errorResponseHandler(res, 'No copies available for borrowing', 400);
     }
 
     return db.UserBook.findOne({
@@ -188,7 +168,7 @@ export default {
     })
       .then((book) => {
         if (book) {
-          return res.status(409).send({ error: 'You already borrowed this book' });
+          return errorResponseHandler(res, 'You already borrowed this book', 409);
         }
 
         const dueDate = new Date();
@@ -212,16 +192,10 @@ export default {
                   });
                 }
               })
-              .catch(error => res.status(500).send({
-                error
-              })))
-          .catch(error => res.status(500).send({
-            error
-          }));
+              .catch(() => errorResponseHandler(res)))
+          .catch(() => errorResponseHandler(res));
       })
-      .catch(error => res.status(500).send({
-        error
-      }));
+      .catch(() => errorResponseHandler(res));
   },
 
   // Borrow History method with returned query string
@@ -239,16 +213,14 @@ export default {
         }],
         where: query
       }).then(borrowedBooks => res.status(200).send({ borrowedBooks }))
-      .catch(() => res.status(500).send({
-        error: 'Request could not be processed, please try again later'
-      }));
+      .catch(() => errorResponseHandler(res));
   },
 
   // Return book method
   returnBook(req, res) {
     // Update users borrow history if the user borrowed
     if (req.book.borrowedQuantity === 0 && req.book.isBorrowed === false) {
-      return res.status(400).send({ error: 'You cannot return a book that has not been borrowed' });
+      return errorResponseHandler(res, 'You cannot return a book that has not been borrowed', 400);
     }
 
     const attributes = ['id', 'userId', 'bookId',
@@ -265,14 +237,13 @@ export default {
       })
       .then((borrowedBook) => {
         if (!borrowedBook) {
-          return res.status(404).send({
-            error: 'Book was not found in your borrowed list'
-          });
+          return errorResponseHandler(res, 'Book was not found in your borrowed list', 404);
         }
 
         return borrowedBook
           .update({
-            returned: true
+            returned: true,
+            isSeen: false,
           })
           .then((updateResult) => {
             if (updateResult.dataValues.returned) {
@@ -284,17 +255,11 @@ export default {
                 .then(result => res.status(200).send({ message: 'Book was returned successfully',
                   returnedBook: formatBorrowedBookObject(borrowedBook, req.book),
                 }))
-                .catch(error => res.status(500).send({
-                  error: 'Request could not be processed, please try again later'
-                }));
+                .catch(() => errorResponseHandler(res));
             }
           })
-          .catch(error => res.status(500).send({
-            error: 'Request could not be processed, please try again later'
-          }));
+          .catch(() => errorResponseHandler(res));
       })
-      .catch(() => res.status(500).send({
-        error: 'Request could not be processed, please try again later'
-      }));
+      .catch(() => errorResponseHandler(res));
   },
 };

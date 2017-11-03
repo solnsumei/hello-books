@@ -1,3 +1,5 @@
+import validationHelper from '../helpers/validationHelper';
+
 /**
  * Middleware to check if body parameters is null
  * @param {Object} req
@@ -7,23 +9,14 @@
  * @returns {Request|Response|*|void|boolean} res
  */
 export default function profileUpdateRequest(req, res, next) {
-  const errors = {};
+  const rules = {
+    firstName: 'required|string|min:2|max:30',
+    surname: 'required|string|min:2|max:30',
+    membershipType: 'required|string',
+  };
 
-  if (!req.body.firstName || !req.body.firstName.trim()) {
-    errors.firstName = 'First name is required';
-  }
-
-  if (!req.body.surname || !req.body.surname.trim()) {
-    errors.surname = 'Surname is required';
-  }
-
-  if (!req.body.membershipType || !req.body.membershipType.trim()) {
-    errors.membershipType = 'MembershipType is required';
-  }
-
-  if (Object.keys(errors).length > 0) {
-    return res.status(400).send({ errors });
-  }
-
-  next();
+  return validationHelper(req, res, next, rules, {
+    firstName: 'first name',
+    membershipType: 'membership type'
+  });
 }

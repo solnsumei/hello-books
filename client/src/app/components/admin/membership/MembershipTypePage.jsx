@@ -78,6 +78,8 @@ class MembershipTypePage extends React.Component {
       .catch(({ response }) => {
         if (response.data.errors) {
           this.setState({ errors: response.data.errors });
+        } else {
+          toastr.error(response.data.error);
         }
       });
   }

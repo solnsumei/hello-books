@@ -1,4 +1,5 @@
 import db from '../models/index';
+import errorResponseHandler from '../helpers/errorResponseHandler';
 
 /**
  * Middleware to check if user is eligible to borrow book
@@ -27,7 +28,7 @@ export default function userCanBorrow(req, res, next) {
         })
           .then((result) => {
             if (result > 0 && result >= user.MembershipType.maxBorrowable) {
-              return res.status(400).send({ error: 'You have exceeded the maximum book you can hold at a time' });
+              return errorResponseHandler(res, 'You have exceeded the maximum book you can hold at a time', 400);
             }
             req.lendDuration = user.MembershipType.lendDuration;
 
@@ -35,7 +36,5 @@ export default function userCanBorrow(req, res, next) {
           });
       }
     })
-    .catch(() =>
-      res.status(500).send({ error: 'Request could not be processed, please try again later' })
-    );
+    .catch(() => errorResponseHandler(res));
 }

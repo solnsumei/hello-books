@@ -3,6 +3,7 @@ import usersController from '../controllers/users';
 import categoriesController from '../controllers/categories';
 import booksController from '../controllers/books';
 import membershipController from '../controllers/membership';
+import notificationsController from '../controllers/notifications';
 import authMiddleware from '../middlewares/auth';
 import adminMiddleware from '../middlewares/admin';
 import checkLogin from '../middlewares/checkLogin';
@@ -29,6 +30,8 @@ router.post('/users/signin', checkLogin, usersController.login);
 // Authentication middle to check for logged in user
 router.use(authMiddleware);
 
+router.get('/users/:userId', usersController.getUser);
+
 router.put('/users/profile', profileUpdateRequest, checkMembershipType, usersController.updateProfile);
 
 router.post('/users/change-password', changePasswordRequest, usersController.changePassword);
@@ -49,6 +52,10 @@ router.get('/users/:userId/books', validateUser, usersController.borrowHistory);
 
 // Admin middleware to check if user is an admin
 router.use(adminMiddleware);
+
+router.get('/notifications/:notificationId', notificationsController.getNotification);
+
+router.get('/notifications', notificationsController.getAllUnreadNotifications);
 
 router.put('/membershiptypes/:membershipTypeId', editMembershipTypeRequest, membershipController.update);
 

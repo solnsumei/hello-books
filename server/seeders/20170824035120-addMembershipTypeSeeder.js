@@ -26,7 +26,7 @@ module.exports = {
       {
         membershipType: 'Free',
         lendDuration: 7,
-        maxBorrowable: 2,
+        maxBorrowable: 1,
         createdAt : new Date(),
         updatedAt : new Date(),
       }], {})

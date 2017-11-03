@@ -44,8 +44,8 @@ class SignUpPage extends React.Component {
     this.setState({ errors: {} });
     this.props.signUpRequest(this.state.formParams)
       .catch(({ response }) => {
-        if (response.data.errors) {
-          return this.setState({ errors: response.data.errors });
+        if (response.data.error.errors) {
+          return this.setState({ errors: response.data.error.errors });
         }
       });
   }
