@@ -9,28 +9,29 @@ import errorResponseHandler from '../helpers/errorResponseHandler';
  *
  * @returns {Request|Response|*|void|boolean} res
  */
-export default function userCanBorrow(req, res, next) {
+export default function borrowAccess(req, res, next) {
   return db.User
     .findOne({
       include: [{
-        model: db.MembershipType,
-        attributes: ['membershipType', 'lendDuration', 'maxBorrowable']
+        model: db.Membership,
+        as: 'membership',
+        attributes: ['level', 'lendDuration', 'maxBorrowable']
       }],
       where: { id: req.auth.id }
     })
     .then((user) => {
       if (user) {
-        return db.UserBook.count({
+        return db.BorrowedBook.count({
           where: {
             userId: user.id,
             returned: false
           }
         })
           .then((result) => {
-            if (result > 0 && result >= user.MembershipType.maxBorrowable) {
-              return errorResponseHandler(res, 'You have exceeded the maximum book you can hold at a time', 400);
+            if (result > 0 && result >= user.membership.maxBorrowable) {
+              return errorResponseHandler(res, 'You have exceeded the maximum book you can hold at a time', 409);
             }
-            req.lendDuration = user.MembershipType.lendDuration;
+            req.lendDuration = user.membership.lendDuration;
 
             next();
           });

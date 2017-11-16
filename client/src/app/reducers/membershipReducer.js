@@ -6,14 +6,14 @@ import initialState from './initialState';
  * @param {object} action
  * @returns {object} state
  */
-export default function (state = initialState.membershipTypes, action) {
+export default function (state = initialState.memberships, action) {
   switch (action.type) {
     case types.LOAD_MEMBERSHIP_TYPES_SUCCESS:
-      return action.membershipTypes;
+      return action.memberships;
 
     case types.UPDATE_MEMBERSHIP_TYPE_SUCCESS:
-      return [...state.filter(membershipType => membershipType.id !== action.membershipType.id),
-        Object.assign({}, action.membershipType)];
+      return [...state.filter(membership => membership.id !== action.membership.id),
+        Object.assign({}, action.membership)];
 
     default:
       return state;

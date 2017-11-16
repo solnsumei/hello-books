@@ -1,26 +1,26 @@
 export default (sequelize, DataTypes) => {
-  const MembershipType = sequelize.define('MembershipType', {
-    membershipType: {
+  const Membership = sequelize.define('Membership', {
+    level: {
       type: DataTypes.STRING,
       allowNull: {
         args: false,
-        msg: 'Membership type is required'
+        msg: 'The level field is required'
       },
       validate: {
         notEmpty: {
-          msg: 'Membership type is required'
+          msg: 'The level field is required'
         },
         isAlpha: {
-          msg: 'Membership type must contain only alphabets'
+          msg: 'The level field must contain only alphabets'
         },
         len: {
           args: [2, 20],
-          msg: 'Username must be at least 2 chars and less than 20 chars'
+          msg: 'The level field must be at least 2 chars and less than 20 chars'
         }
       },
       unique: {
         args: true,
-        msg: 'Membership type already exists'
+        msg: 'The level with this name already exists'
       }
     },
     lendDuration: {
@@ -63,9 +63,9 @@ export default (sequelize, DataTypes) => {
     }
   });
 
-  MembershipType.associate = (models) => {
-    MembershipType.hasMany(models.User, { foreignKey: 'membershipType' });
+  Membership.associate = (models) => {
+    Membership.hasMany(models.User, { as: 'users', foreignKey: 'level', targetKey: 'level' });
   };
 
-  return MembershipType;
+  return Membership;
 };

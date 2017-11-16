@@ -1,6 +1,6 @@
 import bcrypt from 'bcryptjs';
 import createToken from '../helpers/token';
-import { formatBorrowedBookObject } from '../helpers/formatData';
+import { formatUserObject, formatBorrowedBookObject } from '../helpers/formatData';
 import db from '../models/index';
 import errorResponseHandler from '../helpers/errorResponseHandler';
 
@@ -27,9 +27,9 @@ export default {
         }
         // Return logged in user
         return res.status(201).send({
+          success: true,
           message: 'User created successfully',
-          userId: user.id,
-          username: user.username,
+          user: formatUserObject(user),
           token
         });
       })
@@ -38,60 +38,32 @@ export default {
 
   // Get a single user
   getUser(req, res) {
-    if (!parseInt(req.params.userId, 10)) {
-      return errorResponseHandler(res, 'User Id is invalid', 400);
-    }
-
-    if (req.auth.id !== parseInt(req.params.userId, 10)) {
-      return errorResponseHandler(res, 'You are not authorised to perform this action', 401);
-    }
-
-    return db.User
-      .findOne({
-        attributes: ['id', 'firstName', 'surname', 'email', 'username', 'admin'],
-        where: { id: req.auth.id }
-      })
-      .then((user) => {
-        if (user) {
-          return res.status(200).send({ user });
-        }
-        return errorResponseHandler(res, 'User not found', 404);
-      })
-      .catch(() => errorResponseHandler(res));
+    return res.status(200).send({
+      success: true,
+      message: 'User was loaded successfully',
+      user: formatUserObject(req.auth)
+    });
   },
 
   // Update a user account in database
   updateProfile(req, res) {
-    const { firstName, surname, membershipType } = req.body;
-    return db.User
-      .findById(req.auth.id)
-      .then((user) => {
-        if (user) {
-          user.update({
-            firstName,
-            surname,
-            membershipType
-          })
-            .then((result) => {
-              if (result) {
-                const token = createToken(user);
-                if (!token) {
-                  return errorResponseHandler(res);
-                }
-                // Return logged in user
-                return res.status(200).send({
-                  message: 'User profile updated successfully',
-                  success: true,
-                  username: user.username,
-                  token
-                });
-              }
-              return errorResponseHandler(res);
-            })
-            .catch(error => errorResponseHandler(res, null, null, error));
+    const { firstName, surname } = req.body;
+    req.auth.update({
+      firstName: firstName || req.auth.firstName,
+      surname: surname || req.auth.surname,
+    })
+      .then((result) => {
+        if (result) {
+          // Return logged in user
+          return res.status(200).send({
+            message: 'User profile updated successfully',
+            success: true,
+            user: formatUserObject(req.auth),
+          });
         }
+        return errorResponseHandler(res);
       })
-      .catch(() => errorResponseHandler(res));
+      .catch(error => errorResponseHandler(res, null, null, error));
   },
 
   // Change user password
@@ -108,18 +80,14 @@ export default {
               .then((result) => {
                 if (result) {
                   return res.status(200).send({
+                    success: true,
                     message: 'Your Password was changed successfully',
                   });
                 }
-                return errorResponseHandler(res);
               })
               .catch(error => errorResponseHandler(res, null, null, error));
           }
-          return res.status(400).send({
-            errors: {
-              oldPassword: ['Wrong password entered']
-            }
-          });
+          return errorResponseHandler(res, null, null, { name: 'oldPassword' });
         }
         return errorResponseHandler(res, 'User not found', 404);
       })
@@ -134,7 +102,7 @@ export default {
       } })
       .then((user) => {
         if (!user) {
-          return res.status(401).send({ error: 'Username and/or password is incorrect' });
+          return errorResponseHandler(res, 'Username and/or password is incorrect', 401);
         } else if (bcrypt.compareSync(req.body.password, user.password)) {
           // Create token
           const token = createToken(user);
@@ -143,9 +111,9 @@ export default {
           }
           // Return logged in user
           return res.status(200).send({
+            success: true,
             message: `Welcome back ${user.username}`,
-            userId: user.id,
-            username: user.username,
+            user: formatUserObject(user),
             token
           });
         }
@@ -156,10 +124,10 @@ export default {
   // Borrow book
   borrowBook(req, res) {
     if (req.book.stockQuantity === req.book.borrowedQuantity) {
-      return errorResponseHandler(res, 'No copies available for borrowing', 400);
+      return errorResponseHandler(res, 'No copies available for borrowing', 404);
     }
 
-    return db.UserBook.findOne({
+    return db.BorrowedBook.findOne({
       where: {
         bookId: req.book.id,
         userId: req.auth.id,
@@ -174,10 +142,11 @@ export default {
         const dueDate = new Date();
         dueDate.setDate(dueDate.getDate() + req.lendDuration);
 
-        return db.UserBook
+        return db.BorrowedBook
           .create({
             userId: req.auth.id,
             bookId: req.book.id,
+            borrowDate: (new Date()).getDate(),
             dueDate,
           })
           .then(borrowedBook =>
@@ -187,7 +156,9 @@ export default {
                 isBorrowed: true,
               }).then((result) => {
                 if (result) {
-                  return res.status(200).send({ message: 'Book borrowed successfully',
+                  return res.status(200).send({
+                    success: true,
+                    message: 'Book borrowed successfully',
                     borrowedBook: formatBorrowedBookObject(borrowedBook, req.book),
                   });
                 }
@@ -204,15 +175,20 @@ export default {
     if (req.query.returned === 'true') {
       query.returned = true;
     } else if (req.query.returned === 'false') { query.returned = false; }
-    return db.UserBook
+    return db.BorrowedBook
       .findAll({
-        attributes: ['id', 'bookId', 'dueDate', 'isSeen', 'returned', 'createdAt', 'updatedAt'],
+        attributes: ['id', 'bookId', 'dueDate', 'isSeen', 'returned', 'borrowDate', 'returnDate'],
         include: [{
           model: db.Book,
+          as: 'book',
           attributes: ['title', 'isDeleted'],
         }],
         where: query
-      }).then(borrowedBooks => res.status(200).send({ borrowedBooks }))
+      }).then(borrowedBooks => res.status(200).send({
+        success: true,
+        message: 'Borrow history loaded successfully',
+        borrowedBooks
+      }))
       .catch(() => errorResponseHandler(res));
   },
 
@@ -226,7 +202,7 @@ export default {
     const attributes = ['id', 'userId', 'bookId',
       'dueDate', 'isSeen', 'returned', 'createdAt', 'updatedAt'];
 
-    return db.UserBook
+    return db.BorrowedBook
       .findOne({
         attributes,
         where: {
@@ -243,6 +219,7 @@ export default {
         return borrowedBook
           .update({
             returned: true,
+            returnDate: (new Date()).getDate(),
             isSeen: false,
           })
           .then((updateResult) => {
@@ -252,7 +229,9 @@ export default {
                   borrowedQuantity: (req.book.borrowedQuantity - 1),
                   isBorrowed: ((req.book.borrowedQuantity) - 1) > 0,
                 })
-                .then(result => res.status(200).send({ message: 'Book was returned successfully',
+                .then(result => res.status(200).send({
+                  success: true,
+                  message: 'Book was returned successfully',
                   returnedBook: formatBorrowedBookObject(borrowedBook, req.book),
                 }))
                 .catch(() => errorResponseHandler(res));

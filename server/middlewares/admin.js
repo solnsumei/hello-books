@@ -1,3 +1,6 @@
+import db from '../models/index';
+import errorResponseHandler from '../helpers/errorResponseHandler';
+
 /**
  * Middleware to check admins
  * @param {Object} req
@@ -8,7 +11,8 @@
  */
 export default function adminMiddleware(req, res, next) {
   if (!req.auth.admin) {
-    return res.status(403).send({ error: 'Forbidden, Admins Only' });
+    return errorResponseHandler(res, 'Forbidden, admins only', 403);
   }
+
   next();
 }

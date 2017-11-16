@@ -2,13 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import TextInput from '../../common/TextInput';
 
-const MembershipTypeModal = ({ membershipType, onSubmit, errors, onChange }) => {
+const MembershipModal = ({ membership, onSubmit, errors, onChange }) => {
   const active = true;
   return (
     <div id="membership-modal" className="modal">
       <form onSubmit={onSubmit}>
         <div className="modal-content">
-          <h4>Edit Membership Type ({membershipType.membershipType})</h4>
+          <h4>Edit Membership Type ({membership.level})</h4>
 
           { Object.keys(errors).length > 0 && <p>** There are some errors with your input</p> }
 
@@ -16,7 +16,7 @@ const MembershipTypeModal = ({ membershipType, onSubmit, errors, onChange }) => 
             type="number"
             name="lendDuration"
             label="Lend Duration(Days)"
-            value={membershipType.lendDuration}
+            value={membership.lendDuration}
             className="validate"
             onChange={onChange}
             error={errors.lendDuration ? errors.lendDuration[0] : null}
@@ -29,7 +29,7 @@ const MembershipTypeModal = ({ membershipType, onSubmit, errors, onChange }) => 
             type="number"
             name="maxBorrowable"
             label="Maximum Book Borrowable"
-            value={membershipType.maxBorrowable}
+            value={membership.maxBorrowable}
             className="validate"
             onChange={onChange}
             error={errors.maxBorrowable ? errors.maxBorrowable[0] : null}
@@ -54,8 +54,8 @@ const MembershipTypeModal = ({ membershipType, onSubmit, errors, onChange }) => 
   );
 };
 
-MembershipTypeModal.propTypes = {
-  membershipType: PropTypes.object.isRequired,
+MembershipModal.propTypes = {
+  membership: PropTypes.object.isRequired,
   onSubmit: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
   loading: PropTypes.bool,
@@ -63,4 +63,4 @@ MembershipTypeModal.propTypes = {
   active: PropTypes.bool
 };
 
-export default MembershipTypeModal;
+export default MembershipModal;

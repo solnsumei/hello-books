@@ -1,13 +1,13 @@
 module.exports = {
   up: function(queryInterface, Sequelize) {
-    return queryInterface.createTable('MembershipTypes', {
+    return queryInterface.createTable('Memberships', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      membershipType: {
+      level: {
         allowNull: false,
         unique:true,
         type: Sequelize.STRING
@@ -31,6 +31,6 @@ module.exports = {
     });
   },
   down: function(queryInterface, Sequelize) {
-    return queryInterface.dropTable('MembershipTypes');
+    return queryInterface.dropTable('Memberships');
   }
 };

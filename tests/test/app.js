@@ -24,7 +24,20 @@ describe('App Routes', () => {
         .post('/api/categories')
         .end((err, res) => {
           assert.equal(res.status, 404);
-          assert.equal(res.body.error, 'Route does not exist');
+          assert.equal(res.body.error, 'Route not found');
+          done();
+        });
+    });
+  });
+
+  describe('GET static files', () => {
+    it('it should respond with a 200 with file', (done) => {
+      request(app)
+        .get('/login')
+        .end((err, res) => {
+          assert.equal(res.status, 200);
+          assert.notEqual(res.body, null);
+          assert.equal(res.body.error, undefined);
           done();
         });
     });

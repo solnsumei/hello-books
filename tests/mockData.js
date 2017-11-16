@@ -6,16 +6,28 @@ export const users = {
     silverUser: new User('Solo', 'Ejiroh', 'solking1', 'solking1@gmail.com', 'solomon1', false, 'Silver'),
 };
 
-export const categories = {
+export const categoriesForUserTest = {
+  category1: new Category('Fiction', 'fiction'),
+  category2: new Category('Programming', 'programming')
+};
+
+export const categoriesForBooksTest = {
     category1: new Category('Fiction', 'fiction'),
     category2: new Category('Programming', 'programming')
 };
 
-export const books = {
+export const booksForUserTest = {
     book1: new Book('Book One', 1, 'Andela One', 'First book in library', 1, 'image1.jpg'),
     book2: new Book('Book Two', 2, 'Ariel J', 'Second book in library', 2, 'image2.jpg'),
     book3: new Book('Book Three', 2, 'Packard Bell', 'Third book in library', 1, 'image3.jpg'),
-    book4: new Book('Book Four', 1, 'Dunhill Mack', 'Four book in library', 5, 'image4.jpg'),
+    book4: new Book('Book Four', 50, 'Dunhill Mack', 'Four book in library', 5, 'image4.jpg'),
+};
+
+export const booksForBookTest = {
+  book1: new Book('Book One', 1, 'Andela One', 'First book in library', 1, 'image1.jpg'),
+  book2: new Book('Book Two', 2, 'Ariel J', 'Second book in library', 2, 'image2.jpg'),
+  book3: new Book('Book Three', 2, 'Packard Bell', 'Third book in library', 1, 'image3.jpg'),
+  book4: new Book('Book Four', 50, 'Dunhill Mack', 'Four book in library', 5, 'image4.jpg'),
 };
 
 export const invalidBooks = {

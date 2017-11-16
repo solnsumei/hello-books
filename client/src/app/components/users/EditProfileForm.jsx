@@ -5,7 +5,7 @@ import TextInput from '../common/TextInput';
 import SelectInput from '../common/SelectInput';
 
 
-const EditProfileForm = ({ user, onSubmit, membershipTypes,
+const EditProfileForm = ({ user, onSubmit,
   closeForm, onChange, loading, errors }) => (
   <div className="col s12">
     <div className="card">
@@ -31,22 +31,12 @@ const EditProfileForm = ({ user, onSubmit, membershipTypes,
             }
 
             <TextInput type="text" name="firstName" label="First name" active={true}
-              value={user.firstName} onChange={onChange} error={errors.firstName}
+              value={user.firstName} onChange={onChange} error={errors.firstName ? errors.firstName[0] : null}
               errorMsg="This field is required" required="required" />
 
             <TextInput type="text" name="surname" active={true} label="Surname"
-              value={user.surname} onChange={onChange} error={errors.surname}
+              value={user.surname} onChange={onChange} error={errors.surname ? errors.surname[0] : null }
               errorMsg="This field is required" required="required" />
-
-            <SelectInput
-              name="membershipType"
-              active={true}
-              label="Membership Type"
-              value={user.membershipType}
-              defaultOption="Select Membership Type"
-              options={membershipTypes}
-              onChange={onChange}
-              error={errors.membershipType} />
 
             <br/>
             <br/>

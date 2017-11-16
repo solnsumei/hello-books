@@ -51,7 +51,7 @@ class ProfilePage extends React.Component {
         if (response.data.errors) {
           this.setState({ errors: response.data.errors });
         } else if (response.data.error) {
-          window.Materialize.toast(response.data.error, 4000, 'red darken-3');
+          toastr.error(response.data.error);
         }
       });
   }
@@ -118,7 +118,6 @@ class ProfilePage extends React.Component {
             onClickEdit={this.onShowUpdateForm}
           /> :
             <EditProfileForm
-              membershipTypes={this.props.membershipTypes}
               closeForm={this.closeEditProfileForm}
               user={this.state.user}
               onChange={this.updateFormState}
@@ -143,18 +142,11 @@ const mapStateToProps = (state, ownProps) => {
   booksNotReturned =
   state.borrowedBooks.filter(borrowedBook => borrowedBook.returned === false);
 
-  const membershipTypesFormatted = state.membershipTypes.map(membershipType => (
-    {
-      value: membershipType.membershipType,
-      text: membershipType.membershipType
-    }));
-
   return ({
     user: state.user,
     borrowedCount: state.borrowedBooks.length,
     noOfBooksNotReturned: booksNotReturned.length,
     borrowedBooks: booksNotReturned,
-    membershipTypes: membershipTypesFormatted
   });
 };
 

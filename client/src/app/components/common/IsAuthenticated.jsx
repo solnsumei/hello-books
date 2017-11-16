@@ -3,7 +3,6 @@ import { Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import setRedirectUrl from '../../actions/redirectActions';
-import membershipTypeActions from '../../actions/membershipTypeActions';
 import actionTypes from '../../actions/actionTypes';
 import borrowActions from '../../actions/borrowActions';
 
@@ -31,12 +30,7 @@ export default (ComposedComponent) => {
      */
     componentDidMount() {
       this.redirectToLogin();
-
-      if (this.props.user.username && this.props.membershipTypes.length <= 0) {
-        this.props.loadMembershipTypes();
-      }
-
-      if (this.props.user.username && this.props.borrowedBooks.length <= 0) {
+      if (this.props.user.username) {
         this.props.loadBorrowedBooks(this.props.user);
       }
 
@@ -72,14 +66,11 @@ export default (ComposedComponent) => {
     user: state.user,
     currentURL: ownProps.location.pathname,
     redirectUrl: state.redirectUrl,
-    membershipTypes: state.membershipTypes,
     borrowedBooks: state.borrowedBooks,
   });
 
   const mapDispatchToProps = dispatch => ({
     setRedirectUrl: url => dispatch(setRedirectUrl(url)),
-    loadMembershipTypes: () =>
-      dispatch(membershipTypeActions(actionTypes.LOAD_MEMBERSHIP_TYPES)),
     loadBorrowedBooks: user =>
       dispatch(borrowActions(actionTypes.LOAD_BORROWED_BOOKS, user)),
   });
@@ -89,7 +80,6 @@ export default (ComposedComponent) => {
     currentURL: PropTypes.string,
     redirectUrl: PropTypes.string,
     setRedirectUrl: PropTypes.func.isRequired,
-    loadMembershipTypes: PropTypes.func,
     loadBorrowedBooks: PropTypes.func,
   };
 

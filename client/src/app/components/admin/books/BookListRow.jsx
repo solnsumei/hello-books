@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 const BookListRow = ({ book, onClickAdd, onClickDelete }) => (
   <tr>
     <td>{book.title}</td>
-    <td>{book.Category.name}</td>
+    <td>{book.category.name}</td>
     <td>{book.author}</td>
     <td>{book.stockQuantity}</td>
     <td>{book.borrowedQuantity}</td>

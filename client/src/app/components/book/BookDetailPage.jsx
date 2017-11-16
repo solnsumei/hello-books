@@ -102,7 +102,7 @@ class BookDetailPage extends React.Component {
           </div>
 
           <div className="col s12 m3">
-            <p>({book.Category.name})</p>
+            <p>({book.category.name})</p>
             <p>Status: { book.borrowedQuantity < book.stockQuantity ?
               <label className="label label-success">Available</label> :
               <label className="label label-danger">Out of Stock</label>}
@@ -162,7 +162,7 @@ const mapStateToProps = (state, ownProps) => {
   let isBorrowed = false;
 
   let book = {
-    Category: {
+    category: {
       name: ''
     }
   };

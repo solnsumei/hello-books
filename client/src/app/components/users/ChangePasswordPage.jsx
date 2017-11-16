@@ -53,8 +53,8 @@ class ChangePasswordPage extends React.Component {
         this.props.history.replace('/profile');
       })
       .catch(({ response }) => {
-        if (response.data.error.errors) {
-          this.setState({ errors: response.data.error.errors });
+        if (response.data.errors) {
+          this.setState({ errors: response.data.errors });
         } else if (response.data.error) {
           Materialize.toast(response.data.error, 4000, 'red darken-3');
         }

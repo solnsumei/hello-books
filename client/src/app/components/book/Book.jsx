@@ -16,7 +16,7 @@ const Book = ({ book, link }) => (
         </h4>
         <div className="book-details white-text">
           <p className="offset-3">By {book.author}</p>
-          <p>({book.Category.name})</p>
+          <p>({book.category.name})</p>
         </div>
         <p> <Link to={`${link}${book.id}`}>Details »</Link></p>
       </div>

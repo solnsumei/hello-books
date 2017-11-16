@@ -8,7 +8,7 @@ import Dashboard from '../admin/Dashboard';
 import CategoriesPage from '../admin/categories/CategoriesPage';
 import BooksPage from '../admin/books/BooksPage';
 import ManageBookPage from '../admin/books/ManageBookPage';
-import MembershipTypePage from '../admin/membership/MembershipTypePage';
+import MembershipPage from '../admin/membership/MembershipPage';
 import actionTypes from '../../actions/actionTypes';
 import categoryActions from '../../actions/categoryActions';
 /**
@@ -57,7 +57,7 @@ class IsAdmin extends React.Component {
         <Switch>
           <Route exact path="/admin" component={Dashboard} />
           <Route path="/admin/categories" component={CategoriesPage} />
-          <Route path="/admin/membership-types" component={MembershipTypePage} />
+          <Route path="/admin/membership-types" component={MembershipPage} />
           <Route exact path="/admin/books" component={BooksPage} />
           <Route path="/admin/books/create" component={ManageBookPage} />
           <Route path="/admin/books/:id" component={ManageBookPage} />

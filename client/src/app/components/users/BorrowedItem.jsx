@@ -15,17 +15,16 @@ const BorrowedItem = ({ borrowedBook, page, action }) => {
 
   return (
     <tr>
-      <td>{borrowedBook.Book.isDeleted ? borrowedBook.Book.title :
+      <td>{borrowedBook.book.isDeleted ? borrowedBook.book.title :
         <Link to={`/books/${borrowedBook.bookId}`}>
-          {borrowedBook.Book.title}</Link>
+          {borrowedBook.book.title}</Link>
       }
       </td>
-      <td>{formatDate(borrowedBook.createdAt)}</td>
+      <td>{formatDate(borrowedBook.borrowDate)}</td>
       <td>{formatDate(borrowedBook.dueDate)}</td>
       {historyPage}
-      <td>
-        { returned }
-      </td>
+      <td>{ returned }</td>
+      <td>{borrowedBook.returnDate !== null ? formatDate(borrowedBook.returnDate) : ''}</td>
     </tr>
   );
 };

@@ -14,7 +14,7 @@ export default {
    * @returns {Promise.<Object>} membershipTypes
    */
   getAllMemberShipTypes(req, res) {
-    let attributes = ['membershipType'];
+    let attributes = ['level'];
 
     if (req.auth.admin) {
       attributes = [...attributes,
@@ -24,11 +24,15 @@ export default {
       ];
     }
 
-    return db.MembershipType
+    return db.Membership
       .findAll({
         attributes,
       })
-      .then(membershipTypes => res.status(200).send({ membershipTypes }))
+      .then(memberships => res.status(200).send({
+        success: true,
+        message: 'Membership types loaded successfully',
+        memberships
+      }))
       .catch(() => errorResponseHandler(res));
   },
 
@@ -40,24 +44,28 @@ export default {
    * @returns {Object} membershipTypeId
    */
   update(req, res) {
-    return db.MembershipType
-      .findById(req.params.membershipTypeId)
-      .then((membershipType) => {
-        if (!membershipType) {
-          return errorResponseHandler(res, 'MembershipType was not found', 404);
+    if (!parseInt(req.params.membershipId, 10)) {
+      return errorResponseHandler(res, 'Membership id is invalid', 400);
+    }
+    return db.Membership
+      .findById(req.params.membershipId)
+      .then((membership) => {
+        if (!membership) {
+          return errorResponseHandler(res, 'Membership type was not found', 404);
         }
-        return membershipType.update({
+        return membership.update({
           lendDuration: req.body.lendDuration,
           maxBorrowable: req.body.maxBorrowable,
         }).then((result) => {
           if (result) {
             return res.status(200).send({
+              success: true,
               message: 'Membership type updated successfully',
-              membershipType: {
-                id: membershipType.id,
-                membershipType: membershipType.membershipType,
-                lendDuration: membershipType.lendDuration,
-                maxBorrowable: membershipType.maxBorrowable
+              membership: {
+                id: membership.id,
+                level: membership.level,
+                lendDuration: membership.lendDuration,
+                maxBorrowable: membership.maxBorrowable
               }
             });
           }

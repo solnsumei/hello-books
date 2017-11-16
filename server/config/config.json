@@ -1,6 +1,6 @@
 {
   "development": {
-    "username": "solking",
+    "username": "solmei",
     "password": "solomon",
     "database": "hellobooks_db",
     "host": "127.0.0.1",
@@ -8,9 +8,9 @@
     "dialect": "postgres"
   },
   "local": {
-    "username": "solking",
+    "username": "solmei",
     "password": "solomon",
-    "database": "hellobooks-test",
+    "database": "hellobooks_test",
     "host": "127.0.0.1",
     "port": 5432,
     "dialect": "postgres",

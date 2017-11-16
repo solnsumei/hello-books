@@ -5,11 +5,11 @@ import Sequelize from 'sequelize';
 import dotenv from 'dotenv';
 import * as DbConfig from '../config/config.json';
 
+dotenv.config();
+
 const basename = path.basename(module.filename);
 const env = process.env.NODE_ENV || 'development';
 const config = DbConfig[env];
-
-dotenv.config();
 
 const db = {};
 

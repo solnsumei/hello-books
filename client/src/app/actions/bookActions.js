@@ -71,13 +71,8 @@ const addStockQuantity = (book, quantity, headers) => dispatch =>
     });
 
 // delete book
-const deleteBook = book => dispatch =>
-  axios({
-    method: 'delete',
-    url: '/books',
-    data: { bookId: book.id },
-    headers: { 'x-token': localStorage.getItem(types.USER_TOKEN) },
-  })
+const deleteBook = (book, headers) => dispatch =>
+  axios.delete(`/books/${book.id}`, headers)
     .then(({ data }) => {
       toastr.success(data.message);
       return dispatch(deleteBookSuccess(data.book));
@@ -106,7 +101,7 @@ const bookActions = (action, book = null, bookId = null, quantity = null) => (di
       return dispatch(addStockQuantity(book, quantity, headers));
 
     case types.DELETE_BOOK:
-      return dispatch(deleteBook(book));
+      return dispatch(deleteBook(book, headers));
 
     default:
       break;

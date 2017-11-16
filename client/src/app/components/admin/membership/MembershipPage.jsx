@@ -2,17 +2,17 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import toastr from 'toastr';
-import MembershipTypeList from './MembershipTypeList';
-import MembershipTypeModal from './MembershipTypeModal';
+import MembershipList from './MembershipList';
+import MembershipModal from './MembershipModal';
 import actionTypes from '../../../actions/actionTypes';
-import membershipTypeActions from '../../../actions/membershipTypeActions';
+import membershipActions from '../../../actions/membershipActions';
 
 
 /**
  * Membership type react component class
  * @type {String}
  */
-class MembershipTypePage extends React.Component {
+class MembershipPage extends React.Component {
   /**
    * @method constructor
    * @param  {Object} props
@@ -22,7 +22,7 @@ class MembershipTypePage extends React.Component {
     super(props);
 
     this.state = {
-      membershipType: Object.assign({}, this.props.membershipType),
+      membership: Object.assign({}, this.props.membership),
       errors: {}
     };
 
@@ -30,15 +30,24 @@ class MembershipTypePage extends React.Component {
     this.updateMembershipType = this.updateMembershipType.bind(this);
     this.onEdit = this.onEdit.bind(this);
   }
+
+  /**
+   * @memberof MembershipPage
+   * @returns {void}
+   */
+  componentDidMount() {
+    this.props.loadMemberships();
+  }
+
   /**
    * Open modal to edit a membership type
    * @method onEdit
-   * @param  {Object} membershipType
+   * @param  {Object} membership
    * @return {void}
    */
-  onEdit(membershipType) {
+  onEdit(membership) {
     this.setState({
-      membershipType: Object.assign({}, membershipType),
+      membership: Object.assign({}, membership),
       errors: {}
     });
 
@@ -51,9 +60,9 @@ class MembershipTypePage extends React.Component {
    */
   updateFormState(event) {
     const field = event.target.name;
-    const membershipType = this.state.membershipType;
-    membershipType[field] = event.target.value;
-    return this.setState({ membershipType });
+    const membership = this.state.membership;
+    membership[field] = event.target.value;
+    return this.setState({ membership });
   }
 
   /**
@@ -65,12 +74,12 @@ class MembershipTypePage extends React.Component {
   updateMembershipType(event) {
     event.preventDefault();
     this.setState({ errors: {} });
-    this.props.updateMembershipType(this.state.membershipType)
+    this.props.updateMembershipType(this.state.membership)
       .then(() => {
         $('.modal').modal('close');
-        this.setState({ membershipType: {
+        this.setState({ membership: {
           id: '',
-          membershipType: '',
+          level: '',
           lendDuration: 1,
           maxBorrowable: 1
         } });
@@ -96,8 +105,8 @@ class MembershipTypePage extends React.Component {
           <div className="col s12">
             <div className="card">
               <div className="card-content">
-                <MembershipTypeList
-                  membershipTypes={this.props.membershipTypes}
+                <MembershipList
+                  membership={this.props.memberships}
                   onEdit={this.onEdit}
                 />
               </div>
@@ -105,9 +114,9 @@ class MembershipTypePage extends React.Component {
           </div>
 
         </div>
-        { this.state.membershipType &&
-          <MembershipTypeModal
-            membershipType={this.state.membershipType}
+        { this.state.membership &&
+          <MembershipModal
+            membershipType={this.state.membership}
             errors={this.state.errors}
             onSubmit={this.updateMembershipType}
             onChange={this.updateFormState}
@@ -119,27 +128,28 @@ class MembershipTypePage extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const membershipType = {
+  const membership = {
     id: '',
-    membershipType: '',
+    level: '',
     lendDuration: 1,
     maxBorrowable: 1
   };
 
   return ({
-    membershipType,
-    membershipTypes: state.membershipTypes.sort((a, b) => (b.id - a.id)),
+    membership,
+    memberships: state.memberships.sort((a, b) => (b.id - a.id)),
   });
 };
 
 const mapDispatchToProps = dispatch => ({
-  updateMembershipType: membershipType =>
-    dispatch(membershipTypeActions(actionTypes.UPDATE_MEMBERSHIP_TYPE, membershipType))
+  updateMembershipType: membership =>
+    dispatch(membershipActions(actionTypes.UPDATE_MEMBERSHIP_TYPE, membership)),
+  loadMemberships: () => membershipActions(actionTypes.LOAD_MEMBERSHIP_TYPES)
 });
 
-MembershipTypePage.propTypes = {
-  membershipTypes: PropTypes.array,
-  membershipType: PropTypes.object,
+MembershipPage.propTypes = {
+  memberships: PropTypes.array,
+  membership: PropTypes.object,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(MembershipTypePage);
+export default connect(mapStateToProps, mapDispatchToProps)(MembershipPage);

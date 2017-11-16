@@ -29,8 +29,8 @@ const UserDetail = ({ user, borrowedCount,
           <h4>{user.username}</h4>
           <div className="divider"></div>
 
-          <p><strong><i className="material-icons">wc</i> Membership Type:</strong></p>
-          <h4>{user.membershipType}</h4>
+          <p><strong><i className="material-icons">wc</i> Level:</strong></p>
+          <h4>{user.level}</h4>
           <div className="card-action">
             <p>
               <button title="edit profile"

@@ -4,15 +4,15 @@ export default (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: {
         args: false,
-        msg: 'Title is required'
+        msg: 'The title field is required.'
       },
       validate: {
         notEmpty: {
-          msg: 'Title is required'
+          msg: 'The title field is required.'
         },
         len: {
           args: [2, 150],
-          msg: 'Title must be at least 2 chars and less than 150 chars'
+          msg: 'The title must be at least 2 characters'
         }
       },
     },
@@ -20,14 +20,14 @@ export default (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: {
         args: false,
-        msg: 'Book category is required'
+        msg: 'The category id field is required.'
       },
       validate: {
         notEmpty: {
-          msg: 'Book category is required'
+          msg: 'The category id field is required.'
         },
         isNumeric: {
-          msg: 'Book category must me numeric'
+          msg: 'The category id must be a number.'
         }
       },
     },
@@ -35,15 +35,15 @@ export default (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: {
         args: false,
-        msg: 'Author is required'
+        msg: 'The author field is required.'
       },
       validate: {
         notEmpty: {
-          msg: 'Author is required'
+          msg: 'The author field is required.'
         },
         len: {
           args: [2, 50],
-          msg: 'Author must be at least 2 chars and less than 50 chars'
+          msg: 'The author must be at least 2 characters'
         }
       },
     },
@@ -51,11 +51,11 @@ export default (sequelize, DataTypes) => {
       type: DataTypes.TEXT,
       allowNull: {
         args: false,
-        msg: 'Description is required'
+        msg: 'The description field is required.'
       },
       validate: {
         notEmpty: {
-          msg: 'Description is required'
+          msg: 'The description field is required.'
         }
       },
     },
@@ -63,15 +63,11 @@ export default (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: {
         args: false,
-        msg: 'Cover picture is required'
-      },
-      unique: {
-        args: true,
-        msg: 'Cover picture already exists'
+        msg: 'The cover picture field is required.'
       },
       validate: {
         notEmpty: {
-          msg: 'Cover picture is required'
+          msg: 'The cover picture field is required.'
         },
       },
     },
@@ -111,9 +107,8 @@ export default (sequelize, DataTypes) => {
   });
 
   Book.associate = (models) => {
-    Book.hasMany(models.UserBook, { as: 'borrowedBooks', foreignKey: 'bookId' });
-    Book.belongsToMany(models.User, { as: 'borrowers', through: 'UserBook', foreignKey: 'bookId', otherKey: 'userId' });
-    Book.belongsTo(models.Category, { foreignKey: 'categoryId' });
+    Book.hasMany(models.BorrowedBook, { as: 'borrowedBooks', foreignKey: 'bookId' });
+    Book.belongsTo(models.Category, { as: 'category', foreignKey: 'categoryId' });
   };
 
   return Book;

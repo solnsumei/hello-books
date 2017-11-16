@@ -5,7 +5,7 @@ import types from './actionTypes';
 import { constants } from '../helpers/constants';
 
 // check token passed in and set user accordingly
-const setAuthUser = (token = null) => {
+const checkToken = (token = null) => {
   const userToken = localStorage.getItem(types.USER_TOKEN);
 
   if (!token && !userToken) return false;
@@ -16,8 +16,7 @@ const setAuthUser = (token = null) => {
     }
     return false;
   }
-
-  return decoded.user;
+  return true;
 };
 
 const signOutUser = () => ({
@@ -32,18 +31,14 @@ const userAuthFailed = () => ({
   type: types.USER_AUTH_FAILED
 });
 
-// check user authentication
-const checkAuthentication = () => (dispatch) => {
-  const user = setAuthUser();
-  if (!user) {
-    return dispatch(signOutUser());
-  }
-  return dispatch(userAuthSuccess(user));
+const setUser = data => (dispatch) => {
+  localStorage.setItem(types.USER_TOKEN, data.token);
+  toastr.success(data.message);
+  return dispatch(userAuthSuccess(data.user));
 };
 
 const authCheck = (dispatch) => {
-  const user = setAuthUser();
-  if (!user) {
+  if (!checkToken()) {
     return dispatch(signOutUser());
   }
   return ({ headers: { 'x-token': localStorage.getItem(types.USER_TOKEN) } });
@@ -53,27 +48,39 @@ const logoutRequest = () => (dispatch) => {
   const userToken = localStorage.getItem(types.USER_TOKEN);
   if (userToken) {
     localStorage.removeItem(types.USER_TOKEN);
+  }
+  return dispatch(signOutUser());
+};
+
+const getUserAccount = () => (dispatch) => {
+  const headers = authCheck(dispatch);
+
+  return axios.get('/user/profile', headers)
+    .then(({ data }) => dispatch(userAuthSuccess(data.user)));
+};
+
+// check user authentication
+const checkAuthentication = () => (dispatch) => {
+  if (!checkToken()) {
     return dispatch(signOutUser());
   }
-  return dispatch(userAuthFailed());
+  return dispatch(getUserAccount());
 };
 
 const updateUserAccount = userData => (dispatch) => {
   const headers = authCheck(dispatch);
 
-  return axios.put('/users/profile', userData, headers)
+  return axios.put('/user/profile', userData, headers)
     .then(({ data }) => {
-      localStorage.setItem(types.USER_TOKEN, data.token);
-      const user = setAuthUser(data.token);
       toastr.success(data.message);
-      return dispatch(userAuthSuccess(user));
+      return dispatch(userAuthSuccess(data.user));
     });
 };
 
 const changeUserPassword = passwordObject => (dispatch) => {
   const headers = authCheck(dispatch);
 
-  return axios.post('/users/change-password', passwordObject, headers)
+  return axios.post('/user/change-password', passwordObject, headers)
     .then(({ data }) => {
       toastr.success(data.message);
     });
@@ -81,21 +88,11 @@ const changeUserPassword = passwordObject => (dispatch) => {
 
 const loginRequest = loginData => dispatch =>
   axios.post('/users/signin', loginData)
-    .then(({ data }) => {
-      localStorage.setItem(types.USER_TOKEN, data.token);
-      const user = setAuthUser(data.token);
-      toastr.success(data.message);
-      return dispatch(userAuthSuccess(user));
-    });
+    .then(({ data }) => dispatch(setUser(data)));
 
 const userSignUpRequest = userData => dispatch =>
   axios.post('/users/signup', userData)
-    .then(({ data }) => {
-      localStorage.setItem(types.USER_TOKEN, data.token);
-      const user = setAuthUser(data.token);
-      toastr.success(data.message);
-      return dispatch(userAuthSuccess(user));
-    });
+    .then(({ data }) => dispatch(setUser(data)));
 
 export { loginRequest, userSignUpRequest, updateUserAccount,
-  checkAuthentication, logoutRequest, authCheck, changeUserPassword };
+  checkAuthentication, logoutRequest, authCheck, getUserAccount, changeUserPassword };

@@ -1,6 +1,6 @@
 
 module.exports = {
-  up: (queryInterface, Sequelize) => queryInterface.createTable('UserBooks', {
+  up: (queryInterface, Sequelize) => queryInterface.createTable('BorrowedBooks', {
     id: {
       allowNull: false,
       autoIncrement: true,
@@ -15,9 +15,17 @@ module.exports = {
       type: Sequelize.INTEGER,
       allowNull: false,
     },
+    borrowDate: {
+      type: Sequelize.DATE,
+      allowNull: false,
+    },
     dueDate: {
       type: Sequelize.DATE,
       allowNull: false,
+    },
+    returnDate: {
+      type: Sequelize.DATE,
+      allowNull: true,
     },
     returned: {
       type: Sequelize.BOOLEAN,
@@ -38,5 +46,5 @@ module.exports = {
       type: Sequelize.DATE
     }
   }),
-  down: (queryInterface, Sequelize) => queryInterface.dropTable('UserBooks')
+  down: (queryInterface, Sequelize) => queryInterface.dropTable('BorrowedBooks')
 };

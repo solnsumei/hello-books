@@ -10,9 +10,11 @@ import errorResponseHandler from '../helpers/errorResponseHandler';
 let attributes = ['id', 'title', 'categoryId', 'author', 'description', 'coverPic', 'isDeleted', 'stockQuantity',
   'borrowedQuantity'];
 
+const include = [{ model: db.Category, as: 'category', attributes: ['name', 'slug'] }];
+
 export default {
   /**
-   * This creates book in the library
+   * Method create book in the library
    * @param {Object} req
    * @param {Object} res
    *
@@ -30,6 +32,7 @@ export default {
         stockQuantity,
       })
       .then(book => res.status(201).send({
+        success: true,
         message: 'Book added successfully',
         book: formatBookObject(book, req.category)
       }))
@@ -55,12 +58,13 @@ export default {
       .scope('active')
       .findAll({
         attributes,
-        include: [{
-          model: db.Category,
-          attributes: ['name', 'slug']
-        }]
+        include
       })
-      .then(books => res.status(200).send({ books }))
+      .then(books => res.status(200).send({
+        success: true,
+        message: 'Books loaded successfully',
+        books
+      }))
       .catch(() => errorResponseHandler(res));
   },
 
@@ -80,24 +84,24 @@ export default {
     }
 
     if (!parseInt(req.params.bookId, 10)) {
-      return errorResponseHandler(res, 'Book Id is invalid', 400);
+      return errorResponseHandler(res, 'Book id is invalid', 400);
     }
 
     return db.Book
       .findOne({
         attributes,
-        include: [{
-          model: db.Category,
-          attributes: ['name', 'slug'],
-        }],
+        include,
         where: { id: req.params.bookId }
       })
       .then((book) => {
         if (!book) {
           return errorResponseHandler(res, 'Book not found', 404);
         }
-
-        return res.status(200).send({ book });
+        return res.status(200).send({
+          success: true,
+          message: 'Book loaded successfully',
+          book
+        });
       })
       .catch(() => errorResponseHandler(res));
   },
@@ -110,23 +114,34 @@ export default {
    * @returns {Object} book
    */
   update(req, res) {
+    if (!parseInt(req.params.bookId, 10)) {
+      return errorResponseHandler(res, 'Book id is invalid', 400);
+    }
     return db.Book
-      .findById(req.params.bookId)
+      .findOne({
+        include: [{
+          model: db.Category,
+          as: 'category',
+          attributes: ['name', 'slug']
+        }],
+        where: { id: req.params.bookId }
+      })
       .then((book) => {
         if (!book) {
           return errorResponseHandler(res, 'Book not found', 404);
         }
         book.update({
-          title: req.body.title,
-          categoryId: req.body.categoryId,
-          author: req.body.author,
-          description: req.body.description,
-          coverPic: req.body.coverPic,
+          title: req.body.title || book.title,
+          categoryId: req.body.categoryId || book.categoryId,
+          author: req.body.author || book.author,
+          description: req.body.description || book.description,
+          coverPic: req.body.coverPic || book.coverPic,
         }).then((result) => {
           if (result) {
             return res.status(200).send({
+              success: true,
               message: 'Book updated successfully',
-              book: formatBookObject(book, req.category)
+              book: formatBookObject(book, book.category)
             });
           }
         })
@@ -142,6 +157,10 @@ export default {
         return res.status(200).send({
           success: true,
           message: 'Stock quantity updated successfully',
+          data: {
+            id: req.book.id,
+            title: req.book.title,
+            stockQuantity: req.book.stockQuantity }
         });
       }
     })
@@ -160,9 +179,7 @@ export default {
         return res.status(200).send({
           success: true,
           message: 'Book has been deleted successfully',
-          book: {
-            id: req.book.id,
-          }
+          data: { deletedBookId: req.book.id }
         });
       }
     })

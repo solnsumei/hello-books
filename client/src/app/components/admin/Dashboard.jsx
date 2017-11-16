@@ -65,7 +65,7 @@ class Dashboard extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  membershipTypes: state.membershipTypes.length,
+  membershipTypes: state.memberships.length,
   books: state.books.length,
   categories: state.categories.length
 });

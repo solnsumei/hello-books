@@ -46,13 +46,8 @@ const saveOrUpdateCategory = (category, headers) => (dispatch) => {
 };
 
 // delete book
-const deleteCategory = category => dispatch =>
-  axios({
-    method: 'delete',
-    url: '/categories',
-    data: { categoryId: category.id },
-    headers: { 'x-token': localStorage.getItem(types.USER_TOKEN) },
-  })
+const deleteCategory = (category, headers) => dispatch =>
+  axios.delete(`/categories/${category.id}`, headers)
     .then(({ data }) => {
       toastr.success(data.message);
       return dispatch(deleteCategorySuccess(category));

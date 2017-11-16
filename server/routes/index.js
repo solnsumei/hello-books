@@ -3,79 +3,81 @@ import usersController from '../controllers/users';
 import categoriesController from '../controllers/categories';
 import booksController from '../controllers/books';
 import membershipController from '../controllers/membership';
-import notificationsController from '../controllers/notifications';
 import authMiddleware from '../middlewares/auth';
-import adminMiddleware from '../middlewares/admin';
-import checkLogin from '../middlewares/checkLogin';
-import checkSignUp from '../middlewares/checkSignUp';
-import createBookRequest from '../middlewares/createBookRequest';
-import editBookRequest from '../middlewares/editBookRequest';
-import validateUser from '../middlewares/validateUser';
+import validateCategory from '../middlewares/validateCategory';
+import notificationsController from '../controllers/notifications';
 import validateBook from '../middlewares/validateBook';
-import checkBook from '../middlewares/checkBook';
-import userCanBorrow from '../middlewares/userCanBorrow';
-import profileUpdateRequest from '../middlewares/profileUpdateRequest';
-import editMembershipTypeRequest from '../middlewares/editMembershipTypeRequest';
-import checkMembershipType from '../middlewares/checkMembershipType';
-import changePasswordRequest from '../middlewares/changePasswordRequest';
-import { categoryRequest, validateCategoryId, validateCategoryIdParam } from '../middlewares/categoryRequest';
-
+import borrowAccess from '../middlewares/borrowAccess';
+import formValidation from '../middlewares/formValidation';
+import requestType from '../helpers/requestTypes';
+import failedRoutes from '../middlewares/failedRoutes';
+import adminMiddleware from '../middlewares/admin';
 
 const router = express.Router();
 
-router.post('/users/signup', checkSignUp, usersController.create);
+router.post('/users/signup', formValidation(requestType.SIGNUP), usersController.create);
 
-router.post('/users/signin', checkLogin, usersController.login);
+router.post('/users/signin', formValidation(requestType.LOGIN), usersController.login);
 
 // Authentication middle to check for logged in user
-router.use(authMiddleware);
 
-router.get('/users/:userId', usersController.getUser);
+router.get('/user/profile', authMiddleware, usersController.getUser);
 
-router.put('/users/profile', profileUpdateRequest, checkMembershipType, usersController.updateProfile);
+router.put('/user/profile', authMiddleware,
+  formValidation(requestType.UPDATE_PROFILE), usersController.updateProfile);
 
-router.post('/users/change-password', changePasswordRequest, usersController.changePassword);
+router.post('/user/change-password', authMiddleware,
+  formValidation(requestType.CHANGE_PASSWORD), usersController.changePassword);
 
-router.get('/membershiptypes', membershipController.getAllMemberShipTypes);
+router.get('/books/:bookId', authMiddleware, booksController.getBook);
 
-router.get('/books/:bookId', booksController.getBook);
+router.get('/books', authMiddleware, booksController.getAllBooks);
 
-router.get('/books', booksController.getAllBooks);
+router.post('/book/borrow', authMiddleware,
+  borrowAccess, validateBook, usersController.borrowBook);
 
-router.post('/users/:userId/books', validateUser, userCanBorrow, validateBook,
-  usersController.borrowBook);
-
-router.put('/users/:userId/books', validateUser, validateBook,
+router.put('/book/return', authMiddleware, validateBook,
   usersController.returnBook);
 
-router.get('/users/:userId/books', validateUser, usersController.borrowHistory);
+router.get('/user/history', authMiddleware, usersController.borrowHistory);
 
-// Admin middleware to check if user is an admin
-router.use(adminMiddleware);
+router.get('/notifications/:notificationId', authMiddleware,
+  adminMiddleware, notificationsController.getNotification);
 
-router.get('/notifications/:notificationId', notificationsController.getNotification);
+router.get('/notifications', authMiddleware, adminMiddleware,
+  notificationsController.getAllUnreadNotifications);
 
-router.get('/notifications', notificationsController.getAllUnreadNotifications);
+router.get('/membership', authMiddleware, adminMiddleware,
+  membershipController.getAllMemberShipTypes);
 
-router.put('/membershiptypes/:membershipTypeId', editMembershipTypeRequest, membershipController.update);
+router.put('/membership/:membershipId', authMiddleware, adminMiddleware,
+  formValidation(requestType.EDIT_MEMBERSHIP_TYPE), membershipController.update);
 
-router.post('/categories', categoryRequest, categoriesController.create);
+router.post('/categories', authMiddleware, adminMiddleware,
+  formValidation(requestType.ADD_CATEGORY), categoriesController.create);
 
-router.put('/categories/:categoryId', categoryRequest,
-  validateCategoryIdParam, categoriesController.update);
+router.put('/categories/:categoryId', authMiddleware, adminMiddleware,
+  formValidation(requestType.EDIT_CATEGORY), validateCategory, categoriesController.update);
 
-router.delete('/categories', validateCategoryId, categoriesController.delete);
+router.delete('/categories/:categoryId', authMiddleware, adminMiddleware,
+  validateCategory, categoriesController.delete);
 
-router.get('/categories', categoriesController.getAllCategories);
+router.get('/categories', authMiddleware, adminMiddleware, categoriesController.getAllCategories);
 
-router.post('/books', createBookRequest, validateCategoryId, booksController.create);
+router.post('/books', authMiddleware, adminMiddleware,
+  formValidation(requestType.ADD_BOOK), validateCategory, booksController.create);
 
-router.post('/books/:bookId', checkBook, booksController.addQuantity);
+router.post('/books/:bookId', authMiddleware, adminMiddleware,
+  formValidation(requestType.ADD_QUANTITY), validateBook, booksController.addQuantity);
 
-router.put('/books/:bookId', editBookRequest, validateCategoryId, booksController.update);
+router.put('/books/:bookId', authMiddleware, adminMiddleware,
+  formValidation(requestType.EDIT_BOOK), validateCategory, booksController.update);
 
-router.delete('/books', validateBook, booksController.delete);
+router.delete('/books/:bookId', authMiddleware,
+  adminMiddleware, validateBook, booksController.delete);
 
+// Middleware for failed routes
+router.use(failedRoutes);
 /**
  * Route file for api routes
  * @export router

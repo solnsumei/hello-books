@@ -25,7 +25,19 @@ export default function authMiddleware(req, res, next) {
       return errorResponseHandler(res, 'Access denied, token could not be authenticated', 401);
     }
 
-    req.auth = decoded.user;
-    next();
+    return db.User
+      .findOne({
+        where: { id: decoded.user.id }
+      })
+      .then((user) => {
+        if (!user) {
+          return errorResponseHandler(res, 'Access denied, please login', 401);
+        }
+
+        req.auth = user;
+
+        next();
+      })
+      .catch(() => errorResponseHandler(res));
   });
 }

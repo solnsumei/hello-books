@@ -1,7 +1,7 @@
 import db from '../models/index';
 import errorResponseHandler from '../helpers/errorResponseHandler';
 
-const attributes = ['id', 'createdAt', 'dueDate', 'returned', 'isSeen'];
+const attributes = ['id', 'borrowDate', 'dueDate', 'returned', 'returnDate', 'isSeen'];
 
 /**
  * Controller for viewing notifications
@@ -17,20 +17,26 @@ export default {
    * @returns {Promise.<Object>} notifications
    */
   getAllUnreadNotifications(req, res) {
-    return db.UserBook
+    return db.BorrowedBook
       .findAll({
         attributes,
         include: [{
           model: db.Book,
+          as: 'book',
           attributes: ['title']
         },
         {
           model: db.User,
+          as: 'user',
           attributes: ['firstName', 'surname', 'username']
         }],
         where: { isSeen: false }
       })
-      .then(notifications => res.status(200).send({ notifications }))
+      .then(notifications => res.status(200).send({
+        success: true,
+        message: 'Unread Notifications loaded successfully',
+        notifications
+      }))
       .catch(() => errorResponseHandler(res));
   },
 
@@ -43,18 +49,20 @@ export default {
    */
   getNotification(req, res) {
     if (!req.params.notificationId || !parseInt(req.params.notificationId, 10)) {
-      return errorResponseHandler(res, 'Notification Id is invalid', 400);
+      return errorResponseHandler(res, 'Notification id is invalid', 400);
     }
 
-    return db.UserBook
+    return db.BorrowedBook
       .findOne({
         attributes,
         include: [{
           model: db.Book,
+          as: 'book',
           attributes: ['title']
         },
         {
           model: db.User,
+          as: 'user',
           attributes: ['firstName', 'surname', 'username']
         }],
         where: {
@@ -64,10 +72,10 @@ export default {
       })
       .then((notification) => {
         if (!notification) {
-          return errorResponseHandler(res, 'Notification with this Id is not available', 404);
+          return errorResponseHandler(res, 'Notification not found', 404);
         }
 
-        return db.UserBook.update({
+        return db.BorrowedBook.update({
           isSeen: true
         }, {
           where: {
@@ -78,7 +86,11 @@ export default {
           .then((result) => {
             if (result) {
               notification.isSeen = true;
-              return res.status(200).send({ notification });
+              return res.status(200).send({
+                success: true,
+                message: 'Notification read successfully',
+                notification
+              });
             }
           }).catch(error => errorResponseHandler(res));
       })

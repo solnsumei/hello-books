@@ -16,14 +16,14 @@ const returnBookSuccess = returnedBook => ({
 });
 
 const loadBorrowedBooks = (user, headers) => dispatch =>
-  axios.get(`/users/${user.id}/books`, headers)
+  axios.get('/user/history', headers)
     .then(({ data }) => dispatch(loadBorrowedBooksSuccess(data.borrowedBooks)))
     .catch(({ response }) => {
       toastr(response.data.error);
     });
 
 const borrowBook = (user, bookId, headers) => dispatch =>
-  axios.post(`/users/${user.id}/books`,
+  axios.post('/book/borrow',
     { bookId }, headers)
     .then(({ data }) => {
       toastr.success(data.message);
@@ -34,7 +34,7 @@ const borrowBook = (user, bookId, headers) => dispatch =>
     });
 
 const returnBook = (user, bookId, headers) => dispatch =>
-  axios.put(`/users/${user.id}/books`,
+  axios.put('/book/return',
     { bookId }, headers)
     .then(({ data }) => {
       toastr.success(data.message);

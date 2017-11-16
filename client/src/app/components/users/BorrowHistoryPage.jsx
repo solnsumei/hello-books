@@ -24,7 +24,7 @@ class BorrowHistoryPage extends React.Component {
 
     this.state = {
       borrowedBook: {
-        Book: {
+        book: {
           title: ''
         }
       }
@@ -58,7 +58,7 @@ class BorrowHistoryPage extends React.Component {
 
     this.setState({
       borrowedBook: {
-        Book: {
+        book: {
           title: ''
         }
       }
@@ -96,6 +96,7 @@ class BorrowHistoryPage extends React.Component {
                       <th>Borrow Date</th>
                       <th>Due Date</th>
                       <th>Returned</th>
+                      <th>Return Date</th>
                       <th>Action</th>
                     </tr>
                   </thead>
@@ -123,7 +124,7 @@ class BorrowHistoryPage extends React.Component {
         </div>
         <Modal id="modal1"
           title="Confirm Return"
-          text={`Do you want to return book with title ${this.state.borrowedBook.Book.title}`}
+          text={`Do you want to return book with title ${this.state.borrowedBook.book.title}`}
           action={this.confirmReturn}
         />
       </div>
