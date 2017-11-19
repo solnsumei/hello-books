@@ -1,4 +1,5 @@
-import db from '../models/index';
+import models from '../models/index';
+import errorResponseHandler from '../helpers/errorResponseHandler';
 
 /**
  * Controller for fetching, updating membershiptypes
@@ -13,7 +14,7 @@ export default {
    * @returns {Promise.<Object>} membershipTypes
    */
   getAllMemberShipTypes(req, res) {
-    let attributes = ['membershipType'];
+    let attributes = ['level'];
 
     if (req.auth.admin) {
       attributes = [...attributes,
@@ -23,18 +24,16 @@ export default {
       ];
     }
 
-    return db.MembershipType
+    return models.Membership
       .findAll({
         attributes,
       })
-      .then(membershipTypes => res.status(200).send({ membershipTypes }))
-      .catch((error) => {
-        if (error) {
-          return res.status(500).send({
-            error: 'Request could not be processed, please try again later'
-          });
-        }
-      });
+      .then(memberships => res.status(200).send({
+        success: true,
+        message: 'Membership types loaded successfully',
+        memberships
+      }))
+      .catch(() => errorResponseHandler(res));
   },
 
   /**
@@ -45,45 +44,33 @@ export default {
    * @returns {Object} membershipTypeId
    */
   update(req, res) {
-    return db.MembershipType
-      .findById(req.params.membershipTypeId)
-      .then((membershipType) => {
-        if (!membershipType) {
-          return res.status(404).send({ error: 'MembershipType was not found' });
+    if (!parseInt(req.params.membershipId, 10)) {
+      return errorResponseHandler(res, 'Membership id is invalid', 400);
+    }
+    return models.Membership
+      .findById(req.params.membershipId)
+      .then((membership) => {
+        if (!membership) {
+          return errorResponseHandler(res, 'Membership type was not found', 404);
         }
-        membershipType.update({
+        return membership.update({
           lendDuration: req.body.lendDuration,
           maxBorrowable: req.body.maxBorrowable,
         }).then((result) => {
           if (result) {
             return res.status(200).send({
+              success: true,
               message: 'Membership type updated successfully',
-              membershipType: {
-                id: membershipType.id,
-                membershipType: membershipType.membershipType,
-                lendDuration: membershipType.lendDuration,
-                maxBorrowable: membershipType.maxBorrowable
+              membership: {
+                id: membership.id,
+                level: membership.level,
+                lendDuration: membership.lendDuration,
+                maxBorrowable: membership.maxBorrowable
               }
             });
           }
         })
-          .catch((error) => {
-            if (error.name === 'SequelizeValidationError' ||
-              error.name === 'SequelizeUniqueConstraintError') {
-              const errors = {};
-              error.errors.forEach((err) => {
-                errors[err.path] = err.message;
-              });
-              if (error.name === 'SequelizeUniqueConstraintError') {
-                return res.status(409).send({ errors });
-              }
-              return res.status(400).send({ errors });
-            }
-
-            return res.status(500).send({
-              error: 'Request could not be processed, please try again later'
-            });
-          });
+          .catch(() => errorResponseHandler(res));
       });
   },
 };

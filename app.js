@@ -9,9 +9,12 @@ import webpackHotMiddleware from 'webpack-hot-middleware';
 import webpack from 'webpack';
 import router from './server/routes';
 import webpackConfig from './webpack.config';
+import failedRoutes from './server/middlewares/failedRoutes';
 
 // Set up the express app
 const app = express();
+
+dotenv.config();
 
 const compiler = webpack(webpackConfig);
 
@@ -20,15 +23,8 @@ const env = process.env.NODE_ENV || 'development';
 const publicPath = path.join(__dirname, './client/dist/');
 const indexPath = path.resolve(__dirname, publicPath, 'index.html');
 
-if (env !== 'production') {
-  dotenv.config();
-}
-
 // Log requests to the console
-if (env === 'development') {
-  app.use(logger('dev'));
-}
-
+app.use(logger('dev'));
 
 // Parse incoming requests data (https://github.com/expressjs/body-parser
 app.use(bodyParser.json());
@@ -44,26 +40,21 @@ if (env === 'development') {
     noInfo: true,
     publicPath: webpackConfig.output.publicPath
   }));
-
   app.use(webpackHotMiddleware(compiler, {
     // log: console.log
   }));
 }
 
-app.use(webpackHotMiddleware(compiler));
-
+// app.use(webpackHotMiddleware(compiler));
 app.use('/', express.static(publicPath));
 
-app.get('/api/*', (req, res) => res.status(404).send({
-  error: 'Route not found',
-}));
-
-app.post('/api/*', (req, res) => res.status(404).send({
-  error: 'Route does not exist',
-}));
+app.get('/api/*', failedRoutes);
+app.post('/api/*', failedRoutes);
 
 app.get('*', (req, res) => {
   res.sendFile(indexPath);
 });
+
+app.use(failedRoutes);
 
 export default app;

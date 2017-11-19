@@ -1,5 +1,6 @@
 import jwt from 'jsonwebtoken';
-import db from '../models/index';
+import models from '../models/index';
+import errorResponseHandler from '../helpers/errorResponseHandler';
 
 /**
  * Middleware to check for authenticated user
@@ -15,20 +16,28 @@ export default function authMiddleware(req, res, next) {
 
   // if token not found return forbidden
   if (!token) {
-    return res.status(401).send({
-      error: 'Access denied, please log in'
-    });
+    return errorResponseHandler(res, 'Access denied, please log in', 401);
   }
 
   // Verify token using jsonwebtokens
   jwt.verify(token, process.env.SECRET, (err, decoded) => {
     if (err) {
-      return res.status(401).send({
-        error: 'Access denied, token could not be authenticated'
-      });
+      return errorResponseHandler(res, 'Access denied, token could not be authenticated', 401);
     }
 
-    req.auth = decoded.user;
-    next();
+    return models.User
+      .findOne({
+        where: { id: decoded.user.id }
+      })
+      .then((user) => {
+        if (!user) {
+          return errorResponseHandler(res, 'Access denied, please login', 401);
+        }
+
+        req.auth = user;
+
+        next();
+      })
+      .catch(() => errorResponseHandler(res));
   });
 }

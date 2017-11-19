@@ -15,42 +15,47 @@ const returnBookSuccess = returnedBook => ({
   type: types.RETURN_BOOK_SUCCESS, returnedBook
 });
 
-const loadBorrowedBooks = (user, headers) => dispatch =>
-  axios.get(`/api/v1/users/${user.id}/books`, headers)
+const loadBorrowedBooks = () => dispatch =>
+  axios.get('/user/history')
     .then(({ data }) => dispatch(loadBorrowedBooksSuccess(data.borrowedBooks)))
-    .catch((error) => {
-      throw (error);
+    .catch(({ response }) => {
+      toastr.error(response.data.error);
     });
 
-const borrowBook = (user, bookId, headers) => dispatch =>
-  axios.post(`/api/v1/users/${user.id}/books`,
-    { bookId }, headers)
+const borrowBook = bookId => dispatch =>
+  axios.post('/book/borrow', { bookId })
     .then(({ data }) => {
       toastr.success(data.message);
       dispatch(borrowBookSuccess(data.borrowedBook));
+    })
+    .catch(({ response }) => {
+      toastr.error(response.data.error);
     });
 
-const returnBook = (user, bookId, headers) => dispatch =>
-  axios.put(`/api/v1/users/${user.id}/books`,
-    { bookId }, headers)
+const returnBook = bookId => dispatch =>
+  axios.put('/book/return',
+    { bookId })
     .then(({ data }) => {
       toastr.success(data.message);
       dispatch(returnBookSuccess(data.returnedBook));
+    })
+    .catch(({ response }) => {
+      toastr.error(response.data.error);
     });
 
 // entry point for all borrowing actions
-const borrowActions = (action, user, bookId = null) => (dispatch) => {
-  const headers = authCheck(dispatch);
+const borrowActions = (action, bookId = null) => (dispatch) => {
+  authCheck(dispatch);
 
   switch (action) {
     case types.LOAD_BORROWED_BOOKS:
-      return dispatch(loadBorrowedBooks(user, headers));
+      return dispatch(loadBorrowedBooks());
 
     case types.BORROW_BOOK:
-      return dispatch(borrowBook(user, bookId, headers));
+      return dispatch(borrowBook(bookId));
 
     case types.RETURN_BOOK:
-      return dispatch(returnBook(user, bookId, headers));
+      return dispatch(returnBook(bookId));
 
     default:
       break;

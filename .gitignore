@@ -4,3 +4,5 @@ client/dist
 .env
 env
 .DS_STORE
+.nyc_output/
+coverage/

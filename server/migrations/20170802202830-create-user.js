@@ -33,7 +33,7 @@ module.exports = {
       allowNull: false,
       defaultValue: false,
     },
-    membershipType: {
+    level: {
       type: Sequelize.STRING,
       allowNull: false,
       defaultValue: 'Free'

@@ -3,6 +3,7 @@ export default {
   categories: [],
   books: [],
   borrowedBooks: [],
-  membershipTypes: [],
+  memberships: [],
+  notifications: [],
   redirectUrl: '',
 };

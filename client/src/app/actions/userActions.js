@@ -1,10 +1,17 @@
 import axios from 'axios';
 import jwt from 'jsonwebtoken';
+import toastr from 'toastr';
 import types from './actionTypes';
 import { constants } from '../helpers/constants';
 
+// set axios default header
+const setHeader = () => {
+  axios.defaults.headers.common['x-token']
+    = localStorage.getItem(types.USER_TOKEN);
+};
+
 // check token passed in and set user accordingly
-const setAuthUser = (token = null) => {
+const checkToken = (token = null) => {
   const userToken = localStorage.getItem(types.USER_TOKEN);
 
   if (!token && !userToken) return false;
@@ -13,9 +20,10 @@ const setAuthUser = (token = null) => {
     if (userToken) {
       localStorage.removeItem(types.USER_TOKEN);
     }
+    axios.defaults.headers.common = {};
     return false;
   }
-
+  setHeader();
   return decoded.user;
 };
 
@@ -31,64 +39,71 @@ const userAuthFailed = () => ({
   type: types.USER_AUTH_FAILED
 });
 
-// check user authentication
-const checkAuthentication = () => (dispatch) => {
-  const user = setAuthUser();
-  if (!user) {
-    return dispatch(signOutUser());
-  }
-  return dispatch(userAuthSuccess(user));
+const setUser = data => (dispatch) => {
+  localStorage.setItem(types.USER_TOKEN, data.token);
+  setHeader();
+  toastr.success(data.message);
+  return dispatch(userAuthSuccess(data.user));
 };
 
 const authCheck = (dispatch) => {
-  const user = setAuthUser();
-  if (!user) {
+  if (!checkToken()) {
     return dispatch(signOutUser());
   }
-  return ({ headers: { 'x-token': localStorage.getItem(types.USER_TOKEN) } });
 };
 
 const logoutRequest = () => (dispatch) => {
   const userToken = localStorage.getItem(types.USER_TOKEN);
   if (userToken) {
     localStorage.removeItem(types.USER_TOKEN);
+  }
+  axios.defaults.headers.common = {};
+  return dispatch(signOutUser());
+};
+
+const getUserAccount = () => (dispatch) => {
+  authCheck(dispatch);
+
+  return axios.get('/user/profile')
+    .then(({ data }) => dispatch(userAuthSuccess(data.user)));
+};
+
+// check user authentication
+const checkAuthentication = () => (dispatch) => {
+  const user = checkToken();
+  if (!user) {
     return dispatch(signOutUser());
   }
-  return dispatch(userAuthFailed());
+  dispatch(userAuthSuccess(user));
+  return dispatch(getUserAccount());
 };
 
 const updateUserAccount = userData => (dispatch) => {
-  const headers = authCheck(dispatch);
+  authCheck(dispatch);
 
-  return axios.put('/api/v1/users/profile', userData, headers)
+  return axios.put('/user/profile', userData)
     .then(({ data }) => {
-      localStorage.setItem(types.USER_TOKEN, data.token);
-      const user = setAuthUser(data.token);
-      return dispatch(userAuthSuccess(user));
+      toastr.success(data.message);
+      return dispatch(userAuthSuccess(data.user));
     });
 };
 
 const changeUserPassword = passwordObject => (dispatch) => {
   const headers = authCheck(dispatch);
 
-  return axios.post('/api/v1/users/change-password', passwordObject, headers);
+  return axios.post('/user/change-password', passwordObject)
+    .then(({ data }) => {
+      toastr.success(data.message);
+    });
 };
 
 const loginRequest = loginData => dispatch =>
-  axios.post('/api/v1/users/signin', loginData)
-    .then(({ data }) => {
-      localStorage.setItem(types.USER_TOKEN, data.token);
-      const user = setAuthUser(data.token);
-      return dispatch(userAuthSuccess(user));
-    });
+  axios.post('/users/signin', loginData)
+    .then(({ data }) => dispatch(setUser(data)));
 
 const userSignUpRequest = userData => dispatch =>
-  axios.post('/api/v1/users/signup', userData)
-    .then(({ data }) => {
-      localStorage.setItem(types.USER_TOKEN, data.token);
-      const user = setAuthUser(data.token);
-      return dispatch(userAuthSuccess(user));
-    });
+  axios.post('/users/signup', userData)
+    .then(({ data }) => dispatch(setUser(data)));
 
 export { loginRequest, userSignUpRequest, updateUserAccount,
-  checkAuthentication, logoutRequest, authCheck, changeUserPassword };
+  checkAuthentication, logoutRequest, authCheck, getUserAccount, changeUserPassword };

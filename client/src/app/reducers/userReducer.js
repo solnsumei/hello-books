@@ -11,6 +11,9 @@ export default function (state = initialState.user, action) {
     case types.USER_AUTH_SUCCESS:
       return Object.assign({}, ...state, action.user);
 
+    case types.GET_USER_SUCCESS:
+      return Object.assign({}, ...state, action.user);
+
     case types.USER_AUTH_FAILED:
       return state;
 

@@ -1,11 +1,12 @@
 export class User{
-  constructor(firstName, surname, username, email, password, admin){
+  constructor(firstName, surname, username, email, password, admin, level=null){
     this.firstName = firstName,
     this.surname = surname,
     this.username = username;
     this.email = email;
     this.password = password;
     this.admin = admin;
+    this.level = level != null ? level : 'Free';
   }
 }
 

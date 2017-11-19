@@ -11,7 +11,7 @@ const formatBookObject = (book, category) => ({
   borrowedQuantity: book.borrowedQuantity,
   isDeleted: book.isDeleted,
   createdAt: book.createdAt,
-  Category: {
+  category: {
     name: category.name,
     slug: category.slug
   }
@@ -21,11 +21,23 @@ const formatBookObject = (book, category) => ({
 const formatBorrowedBookObject = (borrowedBook, book) => ({
   id: borrowedBook.id,
   bookId: borrowedBook.bookId,
-  createdAt: borrowedBook.createdAt,
+  borrowDate: borrowedBook.borrowDate,
+  returnDate: borrowedBook.returnDate,
   dueDate: borrowedBook.dueDate,
   returned: borrowedBook.returned,
-  surcharge: borrowedBook.surcharge,
-  Book: { title: book.title, isDeleted: book.isDeleted }
+  isSeen: borrowedBook.isSeen,
+  book: { title: book.title, isDeleted: book.isDeleted }
 });
 
-export { formatBookObject, formatBorrowedBookObject };
+// Format user object 
+const formatUserObject = user => ({
+  id: user.id,
+  username: user.username,
+  firstName: user.firstName,
+  surname: user.surname,
+  email: user.email,
+  admin: user.admin,
+  level: user.level,
+});
+
+export { formatBookObject, formatBorrowedBookObject, formatUserObject };

@@ -1,7 +1,8 @@
-import db from '../models/index';
+import models from '../models/index';
+import errorResponseHandler from '../helpers/errorResponseHandler';
 
 /**
- * Middleware to check book availability inn the library
+ * Middleware to check if book is available
  * @param {Object} req
  * @param {Object} res
  * @param {Object} next
@@ -9,15 +10,21 @@ import db from '../models/index';
  * @returns {Request|Response|*|void|boolean} res
  */
 export default function validateBook(req, res, next) {
-  if (req.body.bookId === undefined || req.body.bookId === null ||
-    !Number.isInteger(parseInt(req.body.bookId, 10))) {
-    return res.status(400).send({ error: 'a valid book id is required' });
+  let bookId = null;
+  if (req.url === '/book/borrow' || req.url === '/book/return') {
+    bookId = req.body.bookId;
+  } else {
+    bookId = req.params.bookId;
   }
 
-  return db.Book.scope('active').findById(req.body.bookId)
+  if (!parseInt(bookId, 10)) {
+    return errorResponseHandler(res, 'Book id is invalid', 400);
+  }
+
+  return models.Book.findById(bookId)
     .then((book) => {
       if (!book) {
-        return res.status(404).send({ error: 'Book not found' });
+        return errorResponseHandler(res, 'Book not found', 404);
       }
       req.book = book;
       next();

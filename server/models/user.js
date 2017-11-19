@@ -103,24 +103,23 @@ export default (sequelize, DataTypes) => {
       type: DataTypes.BOOLEAN,
       defaultValue: false
     },
-    membershipType: {
-      type: DataTypes.STRING,
+    level: {
+      type: DataTypes.INTEGER,
+      defaultValue: 'Free',
       allowNull: {
         args: false,
-        msg: 'Membership Type is Required'
+        msg: 'Level is required'
       },
-      defaultValue: 'Free',
       validate: {
         notEmpty: {
-          msg: 'Membership Type is Required'
-        }
+          msg: 'Level is required'
+        },
+        len: {
+          args: [2, 20],
+          msg: 'Level must be at least 2 characters'
+        },
       }
     },
-    isLoggedIn: {
-      type: DataTypes.BOOLEAN,
-      allowNull: false,
-      defaultValue: false,
-    }
   });
 
   User.beforeCreate((user, options) => {
@@ -128,9 +127,8 @@ export default (sequelize, DataTypes) => {
   });
 
   User.associate = (models) => {
-    User.hasMany(models.UserBook, { as: 'userBooks', foreignKey: 'userId' });
-    User.belongsToMany(models.Book, { as: 'borrowedBooks', through: 'UserBook', foreignKey: 'userId', otherKey: 'bookId' });
-    User.belongsTo(models.MembershipType, { foreignKey: 'membershipType', targetKey: 'membershipType' });
+    User.hasMany(models.BorrowedBook, { as: 'borrowedBooks', foreignKey: 'userId' });
+    User.belongsTo(models.Membership, { as: 'membership', foreignKey: 'level', targetKey: 'level' });
   };
 
   return User;

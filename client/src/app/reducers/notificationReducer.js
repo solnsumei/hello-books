@@ -1,0 +1,20 @@
+import types from '../actions/actionTypes';
+import initialState from './initialState';
+
+/**
+ * @param {object} state
+ * @param {object} action
+ * @returns {object} state
+ */
+export default function (state = initialState.notifications, action) {
+  switch (action.type) {
+    case types.LOAD_UNREAD_NOTIFICATIONS_SUCCESS:
+      return action.notifications;
+
+    case types.READ_NOTIFICATION_SUCCESS:
+      return [...state.filter(notification => notification.id !== action.notification.id)];
+
+    default:
+      return state;
+  }
+}

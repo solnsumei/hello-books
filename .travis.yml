@@ -17,6 +17,8 @@ script:
   - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
 node_js:
   - node
+env:
+  - NODE_ENV='test'
 notifications:
   email: false
 before_script:
@@ -24,7 +26,7 @@ before_script:
   - npm install -g sequelize-cli
   - npm run test:db
 script:
-  - NODE_ENV="test" npm test
+  - npm test
 after_success:
   - npm run coverage
   - codeclimate-test-reporter < coverage/lcov.info

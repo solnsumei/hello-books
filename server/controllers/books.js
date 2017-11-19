@@ -1,52 +1,42 @@
-import db from '../models/index';
+import models from '../models/index';
 import { formatBookObject } from '../helpers/formatData';
+import errorResponseHandler from '../helpers/errorResponseHandler';
+
 /**
- * Controller for adding, updating and get all books
+ * Controller for adding, updating and getting books
  * @exports {Object} booksController
  */
 
 let attributes = ['id', 'title', 'categoryId', 'author', 'description', 'coverPic', 'isDeleted', 'stockQuantity',
   'borrowedQuantity'];
 
+const include = [{ model: models.Category, as: 'category', attributes: ['name', 'slug'] }];
+
 export default {
   /**
-   * This creates book in the library
+   * Method create book in the library
    * @param {Object} req
    * @param {Object} res
    *
    * @return {Bluebird<Object> | Promise.<Object>} res
    */
   create(req, res) {
-    return db.Book
+    const { title, categoryId, author, description, coverPic, stockQuantity } = req.body;
+    return models.Book
       .create({
-        title: req.body.title,
-        categoryId: req.body.categoryId,
-        author: req.body.author,
-        description: req.body.description,
-        coverPic: req.body.coverPic,
-        stockQuantity: req.body.stockQuantity,
+        title,
+        categoryId,
+        author,
+        description,
+        coverPic,
+        stockQuantity,
       })
       .then(book => res.status(201).send({
+        success: true,
+        message: 'Book added successfully',
         book: formatBookObject(book, req.category)
       }))
-      .catch((error) => {
-        if (error.name === 'SequelizeValidationError' ||
-          error.name === 'SequelizeUniqueConstraintError') {
-          const errors = {};
-          error.errors.forEach((err) => {
-            errors[err.path] = err.message;
-          });
-          if (error.name === 'SequelizeUniqueConstraintError') {
-            return res.status(409).send({ errors });
-          }
-          return res.status(400).send({ errors });
-        }
-
-        return res.status(500).send({
-          error
-        });
-      }
-      );
+      .catch(error => errorResponseHandler(res, null, null, error));
   },
 
   /**
@@ -64,23 +54,18 @@ export default {
       ];
     }
 
-    return db.Book
+    return models.Book
       .scope('active')
       .findAll({
         attributes,
-        include: [{
-          model: db.Category,
-          attributes: ['name', 'slug']
-        }],
+        include
       })
-      .then(books => res.status(200).send({ books }))
-      .catch((error) => {
-        if (error) {
-          return res.status(500).send({
-            error: 'Request could not be processed, please try again later'
-          });
-        }
-      });
+      .then(books => res.status(200).send({
+        success: true,
+        message: 'Books loaded successfully',
+        books
+      }))
+      .catch(() => errorResponseHandler(res));
   },
 
   /**
@@ -98,33 +83,27 @@ export default {
       ];
     }
 
-    if (!req.params.bookId || !Number.isInteger(parseInt(req.params.bookId, 10))) {
-      return res.status(400).send({ error: 'Book Id is invalid' });
+    if (!parseInt(req.params.bookId, 10)) {
+      return errorResponseHandler(res, 'Book id is invalid', 400);
     }
 
-    return db.Book
+    return models.Book
       .findOne({
         attributes,
-        include: [{
-          model: db.Category,
-          attributes: ['name', 'slug'],
-        }],
+        include,
         where: { id: req.params.bookId }
       })
       .then((book) => {
         if (!book) {
-          return res.status(404).send({ error: 'Book not found' });
+          return errorResponseHandler(res, 'Book not found', 404);
         }
-
-        return res.status(200).send({ book });
+        return res.status(200).send({
+          success: true,
+          message: 'Book loaded successfully',
+          book
+        });
       })
-      .catch((error) => {
-        if (error) {
-          return res.status(500).send({
-            error: 'Request could not be processed, please try again later'
-          });
-        }
-      });
+      .catch(() => errorResponseHandler(res));
   },
 
   /**
@@ -135,42 +114,38 @@ export default {
    * @returns {Object} book
    */
   update(req, res) {
-    return db.Book
-      .findById(req.params.bookId)
+    if (!parseInt(req.params.bookId, 10)) {
+      return errorResponseHandler(res, 'Book id is invalid', 400);
+    }
+    return models.Book
+      .findOne({
+        include: [{
+          model: models.Category,
+          as: 'category',
+          attributes: ['name', 'slug']
+        }],
+        where: { id: req.params.bookId }
+      })
       .then((book) => {
         if (!book) {
-          return res.status(404).send({ error: 'Book not found' });
+          return errorResponseHandler(res, 'Book not found', 404);
         }
         book.update({
-          title: req.body.title,
-          categoryId: req.body.categoryId,
-          author: req.body.author,
-          description: req.body.description,
-          coverPic: req.body.coverPic,
+          title: req.body.title || book.title,
+          categoryId: req.body.categoryId || book.categoryId,
+          author: req.body.author || book.author,
+          description: req.body.description || book.description,
+          coverPic: req.body.coverPic || book.coverPic,
         }).then((result) => {
           if (result) {
             return res.status(200).send({
-              book: formatBookObject(book, req.category)
+              success: true,
+              message: 'Book updated successfully',
+              book: formatBookObject(book, book.category)
             });
           }
         })
-          .catch((error) => {
-            if (error.name === 'SequelizeValidationError' ||
-              error.name === 'SequelizeUniqueConstraintError') {
-              const errors = {};
-              error.errors.forEach((err) => {
-                errors[err.path] = err.message;
-              });
-              if (error.name === 'SequelizeUniqueConstraintError') {
-                return res.status(409).send({ errors });
-              }
-              return res.status(400).send({ errors });
-            }
-
-            return res.status(500).send({
-              error: 'Request could not be processed, please try again later'
-            });
-          });
+          .catch(error => errorResponseHandler(res, null, null, error));
       });
   },
 
@@ -182,36 +157,32 @@ export default {
         return res.status(200).send({
           success: true,
           message: 'Stock quantity updated successfully',
+          data: {
+            id: req.book.id,
+            title: req.book.title,
+            stockQuantity: req.book.stockQuantity }
         });
       }
     })
-      .catch(error => res.status(500).send({
-        error: 'Stock quantity could not be updated, please try again later.'
-      }));
+      .catch(() => errorResponseHandler(res, 'Stock quantity could not be updated, please try again later.', 500));
   },
 
   delete(req, res) {
     if (req.book.isBorrowed) {
-      return res.status(400).send({
-        error: 'Book is borrowed and cannot be deleted at this time'
-      });
+      return errorResponseHandler(res, 'Book is borrowed and cannot be deleted at this time', 400);
     }
 
-    req.book.update({
+    return req.book.update({
       isDeleted: true
     }).then((result) => {
       if (result) {
         return res.status(200).send({
           success: true,
           message: 'Book has been deleted successfully',
-          book: {
-            id: req.book.id,
-          }
+          data: { deletedBookId: req.book.id }
         });
       }
     })
-      .catch(error => res.status(500).send({
-        error: 'Book could not be deleted at this time, please try again later.'
-      }));
+      .catch(() => errorResponseHandler(res, 'Book could not be deleted at this time, please try again later.', 500));
   }
 };

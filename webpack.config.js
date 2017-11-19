@@ -8,7 +8,7 @@ const SRC_DIR = path.resolve(__dirname, 'client/src');
 
 
 module.exports = {
-  entry: ['webpack-hot-middleware/client', SRC_DIR + '/app/index.js'],
+  entry: ['webpack-hot-middleware/client', SRC_DIR + '/app/index.jsx'],
   output: {
     path: DIST_DIR,
     filename: 'bundle.js',
@@ -23,12 +23,9 @@ module.exports = {
   module: {
     loaders: [
       {
-        test: /\.js?$/,
+        test: /\.jsx?/,
         include: SRC_DIR,
         loader: 'babel-loader',
-        query: {
-          presets: ['es2015', 'react', 'stage-2']
-        }
       },
       {
         test: /\.scss$/,
@@ -42,7 +39,7 @@ module.exports = {
         test: /\.css$/,
         use: ExtractTextPlugin.extract({
           fallback: 'style-loader',
-          use: ['css-loader', 'sass-loader']
+          use: 'css-loader'
         })
       },
       {
@@ -54,6 +51,9 @@ module.exports = {
         loader: 'file-loader?limit=100000'
       }
     ]
+  },
+  resolve: {
+    extensions: ['.js', '.jsx', '.json'],
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
