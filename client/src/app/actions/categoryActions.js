@@ -20,25 +20,25 @@ const deleteCategorySuccess = category => ({
 });
 
 // load book categories from server
-const loadCategories = headers => dispatch =>
-  axios.get('/categories', headers)
+const loadCategories = () => dispatch =>
+  axios.get('/categories')
     .then(({ data }) => dispatch(loadCategoriesSuccess(data.categories)))
     .catch(({ response }) => {
       toastr(response.data.error);
     });
 
 // save or update book category
-const saveOrUpdateCategory = (category, headers) => (dispatch) => {
+const saveOrUpdateCategory = category => (dispatch) => {
   if (category.id) {
     return axios.put(`/categories/${category.id}`,
-      category, headers)
+      category)
       .then(({ data }) => {
         toastr.success(data.message);
         return dispatch(updateCategorySuccess(data.category));
       });
   }
 
-  return axios.post('/categories', category, headers)
+  return axios.post('/categories', category)
     .then(({ data }) => {
       toastr.success(data.message);
       return dispatch(addCategorySuccess(data.category));
@@ -46,32 +46,32 @@ const saveOrUpdateCategory = (category, headers) => (dispatch) => {
 };
 
 // delete book
-const deleteCategory = (category, headers) => dispatch =>
-  axios.delete(`/categories/${category.id}`, headers)
+const deleteCategory = category => dispatch =>
+  axios.delete(`/categories/${category.id}`)
     .then(({ data }) => {
       toastr.success(data.message);
       return dispatch(deleteCategorySuccess(category));
     })
     .catch(({ response }) => {
       if (response) {
-        toastr(response.data.error);
+        toastr.error(response.data.error);
       }
     });
 
 
 // action entry point for category actions
 const categoryActions = (action, category = null) => (dispatch) => {
-  const headers = authCheck(dispatch);
+  authCheck(dispatch);
 
   switch (action) {
     case types.LOAD_CATEGORIES:
-      return dispatch(loadCategories(headers));
+      return dispatch(loadCategories());
 
     case types.SAVE_OR_UPDATE_CATEGORY:
-      return dispatch(saveOrUpdateCategory(category, headers));
+      return dispatch(saveOrUpdateCategory(category));
 
     case types.DELETE_CATEGORY:
-      return dispatch(deleteCategory(category, headers));
+      return dispatch(deleteCategory(category));
 
     default:
       break;

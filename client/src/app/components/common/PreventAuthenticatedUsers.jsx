@@ -15,8 +15,11 @@ export default (ComposedComponent) => {
      * @return {[type]}             [description]
      */
     checkAndRedirectUser() {
-      if (this.props.user.username) {
+      if (this.props.user.id) {
         if (!this.props.redirectUrl) {
+          if (this.props.user.admin) {
+            this.props.history.replace('/admin');
+          }
           this.props.history.replace('/profile');
         } else {
           this.props.history.replace(this.props.redirectUrl);

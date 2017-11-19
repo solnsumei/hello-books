@@ -17,7 +17,7 @@ export default (ComposedComponent) => {
      * @return {[type]}        [description]
      */
     redirectToLogin() {
-      if (!this.props.user.username) {
+      if (!this.props.user.id) {
         this.props.setRedirectUrl(this.props.currentURL);
         this.props.history.replace('/login');
       }
@@ -30,8 +30,9 @@ export default (ComposedComponent) => {
      */
     componentDidMount() {
       this.redirectToLogin();
+
       if (this.props.user.username) {
-        this.props.loadBorrowedBooks(this.props.user);
+        this.props.loadBorrowedBooks();
       }
 
       $('.modal').modal();
@@ -72,7 +73,7 @@ export default (ComposedComponent) => {
   const mapDispatchToProps = dispatch => ({
     setRedirectUrl: url => dispatch(setRedirectUrl(url)),
     loadBorrowedBooks: user =>
-      dispatch(borrowActions(actionTypes.LOAD_BORROWED_BOOKS, user)),
+      dispatch(borrowActions(actionTypes.LOAD_BORROWED_BOOKS)),
   });
 
   IsAuthenticated.propTypes = {

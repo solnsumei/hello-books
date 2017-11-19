@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import db from '../models/index';
+import models from '../models/index';
 import errorResponseHandler from '../helpers/errorResponseHandler';
 
 /**
@@ -25,7 +25,7 @@ export default function authMiddleware(req, res, next) {
       return errorResponseHandler(res, 'Access denied, token could not be authenticated', 401);
     }
 
-    return db.User
+    return models.User
       .findOne({
         where: { id: decoded.user.id }
       })

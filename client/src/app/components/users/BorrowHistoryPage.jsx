@@ -54,7 +54,7 @@ class BorrowHistoryPage extends React.Component {
   confirmReturn() {
     $('.modal').modal('close');
 
-    this.props.returnBook(this.props.user, this.state.borrowedBook.bookId);
+    this.props.returnBook(this.state.borrowedBook.bookId);
 
     this.setState({
       borrowedBook: {
@@ -111,7 +111,7 @@ class BorrowHistoryPage extends React.Component {
                           borrowedBook={borrowedBook} />
                       ) :
                       <tr>
-                        <td colSpan="5" className="center-align">
+                        <td colSpan="6" className="center-align">
                           No books added
                         </td>
                       </tr>
@@ -153,8 +153,8 @@ const mapStateToProps = (state, ownProps) => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  returnBook: (user, bookId) =>
-    dispatch(borrowActions(actionTypes.RETURN_BOOK, user, bookId))
+  returnBook: bookId =>
+    dispatch(borrowActions(actionTypes.RETURN_BOOK, bookId))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(BorrowHistoryPage);

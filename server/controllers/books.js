@@ -1,4 +1,4 @@
-import db from '../models/index';
+import models from '../models/index';
 import { formatBookObject } from '../helpers/formatData';
 import errorResponseHandler from '../helpers/errorResponseHandler';
 
@@ -10,7 +10,7 @@ import errorResponseHandler from '../helpers/errorResponseHandler';
 let attributes = ['id', 'title', 'categoryId', 'author', 'description', 'coverPic', 'isDeleted', 'stockQuantity',
   'borrowedQuantity'];
 
-const include = [{ model: db.Category, as: 'category', attributes: ['name', 'slug'] }];
+const include = [{ model: models.Category, as: 'category', attributes: ['name', 'slug'] }];
 
 export default {
   /**
@@ -22,7 +22,7 @@ export default {
    */
   create(req, res) {
     const { title, categoryId, author, description, coverPic, stockQuantity } = req.body;
-    return db.Book
+    return models.Book
       .create({
         title,
         categoryId,
@@ -54,7 +54,7 @@ export default {
       ];
     }
 
-    return db.Book
+    return models.Book
       .scope('active')
       .findAll({
         attributes,
@@ -87,7 +87,7 @@ export default {
       return errorResponseHandler(res, 'Book id is invalid', 400);
     }
 
-    return db.Book
+    return models.Book
       .findOne({
         attributes,
         include,
@@ -117,10 +117,10 @@ export default {
     if (!parseInt(req.params.bookId, 10)) {
       return errorResponseHandler(res, 'Book id is invalid', 400);
     }
-    return db.Book
+    return models.Book
       .findOne({
         include: [{
-          model: db.Category,
+          model: models.Category,
           as: 'category',
           attributes: ['name', 'slug']
         }],

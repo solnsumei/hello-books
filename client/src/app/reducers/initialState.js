@@ -4,5 +4,6 @@ export default {
   books: [],
   borrowedBooks: [],
   memberships: [],
+  notifications: [],
   redirectUrl: '',
 };

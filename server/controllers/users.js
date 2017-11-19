@@ -1,7 +1,8 @@
 import bcrypt from 'bcryptjs';
+import moment from 'moment';
 import createToken from '../helpers/token';
 import { formatUserObject, formatBorrowedBookObject } from '../helpers/formatData';
-import db from '../models/index';
+import models from '../models/index';
 import errorResponseHandler from '../helpers/errorResponseHandler';
 
 /**
@@ -12,7 +13,7 @@ export default {
   // Create a user account in database
   create(req, res) {
     const { firstName, surname, username, email, password } = req.body;
-    return db.User
+    return models.User
       .create({
         firstName,
         surname,
@@ -68,7 +69,7 @@ export default {
 
   // Change user password
   changePassword(req, res) {
-    return db.User
+    return models.User
       .findById(req.auth.id)
       .then((user) => {
         if (user) {
@@ -96,7 +97,7 @@ export default {
 
   // Authenticate users
   login(req, res) {
-    return db.User
+    return models.User
       .findOne({ where: {
         username: req.body.username
       } })
@@ -127,7 +128,7 @@ export default {
       return errorResponseHandler(res, 'No copies available for borrowing', 404);
     }
 
-    return db.BorrowedBook.findOne({
+    return models.BorrowedBook.findOne({
       where: {
         bookId: req.book.id,
         userId: req.auth.id,
@@ -142,11 +143,11 @@ export default {
         const dueDate = new Date();
         dueDate.setDate(dueDate.getDate() + req.lendDuration);
 
-        return db.BorrowedBook
+        return models.BorrowedBook
           .create({
             userId: req.auth.id,
             bookId: req.book.id,
-            borrowDate: (new Date()).getDate(),
+            borrowDate: (new Date()),
             dueDate,
           })
           .then(borrowedBook =>
@@ -175,11 +176,11 @@ export default {
     if (req.query.returned === 'true') {
       query.returned = true;
     } else if (req.query.returned === 'false') { query.returned = false; }
-    return db.BorrowedBook
+    return models.BorrowedBook
       .findAll({
         attributes: ['id', 'bookId', 'dueDate', 'isSeen', 'returned', 'borrowDate', 'returnDate'],
         include: [{
-          model: db.Book,
+          model: models.Book,
           as: 'book',
           attributes: ['title', 'isDeleted'],
         }],
@@ -199,10 +200,9 @@ export default {
       return errorResponseHandler(res, 'You cannot return a book that has not been borrowed', 400);
     }
 
-    const attributes = ['id', 'userId', 'bookId',
-      'dueDate', 'isSeen', 'returned', 'createdAt', 'updatedAt'];
+    const attributes = ['id', 'bookId', 'dueDate', 'isSeen', 'returned', 'borrowDate', 'returnDate'];
 
-    return db.BorrowedBook
+    return models.BorrowedBook
       .findOne({
         attributes,
         where: {
@@ -219,7 +219,7 @@ export default {
         return borrowedBook
           .update({
             returned: true,
-            returnDate: (new Date()).getDate(),
+            returnDate: (new Date()),
             isSeen: false,
           })
           .then((updateResult) => {

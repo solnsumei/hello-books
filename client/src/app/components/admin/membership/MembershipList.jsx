@@ -22,7 +22,7 @@ const MembershipList = ({ memberships, onEdit }) => (
 );
 
 MembershipList.propTypes = {
-  membershipTypes: PropTypes.array,
+  memberships: PropTypes.array,
   onEdit: PropTypes.func
 };
 

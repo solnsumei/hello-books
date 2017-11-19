@@ -2,7 +2,7 @@
 import app from '../../app';
 import request from 'supertest';
 import assert from 'assert';
-import db from '../../server/models/index';
+import models from '../../server/models/index';
 import { User, Category } from "../dataholder";
 
 // Test add book route
@@ -16,7 +16,7 @@ describe('Admin Membership Routes', () => {
   const membershipType1 = { lendDuration: 10, maxBorrowable: 15 };
 
   before((done) => {
-      db.User.bulkCreate([admin], { individualHooks: true })
+      models.User.bulkCreate([admin], { individualHooks: true })
       .then(() => {
         process.stdout.write('Test admin created \n');
         request(app)
@@ -124,7 +124,7 @@ describe('Admin Membership Routes', () => {
   });
 
   after((done) => {
-    db.User.truncate();
+    models.User.truncate();
     done();
   });
 

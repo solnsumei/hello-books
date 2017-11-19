@@ -1,4 +1,4 @@
-import db from '../models/index';
+import models from '../models/index';
 import errorResponseHandler from '../helpers/errorResponseHandler';
 
 /**
@@ -10,10 +10,10 @@ import errorResponseHandler from '../helpers/errorResponseHandler';
  * @returns {Request|Response|*|void|boolean} res
  */
 export default function borrowAccess(req, res, next) {
-  return db.User
+  return models.User
     .findOne({
       include: [{
-        model: db.Membership,
+        model: models.Membership,
         as: 'membership',
         attributes: ['level', 'lendDuration', 'maxBorrowable']
       }],
@@ -21,7 +21,7 @@ export default function borrowAccess(req, res, next) {
     })
     .then((user) => {
       if (user) {
-        return db.BorrowedBook.count({
+        return models.BorrowedBook.count({
           where: {
             userId: user.id,
             returned: false

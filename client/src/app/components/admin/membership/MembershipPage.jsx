@@ -35,7 +35,7 @@ class MembershipPage extends React.Component {
    * @memberof MembershipPage
    * @returns {void}
    */
-  componentDidMount() {
+  componentWillMount() {
     this.props.loadMemberships();
   }
 
@@ -106,7 +106,7 @@ class MembershipPage extends React.Component {
             <div className="card">
               <div className="card-content">
                 <MembershipList
-                  membership={this.props.memberships}
+                  memberships={this.props.memberships}
                   onEdit={this.onEdit}
                 />
               </div>
@@ -116,7 +116,7 @@ class MembershipPage extends React.Component {
         </div>
         { this.state.membership &&
           <MembershipModal
-            membershipType={this.state.membership}
+            membership={this.state.membership}
             errors={this.state.errors}
             onSubmit={this.updateMembershipType}
             onChange={this.updateFormState}

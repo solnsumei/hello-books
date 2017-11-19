@@ -1,4 +1,4 @@
-import db from '../models/index';
+import models from '../models/index';
 import errorResponseHandler from '../helpers/errorResponseHandler';
 
 /**
@@ -24,7 +24,7 @@ export default {
       ];
     }
 
-    return db.Membership
+    return models.Membership
       .findAll({
         attributes,
       })
@@ -47,7 +47,7 @@ export default {
     if (!parseInt(req.params.membershipId, 10)) {
       return errorResponseHandler(res, 'Membership id is invalid', 400);
     }
-    return db.Membership
+    return models.Membership
       .findById(req.params.membershipId)
       .then((membership) => {
         if (!membership) {

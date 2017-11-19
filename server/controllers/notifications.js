@@ -1,4 +1,4 @@
-import db from '../models/index';
+import models from '../models/index';
 import errorResponseHandler from '../helpers/errorResponseHandler';
 
 const attributes = ['id', 'borrowDate', 'dueDate', 'returned', 'returnDate', 'isSeen'];
@@ -17,16 +17,16 @@ export default {
    * @returns {Promise.<Object>} notifications
    */
   getAllUnreadNotifications(req, res) {
-    return db.BorrowedBook
+    return models.BorrowedBook
       .findAll({
         attributes,
         include: [{
-          model: db.Book,
+          model: models.Book,
           as: 'book',
           attributes: ['title']
         },
         {
-          model: db.User,
+          model: models.User,
           as: 'user',
           attributes: ['firstName', 'surname', 'username']
         }],
@@ -48,20 +48,20 @@ export default {
    * @return {[type]}     [description]
    */
   getNotification(req, res) {
-    if (!req.params.notificationId || !parseInt(req.params.notificationId, 10)) {
+    if (!parseInt(req.params.notificationId, 10)) {
       return errorResponseHandler(res, 'Notification id is invalid', 400);
     }
 
-    return db.BorrowedBook
+    return models.BorrowedBook
       .findOne({
         attributes,
         include: [{
-          model: db.Book,
+          model: models.Book,
           as: 'book',
           attributes: ['title']
         },
         {
-          model: db.User,
+          model: models.User,
           as: 'user',
           attributes: ['firstName', 'surname', 'username']
         }],
@@ -75,7 +75,7 @@ export default {
           return errorResponseHandler(res, 'Notification not found', 404);
         }
 
-        return db.BorrowedBook.update({
+        return models.BorrowedBook.update({
           isSeen: true
         }, {
           where: {

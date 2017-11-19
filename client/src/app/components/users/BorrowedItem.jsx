@@ -1,7 +1,7 @@
 import React from 'react';
+import moment from 'moment';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { formatDate } from '../../helpers/constants';
 
 const BorrowedItem = ({ borrowedBook, page, action }) => {
   const historyPage = page ? <td>{borrowedBook.returned ? 'yes' : 'no'}</td> : null;
@@ -20,11 +20,11 @@ const BorrowedItem = ({ borrowedBook, page, action }) => {
           {borrowedBook.book.title}</Link>
       }
       </td>
-      <td>{formatDate(borrowedBook.borrowDate)}</td>
-      <td>{formatDate(borrowedBook.dueDate)}</td>
+      <td>{moment(borrowedBook.borrowDate).format('MMM Do YY')}</td>
+      <td>{moment(borrowedBook.dueDate).format('MMM Do YY')}</td>
       {historyPage}
-      <td>{ returned }</td>
-      <td>{borrowedBook.returnDate !== null ? formatDate(borrowedBook.returnDate) : ''}</td>
+      <td>{borrowedBook.returnDate !== null ? moment(borrowedBook.returnDate).format('MMM Do YY') : ''}</td>
+      <td>{returned}</td>
     </tr>
   );
 };

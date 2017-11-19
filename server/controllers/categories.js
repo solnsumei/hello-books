@@ -1,5 +1,5 @@
 import slug from 'slug';
-import db from '../models/index';
+import models from '../models/index';
 import errorResponseHandler from '../helpers/errorResponseHandler';
 
 /**
@@ -16,7 +16,7 @@ export default {
    * @return {Bluebird<Object> | Promise.<Object>} res
    */
   create(req, res) {
-    return db.Category
+    return models.Category
       .create({
         name: req.body.name.trim(),
         slug: slug(req.body.name.toLowerCase()),
@@ -40,7 +40,7 @@ export default {
    * @returns {Promise.<Object>} categories
    */
   getAllCategories(req, res) {
-    return db.Category
+    return models.Category
       .findAll({
         attributes: ['id', 'name', 'slug']
       })

@@ -9,8 +9,11 @@ import CategoriesPage from '../admin/categories/CategoriesPage';
 import BooksPage from '../admin/books/BooksPage';
 import ManageBookPage from '../admin/books/ManageBookPage';
 import MembershipPage from '../admin/membership/MembershipPage';
+import NotificationPage from '../admin/notifications/NotificationPage';
 import actionTypes from '../../actions/actionTypes';
 import categoryActions from '../../actions/categoryActions';
+import membershipActions from '../../actions/membershipActions';
+import notificationActions from '../../actions/notificationActions';
 /**
 *
 */
@@ -34,6 +37,8 @@ class IsAdmin extends React.Component {
   componentDidMount() {
     this.redirectUnauthorisedUser();
     this.props.loadCategories();
+    this.props.loadMembership();
+    this.props.loadNotifications();
   }
 
   /**
@@ -56,6 +61,7 @@ class IsAdmin extends React.Component {
       return (
         <Switch>
           <Route exact path="/admin" component={Dashboard} />
+          <Route path="/admin/notifications" component={NotificationPage} />
           <Route path="/admin/categories" component={CategoriesPage} />
           <Route path="/admin/membership-types" component={MembershipPage} />
           <Route exact path="/admin/books" component={BooksPage} />
@@ -74,12 +80,16 @@ const mapStateToProps = (state, ownProps) => ({
 
 const mapDispatchToProps = dispatch => ({
   setRedirectUrl: url => dispatch(setRedirectUrl(url)),
-  loadCategories: () => dispatch(categoryActions(actionTypes.LOAD_CATEGORIES))
+  loadCategories: () => dispatch(categoryActions(actionTypes.LOAD_CATEGORIES)),
+  loadMembership: () => dispatch(membershipActions(actionTypes.LOAD_MEMBERSHIP_TYPES)),
+  loadNotifications: () => dispatch(notificationActions(actionTypes.LOAD_UNREAD_NOTIFICATIONS))
 });
 
 IsAdmin.propTypes = {
   user: PropTypes.object,
-  loadCategories: PropTypes.func.isRequired
+  loadCategories: PropTypes.func.isRequired,
+  loadMembership: PropTypes.func.isRequired,
+  loadNotifications: PropTypes.func.isRequired
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(IsAdmin);

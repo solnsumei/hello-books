@@ -1,4 +1,3 @@
-import db from '../models/index';
 import errorResponseHandler from '../helpers/errorResponseHandler';
 
 /**

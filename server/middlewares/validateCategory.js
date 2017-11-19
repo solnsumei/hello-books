@@ -1,4 +1,4 @@
-import db from '../models/index';
+import models from '../models/index';
 import errorResponseHandler from '../helpers/errorResponseHandler';
 
 /**
@@ -26,7 +26,7 @@ export default function validateCategory(req, res, next) {
     return errorResponseHandler(res, 'Category id is invalid', 400);
   }
 
-  return db.Category.findById(categoryId)
+  return models.Category.findById(categoryId)
     .then((category) => {
       if (!category) {
         return errorResponseHandler(res, 'Category not found', 404);

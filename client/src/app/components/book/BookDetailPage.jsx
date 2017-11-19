@@ -54,11 +54,11 @@ class BookDetailPage extends React.Component {
    * @return {[type]} [description]
    */
   confirmBorrow() {
-    const { user, book } = this.props;
+    const { book } = this.props;
 
     $('.modal').modal('close');
 
-    this.props.borrow(user, book.id);
+    this.props.borrow(book.id);
   }
 
   /**
@@ -67,11 +67,11 @@ class BookDetailPage extends React.Component {
    * @return {[type]} [description]
    */
   confirmReturn() {
-    const { user, book } = this.props;
+    const { book } = this.props;
 
     $('.modal').modal('close');
 
-    this.props.return(user, book.id);
+    this.props.return(book.id);
   }
 
   /**
@@ -115,7 +115,7 @@ class BookDetailPage extends React.Component {
 
             {!user.admin && this.state.isBorrowed &&
               <button data-target="modal1" className="btn modal-trigger">
-                Return Book
+                Return
               </button>}
 
             <p><Link to="/books">Back to Catalog</Link></p>
@@ -186,11 +186,11 @@ const mapStateToProps = (state, ownProps) => {
 // map dispatch actions to borrow actions
 const mapDispatchToProps = dispatch => ({
   getBook: bookId => dispatch(bookActions(actionTypes.GET_BOOK, null, bookId)),
-  borrow: (user, bookId) =>
-    dispatch(borrowActions(actionTypes.BORROW_BOOK, user, bookId)),
+  borrow: bookId =>
+    dispatch(borrowActions(actionTypes.BORROW_BOOK, bookId)),
 
-  return: (user, bookId) =>
-    dispatch(borrowActions(actionTypes.RETURN_BOOK, user, bookId))
+  return: bookId =>
+    dispatch(borrowActions(actionTypes.RETURN_BOOK, bookId))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(BookDetailPage);

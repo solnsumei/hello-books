@@ -30,17 +30,4 @@ describe('App Routes', () => {
     });
   });
 
-  describe('GET static files', () => {
-    it('it should respond with a 200 with file', (done) => {
-      request(app)
-        .get('/login')
-        .end((err, res) => {
-          assert.equal(res.status, 200);
-          assert.notEqual(res.body, null);
-          assert.equal(res.body.error, undefined);
-          done();
-        });
-    });
-  });
-
 });

@@ -2,11 +2,6 @@ import types from '../actions/actionTypes';
 
 const constants = () => ({ headers: { 'x-token': localStorage.getItem(types.USER_TOKEN) } });
 
-const formatDate = (dateString) => {
-  const date = new Date(Date.parse(dateString));
-  return (`${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`);
-};
-
 const routeTitles = (route) => {
   switch (route) {
     case '/login':
@@ -26,4 +21,4 @@ const routeTitles = (route) => {
   }
 };
 
-export { constants, routeTitles, formatDate };
+export { constants, routeTitles };

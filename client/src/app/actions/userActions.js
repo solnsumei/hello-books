@@ -4,6 +4,12 @@ import toastr from 'toastr';
 import types from './actionTypes';
 import { constants } from '../helpers/constants';
 
+// set axios default header
+const setHeader = () => {
+  axios.defaults.headers.common['x-token']
+    = localStorage.getItem(types.USER_TOKEN);
+};
+
 // check token passed in and set user accordingly
 const checkToken = (token = null) => {
   const userToken = localStorage.getItem(types.USER_TOKEN);
@@ -14,9 +20,11 @@ const checkToken = (token = null) => {
     if (userToken) {
       localStorage.removeItem(types.USER_TOKEN);
     }
+    axios.defaults.headers.common = {};
     return false;
   }
-  return true;
+  setHeader();
+  return decoded.user;
 };
 
 const signOutUser = () => ({
@@ -33,6 +41,7 @@ const userAuthFailed = () => ({
 
 const setUser = data => (dispatch) => {
   localStorage.setItem(types.USER_TOKEN, data.token);
+  setHeader();
   toastr.success(data.message);
   return dispatch(userAuthSuccess(data.user));
 };
@@ -41,7 +50,6 @@ const authCheck = (dispatch) => {
   if (!checkToken()) {
     return dispatch(signOutUser());
   }
-  return ({ headers: { 'x-token': localStorage.getItem(types.USER_TOKEN) } });
 };
 
 const logoutRequest = () => (dispatch) => {
@@ -49,28 +57,31 @@ const logoutRequest = () => (dispatch) => {
   if (userToken) {
     localStorage.removeItem(types.USER_TOKEN);
   }
+  axios.defaults.headers.common = {};
   return dispatch(signOutUser());
 };
 
 const getUserAccount = () => (dispatch) => {
-  const headers = authCheck(dispatch);
+  authCheck(dispatch);
 
-  return axios.get('/user/profile', headers)
+  return axios.get('/user/profile')
     .then(({ data }) => dispatch(userAuthSuccess(data.user)));
 };
 
 // check user authentication
 const checkAuthentication = () => (dispatch) => {
-  if (!checkToken()) {
+  const user = checkToken();
+  if (!user) {
     return dispatch(signOutUser());
   }
+  dispatch(userAuthSuccess(user));
   return dispatch(getUserAccount());
 };
 
 const updateUserAccount = userData => (dispatch) => {
-  const headers = authCheck(dispatch);
+  authCheck(dispatch);
 
-  return axios.put('/user/profile', userData, headers)
+  return axios.put('/user/profile', userData)
     .then(({ data }) => {
       toastr.success(data.message);
       return dispatch(userAuthSuccess(data.user));
@@ -80,7 +91,7 @@ const updateUserAccount = userData => (dispatch) => {
 const changeUserPassword = passwordObject => (dispatch) => {
   const headers = authCheck(dispatch);
 
-  return axios.post('/user/change-password', passwordObject, headers)
+  return axios.post('/user/change-password', passwordObject)
     .then(({ data }) => {
       toastr.success(data.message);
     });

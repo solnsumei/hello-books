@@ -1,4 +1,4 @@
-import db from '../models/index';
+import models from '../models/index';
 import errorResponseHandler from '../helpers/errorResponseHandler';
 
 /**
@@ -21,7 +21,7 @@ export default function validateBook(req, res, next) {
     return errorResponseHandler(res, 'Book id is invalid', 400);
   }
 
-  return db.Book.findById(bookId)
+  return models.Book.findById(bookId)
     .then((book) => {
       if (!book) {
         return errorResponseHandler(res, 'Book not found', 404);

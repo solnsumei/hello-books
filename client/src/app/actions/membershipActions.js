@@ -11,17 +11,17 @@ const updateMembershipTypeSuccess = membership => ({
   type: types.UPDATE_MEMBERSHIP_TYPE_SUCCESS, membership
 });
 
-const loadMembershipTypes = headers => dispatch =>
-  axios.get('/membership', headers)
+const loadMembershipTypes = () => dispatch =>
+  axios.get('/membership')
     .then(({ data }) => dispatch(loadMembershipTypesSuccess(data.memberships)))
     .catch(({ response }) => {
       if (response.data) {
-        toastr(response.data.error);
+        toastr.error(response.data.error);
       }
     });
 
-const updateMembershipType = (membership, headers) => dispatch =>
-  axios.put(`/membership/${membership.id}`, membership, headers)
+const updateMembershipType = membership => dispatch =>
+  axios.put(`/membership/${membership.id}`, membership)
     .then(({ data }) => {
       toastr.success(data.message);
       return dispatch(updateMembershipTypeSuccess(data.membership));
@@ -30,14 +30,14 @@ const updateMembershipType = (membership, headers) => dispatch =>
 
 // action entry point for memebrship type actions
 const membershipActions = (action, membership = null) => (dispatch) => {
-  const headers = authCheck(dispatch);
+  authCheck(dispatch);
 
   switch (action) {
     case types.LOAD_MEMBERSHIP_TYPES:
-      return dispatch(loadMembershipTypes(headers));
+      return dispatch(loadMembershipTypes());
 
     case types.UPDATE_MEMBERSHIP_TYPE:
-      return dispatch(updateMembershipType(membership, headers));
+      return dispatch(updateMembershipType(membership));
 
     default:
       break;

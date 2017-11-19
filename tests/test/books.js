@@ -2,7 +2,7 @@
 import app from '../../app';
 import request from 'supertest';
 import assert from 'assert';
-import db from '../../server/models/index';
+import models from '../../server/models/index';
 import { users, booksForBookTest, categoriesForBooksTest, invalidBooks } from "../mockData";
 
 // Test add book route
@@ -13,10 +13,10 @@ describe('Book Routes', () => {
   const { category1, category2 } = categoriesForBooksTest;
 
   before((done) => {
-      db.User.bulkCreate([freeUser, admin], { individualHooks: true })
+      models.User.bulkCreate([freeUser, admin], { individualHooks: true })
       .then(() => {
         process.stdout.write('Test users created \n');
-        db.Category.bulkCreate([category1], {})
+        models.Category.bulkCreate([category1], {})
         .then(() => {
           process.stdout.write('Test categories created \n');
           request(app)
@@ -393,9 +393,9 @@ describe('Book Routes', () => {
   });
 
   after((done) => {
-    db.Book.truncate();
-    db.User.truncate();
-    db.Category.truncate();
+    models.Book.truncate();
+    models.User.truncate();
+    models.Category.truncate();
     done();
   });
 

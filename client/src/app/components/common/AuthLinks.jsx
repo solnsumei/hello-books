@@ -24,6 +24,11 @@ const AuthLinks = ({ isAdmin }) => (
           </Link>
         </li>
         <li>
+          <NavLink to="/admin/notifications" activeClassName="active-nav">
+            Notifications
+          </NavLink>
+        </li>
+        <li>
           <NavLink to="/admin/categories" activeClassName="active-nav">
             Manage Categories
           </NavLink>

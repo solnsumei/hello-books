@@ -2,7 +2,7 @@
 import request from 'supertest';
 import assert from 'assert';
 import app from '../../app';
-import db from '../../server/models/index';
+import models from '../../server/models/index';
 import { users, booksForUserTest } from '../mockData';
 
 
@@ -14,11 +14,11 @@ describe('User', () => {
   let { book1, book2, book3 } = booksForUserTest;
 
   before((done) => {
-    db.Book.bulkCreate([book1, book2, book3], {})
+    models.Book.bulkCreate([book1, book2, book3], {})
       .then(() => {
         process.stdout.write('Test books created \n');
 
-        db.User.bulkCreate([admin, silverUser], { individualHooks: true })
+        models.User.bulkCreate([admin, silverUser], { individualHooks: true })
         .then(( )=> {
           process.stdout.write('Test silverUser created \n');
           done();
@@ -608,8 +608,8 @@ describe('User', () => {
   });
 
   after((done) => {
-    db.User.truncate();
-    db.Book.truncate();
+    models.User.truncate();
+    models.Book.truncate();
     done();
   });
 

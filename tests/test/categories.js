@@ -2,7 +2,7 @@
 import app from '../../app';
 import request from 'supertest';
 import assert from 'assert';
-import db from '../../server/models/index';
+import models from '../../server/models/index';
 import { User, Book, Category } from "../dataholder";
 
 // Test add book route
@@ -23,7 +23,7 @@ describe('Category Routes', () => {
   const book1 = new Book('Book One', 80, 'Andela One', 'First book in library', 12, 'image1.jpg');
 
   before((done) => {
-      db.User.bulkCreate([admin, user], { individualHooks: true })
+      models.User.bulkCreate([admin, user], { individualHooks: true })
       .then(() => {
         process.stdout.write('Test users created \n');
         request(app)
@@ -330,7 +330,7 @@ describe('Category Routes', () => {
           .end((err, res) => {
             assert.equal(res.status, 409);
             assert.equal(res.body.error, 'This category still has books attached to it so cannot be deleted at this time');
-            db.Book.truncate();
+            models.Book.truncate();
             done();
           });
       });
@@ -369,8 +369,8 @@ describe('Category Routes', () => {
   });
 
   after((done) => {
-    db.User.truncate();
-    db.Category.truncate();
+    models.User.truncate();
+    models.Category.truncate();
     done();
   });
 
