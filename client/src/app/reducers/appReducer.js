@@ -4,7 +4,7 @@ import initialState from './initialState';
 
 const appReducer = (state, action) => {
   if (action.type === types.SIGN_OUT_USER) {
-    state = undefined;
+    state = initialState;
   }
   return rootReducer(state, action);
 };

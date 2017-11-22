@@ -25,10 +25,23 @@ body {
   background-repeat: true;
   -webkit-font-smoothing: antialiased;
   font-smoothing: antialiased;
+  display: flex !important;
+  min-height: 100vh !important;
+  flex-direction: column !important;
+}
+
+main {
+  flex: 1 0 auto !important;
+  min-height: 700px;
 }
 
 .book-page {
   // background-image: url('../images/bgcard.jpg');
+}
+
+.page-footer {
+  padding-top: 5px !important;
+  background-color: black !important;
 }
 
 nav {

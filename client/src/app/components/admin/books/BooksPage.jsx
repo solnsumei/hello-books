@@ -42,6 +42,7 @@ class BooksPage extends React.Component {
    */
   componentDidMount() {
     this.props.loadBooks();
+    $('.modal').modal();
   }
 
   /**

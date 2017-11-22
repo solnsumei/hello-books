@@ -61,7 +61,7 @@ const deleteCategory = category => dispatch =>
 
 // action entry point for category actions
 const categoryActions = (action, category = null) => (dispatch) => {
-  authCheck(dispatch);
+  if (!authCheck(dispatch)) return;
 
   switch (action) {
     case types.LOAD_CATEGORIES:

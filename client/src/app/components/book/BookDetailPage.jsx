@@ -33,6 +33,7 @@ class BookDetailPage extends React.Component {
    */
   componentDidMount() {
     this.props.getBook(this.props.bookId);
+    $('.modal').modal();
   }
 
   /**
@@ -176,9 +177,9 @@ const mapStateToProps = (state, ownProps) => {
   }
 
   return ({
+    user: state.user,
     book,
     bookId,
-    user: state.user,
     isBorrowed
   });
 };

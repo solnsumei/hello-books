@@ -4,6 +4,7 @@ import createToken from '../helpers/token';
 import { formatUserObject, formatBorrowedBookObject } from '../helpers/formatData';
 import models from '../models/index';
 import errorResponseHandler from '../helpers/errorResponseHandler';
+import upgradeUserLevel from '../helpers/upgradeUserLevel';
 
 /**
  * User controller to handle user request
@@ -229,11 +230,15 @@ export default {
                   borrowedQuantity: (req.book.borrowedQuantity - 1),
                   isBorrowed: ((req.book.borrowedQuantity) - 1) > 0,
                 })
-                .then(result => res.status(200).send({
-                  success: true,
-                  message: 'Book was returned successfully',
-                  returnedBook: formatBorrowedBookObject(borrowedBook, req.book),
-                }))
+                .then((result) => {
+                  upgradeUserLevel(req.auth);
+
+                  return res.status(200).send({
+                    success: true,
+                    message: 'Book was returned successfully',
+                    returnedBook: formatBorrowedBookObject(borrowedBook, req.book),
+                  });
+                })
                 .catch(() => errorResponseHandler(res));
             }
           })

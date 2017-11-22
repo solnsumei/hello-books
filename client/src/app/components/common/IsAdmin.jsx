@@ -3,7 +3,6 @@ import { Route, Redirect, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import toastr from 'toastr';
-import setRedirectUrl from '../../actions/redirectActions';
 import Dashboard from '../admin/Dashboard';
 import CategoriesPage from '../admin/categories/CategoriesPage';
 import BooksPage from '../admin/books/BooksPage';
@@ -31,24 +30,16 @@ class IsAdmin extends React.Component {
 
   /**
    * [componentDidMount description]
-   * @method componentDidMount
+   * @method componentWillMount
    * @return {[type]}          [description]
    */
-  componentDidMount() {
+  componentWillMount() {
     this.redirectUnauthorisedUser();
-    this.props.loadCategories();
-    this.props.loadMembership();
-    this.props.loadNotifications();
-  }
-
-  /**
-   * [componentDidUpdate description]
-   * @method componentDidUpdate
-   * @param  {[type]} prevProps [description]
-   * @return {[type]} [description]
-   */
-  componentDidUpdate(prevProps) {
-    this.redirectUnauthorisedUser();
+    if (this.props.user.admin) {
+      this.props.loadCategories();
+      this.props.loadMembership();
+      this.props.loadNotifications();
+    }
   }
 
   /**
@@ -75,11 +66,11 @@ class IsAdmin extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  user: ownProps.user,
+  user: state.user,
+  currentURL: ownProps.location.pathname,
 });
 
 const mapDispatchToProps = dispatch => ({
-  setRedirectUrl: url => dispatch(setRedirectUrl(url)),
   loadCategories: () => dispatch(categoryActions(actionTypes.LOAD_CATEGORIES)),
   loadMembership: () => dispatch(membershipActions(actionTypes.LOAD_MEMBERSHIP_TYPES)),
   loadNotifications: () => dispatch(notificationActions(actionTypes.LOAD_UNREAD_NOTIFICATIONS))

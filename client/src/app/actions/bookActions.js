@@ -84,7 +84,7 @@ const deleteBook = book => dispatch =>
 
 // entry point for all book actions
 const bookActions = (action, book = null, bookId = null, quantity = null) => (dispatch) => {
-  authCheck(dispatch);
+  if (!authCheck(dispatch)) return;
 
   switch (action) {
     case types.LOAD_BOOKS:

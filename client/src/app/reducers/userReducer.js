@@ -9,10 +9,10 @@ import initialState from './initialState';
 export default function (state = initialState.user, action) {
   switch (action.type) {
     case types.USER_AUTH_SUCCESS:
-      return Object.assign({}, ...state, action.user);
+      return action.user;
 
-    case types.GET_USER_SUCCESS:
-      return Object.assign({}, ...state, action.user);
+    case types.GET_USER_PROFILE_SUCCESS:
+      return action.user;
 
     case types.USER_AUTH_FAILED:
       return state;

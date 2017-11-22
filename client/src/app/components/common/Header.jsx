@@ -13,14 +13,14 @@ const Header = ({ user, logout, title }) => {
   }
 
   let sideNavClass = 'side-nav';
-  if (user.firstName) {
+  if (user.id) {
     sideNavClass = `${sideNavClass} fixed show-on-large`;
   } else {
     sideNavClass = `${sideNavClass} hide-on-large-only`;
   }
 
   return (
-    <header className={user.username && 'header'}>
+    <header className={user.id && 'header'}>
       <nav>
         <div className="nav-wrapper">
           <Link to="/" className="brand-logo">
@@ -30,7 +30,7 @@ const Header = ({ user, logout, title }) => {
             <i className="material-icons">menu</i>
           </a>
           <ul className="right hide-on-med-and-down">
-            { user.firstName ?
+            { user.id ?
               <li>
                 <a href="#" onClick={logout}>
                   Logout
@@ -40,29 +40,29 @@ const Header = ({ user, logout, title }) => {
               <li>{linkToShow}</li> }
           </ul>
           <ul className={sideNavClass} id="slide-out">
-            {user.username &&
+            {user.id &&
               <li>
                 <div className="user-view">
                   <div className="background">
-                    <img src="images/office.jpg" />
+                    &nbsp;
                   </div>
                   <a href="#!user">
                     <img className="circle" src="images/yuna.jpg"/>
                   </a>
                   <Link to="/profile">
                     <span className="white-text name">
-                      {`${user.firstName} ${user.surname}`}
+                      {user.username && `${user.firstName} ${user.surname}`}
                     </span>
                   </Link>
                   <Link to="/profile">
                     <span className="white-text email">
-                      {user.email}
+                      {user.username && user.email}
                     </span>
                   </Link>
                 </div>
               </li>
             }
-            { user.username ?
+            { user.id ?
               <div>
                 <li>
                   <NavLink to="/books" activeClassName="active-nav">

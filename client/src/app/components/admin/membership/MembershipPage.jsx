@@ -35,8 +35,9 @@ class MembershipPage extends React.Component {
    * @memberof MembershipPage
    * @returns {void}
    */
-  componentWillMount() {
+  componentDidMount() {
     this.props.loadMemberships();
+    $('.modal').modal();
   }
 
   /**
