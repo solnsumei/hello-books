@@ -52,7 +52,8 @@ const setUser = data => (dispatch) => {
   localStorage.setItem(types.USER_TOKEN, data.token);
   localStorage.setItem(types.ADMIN, data.user.admin);
   toastr.success(data.message);
-  return dispatch(userAuthSuccess(data.user));
+  dispatch(userAuthSuccess(data.user));
+  return dispatch(borrowActions(types.LOAD_BORROWED_BOOKS));
 };
 
 const authCheck = (dispatch) => {
