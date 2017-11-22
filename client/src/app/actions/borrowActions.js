@@ -45,7 +45,7 @@ const returnBook = bookId => dispatch =>
 
 // entry point for all borrowing actions
 const borrowActions = (action, bookId = null) => (dispatch) => {
-  authCheck(dispatch);
+  if (!authCheck(dispatch)) return;
 
   switch (action) {
     case types.LOAD_BORROWED_BOOKS:

@@ -57,8 +57,9 @@ export default {
     return models.Book
       .scope('active')
       .findAll({
+        order: [['id', 'ASC']],
         attributes,
-        include
+        include,
       })
       .then(books => res.status(200).send({
         success: true,

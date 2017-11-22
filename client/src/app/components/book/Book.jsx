@@ -4,21 +4,23 @@ import { Link } from 'react-router-dom';
 
 const Book = ({ book, link }) => (
   <div className="col s12 m4">
-    <div className="row">
-      <div className="col s4 m5">
+    <div className="card horizontal">
+      <div className="card-image">
         <Link to={`${link}${book.id}`}>
           <img src={book.coverPic} className="img-thumbnail" />
         </Link>
       </div>
-      <div className="col s8 m7">
-        <h4 className="top white-text">
-          <Link to={`${link}${book.id}`}>{book.title}</Link>
-        </h4>
-        <div className="book-details white-text">
+      <div className="card-stacked">
+        <div className="card-content">
+          <h4 className="top white-text">
+            <Link to={`${link}${book.id}`}>{book.title}</Link>
+          </h4>
           <p className="offset-3">By {book.author}</p>
           <p>({book.category.name})</p>
         </div>
-        <p> <Link to={`${link}${book.id}`}>Details »</Link></p>
+        <div className="card-action">
+          <Link to={`${link}${book.id}`}>Details »</Link>
+        </div>
       </div>
     </div>
     <div className="margin-2x"></div>

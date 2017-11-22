@@ -31,6 +31,16 @@ class NotificationPage extends React.Component {
   }
 
   /**
+   * Load notifications
+   * @memberof NotificationPage
+   * @returns {void}
+   */
+  componentDidMount() {
+    this.props.loadNotifications();
+    $('.modal').modal();
+  }
+
+  /**
    * Method to show modal show notification item
    * @method showModal
    * @param  {Object} notification [description]
@@ -114,7 +124,9 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = dispatch => ({
   readNotification: notificationId =>
-    dispatch(notificationActions(actionTypes.READ_NOTIFICATION, notificationId))
+    dispatch(notificationActions(actionTypes.READ_NOTIFICATION, notificationId)),
+  loadNotifications: () =>
+    dispatch(notificationActions(actionTypes.LOAD_UNREAD_NOTIFICATIONS))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(NotificationPage);

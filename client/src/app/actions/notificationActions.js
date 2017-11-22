@@ -30,7 +30,7 @@ const readNotification = notificationId => dispatch =>
 
 // entry point for all notification actions
 const notificationActions = (action, notificationId = null) => (dispatch) => {
-  authCheck(dispatch);
+  if (!authCheck(dispatch)) return;
 
   switch (action) {
     case types.LOAD_UNREAD_NOTIFICATIONS:

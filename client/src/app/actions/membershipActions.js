@@ -30,7 +30,7 @@ const updateMembershipType = membership => dispatch =>
 
 // action entry point for memebrship type actions
 const membershipActions = (action, membership = null) => (dispatch) => {
-  authCheck(dispatch);
+  if (!authCheck(dispatch)) return;
 
   switch (action) {
     case types.LOAD_MEMBERSHIP_TYPES:

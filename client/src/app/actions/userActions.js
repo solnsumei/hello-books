@@ -2,12 +2,13 @@ import axios from 'axios';
 import jwt from 'jsonwebtoken';
 import toastr from 'toastr';
 import types from './actionTypes';
+import borrowActions from './borrowActions';
 import { constants } from '../helpers/constants';
 
-// set axios default header
-const setHeader = () => {
-  axios.defaults.headers.common['x-token']
-    = localStorage.getItem(types.USER_TOKEN);
+// remove set tokens
+const removeTokens = () => {
+  localStorage.removeItem(types.USER_TOKEN);
+  localStorage.removeItem(types.ADMIN);
 };
 
 // check token passed in and set user accordingly
@@ -18,21 +19,29 @@ const checkToken = (token = null) => {
   const decoded = jwt.decode(!token ? userToken : token);
   if (decoded.exp * 1000 < (new Date().getTime())) {
     if (userToken) {
-      localStorage.removeItem(types.USER_TOKEN);
+      removeTokens();
     }
-    axios.defaults.headers.common = {};
     return false;
   }
-  setHeader();
-  return decoded.user;
+
+  const user = decoded.user;
+  user.admin = localStorage.getItem(types.ADMIN) === 'true' || false;
+
+  return user;
 };
 
-const signOutUser = () => ({
-  type: types.SIGN_OUT_USER
-});
+const signOutUser = () => {
+  delete axios.defaults.headers.common['x-token'];
+  return { type: types.SIGN_OUT_USER };
+};
 
-const userAuthSuccess = user => ({
-  type: types.USER_AUTH_SUCCESS, user
+const userAuthSuccess = (user) => {
+  axios.defaults.headers.common['x-token'] = localStorage.getItem(types.USER_TOKEN);
+  return { type: types.USER_AUTH_SUCCESS, user };
+};
+
+const getUserProfileSuccess = user => ({
+  type: types.GET_USER_PROFILE_SUCCESS, user
 });
 
 const userAuthFailed = () => ({
@@ -41,56 +50,61 @@ const userAuthFailed = () => ({
 
 const setUser = data => (dispatch) => {
   localStorage.setItem(types.USER_TOKEN, data.token);
-  setHeader();
+  localStorage.setItem(types.ADMIN, data.user.admin);
   toastr.success(data.message);
   return dispatch(userAuthSuccess(data.user));
 };
 
 const authCheck = (dispatch) => {
   if (!checkToken()) {
-    return dispatch(signOutUser());
+    dispatch(signOutUser());
+    return false;
   }
+  return true;
 };
 
 const logoutRequest = () => (dispatch) => {
   const userToken = localStorage.getItem(types.USER_TOKEN);
-  if (userToken) {
-    localStorage.removeItem(types.USER_TOKEN);
+  const adminToken = localStorage.getItem(types.ADMIN);
+  if (userToken || adminToken) {
+    removeTokens();
   }
-  axios.defaults.headers.common = {};
   return dispatch(signOutUser());
 };
 
-const getUserAccount = () => (dispatch) => {
+const getUserProfile = (user = null) => (dispatch) => {
   authCheck(dispatch);
-
   return axios.get('/user/profile')
-    .then(({ data }) => dispatch(userAuthSuccess(data.user)));
+    .then(({ data }) => {
+      if (user) {
+        dispatch(userAuthSuccess(data.user));
+        return dispatch(borrowActions(types.LOAD_BORROWED_BOOKS));
+      }
+      return dispatch(getUserProfileSuccess(data.user));
+    });
 };
 
 // check user authentication
 const checkAuthentication = () => (dispatch) => {
   const user = checkToken();
   if (!user) {
-    return dispatch(signOutUser());
+    return dispatch(userAuthFailed());
   }
   dispatch(userAuthSuccess(user));
-  return dispatch(getUserAccount());
+  return dispatch(getUserProfile(user));
 };
 
 const updateUserAccount = userData => (dispatch) => {
   authCheck(dispatch);
-
   return axios.put('/user/profile', userData)
     .then(({ data }) => {
       toastr.success(data.message);
-      return dispatch(userAuthSuccess(data.user));
+      return dispatch(getUserProfileSuccess(data.user));
     });
 };
 
 const changeUserPassword = passwordObject => (dispatch) => {
-  const headers = authCheck(dispatch);
-
+  authCheck(dispatch);
   return axios.post('/user/change-password', passwordObject)
     .then(({ data }) => {
       toastr.success(data.message);
@@ -106,4 +120,4 @@ const userSignUpRequest = userData => dispatch =>
     .then(({ data }) => dispatch(setUser(data)));
 
 export { loginRequest, userSignUpRequest, updateUserAccount,
-  checkAuthentication, logoutRequest, authCheck, getUserAccount, changeUserPassword };
+  checkAuthentication, logoutRequest, authCheck, getUserProfile, changeUserPassword };

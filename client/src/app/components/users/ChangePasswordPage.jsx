@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import toastr from 'toastr';
 import PropTypes from 'prop-types';
 import UserDetail from './UserDetail';
 import BorrowedItem from './BorrowedItem';
@@ -44,19 +45,17 @@ class ChangePasswordPage extends React.Component {
    * @return {void}
    */
   changeUserPassword(event) {
-    const Materialize = window.Materialize;
     event.preventDefault();
     this.setState({ errors: {} });
     this.props.changePassword(this.state.passwordObject)
-      .then(({ data }) => {
-        Materialize.toast(data.message, 2500, 'green');
+      .then(() => {
         this.props.history.replace('/profile');
       })
       .catch(({ response }) => {
         if (response.data.errors) {
           this.setState({ errors: response.data.errors });
         } else if (response.data.error) {
-          Materialize.toast(response.data.error, 4000, 'red darken-3');
+          toastr.error(response.data.error);
         }
       });
   }

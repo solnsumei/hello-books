@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import Routes from './Routes';
 import Header from './common/Header';
+import Footer from './common/Footer';
 import { logoutRequest } from '../actions/userActions';
 import { routeTitles } from '../helpers/constants';
 
@@ -25,18 +26,6 @@ class App extends React.Component {
   }
 
   /**
-   * [componentDidUpdate description]
-   * @method componentDidUpdate
-   * @param  {[type]}           prevProps [description]
-   * @return {[type]}                     [description]
-   */
-  componentDidUpdate(prevProps) {
-    if (!prevProps.user.username && this.props.user.username) {
-      const user = this.props.user;
-    }
-  }
-
-  /**
    * [doLogout description]
    * @method doLogout
    * @param  {[type]} event [description]
@@ -54,11 +43,13 @@ class App extends React.Component {
    * @return {[type]} [description]
    */
   render() {
+    const props = this.props;
     return (
       <div>
         <Header title={routeTitles(this.props.pathname)}
           user={this.props.user} logout={this.doLogout}/>
-        <Routes user={this.props.user}/>
+        <Routes {...props}/>
+        { this.props.user.id && <Footer /> }
       </div>
     );
   }

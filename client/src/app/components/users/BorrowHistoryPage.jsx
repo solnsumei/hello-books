@@ -35,6 +35,16 @@ class BorrowHistoryPage extends React.Component {
   }
 
   /**
+   * Load user's borrowed books
+   * @memberof BorrowHistoryPage
+   * @returns {void}
+   */
+  componentDidMount() {
+    this.props.loadBorrowedBooks();
+    $('.modal').modal();
+  }
+
+  /**
    * Method to show modal to confirm returning book
    * @method showReturnModal
    * @param  {Object} borrowedBook [description]
@@ -154,7 +164,9 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = dispatch => ({
   returnBook: bookId =>
-    dispatch(borrowActions(actionTypes.RETURN_BOOK, bookId))
+    dispatch(borrowActions(actionTypes.RETURN_BOOK, bookId)),
+  loadBorrowedBooks: () =>
+    dispatch(borrowActions(actionTypes.LOAD_BORROWED_BOOKS))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(BorrowHistoryPage);

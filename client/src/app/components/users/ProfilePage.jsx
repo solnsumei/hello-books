@@ -7,7 +7,7 @@ import UserDetail from './UserDetail';
 import BorrowedItem from './BorrowedItem';
 import EditProfileForm from './EditProfileForm';
 import TopTitle from '../common/TopTitle';
-import { updateUserAccount } from '../../actions/userActions';
+import { updateUserAccount, getUserProfile } from '../../actions/userActions';
 import Modal from '../common/Modal';
 import actionTypes from '../../actions/actionTypes';
 import borrowActions from '../../actions/borrowActions';
@@ -26,7 +26,6 @@ class ProfilePage extends React.Component {
     super(props);
 
     this.state = {
-      user: Object.assign({}, this.props.user),
       errors: {},
       editUser: false,
     };
@@ -35,6 +34,15 @@ class ProfilePage extends React.Component {
     this.updateFormState = this.updateFormState.bind(this);
     this.updateUser = this.updateUser.bind(this);
     this.closeEditProfileForm = this.closeEditProfileForm.bind(this);
+  }
+
+  /**
+   * Fetch user when component mounts
+   * @memberof ProfilePage
+   * @returns {void}
+   */
+  componentWillMount() {
+    this.props.getUserDetails();
   }
 
   /**
@@ -47,6 +55,9 @@ class ProfilePage extends React.Component {
     event.preventDefault();
     this.setState({ errors: {} });
     this.props.updateUser(this.state.user)
+      .then(() => this.setState({
+        editUser: false
+      }))
       .catch(({ response }) => {
         if (response.data.errors) {
           this.setState({ errors: response.data.errors });
@@ -75,22 +86,10 @@ class ProfilePage extends React.Component {
    */
   onShowUpdateForm(event) {
     event.preventDefault();
-    this.setState({ editUser: true });
-  }
-
-  /**
-   * [componentWillUpdate description]
-   * @method componentWillUpdate
-   * @param  {[type]}            nextProps [description]
-   * @param  {[type]}            nextState [description]
-   * @return {[type]}                      [description]
-   */
-  componentWillUpdate(nextProps, nextState) {
-    if (!this.state.editUser && nextState.editUser) {
-      $(document).ready(() => {
-        // $('#select-field').material_select();
-      });
-    }
+    this.setState({
+      user: this.props.user,
+      editUser: true
+    });
   }
 
   /**
@@ -151,7 +150,8 @@ const mapStateToProps = (state, ownProps) => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  updateUser: user => dispatch(updateUserAccount(user))
+  updateUser: user => dispatch(updateUserAccount(user)),
+  getUserDetails: () => dispatch(getUserProfile())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProfilePage);

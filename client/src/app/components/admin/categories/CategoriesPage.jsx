@@ -42,6 +42,7 @@ class CategoriesPage extends React.Component {
    */
   componentDidMount() {
     this.props.loadCategories();
+    $('.modal').modal();
   }
 
   /**
