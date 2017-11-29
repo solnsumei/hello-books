@@ -131,23 +131,13 @@ class ProfilePage extends React.Component {
 
 ProfilePage.propTypes = {
   user: PropTypes.object.isRequired,
-  borrowedBooks: PropTypes.array,
   updateUser: PropTypes.func,
   updateFormState: PropTypes.func
 };
 
-const mapStateToProps = (state, ownProps) => {
-  let booksNotReturned = [];
-  booksNotReturned =
-  state.borrowedBooks.filter(borrowedBook => borrowedBook.returned === false);
-
-  return ({
-    user: state.user,
-    borrowedCount: state.borrowedBooks.length,
-    noOfBooksNotReturned: booksNotReturned.length,
-    borrowedBooks: booksNotReturned,
-  });
-};
+const mapStateToProps = (state, ownProps) => ({
+  user: state.user,
+});
 
 const mapDispatchToProps = dispatch => ({
   updateUser: user => dispatch(updateUserAccount(user)),

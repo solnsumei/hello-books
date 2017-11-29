@@ -6,6 +6,7 @@ import categories from './categoryReducer';
 import books from './bookReducer';
 import borrowedBooks from './borrowReducer';
 import notifications from './notificationReducer';
+import itemCount from './itemCountReducer';
 
 const rootReducer = combineReducers({
   user,
@@ -14,7 +15,8 @@ const rootReducer = combineReducers({
   categories,
   books,
   borrowedBooks,
-  notifications
+  notifications,
+  itemCount
 });
 
 export default rootReducer;

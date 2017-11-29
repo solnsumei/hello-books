@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import toastr from 'toastr';
+import queryString from 'query-string';
+import Pagination from '../../common/Pagination';
 import CategoryList from './CategoryList';
 import CategoryModal from './CategoryModal';
 import actionTypes from '../../../actions/actionTypes';
@@ -41,8 +43,24 @@ class CategoriesPage extends React.Component {
    * @return {void}
    */
   componentDidMount() {
-    this.props.loadCategories();
+    if (parseInt(this.props.queryParams.page, 10)) {
+      this.props.loadCategories(this.props.queryParams.page, this.props.perPage);
+    } else {
+      this.props.loadCategories(null, this.props.perPage);
+    }
     $('.modal').modal();
+  }
+
+  /**
+     * 
+     * @param {any} nextProps 
+     * @memberof CategoriesPage
+     * @returns {void}
+     */
+  componentWillReceiveProps(nextProps) {
+    if (this.props.queryParams.page !== nextProps.queryParams.page) {
+      this.props.loadCategories(nextProps.queryParams.page, nextProps.perPage);
+    }
   }
 
   /**
@@ -171,6 +189,15 @@ class CategoriesPage extends React.Component {
           </div>
         </div>
 
+        {(this.props.itemCount > this.props.perPage) &&
+          <Pagination
+            itemCount={this.props.itemCount}
+            perPage={this.props.perPage}
+            pageNumber={this.props.queryParams.page}
+            pageUrl={this.props.location.pathname}
+          />
+        }
+
         <CategoryModal
           category={this.state.category}
           errors={this.state.errors}
@@ -192,15 +219,24 @@ const mapStateToProps = (state, ownProps) => {
     id: '',
     name: '' };
 
-  return ({
+  let queryParams = ownProps.location.search;
+
+  if (queryParams) {
+    queryParams = queryString.parse(queryParams);
+  }
+
+  return {
+    perPage: 20,
+    itemCount: state.itemCount.categories,
+    queryParams,
     category,
     categories: state.categories.sort((a, b) => (a.id - b.id))
-  });
+  };
 };
 
 const mapDispatchToProps = dispatch => ({
-  loadCategories: () =>
-    dispatch(categoryActions(actionTypes.LOAD_CATEGORIES)),
+  loadCategories: (page, limit) =>
+    dispatch(categoryActions(actionTypes.LOAD_CATEGORIES, page, limit)),
   saveOrUpdateCategory: category =>
     dispatch(categoryActions(actionTypes.SAVE_OR_UPDATE_CATEGORY, category)),
   deleteCategory: category =>

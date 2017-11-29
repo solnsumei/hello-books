@@ -282,8 +282,8 @@ describe('User', () => {
         .set('x-token', freeUser.token)
         .set('Accept', 'application/json')
         .end((err, res) => {
-          book1 = res.body.books[0];
-          book2 = res.body.books[1];
+          book1 = res.body.books.rows[0];
+          book2 = res.body.books.rows[1];
 
           request(app)
             .post('/api/v1/users/signin')
@@ -446,7 +446,7 @@ describe('User', () => {
         .end((err, res) => {
           assert.equal(res.status, 200);
           assert.equal(res.body.message, 'Borrow history loaded successfully');
-          assert.equal(res.body.borrowedBooks.length, 1);
+          assert.equal(res.body.borrowedBooks.count, 1);
           done();
         })
     });
@@ -460,7 +460,7 @@ describe('User', () => {
         .end((err, res) => {
           assert.equal(res.status, 200);
           assert.equal(res.body.message, 'Borrow history loaded successfully');
-          assert.equal(res.body.borrowedBooks.length, 1);
+          assert.equal(res.body.borrowedBooks.count, 1);
           done();
         })
     });
@@ -474,14 +474,14 @@ describe('User', () => {
         .end((err, res) => {
           assert.equal(res.status, 200);
           assert.equal(res.body.message, 'Borrow history loaded successfully');
-          assert.equal(res.body.borrowedBooks.length, 0);
+          assert.equal(res.body.borrowedBooks.count, 0);
           done();
         })
     });
   });
 
   // Test Admin Notifications
-  describe('POST admin notifications', () => {
+  describe('GET admin notifications', () => {
     let notificationId = null;
     
     it('it should respond with a 200 with a list of unread notifications', (done) => {
@@ -492,8 +492,8 @@ describe('User', () => {
         .end((err, res) => {
           assert.equal(res.status, 200);
           assert.equal(res.body.message, 'Unread Notifications loaded successfully')
-          assert.equal(res.body.notifications.length, 2);
-          notificationId = res.body.notifications[0].id;
+          assert.equal(res.body.notifications.count, 2);
+          notificationId = res.body.notifications.rows[0].id;
           done();
         })
     });

@@ -14,12 +14,12 @@ const CategoryList = ({ categories, onEdit, onDelete }) => (
     <tbody>
       { categories.length > 0 ?
         categories.map(category =>
-          <CategoryListRow key={category.id} onClickEdit={myCat => onEdit(category)}
-            onClickDelete={cat => onDelete(category)} category={category} />
+          <CategoryListRow key={category.id} onClickEdit={() => onEdit(category)}
+            onClickDelete={() => onDelete(category)} category={category} />
         ) :
         <tr>
           <td colSpan="3" className="center-align">
-            No categories added
+            No item found
           </td>
         </tr>
       }

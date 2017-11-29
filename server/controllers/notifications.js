@@ -1,5 +1,6 @@
 import models from '../models/index';
 import errorResponseHandler from '../helpers/errorResponseHandler';
+import pagination from '../helpers/pagination';
 
 const attributes = ['id', 'borrowDate', 'dueDate', 'returned', 'returnDate', 'isSeen'];
 
@@ -17,8 +18,9 @@ export default {
    * @returns {Promise.<Object>} notifications
    */
   getAllUnreadNotifications(req, res) {
+    const { offset, limit } = pagination(req.query.page, req.query.limit);
     return models.BorrowedBook
-      .findAll({
+      .findAndCountAll({
         attributes,
         include: [{
           model: models.Book,
@@ -30,6 +32,8 @@ export default {
           as: 'user',
           attributes: ['firstName', 'surname', 'username']
         }],
+        offset,
+        limit,
         where: { isSeen: false }
       })
       .then(notifications => res.status(200).send({

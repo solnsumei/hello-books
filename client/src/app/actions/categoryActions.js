@@ -2,6 +2,7 @@ import axios from 'axios';
 import toastr from 'toastr';
 import types from './actionTypes';
 import { authCheck } from './userActions';
+import urlHelper from '../helpers/urlHelper';
 
 const addCategorySuccess = category => ({
   type: types.ADD_CATEGORY_SUCCESS, category
@@ -20,12 +21,14 @@ const deleteCategorySuccess = category => ({
 });
 
 // load book categories from server
-const loadCategories = () => dispatch =>
-  axios.get('/categories')
+const loadCategories = (page, limit) => (dispatch) => {
+  const queryString = urlHelper('/categories', page, limit);
+  return axios.get(queryString)
     .then(({ data }) => dispatch(loadCategoriesSuccess(data.categories)))
     .catch(({ response }) => {
       toastr(response.data.error);
     });
+};
 
 // save or update book category
 const saveOrUpdateCategory = category => (dispatch) => {
@@ -50,7 +53,7 @@ const deleteCategory = category => dispatch =>
   axios.delete(`/categories/${category.id}`)
     .then(({ data }) => {
       toastr.success(data.message);
-      return dispatch(deleteCategorySuccess(category));
+      return dispatch(loadCategories());
     })
     .catch(({ response }) => {
       if (response) {
@@ -60,18 +63,18 @@ const deleteCategory = category => dispatch =>
 
 
 // action entry point for category actions
-const categoryActions = (action, category = null) => (dispatch) => {
+const categoryActions = (action, ...params) => (dispatch) => {
   if (!authCheck(dispatch)) return;
 
   switch (action) {
     case types.LOAD_CATEGORIES:
-      return dispatch(loadCategories());
+      return dispatch(loadCategories(params[0], params[1]));
 
     case types.SAVE_OR_UPDATE_CATEGORY:
-      return dispatch(saveOrUpdateCategory(category));
+      return dispatch(saveOrUpdateCategory(params[0]));
 
     case types.DELETE_CATEGORY:
-      return dispatch(deleteCategory(category));
+      return dispatch(deleteCategory(params[0]));
 
     default:
       break;

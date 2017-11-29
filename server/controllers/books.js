@@ -1,6 +1,7 @@
 import models from '../models/index';
 import { formatBookObject } from '../helpers/formatData';
 import errorResponseHandler from '../helpers/errorResponseHandler';
+import pagination from '../helpers/pagination';
 
 /**
  * Controller for adding, updating and getting books
@@ -54,12 +55,16 @@ export default {
       ];
     }
 
+    const { offset, limit } = pagination(req.query.page, req.query.limit);
+
     return models.Book
       .scope('active')
-      .findAll({
-        order: [['id', 'ASC']],
+      .findAndCountAll({
+        order: [['id', 'DESC']],
         attributes,
         include,
+        offset,
+        limit,
       })
       .then(books => res.status(200).send({
         success: true,

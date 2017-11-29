@@ -52,8 +52,7 @@ const setUser = data => (dispatch) => {
   localStorage.setItem(types.USER_TOKEN, data.token);
   localStorage.setItem(types.ADMIN, data.user.admin);
   toastr.success(data.message);
-  dispatch(userAuthSuccess(data.user));
-  return dispatch(borrowActions(types.LOAD_BORROWED_BOOKS));
+  return dispatch(userAuthSuccess(data.user));
 };
 
 const authCheck = (dispatch) => {
@@ -76,13 +75,7 @@ const logoutRequest = () => (dispatch) => {
 const getUserProfile = (user = null) => (dispatch) => {
   authCheck(dispatch);
   return axios.get('/user/profile')
-    .then(({ data }) => {
-      if (user) {
-        dispatch(userAuthSuccess(data.user));
-        return dispatch(borrowActions(types.LOAD_BORROWED_BOOKS));
-      }
-      return dispatch(getUserProfileSuccess(data.user));
-    });
+    .then(({ data }) => dispatch(getUserProfileSuccess(data.user)));
 };
 
 // check user authentication
@@ -92,6 +85,7 @@ const checkAuthentication = () => (dispatch) => {
     return dispatch(userAuthFailed());
   }
   dispatch(userAuthSuccess(user));
+  dispatch(borrowActions(types.LOAD_BORROWED_BOOKS));
   return dispatch(getUserProfile(user));
 };
 
@@ -100,7 +94,7 @@ const updateUserAccount = userData => (dispatch) => {
   return axios.put('/user/profile', userData)
     .then(({ data }) => {
       toastr.success(data.message);
-      return dispatch(getUserProfileSuccess(data.user));
+      return dispatch(getUserProfile());
     });
 };
 

@@ -2,6 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import queryString from 'query-string';
+import Pagination from '../common/Pagination';
 import actionTypes from '../../actions/actionTypes';
 import bookActions from '../../actions/bookActions';
 import borrowActions from '../../actions/borrowActions';
@@ -13,10 +15,26 @@ class CatalogPage extends React.Component {
   /**
    * [componentDidMount description]
    * @method componentDidMount
-   * @return {[type]}          [description]
+   * @return {void}
    */
   componentDidMount() {
-    this.props.loadBooks();
+    if (parseInt(this.props.queryParams.page, 10)) {
+      this.props.loadBooks(this.props.queryParams.page, this.props.perPage);
+    } else {
+      this.props.loadBooks(null, this.props.perPage);
+    }
+  }
+
+  /**
+     * 
+     * @param {any} nextProps 
+     * @memberof BooksPage
+     * @returns {void}
+     */
+  componentWillReceiveProps(nextProps) {
+    if (this.props.queryParams.page !== nextProps.queryParams.page) {
+      this.props.loadBooks(nextProps.queryParams.page, nextProps.perPage);
+    }
   }
 
   /**
@@ -33,17 +51,37 @@ class CatalogPage extends React.Component {
           </div>
         </div>
         <BookList books={this.props.books} link="/books/"/>
+        {(this.props.itemCount > this.props.perPage) &&
+          <Pagination
+            itemCount={this.props.itemCount}
+            perPage={this.props.perPage}
+            pageNumber={this.props.queryParams.page}
+            pageUrl={this.props.location.pathname}
+          />
+        }
       </div>
     );
   }
 }
 
-const mapStateToProps = (state, ownProps) => ({
-  books: state.books.sort((a, b) => (b.id - a.id))
-});
+// Map state from store to component properties
+const mapStateToProps = (state, ownProps) => {
+  let queryParams = ownProps.location.search;
+
+  if (queryParams) {
+    queryParams = queryString.parse(queryParams);
+  }
+
+  return {
+    perPage: 2,
+    itemCount: state.itemCount.books,
+    queryParams,
+    books: state.books
+  };
+};
 
 const mapDispatchToProps = dispatch => ({
-  loadBooks: () => dispatch(bookActions(actionTypes.LOAD_BOOKS)),
+  loadBooks: (page, limit) => dispatch(bookActions(actionTypes.LOAD_BOOKS, page, limit)),
 });
 
 CatalogPage.propTypes = {
