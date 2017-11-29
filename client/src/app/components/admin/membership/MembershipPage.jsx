@@ -145,7 +145,7 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = dispatch => ({
   updateMembershipType: membership =>
     dispatch(membershipActions(actionTypes.UPDATE_MEMBERSHIP_TYPE, membership)),
-  loadMemberships: () => membershipActions(actionTypes.LOAD_MEMBERSHIP_TYPES)
+  loadMemberships: () => dispatch(membershipActions(actionTypes.LOAD_MEMBERSHIP_TYPES))
 });
 
 MembershipPage.propTypes = {

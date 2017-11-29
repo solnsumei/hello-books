@@ -9,7 +9,7 @@ import initialState from './initialState';
 export default function (state = initialState.borrowedBooks, action) {
   switch (action.type) {
     case types.LOAD_BORROWED_BOOKS_SUCCESS:
-      return action.borrowedBooks;
+      return action.borrowedBooks.rows;
 
     case types.BORROW_BOOK_SUCCESS:
       return [...state,

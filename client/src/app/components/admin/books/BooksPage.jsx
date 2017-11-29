@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import queryString from 'query-string';
+import Pagination from '../../common/Pagination';
 import BookList from './BookList';
 import AddQuantityModal from './AddQuantityModal';
 import Modal from '../../common/Modal';
@@ -41,8 +43,24 @@ class BooksPage extends React.Component {
    * @return {void}
    */
   componentDidMount() {
-    this.props.loadBooks();
+    if (parseInt(this.props.queryParams.page, 10)) {
+      this.props.loadBooks(this.props.queryParams.page, this.props.perPage);
+    } else {
+      this.props.loadBooks(null, this.props.perPage);
+    }
     $('.modal').modal();
+  }
+
+  /**
+     * 
+     * @param {any} nextProps 
+     * @memberof BooksPage
+     * @returns {void}
+     */
+  componentWillReceiveProps(nextProps) {
+    if (this.props.queryParams.page !== nextProps.queryParams.page) {
+      this.props.loadBooks(nextProps.queryParams.page, nextProps.perPage);
+    }
   }
 
   /**
@@ -150,6 +168,14 @@ class BooksPage extends React.Component {
                 </div>
               </div>
             </div>
+            {(this.props.itemCount > this.props.perPage) &&
+              <Pagination
+                itemCount={this.props.itemCount}
+                perPage={this.props.perPage}
+                pageNumber={this.props.queryParams.page}
+                pageUrl={this.props.location.pathname}
+              />
+            }
             <AddQuantityModal
               quantity={this.state.quantity}
               error={this.state.error}
@@ -171,15 +197,26 @@ class BooksPage extends React.Component {
 }
 
 // Map state from store to component properties
-const mapStateToProps = (state, ownProps) => ({
-  books: state.books.sort((a, b) => (b.id - a.id))
-});
+const mapStateToProps = (state, ownProps) => {
+  let queryParams = ownProps.location.search;
+
+  if (queryParams) {
+    queryParams = queryString.parse(queryParams);
+  }
+
+  return {
+    perPage: 20,
+    itemCount: state.itemCount.books,
+    queryParams,
+    books: state.books.sort((a, b) => (b.id - a.id))
+  };
+};
 
 const mapDispatchToProps = dispatch => ({
   addStockQuantity: (book, quantity) =>
-    dispatch(bookActions(actionTypes.ADD_STOCK_QUANTITY, book, null, quantity)),
-  loadBooks: book =>
-    dispatch(bookActions(actionTypes.LOAD_BOOKS)),
+    dispatch(bookActions(actionTypes.ADD_STOCK_QUANTITY, book, quantity)),
+  loadBooks: (page, limit) =>
+    dispatch(bookActions(actionTypes.LOAD_BOOKS, page, limit)),
   deleteBook: book =>
     dispatch(bookActions(actionTypes.DELETE_BOOK, book))
 });

@@ -5,5 +5,6 @@ export default {
   borrowedBooks: [],
   memberships: [],
   notifications: [],
+  itemCount: { borrowedBooks: 0, notifications: 0, books: 0, categories: 0 },
   redirectUrl: '',
 };

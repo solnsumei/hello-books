@@ -5,6 +5,7 @@ import { formatUserObject, formatBorrowedBookObject } from '../helpers/formatDat
 import models from '../models/index';
 import errorResponseHandler from '../helpers/errorResponseHandler';
 import upgradeUserLevel from '../helpers/upgradeUserLevel';
+import pagination from '../helpers/pagination';
 
 /**
  * User controller to handle user request
@@ -40,11 +41,20 @@ export default {
 
   // Get a single user
   getUser(req, res) {
-    return res.status(200).send({
-      success: true,
-      message: 'User was loaded successfully',
-      user: formatUserObject(req.auth)
-    });
+    return models.BorrowedBook.findAndCountAll({ where: { userId: req.auth.id } })
+      .then((result) => {
+        req.auth.borrowedCount = result.count;
+        if (result.count > 0) {
+          req.auth.notReturned = result.rows.filter(row => row.returned === false).length;
+        }
+        req.auth.notReturned = req.auth.notReturned || 0;
+        return res.status(200).send({
+          success: true,
+          message: 'User was loaded successfully',
+          user: formatUserObject(req.auth)
+        });
+      })
+      .catch(error => res.status(503).send(error));
   },
 
   // Update a user account in database
@@ -174,17 +184,22 @@ export default {
   // Borrow History method with returned query string
   borrowHistory(req, res) {
     const query = { userId: req.auth.id };
+    const { offset, limit } = pagination(req.query.page, req.query.limit);
+
     if (req.query.returned === 'true') {
       query.returned = true;
     } else if (req.query.returned === 'false') { query.returned = false; }
     return models.BorrowedBook
-      .findAll({
+      .findAndCountAll({
         attributes: ['id', 'bookId', 'dueDate', 'isSeen', 'returned', 'borrowDate', 'returnDate'],
+        order: [['id', 'DESC']],
         include: [{
           model: models.Book,
           as: 'book',
           attributes: ['title', 'isDeleted'],
         }],
+        offset,
+        limit,
         where: query
       }).then(borrowedBooks => res.status(200).send({
         success: true,

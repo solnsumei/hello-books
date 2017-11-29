@@ -22,7 +22,7 @@ class BookDetailPage extends React.Component {
       isBorrowed: this.props.isBorrowed
     };
 
-    this.confirmBorrow = this.confirmBorrow.bind(this);
+    this.confirmAction = this.confirmAction.bind(this);
     this.confirmReturn = this.confirmReturn.bind(this);
   }
 
@@ -44,22 +44,24 @@ class BookDetailPage extends React.Component {
    */
   componentWillReceiveProps(nextProps) {
     if (this.props.isBorrowed !== nextProps.isBorrowed) {
-      // Necessary to populate form when existing course is loaded directly
+      // Necessary to populate options when existing book is loaded directly
       this.setState({ isBorrowed: nextProps.isBorrowed });
     }
   }
 
   /**
    * [confirmBorrow description]
+   * @param {String} action
    * @method confirmBorrow
    * @return {[type]} [description]
    */
-  confirmBorrow() {
+  confirmAction(action) {
+    console.log(action);
     const { book } = this.props;
 
     $('.modal').modal('close');
 
-    this.props.borrow(book.id);
+    this.props.performAction(action, book.id);
   }
 
   /**
@@ -126,7 +128,8 @@ class BookDetailPage extends React.Component {
             text={!this.state.isBorrowed ?
               'Do you want to borrow this book?' :
               'Do you want to return this book?' }
-            action={!this.state.isBorrowed ? this.confirmBorrow : this.confirmReturn}
+            action={() => (!this.state.isBorrowed ? this.confirmAction(actionTypes.BORROW_BOOK) :
+              this.confirmAction(actionTypes.RETURN_BOOK))}
           />
         </div> :
           <div className="container">
@@ -186,9 +189,9 @@ const mapStateToProps = (state, ownProps) => {
 
 // map dispatch actions to borrow actions
 const mapDispatchToProps = dispatch => ({
-  getBook: bookId => dispatch(bookActions(actionTypes.GET_BOOK, null, bookId)),
-  borrow: bookId =>
-    dispatch(borrowActions(actionTypes.BORROW_BOOK, bookId)),
+  getBook: bookId => dispatch(bookActions(actionTypes.GET_BOOK, bookId)),
+  performAction: (action, bookId) =>
+    dispatch(borrowActions(action, bookId)),
 
   return: bookId =>
     dispatch(borrowActions(actionTypes.RETURN_BOOK, bookId))

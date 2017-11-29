@@ -38,6 +38,8 @@ const formatUserObject = user => ({
   email: user.email,
   admin: user.admin,
   level: user.level,
+  borrowedCount: user.borrowedCount || 0,
+  notReturned: user.notReturned || 0,
 });
 
 export { formatBookObject, formatBorrowedBookObject, formatUserObject };

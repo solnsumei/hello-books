@@ -2,17 +2,13 @@ import React from 'react';
 import { Route, Redirect, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import toastr from 'toastr';
 import Dashboard from '../admin/Dashboard';
 import CategoriesPage from '../admin/categories/CategoriesPage';
 import BooksPage from '../admin/books/BooksPage';
 import ManageBookPage from '../admin/books/ManageBookPage';
 import MembershipPage from '../admin/membership/MembershipPage';
 import NotificationPage from '../admin/notifications/NotificationPage';
-import actionTypes from '../../actions/actionTypes';
-import categoryActions from '../../actions/categoryActions';
-import membershipActions from '../../actions/membershipActions';
-import notificationActions from '../../actions/notificationActions';
+
 /**
 *
 */
@@ -22,8 +18,8 @@ class IsAdmin extends React.Component {
    * @method redirectUnauthorisedUser
    * @return {[type]}                 [description]
    */
-  redirectUnauthorisedUser() {
-    if (!this.props.user.admin) {
+  redirectUnauthorisedUser({ user }) {
+    if (!user.admin) {
       this.props.history.replace('/profile');
     }
   }
@@ -34,12 +30,17 @@ class IsAdmin extends React.Component {
    * @return {[type]}          [description]
    */
   componentWillMount() {
-    this.redirectUnauthorisedUser();
-    if (this.props.user.admin) {
-      this.props.loadCategories();
-      this.props.loadMembership();
-      this.props.loadNotifications();
-    }
+    this.redirectUnauthorisedUser(this.props);
+  }
+
+  /**
+   * 
+   * @param {any} nextProps 
+   * @memberof IsAdmin
+   * @returns {void}
+   */
+  componentWillReceiveProps(nextProps) {
+    this.redirectUnauthorisedUser(nextProps);
   }
 
   /**
@@ -67,20 +68,10 @@ class IsAdmin extends React.Component {
 
 const mapStateToProps = (state, ownProps) => ({
   user: state.user,
-  currentURL: ownProps.location.pathname,
-});
-
-const mapDispatchToProps = dispatch => ({
-  loadCategories: () => dispatch(categoryActions(actionTypes.LOAD_CATEGORIES)),
-  loadMembership: () => dispatch(membershipActions(actionTypes.LOAD_MEMBERSHIP_TYPES)),
-  loadNotifications: () => dispatch(notificationActions(actionTypes.LOAD_UNREAD_NOTIFICATIONS))
 });
 
 IsAdmin.propTypes = {
-  user: PropTypes.object,
-  loadCategories: PropTypes.func.isRequired,
-  loadMembership: PropTypes.func.isRequired,
-  loadNotifications: PropTypes.func.isRequired
+  user: PropTypes.object.isRequired,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(IsAdmin);
+export default connect(mapStateToProps, null)(IsAdmin);

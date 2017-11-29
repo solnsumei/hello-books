@@ -1,6 +1,7 @@
 import slug from 'slug';
 import models from '../models/index';
 import errorResponseHandler from '../helpers/errorResponseHandler';
+import pagination from '../helpers/pagination';
 
 /**
  * Controller for adding, updating categories
@@ -40,9 +41,13 @@ export default {
    * @returns {Promise.<Object>} categories
    */
   getAllCategories(req, res) {
+    const { offset, limit } = pagination(req.query.page, req.query.limit);
     return models.Category
-      .findAll({
-        attributes: ['id', 'name', 'slug']
+      .findAndCountAll({
+        order: [['id', 'DESC']],
+        attributes: ['id', 'name', 'slug'],
+        offset,
+        limit,
       })
       .then(categories => res.status(200).send({
         success: true,

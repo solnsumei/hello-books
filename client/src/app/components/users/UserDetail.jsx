@@ -11,15 +11,11 @@ const UserDetail = ({ user, borrowedCount,
             <i className="material-icons medium primary-color">assignment_ind</i>
           </p>
           <h3 className="card-title center-align">
-            <strong>Profile</strong>
+            <strong>{`${user.firstName} ${user.surname}`}</strong>
           </h3>
 
           <div className="divider"></div>
           <br />
-
-          <p><strong><i className="material-icons">person</i> Name:</strong></p>
-          <h4>{`${user.firstName} ${user.surname}`}</h4>
-          <div className="divider"></div>
 
           <p><strong><i className="material-icons">email</i> Email:</strong></p>
           <h4>{user.email}</h4>
@@ -65,7 +61,7 @@ const UserDetail = ({ user, borrowedCount,
           <h4>
             <strong>
               <i className="material-icons">bookmark</i>
-              Books Not Returned: {noOfBooksNotReturned}
+              Books Not Returned: {user.notReturned}
             </strong>
           </h4>
           <br/>
@@ -74,7 +70,7 @@ const UserDetail = ({ user, borrowedCount,
           <h4>
             <strong>
               <i className="material-icons">bookmark</i>
-              Total Borrowed: {borrowedCount}
+              Total Borrowed: {user.borrowedCount}
             </strong>
           </h4>
           <br/>

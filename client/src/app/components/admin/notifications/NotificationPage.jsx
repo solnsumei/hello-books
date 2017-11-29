@@ -3,6 +3,7 @@ import toastr from 'toastr';
 import queryString from 'query-string';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import Pagination from '../../common/Pagination';
 import NotificationItem from './NotificationItem';
 import TopTitle from '../../common/TopTitle';
 import NotificationModal from './NotificationModal';
@@ -36,10 +37,26 @@ class NotificationPage extends React.Component {
    * @returns {void}
    */
   componentDidMount() {
-    this.props.loadNotifications();
+    if (parseInt(this.props.queryParams.page, 10)) {
+      this.props.loadNotifications(this.props.queryParams.page, this.props.perPage);
+    } else {
+      this.props.loadNotifications(null, this.props.perPage);
+    }
     $('.modal').modal();
   }
 
+  /**
+     * 
+     * @param {any} nextProps 
+     * @memberof NotificationPage
+     * @returns {void}
+     */
+  componentWillReceiveProps(nextProps) {
+    if ((this.props.queryParams.page !== nextProps.queryParams.page) ||
+     (this.props.notifications !== nextProps.notifications)) {
+      this.props.loadNotifications(nextProps.queryParams.page, nextProps.perPage);
+    }
+  }
   /**
    * Method to show modal show notification item
    * @method showModal
@@ -104,6 +121,14 @@ class NotificationPage extends React.Component {
             </div>
           </div>
         </div>
+        {(this.props.itemCount > this.props.perPage) &&
+          <Pagination
+            itemCount={this.props.itemCount}
+            perPage={this.props.perPage}
+            pageNumber={this.props.queryParams.page}
+            pageUrl={this.props.location.pathname}
+          />
+        }
         <NotificationModal id="modal1"
           title={this.state.notification.returned ? 'Book Was Returned' : 'Book Was Borrowed'}
           notification={this.state.notification}
@@ -116,17 +141,25 @@ class NotificationPage extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
   const notifications = state.notifications.sort((a, b) => (b.id - a.id));
+  let queryParams = ownProps.location.search;
 
-  return ({
+  if (queryParams) {
+    queryParams = queryString.parse(queryParams);
+  }
+
+  return {
+    perPage: 20,
+    itemCount: state.itemCount.notifications,
+    queryParams,
     notifications,
-  });
+  };
 };
 
 const mapDispatchToProps = dispatch => ({
   readNotification: notificationId =>
     dispatch(notificationActions(actionTypes.READ_NOTIFICATION, notificationId)),
-  loadNotifications: () =>
-    dispatch(notificationActions(actionTypes.LOAD_UNREAD_NOTIFICATIONS))
+  loadNotifications: (page, limit) =>
+    dispatch(notificationActions(actionTypes.LOAD_UNREAD_NOTIFICATIONS, page, limit))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(NotificationPage);

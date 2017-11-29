@@ -9,7 +9,7 @@ import initialState from './initialState';
 export default function (state = initialState.notifications, action) {
   switch (action.type) {
     case types.LOAD_UNREAD_NOTIFICATIONS_SUCCESS:
-      return action.notifications;
+      return action.notifications.rows;
 
     case types.READ_NOTIFICATION_SUCCESS:
       return [...state.filter(notification => notification.id !== action.notification.id)];

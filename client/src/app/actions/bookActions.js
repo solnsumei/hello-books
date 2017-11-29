@@ -2,6 +2,7 @@ import axios from 'axios';
 import toastr from 'toastr';
 import types from './actionTypes';
 import { authCheck } from './userActions';
+import urlHelper from '../helpers/urlHelper';
 
 const addBookSuccess = book => ({
   type: types.ADD_BOOK_SUCCESS, book
@@ -28,12 +29,14 @@ const deleteBookSuccess = book => ({
 });
 
 // load all books
-const loadBooks = () => dispatch =>
-  axios.get('/books')
+const loadBooks = (page, limit) => (dispatch) => {
+  const queryString = urlHelper('/books', page, limit);
+  return axios.get(queryString)
     .then(({ data }) => dispatch(loadBooksSuccess(data.books)))
     .catch(({ response }) => {
       toastr.error(response.data.error);
     });
+};
 
   // get a single book
 const getBook = bookId => dispatch =>
@@ -74,7 +77,7 @@ const deleteBook = book => dispatch =>
   axios.delete(`/books/${book.id}`)
     .then(({ data }) => {
       toastr.success(data.message);
-      return dispatch(deleteBookSuccess(data.book));
+      return dispatch(loadBooks());
     })
     .catch(({ response }) => {
       if (response) {
@@ -83,24 +86,24 @@ const deleteBook = book => dispatch =>
     });
 
 // entry point for all book actions
-const bookActions = (action, book = null, bookId = null, quantity = null) => (dispatch) => {
+const bookActions = (action, ...params) => (dispatch) => {
   if (!authCheck(dispatch)) return;
 
   switch (action) {
     case types.LOAD_BOOKS:
-      return dispatch(loadBooks());
+      return dispatch(loadBooks(params[0], params[1]));
 
     case types.GET_BOOK:
-      return dispatch(getBook(bookId));
+      return dispatch(getBook(params[0]));
 
     case types.SAVE_OR_UPDATE_BOOK:
-      return dispatch(saveOrUpdateBook(book));
+      return dispatch(saveOrUpdateBook(params[0]));
 
     case types.ADD_STOCK_QUANTITY:
-      return dispatch(addStockQuantity(book, quantity));
+      return dispatch(addStockQuantity(params[0], params[1]));
 
     case types.DELETE_BOOK:
-      return dispatch(deleteBook(book));
+      return dispatch(deleteBook(params[0]));
 
     default:
       break;
