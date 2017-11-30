@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import toastr from 'toastr';
 import PropTypes from 'prop-types';
@@ -76,6 +76,12 @@ class ChangePasswordPage extends React.Component {
   * @return {[type]} [description]
   */
   render() {
+    if (this.props.user.googleUser) {
+      return (
+        <Redirect to='/profile' />
+      );
+    }
+
     return (
       <div>
         <div className="row">

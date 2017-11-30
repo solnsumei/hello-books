@@ -1,9 +1,11 @@
 import bcrypt from 'bcryptjs';
 import moment from 'moment';
+import Validator from 'validatorjs';
 import createToken from '../helpers/token';
 import { formatUserObject, formatBorrowedBookObject } from '../helpers/formatData';
 import models from '../models/index';
 import errorResponseHandler from '../helpers/errorResponseHandler';
+import formHelper from '../helpers/formHelper';
 import upgradeUserLevel from '../helpers/upgradeUserLevel';
 import pagination from '../helpers/pagination';
 
@@ -11,7 +13,21 @@ import pagination from '../helpers/pagination';
  * User controller to handle user request
  * @export userController
  */
-export default {
+const userController = {
+  checkGoogleParams(req, res) {
+    const validationData = formHelper.signup();
+    const validation = new Validator(req.body, validationData.rules);
+    if (validationData.customMessage) {
+      validation.setAttributeNames(validationData.customMessage);
+    }
+
+    if (validation.fails()) {
+      return res.status(400).send({
+        errors: validation.errors.errors
+      });
+    }
+    return userController.create(req, res);
+  },
   // Create a user account in database
   create(req, res) {
     const { firstName, surname, username, email, password } = req.body;
@@ -21,7 +37,8 @@ export default {
         surname,
         username: username.toLowerCase(),
         email,
-        password
+        password,
+        googleUser: req.body.googleUser || false
       })
       .then((user) => {
         const token = createToken(user);
@@ -83,7 +100,7 @@ export default {
     return models.User
       .findById(req.auth.id)
       .then((user) => {
-        if (user) {
+        if (user && !user.googleUser) {
           if (bcrypt.compareSync(req.body.oldPassword, user.password)) {
             // update password if the old password was entered correctly
             return user.update({
@@ -101,6 +118,9 @@ export default {
           }
           return errorResponseHandler(res, null, null, { name: 'oldPassword' });
         }
+        if (user.googleUser) {
+          return errorResponseHandler(res, 'You are logged in through google so cannot change your password', 409);
+        }
         return errorResponseHandler(res, 'User not found', 404);
       })
       .catch(() => errorResponseHandler(res));
@@ -114,6 +134,10 @@ export default {
       } })
       .then((user) => {
         if (!user) {
+          if (req.body.googleUser) {
+            return userController.checkGoogleParams(req, res);
+          }
+
           return errorResponseHandler(res, 'Username and/or password is incorrect', 401);
         } else if (bcrypt.compareSync(req.body.password, user.password)) {
           // Create token
@@ -260,5 +284,7 @@ export default {
           .catch(() => errorResponseHandler(res));
       })
       .catch(() => errorResponseHandler(res));
-  },
+  }
 };
+
+export default userController;

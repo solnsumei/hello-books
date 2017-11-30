@@ -1,12 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import { GoogleLogin } from 'react-google-login';
 import TextInput from '../common/TextInput';
 
 /**
  * @returns {object} component
  */
-const LoginForm = ({ loginParams, onSubmit, onChange, errors, loading }) => (
+const LoginForm = ({ loginParams, onSubmit, onChange, errors, loading, responseGoogle }) => (
   <div className="col s12 m6 offset-m3">
     <div className="card login-form">
       <h3 className="center-align">
@@ -40,6 +41,14 @@ const LoginForm = ({ loginParams, onSubmit, onChange, errors, loading }) => (
                 type="submit" name="action">
               Log in <i className="material-icons right">lock</i>
               </button>
+            </div>
+            <div className="col s12 center-align margin-2x">
+              <GoogleLogin
+                clientId="603786638407-v7faeg0ols8666e48dduchf3muvucirq.apps.googleusercontent.com"
+                onSuccess={responseGoogle}
+                onFailure={responseGoogle}>
+                Sign in with Google
+              </GoogleLogin>
             </div>
             <div className="col s12 center-align link">
               <br/>

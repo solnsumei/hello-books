@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { NavLink, Link } from 'react-router-dom';
 import AuthLinks from './AuthLinks';
+import logo from '../../../images/icon.png';
 
 const Header = ({ user, logout, title }) => {
   let linkToShow =
@@ -46,9 +47,9 @@ const Header = ({ user, logout, title }) => {
                   <div className="background">
                     &nbsp;
                   </div>
-                  <a href="#!user">
-                    <img className="circle" src="images/yuna.jpg"/>
-                  </a>
+                  <Link to="/profile">
+                    <img className="circle" src={logo} alt="icon"/>
+                  </Link>
                   <Link to="/profile">
                     <span className="white-text name">
                       {user.username && `${user.firstName} ${user.surname}`}

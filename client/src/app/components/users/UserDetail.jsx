@@ -39,11 +39,13 @@ const UserDetail = ({ user, borrowedCount,
                 <i className="material-icons">edit</i> Edit
               </button>
               &nbsp;
+              {!user.googleUser &&
               <Link title="change password"
                 className="btn waves-effect waves-light teal"
                 to='/change-password'>
                 <i className="material-icons">lock</i> Change Password
               </Link>
+              }
             </p>
           </div>
         </div>
