@@ -2,6 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import toastr from 'toastr';
+import changeCase from 'change-case';
+import googleUserFormatter from '../../helpers/googleUserFormatter';
 import TextInput from '../common/TextInput';
 import LoginForm from './LoginForm';
 import { loginRequest } from '../../actions/userActions';
@@ -26,6 +29,7 @@ class LoginPage extends React.Component {
 
     this.updateFormState = this.updateFormState.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+    this.responseGoogle = this.responseGoogle.bind(this);
   }
 
   /**
@@ -40,13 +44,36 @@ class LoginPage extends React.Component {
   }
 
   /**
+   * 
+   * @param {any} response 
+   * @memberof LoginPage
+   * @returns {void}
+   */
+  responseGoogle(response) {
+    if (response.error) {
+      return toastr.error(changeCase.sentence(response.error));
+    }
+    const googleUser = googleUserFormatter(response);
+    this.loginRequest(googleUser, true);
+  }
+
+  /**
    * @param {object} event
    * @return {object} state
    */
   onSubmit(event) {
     event.preventDefault();
+    this.loginRequest(this.state.loginParams);
+  }
+
+  /**
+   * @param {Object} data
+   * @param {Boolean} googleError
+   * @return {void}
+   */
+  loginRequest(data, googleError = false) {
     this.setState({ errors: {} });
-    this.props.loginUser(this.state.loginParams)
+    this.props.loginUser(data)
       .catch(({ response }) => this.setState({ errors: response.data }));
   }
 
@@ -62,6 +89,7 @@ class LoginPage extends React.Component {
             loginParams={this.state.loginParams}
             onChange={this.updateFormState}
             onSubmit={this.onSubmit}
+            responseGoogle={this.responseGoogle}
             errors={this.state.errors} />
         </div>
       </div>

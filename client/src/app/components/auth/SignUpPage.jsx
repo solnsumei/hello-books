@@ -3,9 +3,12 @@ import PropTypes from 'prop-types';
 import toastr from 'toastr';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import changeCase from 'change-case';
+import googleUserFormatter from '../../helpers/googleUserFormatter';
 import SignUpForm from './SignUpForm';
 import SignUpSuccess from './SignUpSuccess';
 import { userSignUpRequest } from '../../actions/userActions';
+
 /**
  *
  */
@@ -22,6 +25,7 @@ class SignUpPage extends React.Component {
 
     this.updateFormState = this.updateFormState.bind(this);
     this.onRegistrationSubmit = this.onRegistrationSubmit.bind(this);
+    this.responseGoogle = this.responseGoogle.bind(this);
   }
 
   /**
@@ -36,15 +40,44 @@ class SignUpPage extends React.Component {
   }
 
   /**
+   * 
+   * @param {any} response 
+   * @memberof SignUpPage
+   * @returns {void}
+   */
+  responseGoogle(response) {
+    if (response.error) {
+      return toastr.error(changeCase.sentence(response.error));
+    }
+    const googleUser = googleUserFormatter(response);
+    this.signUpRequest(googleUser, true);
+  }
+
+  /**
    * @param {object} event
    * @return {object} state
    */
   onRegistrationSubmit(event) {
     event.preventDefault();
+    this.signUpRequest(this.state.formParams);
+  }
+
+  /**
+   * @param {Object} data
+   * @param {Boolean} googleError
+   * @return {void}
+   */
+  signUpRequest(data, googleError = false) {
     this.setState({ errors: {} });
-    this.props.signUpRequest(this.state.formParams)
+    return this.props.signUpRequest(data)
       .catch(({ response }) => {
         if (response.data.errors) {
+          if (googleError) {
+            if (response.data.errors.username || response.data.errors.username) {
+              return toastr.error('Account already exists, please login');
+            }
+            return toastr.error('Your request could not be completed, please try again later');
+          }
           return this.setState({ errors: response.data.errors });
         }
       });
@@ -62,6 +95,7 @@ class SignUpPage extends React.Component {
             formParams={this.state.formParams}
             onChange={this.updateFormState}
             onSubmit={this.onRegistrationSubmit}
+            responseGoogle={this.responseGoogle}
             errors={this.state.errors} />
         </div>
       </div>

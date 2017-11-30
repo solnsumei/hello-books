@@ -53,7 +53,7 @@ class NotificationPage extends React.Component {
      */
   componentWillReceiveProps(nextProps) {
     if ((this.props.queryParams.page !== nextProps.queryParams.page) ||
-     (this.props.notifications !== nextProps.notifications)) {
+     (this.props.notifications.length !== nextProps.notifications.length)) {
       this.props.loadNotifications(nextProps.queryParams.page, nextProps.perPage);
     }
   }
@@ -140,7 +140,6 @@ class NotificationPage extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const notifications = state.notifications.sort((a, b) => (b.id - a.id));
   let queryParams = ownProps.location.search;
 
   if (queryParams) {
@@ -151,7 +150,7 @@ const mapStateToProps = (state, ownProps) => {
     perPage: 20,
     itemCount: state.itemCount.notifications,
     queryParams,
-    notifications,
+    notifications: state.notifications.sort((a, b) => (b.id - a.id)),
   };
 };
 

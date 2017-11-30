@@ -24,9 +24,7 @@ const loadUnreadNotifications = (page, limit) => (dispatch) => {
 
 const readNotification = notificationId => dispatch =>
   axios.get(`/notifications/${notificationId}`)
-    .then(({ data }) => {
-      dispatch(readNotificationSuccess());
-    })
+    .then(({ data }) => dispatch(readNotificationSuccess(data.notification)))
     .catch(({ response }) => {
       toastr.error(response.data.error);
     });

@@ -38,7 +38,7 @@ module.exports = {
       allowNull: false,
       defaultValue: 'Free'
     },
-    isLoggedIn: {
+    googleUser: {
       type: Sequelize.BOOLEAN,
       allowNull: false,
       defaultValue: false,
