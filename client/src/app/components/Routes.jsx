@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { Switch, Route } from 'react-router-dom';
 import LoginPage from './auth/LoginPage';
 import SignUpPage from './auth/SignUpPage';
+import ForgotPasswordPage from './password/ForgotPasswordPage';
+import ResetPasswordPage from './password/ResetPasswordPage';
 import ProfilePage from './users/ProfilePage';
 import CatalogPage from './book/CatalogPage';
 import BookDetailPage from './book/BookDetailPage';
@@ -18,6 +20,10 @@ const Routes = props => (
       <Route exact path='/' render={() => PreventAuthenticated(LoginPage, props)} />
       <Route path='/login' render={() => PreventAuthenticated(LoginPage, props)} />
       <Route path='/register' render={() => PreventAuthenticated(SignUpPage, props)} />
+      <Route path='/forgot-password' render={() =>
+        PreventAuthenticated(ForgotPasswordPage, props)} />
+      <Route path='/reset-password' render={() =>
+        PreventAuthenticated(ResetPasswordPage, props)} />
       <AuthRoute path='/profile' component={ProfilePage} {...props} />
       <AuthRoute path='/change-password' component={ChangePasswordPage} {...props} />
       <AuthRoute exact path='/books' component={CatalogPage} {...props} />

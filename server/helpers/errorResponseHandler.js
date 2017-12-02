@@ -28,6 +28,14 @@ const errorResponseHandler = (res, message = null, statusCode = null, error = nu
     });
   }
 
+  if (error && error.name === 'Entry') {
+    return res.status(400).send({
+      errors: {
+        entry: ['Entry field is required']
+      }
+    });
+  }
+
   if (message && statusCode) {
     return res.status(statusCode).send({
       error: message,

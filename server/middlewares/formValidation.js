@@ -25,6 +25,9 @@ export default function formValidation(type) {
     case requestType.CHANGE_PASSWORD:
       validationData = formHelper.changePassword();
       break;
+    case requestType.RESET_PASSWORD:
+      validationData = formHelper.resetPassword();
+      break;
     case requestType.ADD_BOOK:
       validationData = formHelper.addBook();
       break;

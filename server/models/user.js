@@ -107,6 +107,10 @@ export default (sequelize, DataTypes) => {
       type: DataTypes.BOOLEAN,
       defaultValue: false
     },
+    resetPassword: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false
+    },
     level: {
       type: DataTypes.INTEGER,
       defaultValue: 'Free',

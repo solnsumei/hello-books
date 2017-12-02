@@ -4,6 +4,12 @@ const constants = () => ({ headers: { 'x-token': localStorage.getItem(types.USER
 
 const routeTitles = (route) => {
   switch (route) {
+    case '/forgot-password':
+      return 'Forgot Password';
+    case '/reset-password':
+      return 'Reset Password';
+    case '/reset-success':
+      return 'Reset Success';
     case '/login':
       return 'Login';
     case '/register':

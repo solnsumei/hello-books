@@ -3,7 +3,9 @@ import usersController from '../controllers/users';
 import categoriesController from '../controllers/categories';
 import booksController from '../controllers/books';
 import membershipController from '../controllers/membership';
+import passwordController from '../controllers/password';
 import authMiddleware from '../middlewares/auth';
+import validateResetToken from '../middlewares/validateResetToken';
 import validateCategory from '../middlewares/validateCategory';
 import notificationsController from '../controllers/notifications';
 import validateBook from '../middlewares/validateBook';
@@ -18,6 +20,10 @@ const router = express.Router();
 router.post('/users/signup', formValidation(requestType.SIGNUP), usersController.create);
 
 router.post('/users/signin', formValidation(requestType.LOGIN), usersController.login);
+
+// reset password routes
+router.post('/users/forgot-password', passwordController.forgotPassword);
+router.post('/users/reset-password', formValidation(requestType.RESET_PASSWORD), validateResetToken, passwordController.resetPassword);
 
 // Authentication middle to check for logged in user
 
