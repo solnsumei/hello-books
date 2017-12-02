@@ -47,6 +47,14 @@ export default {
     };
   },
 
+  resetPassword() {
+    return {
+      rules: {
+        password: 'required|string|confirmed|min:8|max:150',
+      }
+    };
+  },
+
   addBook() {
     return {
       rules: {

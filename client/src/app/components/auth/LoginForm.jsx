@@ -7,7 +7,7 @@ import TextInput from '../common/TextInput';
 /**
  * @returns {object} component
  */
-const LoginForm = ({ loginParams, onSubmit, onChange, errors, loading, responseGoogle }) => (
+const LoginForm = ({ loginParams, onSubmit, onChange, errors, responseGoogle }) => (
   <div className="col s12 m6 offset-m3">
     <div className="card login-form">
       <h3 className="center-align">
@@ -54,6 +54,9 @@ const LoginForm = ({ loginParams, onSubmit, onChange, errors, loading, responseG
               <br/>
               <Link to="/register">New to Hello books? Sign up</Link>
             </div>
+            <div className="col s12 center-align link">
+              <Link to="/forgot-password">Forgot password</Link>
+            </div>
           </div>
         </div>
       </form>
@@ -65,7 +68,6 @@ LoginForm.propTypes = {
   loginParams: PropTypes.object.isRequired,
   onSubmit: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
-  loading: PropTypes.bool,
   errors: PropTypes.object,
   errorMsg: PropTypes.string
 };

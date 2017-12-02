@@ -3,7 +3,7 @@ import { Redirect } from 'react-router-dom';
 
 export default (Page, props) => (
   !props.user || !props.user.id ? (
-    <Page />
+    <Page {...props} />
   ) : (
     < Redirect to="/profile" />
   ));

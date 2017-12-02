@@ -98,13 +98,19 @@ const updateUserAccount = userData => (dispatch) => {
     });
 };
 
-const changeUserPassword = passwordObject => (dispatch) => {
+const changeUserPassword = passwordObj => (dispatch) => {
   authCheck(dispatch);
-  return axios.post('/user/change-password', passwordObject)
+  return axios.post('/user/change-password', passwordObj)
     .then(({ data }) => {
       toastr.success(data.message);
     });
 };
+
+const forgotPassword = entry => dispatch =>
+  axios.post('/users/forgot-password', entry);
+
+const resetPassword = (passwordObj, token) => dispatch =>
+  axios.post(`/users/reset-password?token=${token}`, passwordObj);
 
 const loginRequest = loginData => dispatch =>
   axios.post('/users/signin', loginData)
@@ -114,5 +120,5 @@ const userSignUpRequest = userData => dispatch =>
   axios.post('/users/signup', userData)
     .then(({ data }) => dispatch(setUser(data)));
 
-export { loginRequest, userSignUpRequest, updateUserAccount,
+export { loginRequest, userSignUpRequest, updateUserAccount, forgotPassword, resetPassword,
   checkAuthentication, logoutRequest, authCheck, getUserProfile, changeUserPassword };

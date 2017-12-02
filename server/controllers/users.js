@@ -100,7 +100,10 @@ const userController = {
     return models.User
       .findById(req.auth.id)
       .then((user) => {
-        if (user && !user.googleUser) {
+        if (user) {
+          if (user.googleUser) {
+            return errorResponseHandler(res, 'You are logged in through google so cannot change your password', 409);
+          }
           if (bcrypt.compareSync(req.body.oldPassword, user.password)) {
             // update password if the old password was entered correctly
             return user.update({
@@ -117,9 +120,6 @@ const userController = {
               .catch(error => errorResponseHandler(res, null, null, error));
           }
           return errorResponseHandler(res, null, null, { name: 'oldPassword' });
-        }
-        if (user.googleUser) {
-          return errorResponseHandler(res, 'You are logged in through google so cannot change your password', 409);
         }
         return errorResponseHandler(res, 'User not found', 404);
       })
