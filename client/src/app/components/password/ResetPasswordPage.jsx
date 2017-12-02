@@ -84,6 +84,7 @@ class ResetPasswordPage extends React.Component {
 
 ResetPasswordPage.propTypes = {
   resetPassword: PropTypes.func.isRequired,
+  token: PropTypes.string.isRequired
 };
 
 const mapStateToProps = (state, ownProps) => {
