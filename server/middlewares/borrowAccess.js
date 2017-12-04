@@ -1,3 +1,4 @@
+import moment from 'moment';
 import models from '../models/index';
 import errorResponseHandler from '../helpers/errorResponseHandler';
 
@@ -21,15 +22,23 @@ export default function borrowAccess(req, res, next) {
     })
     .then((user) => {
       if (user) {
-        return models.BorrowedBook.count({
+        return models.BorrowedBook.findAll({
           where: {
             userId: user.id,
             returned: false
           }
         })
           .then((result) => {
-            if (result > 0 && result >= user.membership.maxBorrowable) {
-              return errorResponseHandler(res, 'You have exceeded the maximum book you can hold at a time', 409);
+            if (result.length > 0) {
+              const surcharge = result.filter(borrowedItem => borrowedItem.dueDate < new Date());
+
+              if (surcharge.length > 0) {
+                return errorResponseHandler(res, 'You have a pending surcharge, please return books in your possession', 409);
+              }
+
+              if (result.length >= user.membership.maxBorrowable) {
+                return errorResponseHandler(res, 'You have exceeded the maximum book you can hold at a time', 409);
+              }
             }
             req.lendDuration = user.membership.lendDuration;
 

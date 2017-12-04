@@ -1,8 +1,7 @@
 import nodemailer from 'nodemailer';
 
 const transport = nodemailer.createTransport({
-  host: process.env.MAIL_HOST,
-  port: process.env.MAIL_PORT,
+  service: 'gmail',
   auth: {
     user: process.env.MAIL_USERNAME,
     pass: process.env.MAIL_PASS
@@ -21,7 +20,7 @@ const mailText = (user, context, book = null) => {
     <p>Regards: Hello Books</p>`;
   }
   return `<h3>Dear ${user.firstName} ${user.surname}</h3>
-    <p>You have been surcharged for not returning ${book.title} as at when due</p>
+    <p>You have been surcharged for not returning <strong>${book.title}</strong> as at when due</p>
     <p>For this reason you will not be able to borrow more books from the library until you return this book.</p>
     <p>Please endeavour to return the book in order to enjoy our library services</p>
     <p>Thank you</p>
@@ -31,10 +30,10 @@ const mailText = (user, context, book = null) => {
 };
 
 const mailOptions = (user, context, book = null) => ({
-  from: 'solnsumei@gmail.com',
+  from: `Hello Books <${process.env.MAIL_USERNAME}>`,
   to: user.email,
   subject: context,
-  html: mailText(user, context)
+  html: mailText(user, context, book)
 });
 
 export { transport, mailOptions };

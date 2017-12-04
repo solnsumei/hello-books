@@ -10,6 +10,7 @@ import webpack from 'webpack';
 import router from './server/routes';
 import webpackConfig from './webpack.config';
 import failedRoutes from './server/middlewares/failedRoutes';
+import cronJob from './server/cron/index';
 
 // Set up the express app
 const app = express();
@@ -44,6 +45,9 @@ if (env === 'development') {
     // log: console.log
   }));
 }
+
+// Call to get defaulters
+// Check console
 
 // app.use(webpackHotMiddleware(compiler));
 app.use('/', express.static(publicPath));
