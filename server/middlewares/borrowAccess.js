@@ -36,7 +36,7 @@ export default function borrowAccess(req, res, next) {
                 return errorResponseHandler(res, 'You have a pending surcharge, please return books in your possession', 409);
               }
 
-              if (result >= user.membership.maxBorrowable) {
+              if (result.length >= user.membership.maxBorrowable) {
                 return errorResponseHandler(res, 'You have exceeded the maximum book you can hold at a time', 409);
               }
             }
