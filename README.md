@@ -39,34 +39,9 @@ That should start your server. You are ready to go from there
   *  `npm run test`
 That should run the tests for the app
 
-## Key Features
-Based on project requirement, Hello books has the following features:
+## Features and Documentation
+For more in depth documentation see: [https://hello-book.herokuapp.com/api/docs]
 
-### Users
-- User sign up          - POST api/v1/users/signup      - Registers a user
-- User sign in          - POST api/v1/users/signin      - Logs a user in
-- Update profile        - POST api/v1/users/profile     - allows a user to update his/her profile
-- Change password       - POST api/v1/users/change-password     - allows a user to change his or her password
-- Get all books         - GET api/v1/books                     - allows a user to view all books in the library
-- Get borrowed books    - GET api/v1/users/{userid}/books?returned=false - allows a user to view all books not yet returned
-- Get borrow history    - GET api/v1/users/{userid}/books - allows a user to view his/her borrow history
-- Borrow Book  - POST api/v1/users/{userid}/books                - allows a user to borrow a book
-- Return Book  - PUT api/v1/users/{userid>}/books               - allows a user to return a borrowed book
-
-### Admin
-- User Signin  - POST api/v1/users/signin    - Logs an admin in
-- Add Category    - POST api/v1/categories  - allows an admin to add a category
-- Edit Category    - PUT api/v1/categories/{categoryId}   - allows an admin to modify a category
-- Delete Category  - DELETE api/v1/categories   - allows an admin to delete a category
-- Add Book    - POST api/v1/books           - allows an admin to add a book
-- Add Book    - POST api/v1/books           - allows an admin to add a book
-- Edit Book    - PUT api/v1/books/{bookId}   - allows an admin to modify a book
-- Delete Book  - DELETE api/v1/books   - allows an admin to delete a book
-- Edit Membership type     - PUT api/v1/membershiptypes/{membershipTypeId} - allows an admin to modify a membership type
-- Get all membership type  - GET api/v1/membershiptypes   - allows an admin to get all membership  types
-
-## Documentation
-For more in depth documentation see: http://docs....
 
 ## Contributing to the Project
 Contributions are welcome and appreciated. To contribute

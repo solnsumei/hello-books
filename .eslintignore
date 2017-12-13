@@ -4,3 +4,4 @@ server/seeders
 server/config
 client/dist
 client/src/app/upload-widget
+docs

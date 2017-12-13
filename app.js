@@ -49,9 +49,13 @@ if (env === 'development') {
   }));
 }
 
+app.use('/api/docs', express.static(docPath));
 app.use('/', express.static(publicPath));
 
 
+app.get('/api/docs', (req, res) => {
+  res.sendFile(docIndexPath);
+});
 app.get('/api/*', failedRoutes);
 app.post('/api/*', failedRoutes);
 
