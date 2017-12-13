@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Redirect, withRouter } from 'react-router-dom';
+import { Route, Redirect } from 'react-router-dom';
 
 const AuthRoute = ({ component: Component, ...rest }) => {
   const { user } = rest;
@@ -9,8 +9,7 @@ const AuthRoute = ({ component: Component, ...rest }) => {
         <Component {...props} />
       ) : (
         <Redirect to={{
-          pathname: '/login',
-          state: { from: props.location }
+          pathname: '/login'
         }} />
       )
     )} />

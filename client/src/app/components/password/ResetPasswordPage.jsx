@@ -11,7 +11,7 @@ import { resetPassword } from '../../actions/userActions';
 /**
  *
  */
-class ResetPasswordPage extends React.Component {
+export class ResetPasswordPage extends React.Component {
   /**
    * @param {object} props
    */
@@ -48,11 +48,8 @@ class ResetPasswordPage extends React.Component {
     event.preventDefault();
     this.setState({ errors: {} });
     this.props.resetPassword(this.state.resetParams, this.props.token)
-      .then(({ data }) => {
-        toastr.success(data.message);
-        return this.props.history.replace('/login');
-      })
-      .catch(({ response }) => {
+      .then(() => this.props.history.replace('/login'))
+      .catch((response) => {
         if (response.data.error) {
           return toastr.error(response.data.error);
         }
@@ -84,15 +81,11 @@ class ResetPasswordPage extends React.Component {
 
 ResetPasswordPage.propTypes = {
   resetPassword: PropTypes.func.isRequired,
-  token: PropTypes.string.isRequired
+  token: PropTypes.string
 };
 
 const mapStateToProps = (state, ownProps) => {
-  let queryParams = ownProps.location.search;
-
-  if (queryParams) {
-    queryParams = queryString.parse(queryParams);
-  }
+  const queryParams = queryString.parse(ownProps.location.search);
 
   const token = queryParams.token;
   return {

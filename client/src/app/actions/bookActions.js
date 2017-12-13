@@ -4,37 +4,42 @@ import types from './actionTypes';
 import { authCheck } from './userActions';
 import urlHelper from '../helpers/urlHelper';
 
-const addBookSuccess = book => ({
+export const addBookSuccess = book => ({
   type: types.ADD_BOOK_SUCCESS, book
 });
 
-const getBookSuccess = book => ({
+export const getBookSuccess = book => ({
   type: types.GET_BOOK_SUCCESS, book
 });
 
-const loadBooksSuccess = books => ({
+export const loadBooksSuccess = books => ({
   type: types.LOAD_BOOKS_SUCCESS, books
 });
 
-const updateBookSuccess = book => ({
+export const updateBookSuccess = book => ({
   type: types.UPDATE_BOOK_SUCCESS, book
 });
 
-const addStockQuantitySuccess = book => ({
+export const addStockQuantitySuccess = book => ({
   type: types.ADD_STOCK_QUANTITY_SUCCESS, book
 });
 
-const deleteBookSuccess = book => ({
+export const deleteBookSuccess = book => ({
   type: types.DELETE_BOOK_SUCCESS, book
 });
 
+export const actionError = () => ({
+  type: types.FAILED_ACTION
+});
+
 // load all books
-const loadBooks = (page, limit) => (dispatch) => {
+const loadBooks = (page = null, limit = null) => (dispatch) => {
   const queryString = urlHelper('/books', page, limit);
   return axios.get(queryString)
     .then(({ data }) => dispatch(loadBooksSuccess(data.books)))
     .catch(({ response }) => {
       toastr.error(response.data.error);
+      return dispatch(actionError());
     });
 };
 
@@ -44,6 +49,7 @@ const getBook = bookId => dispatch =>
     .then(({ data }) => dispatch(getBookSuccess(data.book)))
     .catch(({ response }) => {
       toastr.error(response.data.error);
+      return dispatch(actionError());
     });
 
 // save or update book
@@ -77,17 +83,16 @@ const deleteBook = book => dispatch =>
   axios.delete(`/books/${book.id}`)
     .then(({ data }) => {
       toastr.success(data.message);
-      return dispatch(loadBooks());
+      return dispatch(deleteBookSuccess(book));
     })
     .catch(({ response }) => {
-      if (response) {
-        toastr.error(response.data.error);
-      }
+      toastr.error(response.data.error);
+      return dispatch(actionError());
     });
 
 // entry point for all book actions
 const bookActions = (action, ...params) => (dispatch) => {
-  if (!authCheck(dispatch)) return;
+  if (!authCheck(dispatch)) return dispatch(actionError());
 
   switch (action) {
     case types.LOAD_BOOKS:
@@ -106,7 +111,7 @@ const bookActions = (action, ...params) => (dispatch) => {
       return dispatch(deleteBook(params[0]));
 
     default:
-      break;
+      return dispatch(actionError());
   }
 };
 

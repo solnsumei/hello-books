@@ -11,7 +11,7 @@ import { forgotPassword } from '../../actions/userActions';
 /**
  *
  */
-class ForgotPasswordPage extends React.Component {
+export class ForgotPasswordPage extends React.Component {
   /**
    * @param {object} props
    */
@@ -35,7 +35,7 @@ class ForgotPasswordPage extends React.Component {
    */
   updateFormState(event) {
     const field = event.target.name;
-    const resetParams = Object.assign({}, this.state.resetParams);
+    const resetParams = { ...this.state.resetParams };
     resetParams[field] = event.target.value;
     return this.setState({ resetParams });
   }
@@ -48,10 +48,7 @@ class ForgotPasswordPage extends React.Component {
     event.preventDefault();
     this.setState({ errors: {}, loading: true });
     this.props.resetPassword(this.state.resetParams)
-      .then(({ data }) => {
-        toastr.success(data.message);
-        this.setState({ resetParams: { entry: '' }, loading: false });
-      })
+      .then(() => this.setState({ resetParams: { entry: '' }, loading: false }))
       .catch(({ response }) => this.setState({ errors: response.data, loading: false }));
   }
 

@@ -69,7 +69,6 @@ LoginForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
   errors: PropTypes.object,
-  errorMsg: PropTypes.string
 };
 
 export default LoginForm;

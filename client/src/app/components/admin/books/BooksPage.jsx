@@ -14,7 +14,7 @@ import bookActions from '../../../actions/bookActions';
  * [className description]
  * @type {String}
  */
-class BooksPage extends React.Component {
+export class BooksPage extends React.Component {
   /**
    * [constructor description]
    * @method constructor
@@ -58,7 +58,8 @@ class BooksPage extends React.Component {
      * @returns {void}
      */
   componentWillReceiveProps(nextProps) {
-    if (this.props.queryParams.page !== nextProps.queryParams.page) {
+    if ((this.props.queryParams.page !== nextProps.queryParams.page) ||
+      (this.props.books.length !== nextProps.books.length)) {
       this.props.loadBooks(nextProps.queryParams.page, nextProps.perPage);
     }
   }
@@ -85,16 +86,7 @@ class BooksPage extends React.Component {
    * @return {void}
    */
   deleteBook() {
-    this.props.deleteBook(this.state.book)
-      .then(() => {
-        $('.modal').modal('close');
-        this.setState({ book: Object.assign({}, {}) });
-      })
-      .catch(({ response }) => {
-        if (response.data.error) {
-          this.setState({ error: response.data.error });
-        }
-      });
+    this.props.deleteBook(this.state.book);
   }
 
   /**
@@ -105,7 +97,7 @@ class BooksPage extends React.Component {
    */
   onClickDeleteBook(book) {
     this.setState({
-      book: Object.assign({}, book)
+      book: { ...book }
     });
 
     $('#delete-book-modal').modal('open');
@@ -135,11 +127,8 @@ class BooksPage extends React.Component {
         $('.modal').modal('close');
         this.setState({ quantity: 1 });
       })
-      .catch(({ response }) => {
-        if (response.data.error) {
-          this.setState({ error: response.data.error });
-        }
-      });
+      .catch(({ response }) =>
+        this.setState({ error: response.data.error }));
   }
 
   /**
@@ -198,11 +187,7 @@ class BooksPage extends React.Component {
 
 // Map state from store to component properties
 const mapStateToProps = (state, ownProps) => {
-  let queryParams = ownProps.location.search;
-
-  if (queryParams) {
-    queryParams = queryString.parse(queryParams);
-  }
+  const queryParams = queryString.parse(ownProps.location.search);
 
   return {
     perPage: 20,

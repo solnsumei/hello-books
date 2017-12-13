@@ -45,7 +45,7 @@ const passwordController = {
               if (result) {
                 user.resetToken = token;
 
-                return transport.sendMail(mailOptions(user, 'Forgot Password'), (error, info) => {
+                transport.sendMail(mailOptions(user, 'Forgot Password'), (error, info) => {
                   if (error) {
                     return errorResponseHandler(res);
                   }

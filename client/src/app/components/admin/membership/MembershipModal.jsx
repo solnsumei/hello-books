@@ -10,8 +10,6 @@ const MembershipModal = ({ membership, onSubmit, errors, onChange }) => {
         <div className="modal-content">
           <h4>Edit Membership Type ({membership.level})</h4>
 
-          { Object.keys(errors).length > 0 && <p>** There are some errors with your input</p> }
-
           <TextInput
             type="number"
             name="lendDuration"

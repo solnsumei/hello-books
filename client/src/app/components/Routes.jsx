@@ -13,6 +13,7 @@ import BorrowHistoryPage from './users/BorrowHistoryPage';
 import AuthRoute from './middlewares/AuthRoute';
 import IsAdmin from './common/IsAdmin';
 import PreventAuthenticated from './middlewares/PreventAuthenticated';
+import NotFound from './NotFound';
 
 const Routes = props => (
   <main className={props.user.id ? 'main' : 'top-padding'}>
@@ -30,6 +31,8 @@ const Routes = props => (
       <AuthRoute path='/books/:id' component={BookDetailPage} {...props} />
       <AuthRoute path='/borrow-history' component={BorrowHistoryPage} {...props} />
       <AuthRoute component={IsAdmin} {...props} />
+      <AuthRoute path="*" component={NotFound} />
+      <Route path="*" component={NotFound}/>
     </Switch>
   </main>
 );

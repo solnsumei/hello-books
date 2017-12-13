@@ -4,8 +4,6 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 const BorrowedItem = ({ borrowedBook, page, action }) => {
-  const historyPage = page ? <td>{borrowedBook.returned ? 'yes' : 'no'}</td> : null;
-
   const returned = !borrowedBook.returned ?
     <button
       onClick={action}
@@ -22,7 +20,7 @@ const BorrowedItem = ({ borrowedBook, page, action }) => {
       </td>
       <td>{moment(borrowedBook.borrowDate).format('MMM Do YY')}</td>
       <td>{moment(borrowedBook.dueDate).format('MMM Do YY')}</td>
-      {historyPage}
+      <td>{borrowedBook.returned ? 'yes' : 'no'}</td>
       <td>{borrowedBook.returnDate !== null ? moment(borrowedBook.returnDate).format('MMM Do YY') : ''}</td>
       <td>{returned}</td>
     </tr>

@@ -3,21 +3,24 @@ import toastr from 'toastr';
 import types from './actionTypes';
 import { authCheck } from './userActions';
 
-const loadMembershipTypesSuccess = memberships => ({
+export const loadMembershipTypesSuccess = memberships => ({
   type: types.LOAD_MEMBERSHIP_TYPES_SUCCESS, memberships
 });
 
-const updateMembershipTypeSuccess = membership => ({
+export const updateMembershipTypeSuccess = membership => ({
   type: types.UPDATE_MEMBERSHIP_TYPE_SUCCESS, membership
+});
+
+const actionError = () => ({
+  type: types.FAILED_ACTION
 });
 
 const loadMembershipTypes = () => dispatch =>
   axios.get('/membership')
     .then(({ data }) => dispatch(loadMembershipTypesSuccess(data.memberships)))
     .catch(({ response }) => {
-      if (response.data) {
-        toastr.error(response.data.error);
-      }
+      toastr.error(response.data.error);
+      return dispatch(actionError());
     });
 
 const updateMembershipType = membership => dispatch =>
@@ -30,7 +33,7 @@ const updateMembershipType = membership => dispatch =>
 
 // action entry point for memebrship type actions
 const membershipActions = (action, membership = null) => (dispatch) => {
-  if (!authCheck(dispatch)) return;
+  if (!authCheck(dispatch)) return dispatch(actionError());
 
   switch (action) {
     case types.LOAD_MEMBERSHIP_TYPES:
@@ -40,7 +43,7 @@ const membershipActions = (action, membership = null) => (dispatch) => {
       return dispatch(updateMembershipType(membership));
 
     default:
-      break;
+      return dispatch(actionError());
   }
 };
 

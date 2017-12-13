@@ -12,13 +12,11 @@ export default function (state = initialState.categories, action) {
       return action.categories.rows;
 
     case types.ADD_CATEGORY_SUCCESS:
-      return [...state,
-        Object.assign({}, action.category)
-      ];
+      return [...state, action.category];
 
     case types.UPDATE_CATEGORY_SUCCESS:
       return [...state.filter(category => category.id !== action.category.id),
-        Object.assign({}, action.category)
+        action.category
       ];
 
     case types.DELETE_CATEGORY_SUCCESS:

@@ -11,14 +11,14 @@ const BookListRow = ({ book, onClickAdd, onClickDelete }) => (
     <td>{book.borrowedQuantity}</td>
     <td>{!book.isDeleted ? 'yes' : 'no'}</td>
     <td>
-      <button title="add quantity" onClick={onClickAdd} className="btn-floating bg-primary">
+      <button title="add quantity" id={`add-quantity-${book.id}`} onClick={onClickAdd} className="btn-floating bg-primary">
         <i className="material-icons">store</i>
       </button>&nbsp;
       <Link to={`/admin/books/${book.id}`} title="edit" className="btn-floating orange">
         <i className="material-icons">edit</i>
       </Link>&nbsp;
       {!book.isDeleted &&
-        <button title="delete" onClick={onClickDelete} className="btn-floating red">
+        <button title="delete" id={`delete-book-${book.id}`} onClick={onClickDelete} className="btn-floating red delete-button">
           <i className="material-icons">delete</i>
         </button>}
     </td>

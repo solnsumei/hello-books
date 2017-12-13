@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import TextInput from '../common/TextInput';
 
 
-const SignUpForm = ({ formParams, onSubmit, onChange, loading, errors, responseGoogle }) => (
+const SignUpForm = ({ formParams, onSubmit, onChange, errors, responseGoogle }) => (
   <div className="col s12 m8 offset-m2 l8 offset-l2">
     <div className="card login-form">
       <h3 className="center-align">
@@ -93,7 +93,6 @@ SignUpForm.propTypes = {
   formParams: PropTypes.object.isRequired,
   onSubmit: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
-  loading: PropTypes.bool,
   errors: PropTypes.object
 };
 

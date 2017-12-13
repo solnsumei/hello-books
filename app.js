@@ -22,7 +22,11 @@ const compiler = webpack(webpackConfig);
 const env = process.env.NODE_ENV || 'development';
 
 const publicPath = path.join(__dirname, './client/dist/');
+
 const indexPath = path.resolve(__dirname, publicPath, 'index.html');
+
+const docPath = path.join(__dirname, './docs/');
+const docIndexPath = path.resolve(__dirname, docPath, 'index.html');
 
 // Log requests to the console
 app.use(logger('dev'));
@@ -42,15 +46,11 @@ if (env === 'development') {
     publicPath: webpackConfig.output.publicPath
   }));
   app.use(webpackHotMiddleware(compiler, {
-    // log: console.log
   }));
 }
 
-// Call to get defaulters
-// Check console
-
-// app.use(webpackHotMiddleware(compiler));
 app.use('/', express.static(publicPath));
+
 
 app.get('/api/*', failedRoutes);
 app.post('/api/*', failedRoutes);

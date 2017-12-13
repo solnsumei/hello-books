@@ -11,7 +11,7 @@ const NotificationItem = ({ notification, action }) => (
     <td>{notification.returned ? moment(notification.returnDate).format('MMM Do YY') :
       moment(notification.borrowDate).format('MMM Do YY')}</td>
     <td><button
-      onClick={action}
+      onClick={action} id={`read-${notification.id}`}
       className="btn waves-effect waves-light blue">
       View
     </button></td>

@@ -12,15 +12,13 @@ const removeTokens = () => {
 };
 
 // check token passed in and set user accordingly
-const checkToken = (token = null) => {
+const checkToken = () => {
   const userToken = localStorage.getItem(types.USER_TOKEN);
 
-  if (!token && !userToken) return false;
-  const decoded = jwt.decode(!token ? userToken : token);
-  if (decoded.exp * 1000 < (new Date().getTime())) {
-    if (userToken) {
-      removeTokens();
-    }
+  if (!userToken) return false;
+  const decoded = jwt.decode(userToken);
+  if (!decoded || decoded.exp * 1000 < (new Date().getTime())) {
+    removeTokens();
     return false;
   }
 
@@ -30,7 +28,7 @@ const checkToken = (token = null) => {
   return user;
 };
 
-const signOutUser = () => {
+export const signOutUser = () => {
   delete axios.defaults.headers.common['x-token'];
   return { type: types.SIGN_OUT_USER };
 };
@@ -42,6 +40,14 @@ const userAuthSuccess = (user) => {
 
 const getUserProfileSuccess = user => ({
   type: types.GET_USER_PROFILE_SUCCESS, user
+});
+
+const resetPasswordSuccess = user => ({
+  type: types.RESET_PASSWORD_SUCCESS
+});
+
+const changePasswordSuccess = () => ({
+  type: types.CHANGE_PASSWORD_SUCCESS
 });
 
 const userAuthFailed = () => ({
@@ -66,9 +72,7 @@ const authCheck = (dispatch) => {
 const logoutRequest = () => (dispatch) => {
   const userToken = localStorage.getItem(types.USER_TOKEN);
   const adminToken = localStorage.getItem(types.ADMIN);
-  if (userToken || adminToken) {
-    removeTokens();
-  }
+  removeTokens();
   return dispatch(signOutUser());
 };
 
@@ -103,14 +107,23 @@ const changeUserPassword = passwordObj => (dispatch) => {
   return axios.post('/user/change-password', passwordObj)
     .then(({ data }) => {
       toastr.success(data.message);
+      return dispatch(changePasswordSuccess());
     });
 };
 
 const forgotPassword = entry => dispatch =>
-  axios.post('/users/forgot-password', entry);
+  axios.post('/users/forgot-password', entry)
+    .then(({ data }) => {
+      toastr.success(data.message);
+      return dispatch(resetPasswordSuccess());
+    });
 
 const resetPassword = (passwordObj, token) => dispatch =>
-  axios.post(`/users/reset-password?token=${token}`, passwordObj);
+  axios.post(`/users/reset-password?token=${token}`, passwordObj)
+    .then(({ data }) => {
+      toastr.success(data.message);
+      return dispatch(resetPasswordSuccess());
+    });
 
 const loginRequest = loginData => dispatch =>
   axios.post('/users/signin', loginData)

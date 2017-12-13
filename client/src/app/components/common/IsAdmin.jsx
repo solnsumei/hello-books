@@ -8,11 +8,12 @@ import BooksPage from '../admin/books/BooksPage';
 import ManageBookPage from '../admin/books/ManageBookPage';
 import MembershipPage from '../admin/membership/MembershipPage';
 import NotificationPage from '../admin/notifications/NotificationPage';
+import NotFound from '../NotFound';
 
 /**
 *
 */
-class IsAdmin extends React.Component {
+export class IsAdmin extends React.Component {
   /**
    * [redirectUnauthorisedUser description]
    * @method redirectUnauthorisedUser
@@ -59,6 +60,7 @@ class IsAdmin extends React.Component {
           <Route exact path="/admin/books" component={BooksPage} />
           <Route path="/admin/books/create" component={ManageBookPage} />
           <Route path="/admin/books/:id" component={ManageBookPage} />
+          <Route path="*" component={NotFound} />
         </Switch>
       );
     }

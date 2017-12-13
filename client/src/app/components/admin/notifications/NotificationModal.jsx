@@ -13,7 +13,7 @@ const NotificationModal = ({ id, title, notification, action }) => (
         moment(notification.borrowDate).format('MMM Do YY')}</p>
     </div>
     <div className="modal-footer">
-      <button type="button"
+      <button id="dismiss-modal" type="button"
         onClick={action} className="waves-effect waves-green btn-flat">
         Ok
       </button>

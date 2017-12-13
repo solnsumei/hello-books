@@ -33,7 +33,7 @@ Pagination.PropTypes = {
   pageNumber: PropTypes.number.isRequired,
   itemCount: PropTypes.number.isRequired,
   perPage: PropTypes.number.isRequired,
-  handleClick: PropTypes.func.isRequired,
+  pageUrl: PropTypes.string.isRequired
 };
 
 export default Pagination;

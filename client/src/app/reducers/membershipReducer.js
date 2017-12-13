@@ -13,7 +13,7 @@ export default function (state = initialState.memberships, action) {
 
     case types.UPDATE_MEMBERSHIP_TYPE_SUCCESS:
       return [...state.filter(membership => membership.id !== action.membership.id),
-        Object.assign({}, action.membership)];
+        action.membership];
 
     default:
       return state;
