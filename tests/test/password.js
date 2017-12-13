@@ -61,20 +61,19 @@ describe('Password Reset Controller', () => {
 
     });
 
-    describe('POST Forgot password success /api/users/forgot-password', () => {
-
-      it('responds with a 200 for successful entry', (done) => {
-        request(app)
-          .post('/api/v1/users/forgot-password')
-          .send({ entry: freeUser.username })
-          .set('Accept', 'application/json')
-          .end((err, res) => {
-            assert.equal(res.status, 200);
-            assert.equal(res.body.message, 'Reset message has been sent to your registered email.');
-            done();
-          });
-      });
-    });
+    // describe('POST Forgot password success /api/users/forgot-password', () => {
+    //   it('responds with a 200 for successful entry', (done) => {
+    //     request(app)
+    //       .post('/api/v1/users/forgot-password')
+    //       .send({ entry: freeUser.username })
+    //       .set('Accept', 'application/json')
+    //       .end((err, res) => {
+    //         assert.equal(res.status, 200);
+    //         assert.equal(res.body.message, 'Reset message has been sent to your registered email.');
+    //         done();
+    //       });
+    //   });
+    // });
   })
 
   after((done) => {
