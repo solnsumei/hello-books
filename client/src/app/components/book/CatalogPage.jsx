@@ -69,7 +69,7 @@ const mapStateToProps = (state, ownProps) => {
   const queryParams = queryString.parse(ownProps.location.search);
 
   return {
-    perPage: 2,
+    perPage: 20,
     itemCount: state.itemCount.books,
     queryParams,
     books: state.books
