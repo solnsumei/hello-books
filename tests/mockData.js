@@ -1,9 +1,9 @@
 import { User, Category, Book } from './dataholder';
 
 export const users = {
-    admin: new User('Ejiro', 'Chuks', 'ejiro', 'ejiro@gmail.com', 'solomon1', true),
-    freeUser: new User('Solmei', 'Ejiroh', 'solking', 'solking@gmail.com', 'solomon1', false),
-    silverUser: new User('Solo', 'Ejiroh', 'solking1', 'solking1@gmail.com', 'solomon1', false, 'Silver'),
+    admin: new User('Ejiro', 'Chuks', 'ejiro', 'ejiro@gmail.com', 'solomon1', true, false),
+    freeUser: new User('Solmei', 'Ejiroh', 'solking', 'solking@gmail.com', 'solomon1', false, false),
+    silverUser: new User('Solo', 'Ejiroh', 'solking1', 'solking1@gmail.com', 'solomon1', false, true, 'Silver'),
 };
 
 export const categoriesForUserTest = {

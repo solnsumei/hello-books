@@ -18,11 +18,6 @@ const BookForm = ({ book, onSubmit, categories, uploadCoverPic, onChange, errors
           </Link>
         </h4>
 
-        { Object.keys(errors).length > 0 ?
-          <p className="red-text">** There are some errors with your input</p>
-          : ''
-        }
-
         <TextInput type="text" name="title" label="Book Title"
           value={book.title}
           onChange={onChange} active={book.id !== ''}
@@ -51,7 +46,8 @@ const BookForm = ({ book, onSubmit, categories, uploadCoverPic, onChange, errors
 
         <br/>
 
-        {!book.id && <TextInput type="number" name="stockQuantity" label="Stock Quantity"
+        {!book.id && <TextInput id='stockQuantity'
+          type="number" name="stockQuantity" label="Stock Quantity"
           value={book.stockQuantity}
           active={book.id !== ''} onChange={onChange}
           error={errors.stockQuantity ? errors.stockQuantity[0] : null}

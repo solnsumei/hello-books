@@ -8,7 +8,7 @@ import borrowActions from '../../actions/borrowActions';
 /**
  *
  */
-class BookDetailPage extends React.Component {
+export class BookDetailPage extends React.Component {
   /**
    * Book detail constructor
    * @method constructor
@@ -23,7 +23,6 @@ class BookDetailPage extends React.Component {
     };
 
     this.confirmAction = this.confirmAction.bind(this);
-    this.confirmReturn = this.confirmReturn.bind(this);
   }
 
   /**
@@ -56,25 +55,11 @@ class BookDetailPage extends React.Component {
    * @return {[type]} [description]
    */
   confirmAction(action) {
-    console.log(action);
     const { book } = this.props;
-
-    $('.modal').modal('close');
 
     this.props.performAction(action, book.id);
-  }
-
-  /**
-   * [confirmReturn description]
-   * @method confirmReturn
-   * @return {[type]} [description]
-   */
-  confirmReturn() {
-    const { book } = this.props;
 
     $('.modal').modal('close');
-
-    this.props.return(book.id);
   }
 
   /**
@@ -156,28 +141,17 @@ const inBorrowedList = (borrowedBooks, id) => {
 const getBookById = (books, id) => {
   const foundBook = books.filter(book => book.id === id);
   // since filter returns an array, you have to grab the first
-  if (foundBook) return foundBook[0];
+  if (foundBook && foundBook.length > 0) return foundBook[0];
   return null;
 };
 
 const mapStateToProps = (state, ownProps) => {
   // from the path '/books/:id'
   const bookId = ownProps.match.params.id;
-  let isBorrowed = false;
 
-  let book = {
-    category: {
-      name: ''
-    }
-  };
+  const book = getBookById(state.books, (parseInt(bookId, 10)));
 
-  if (bookId && state.books.length > 0) {
-    book = getBookById(state.books, (parseInt(bookId, 10)));
-  }
-
-  if (bookId && state.borrowedBooks.length > 0) {
-    isBorrowed = inBorrowedList(state.borrowedBooks, (parseInt(bookId, 10)));
-  }
+  const isBorrowed = inBorrowedList(state.borrowedBooks, (parseInt(bookId, 10))) || false;
 
   return ({
     user: state.user,
@@ -192,9 +166,6 @@ const mapDispatchToProps = dispatch => ({
   getBook: bookId => dispatch(bookActions(actionTypes.GET_BOOK, bookId)),
   performAction: (action, bookId) =>
     dispatch(borrowActions(action, bookId)),
-
-  return: bookId =>
-    dispatch(borrowActions(actionTypes.RETURN_BOOK, bookId))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(BookDetailPage);

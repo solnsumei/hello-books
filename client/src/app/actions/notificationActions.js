@@ -4,12 +4,16 @@ import types from './actionTypes';
 import { authCheck } from './userActions';
 import urlHelper from '../helpers/urlHelper';
 
-const readNotificationSuccess = notification => ({
+export const readNotificationSuccess = notification => ({
   type: types.READ_NOTIFICATION_SUCCESS, notification
 });
 
-const loadUnreadNotificationsSuccess = notifications => ({
+export const loadUnreadNotificationsSuccess = notifications => ({
   type: types.LOAD_UNREAD_NOTIFICATIONS_SUCCESS, notifications
+});
+
+const actionError = () => ({
+  type: types.FAILED_ACTION
 });
 
 const loadUnreadNotifications = (page, limit) => (dispatch) => {
@@ -19,6 +23,7 @@ const loadUnreadNotifications = (page, limit) => (dispatch) => {
       dispatch(loadUnreadNotificationsSuccess(data.notifications)))
     .catch(({ response }) => {
       toastr.error(response.data.error);
+      dispatch(actionError());
     });
 };
 
@@ -27,11 +32,12 @@ const readNotification = notificationId => dispatch =>
     .then(({ data }) => dispatch(readNotificationSuccess(data.notification)))
     .catch(({ response }) => {
       toastr.error(response.data.error);
+      dispatch(actionError());
     });
 
 // entry point for all notification actions
 const notificationActions = (action, ...params) => (dispatch) => {
-  if (!authCheck(dispatch)) return;
+  if (!authCheck(dispatch)) return dispatch(actionError());
 
   switch (action) {
     case types.LOAD_UNREAD_NOTIFICATIONS:
@@ -41,7 +47,7 @@ const notificationActions = (action, ...params) => (dispatch) => {
       return dispatch(readNotification(params[0]));
 
     default:
-      break;
+      return dispatch(actionError());
   }
 };
 

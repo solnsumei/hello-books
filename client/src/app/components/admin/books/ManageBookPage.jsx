@@ -5,12 +5,13 @@ import { Link } from 'react-router-dom';
 import BookForm from './BookForm';
 import actionTypes from '../../../actions/actionTypes';
 import bookActions from '../../../actions/bookActions';
+import categoryActions from '../../../actions/categoryActions';
 
 /**
  * [className description]
  * @type {String}
  */
-class ManageBookPage extends React.Component {
+export class ManageBookPage extends React.Component {
   /**
    * [constructor description]
    * @method constructor
@@ -21,7 +22,7 @@ class ManageBookPage extends React.Component {
     super(props);
 
     this.state = {
-      book: Object.assign({}, this.props.book),
+      book: { ...this.props.book },
       errors: {}
     };
 
@@ -39,6 +40,7 @@ class ManageBookPage extends React.Component {
     if (this.props.bookId) {
       this.props.getBook(this.props.bookId);
     }
+    this.props.loadCategories();
   }
 
   /**
@@ -50,7 +52,7 @@ class ManageBookPage extends React.Component {
   componentWillReceiveProps(nextProps) {
     if (this.props.book.id !== nextProps.book.id) {
       // Necessary to populate form when existing book is loaded directly
-      this.setState({ book: Object.assign({}, nextProps.book) });
+      this.setState({ book: { ...nextProps.book } });
     }
   }
 
@@ -105,11 +107,7 @@ class ManageBookPage extends React.Component {
       .then(() => {
         this.props.history.replace('/admin/books');
       })
-      .catch(({ response }) => {
-        if (response.data.error.errors) {
-          this.setState({ errors: response.data.error.errors });
-        }
-      });
+      .catch(({ response }) => this.setState({ errors: response.data.errors }));
   }
 
   /**
@@ -165,7 +163,7 @@ const mapStateToProps = (state, ownProps) => {
       text: category.name
     }));
 
-  if (bookId && state.books.length > 0) {
+  if (bookId) {
     book = getBookById(state.books, (parseInt(bookId, 10)));
   }
 
@@ -178,9 +176,10 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = dispatch => ({
   getBook: bookId =>
-    dispatch(bookActions(actionTypes.GET_BOOK, null, bookId)),
+    dispatch(bookActions(actionTypes.GET_BOOK, bookId)),
   saveBook: book =>
-    dispatch(bookActions(actionTypes.SAVE_OR_UPDATE_BOOK, book))
+    dispatch(bookActions(actionTypes.SAVE_OR_UPDATE_BOOK, book)),
+  loadCategories: () => dispatch(categoryActions(actionTypes.LOAD_CATEGORIES, null, 100))
 });
 
 ManageBookPage.propTypes = {

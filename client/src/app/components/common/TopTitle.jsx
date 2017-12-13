@@ -6,7 +6,7 @@ const TopTitle = ({ icon, title }) => (
     <div className="col s12">
       <h3 className="teal-text">
         <strong>
-          {(icon !== null || icon !== '') &&
+          {icon &&
             <i className="material-icons">{icon}</i>}
           {title}
         </strong>

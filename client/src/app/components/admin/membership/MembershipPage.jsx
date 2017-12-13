@@ -12,7 +12,7 @@ import membershipActions from '../../../actions/membershipActions';
  * Membership type react component class
  * @type {String}
  */
-class MembershipPage extends React.Component {
+export class MembershipPage extends React.Component {
   /**
    * @method constructor
    * @param  {Object} props
@@ -22,7 +22,7 @@ class MembershipPage extends React.Component {
     super(props);
 
     this.state = {
-      membership: Object.assign({}, this.props.membership),
+      membership: { ...this.props.membership },
       errors: {}
     };
 
@@ -48,7 +48,7 @@ class MembershipPage extends React.Component {
    */
   onEdit(membership) {
     this.setState({
-      membership: Object.assign({}, membership),
+      membership: { ...membership },
       errors: {}
     });
 
@@ -75,23 +75,23 @@ class MembershipPage extends React.Component {
   updateMembershipType(event) {
     event.preventDefault();
     this.setState({ errors: {} });
-    this.props.updateMembershipType(this.state.membership)
-      .then(() => {
-        $('.modal').modal('close');
-        this.setState({ membership: {
-          id: '',
-          level: '',
-          lendDuration: 1,
-          maxBorrowable: 1
-        } });
-      })
+    this.props.saveMembershipType(this.state.membership)
       .catch(({ response }) => {
         if (response.data.errors) {
-          this.setState({ errors: response.data.errors });
-        } else {
-          toastr.error(response.data.error);
+          return this.setState({ errors: response.data.errors });
         }
+        return toastr.error(response.data.error);
       });
+
+    $('.modal').modal('close');
+    return this.setState({
+      membership: {
+        id: '',
+        level: '',
+        lendDuration: 1,
+        maxBorrowable: 1
+      }
+    });
   }
 
   /**
@@ -143,7 +143,7 @@ const mapStateToProps = (state, ownProps) => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  updateMembershipType: membership =>
+  saveMembershipType: membership =>
     dispatch(membershipActions(actionTypes.UPDATE_MEMBERSHIP_TYPE, membership)),
   loadMemberships: () => dispatch(membershipActions(actionTypes.LOAD_MEMBERSHIP_TYPES))
 });
@@ -151,6 +151,7 @@ const mapDispatchToProps = dispatch => ({
 MembershipPage.propTypes = {
   memberships: PropTypes.array,
   membership: PropTypes.object,
+  updateMembership: PropTypes.func
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(MembershipPage);

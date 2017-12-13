@@ -12,13 +12,11 @@ export default function (state = initialState.borrowedBooks, action) {
       return action.borrowedBooks.rows;
 
     case types.BORROW_BOOK_SUCCESS:
-      return [...state,
-        Object.assign({}, action.borrowedBook)
-      ];
+      return [...state, action.borrowedBook];
 
     case types.RETURN_BOOK_SUCCESS:
       return [...state.filter(borrowedBook => borrowedBook.id !== action.returnedBook.id),
-        Object.assign({}, action.returnedBook)
+        action.returnedBook
       ];
 
     default:

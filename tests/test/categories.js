@@ -90,9 +90,8 @@ describe('Category Routes', () => {
           .get('/api/v1/categories')
           .set('Accept', 'application/json')
           .set('x-token', userToken)
-          .expect(403)
-          .expect('Content-Type', /json/)
-          .expect(/"error":\s*"Forbidden, admins only"/, done);
+          .expect(200)
+          .expect('Content-Type', /json/, done);
       });
 
     });

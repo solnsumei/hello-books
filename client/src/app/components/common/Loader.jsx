@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Loader = props => (
+const Loader = () => (
   <div className="col s12 center-align margin-2x">
     <div className="preloader-wrapper small active">
       <div className="spinner-layer spinner-green-only">

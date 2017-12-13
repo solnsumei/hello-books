@@ -6,20 +6,19 @@ import { Link } from 'react-router-dom';
 import changeCase from 'change-case';
 import googleUserFormatter from '../../helpers/googleUserFormatter';
 import SignUpForm from './SignUpForm';
-import SignUpSuccess from './SignUpSuccess';
 import { userSignUpRequest } from '../../actions/userActions';
 
 /**
  *
  */
-class SignUpPage extends React.Component {
+export class SignUpPage extends React.Component {
   /**
    * @param {object} props
    */
   constructor(props) {
     super(props);
     this.state = {
-      formParams: Object.assign({}, this.props.formParams),
+      formParams: { ...this.props.formParams },
       errors: {},
     };
 
@@ -71,15 +70,10 @@ class SignUpPage extends React.Component {
     this.setState({ errors: {} });
     return this.props.signUpRequest(data)
       .catch(({ response }) => {
-        if (response.data.errors) {
-          if (googleError) {
-            if (response.data.errors.username || response.data.errors.username) {
-              return toastr.error('Account already exists, please login');
-            }
-            return toastr.error('Your request could not be completed, please try again later');
-          }
-          return this.setState({ errors: response.data.errors });
+        if (googleError) {
+          return toastr.error('Account already exists, please login or there was an error');
         }
+        return this.setState({ errors: response.data.errors });
       });
   }
 

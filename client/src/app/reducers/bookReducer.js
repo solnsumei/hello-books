@@ -12,24 +12,16 @@ export default function (state = initialState.books, action) {
       return action.books.rows;
 
     case types.ADD_BOOK_SUCCESS:
-      return [...state,
-        Object.assign({}, action.book)
-      ];
+      return [...state, action.book];
 
     case types.GET_BOOK_SUCCESS:
-      return [...state.filter(book => book.id !== action.book.id),
-        Object.assign({}, action.book)
-      ];
+      return [...state.filter(book => book.id !== action.book.id), action.book];
 
     case types.UPDATE_BOOK_SUCCESS:
-      return [...state.filter(book => book.id !== action.book.id),
-        Object.assign({}, action.book)
-      ];
+      return [...state.filter(book => book.id !== action.book.id), action.book];
 
     case types.ADD_STOCK_QUANTITY_SUCCESS:
-      return [...state.filter(book => book.id !== action.book.id),
-        Object.assign({}, action.book)
-      ];
+      return [...state.filter(book => book.id !== action.book.id), action.book];
 
     case types.DELETE_BOOK_SUCCESS:
       return [...state.filter(book => book.id !== action.book.id)];

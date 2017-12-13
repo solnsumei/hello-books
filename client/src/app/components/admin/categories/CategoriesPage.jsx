@@ -14,7 +14,7 @@ import Modal from '../../common/Modal';
  * [className description]
  * @type {String}
  */
-class CategoriesPage extends React.Component {
+export class CategoriesPage extends React.Component {
   /**
    * Category page constructor
    * @method constructor
@@ -25,7 +25,7 @@ class CategoriesPage extends React.Component {
     super(props);
 
     this.state = {
-      category: Object.assign({}, this.props.category),
+      category: { ...this.props.category },
       errors: {}
     };
 
@@ -58,7 +58,8 @@ class CategoriesPage extends React.Component {
      * @returns {void}
      */
   componentWillReceiveProps(nextProps) {
-    if (this.props.queryParams.page !== nextProps.queryParams.page) {
+    if ((this.props.queryParams.page !== nextProps.queryParams.page) ||
+      (this.props.categories.length !== nextProps.categories.length)) {
       this.props.loadCategories(nextProps.queryParams.page, nextProps.perPage);
     }
   }
@@ -75,7 +76,7 @@ class CategoriesPage extends React.Component {
     };
 
     this.setState({
-      category: Object.assign({}, newCategory),
+      category: { ...newCategory },
       errors: {}
     });
 
@@ -90,7 +91,7 @@ class CategoriesPage extends React.Component {
    */
   onEdit(category) {
     this.setState({
-      category: Object.assign({}, category),
+      category: { ...category },
       errors: {}
     });
 
@@ -105,7 +106,7 @@ class CategoriesPage extends React.Component {
    */
   onDelete(category) {
     this.setState({
-      category: Object.assign({}, category),
+      category: { ...category },
       errors: {}
     });
 
@@ -154,11 +155,7 @@ class CategoriesPage extends React.Component {
         $('.modal').modal('close');
         this.setState({ category: { name: '' } });
       })
-      .catch(({ response }) => {
-        if (response.data.errors) {
-          this.setState({ errors: response.data.errors });
-        }
-      });
+      .catch(({ response }) => this.setState({ errors: response.data.errors }));
   }
 
   /**
@@ -204,11 +201,12 @@ class CategoriesPage extends React.Component {
           onSubmit={this.saveCategory}
           onChange={this.updateCategoryFormState}
         />
-        <Modal id="modal1"
+
+        {this.props.categories && <Modal id="modal1"
           title="Confirm Delete"
           text={`Do you want to delete category with name ${this.state.category.name}`}
           action={this.confirmDelete}
-        />
+        />}
       </div>
     );
   }
@@ -219,14 +217,10 @@ const mapStateToProps = (state, ownProps) => {
     id: '',
     name: '' };
 
-  let queryParams = ownProps.location.search;
-
-  if (queryParams) {
-    queryParams = queryString.parse(queryParams);
-  }
+  const queryParams = queryString.parse(ownProps.location.search);
 
   return {
-    perPage: 20,
+    perPage: 3,
     itemCount: state.itemCount.categories,
     queryParams,
     category,

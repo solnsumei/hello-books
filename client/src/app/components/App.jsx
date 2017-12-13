@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Router } from 'react-router-dom';
 import Routes from './Routes';
 import Header from './common/Header';
 import Footer from './common/Footer';
@@ -12,7 +12,7 @@ import { routeTitles } from '../helpers/constants';
  * [propTypes description]
  * @type {Object}
  */
-class App extends React.Component {
+export class App extends React.Component {
   /**
    * [constructor description]
    * @method constructor
@@ -47,9 +47,9 @@ class App extends React.Component {
     return (
       <div>
         <Header title={routeTitles(this.props.pathname)}
-          user={this.props.user} logout={this.doLogout}/>
-        <Routes {...props}/>
-        { this.props.user.id && <Footer /> }
+          user={this.props.user} logout={this.doLogout} />
+        <Routes {...props} />
+        {this.props.user.id && <Footer />}
       </div>
     );
   }

@@ -323,6 +323,19 @@ describe('User', () => {
         });
     });
 
+    it('responds with a 409 status and error message for google users', (done) => {
+      request(app)
+        .post('/api/v1/user/change-password')
+        .send({ oldPassword: 'solomon1', password: 'solomon2', password_confirmation: 'solomon2' })
+        .set('Accept', 'application/json')
+        .set('x-token', silverUser.token)
+        .end((err, res) => {
+          assert.equal(res.status, 409);
+          assert.equal(res.body.error, 'You are logged in through google so cannot change your password');
+          done();
+        });
+    });
+
     it('responds with a 200 status and success message', (done) => {
       request(app)
         .post('/api/v1/user/change-password')

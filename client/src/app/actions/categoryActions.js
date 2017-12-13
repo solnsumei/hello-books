@@ -4,20 +4,24 @@ import types from './actionTypes';
 import { authCheck } from './userActions';
 import urlHelper from '../helpers/urlHelper';
 
-const addCategorySuccess = category => ({
+export const addCategorySuccess = category => ({
   type: types.ADD_CATEGORY_SUCCESS, category
 });
 
-const loadCategoriesSuccess = categories => ({
+export const loadCategoriesSuccess = categories => ({
   type: types.LOAD_CATEGORIES_SUCCESS, categories
 });
 
-const updateCategorySuccess = category => ({
+export const updateCategorySuccess = category => ({
   type: types.UPDATE_CATEGORY_SUCCESS, category
 });
 
-const deleteCategorySuccess = category => ({
+export const deleteCategorySuccess = category => ({
   type: types.DELETE_CATEGORY_SUCCESS, category
+});
+
+const actionError = () => ({
+  type: types.FAILED_ACTION
 });
 
 // load book categories from server
@@ -26,7 +30,8 @@ const loadCategories = (page, limit) => (dispatch) => {
   return axios.get(queryString)
     .then(({ data }) => dispatch(loadCategoriesSuccess(data.categories)))
     .catch(({ response }) => {
-      toastr(response.data.error);
+      toastr.error(response.data.error);
+      return dispatch(actionError());
     });
 };
 
@@ -53,18 +58,17 @@ const deleteCategory = category => dispatch =>
   axios.delete(`/categories/${category.id}`)
     .then(({ data }) => {
       toastr.success(data.message);
-      return dispatch(loadCategories());
+      return dispatch(deleteCategorySuccess(category));
     })
     .catch(({ response }) => {
-      if (response) {
-        toastr.error(response.data.error);
-      }
+      toastr.error(response.data.error);
+      return dispatch(actionError());
     });
 
 
 // action entry point for category actions
 const categoryActions = (action, ...params) => (dispatch) => {
-  if (!authCheck(dispatch)) return;
+  if (!authCheck(dispatch)) return dispatch(actionError());
 
   switch (action) {
     case types.LOAD_CATEGORIES:
@@ -77,7 +81,7 @@ const categoryActions = (action, ...params) => (dispatch) => {
       return dispatch(deleteCategory(params[0]));
 
     default:
-      break;
+      return dispatch(actionError());
   }
 };
 

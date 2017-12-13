@@ -8,12 +8,11 @@ import googleUserFormatter from '../../helpers/googleUserFormatter';
 import TextInput from '../common/TextInput';
 import LoginForm from './LoginForm';
 import { loginRequest } from '../../actions/userActions';
-import setRedirectUrl from '../../actions/redirectActions';
 
 /**
  *
  */
-class LoginPage extends React.Component {
+export class LoginPage extends React.Component {
   /**
    * @param {object} props
    */
@@ -54,7 +53,7 @@ class LoginPage extends React.Component {
       return toastr.error(changeCase.sentence(response.error));
     }
     const googleUser = googleUserFormatter(response);
-    this.loginRequest(googleUser, true);
+    this.loginRequest(googleUser);
   }
 
   /**
@@ -71,7 +70,7 @@ class LoginPage extends React.Component {
    * @param {Boolean} googleError
    * @return {void}
    */
-  loginRequest(data, googleError = false) {
+  loginRequest(data) {
     this.setState({ errors: {} });
     this.props.loginUser(data)
       .catch(({ response }) => this.setState({ errors: response.data }));

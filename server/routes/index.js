@@ -47,6 +47,8 @@ router.put('/book/return', authMiddleware, validateBook,
 
 router.get('/user/history', authMiddleware, usersController.borrowHistory);
 
+router.get('/categories', authMiddleware, categoriesController.getAllCategories);
+
 router.get('/notifications/:notificationId', authMiddleware,
   adminMiddleware, notificationsController.getNotification);
 
@@ -67,8 +69,6 @@ router.put('/categories/:categoryId', authMiddleware, adminMiddleware,
 
 router.delete('/categories/:categoryId', authMiddleware, adminMiddleware,
   validateCategory, categoriesController.delete);
-
-router.get('/categories', authMiddleware, adminMiddleware, categoriesController.getAllCategories);
 
 router.post('/books', authMiddleware, adminMiddleware,
   formValidation(requestType.ADD_BOOK), validateCategory, booksController.create);

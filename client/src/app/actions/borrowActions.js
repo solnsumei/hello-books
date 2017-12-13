@@ -4,16 +4,20 @@ import types from './actionTypes';
 import { authCheck } from './userActions';
 import urlHelper from '../helpers/urlHelper';
 
-const borrowBookSuccess = borrowedBook => ({
+export const borrowBookSuccess = borrowedBook => ({
   type: types.BORROW_BOOK_SUCCESS, borrowedBook
 });
 
-const loadBorrowedBooksSuccess = borrowedBooks => ({
+export const loadBorrowedBooksSuccess = borrowedBooks => ({
   type: types.LOAD_BORROWED_BOOKS_SUCCESS, borrowedBooks
 });
 
-const returnBookSuccess = returnedBook => ({
+export const returnBookSuccess = returnedBook => ({
   type: types.RETURN_BOOK_SUCCESS, returnedBook
+});
+
+export const actionError = () => ({
+  type: types.FAILED_ACTION
 });
 
 const loadBorrowedBooks = (page, limit) => (dispatch) => {
@@ -22,6 +26,7 @@ const loadBorrowedBooks = (page, limit) => (dispatch) => {
     .then(({ data }) => dispatch(loadBorrowedBooksSuccess(data.borrowedBooks)))
     .catch(({ response }) => {
       toastr.error(response.data.error);
+      return dispatch(actionError());
     });
 };
 
@@ -30,6 +35,7 @@ const loadBooksNotReturned = returned => dispatch =>
     .then(({ data }) => dispatch(loadBorrowedBooksSuccess(data.borrowedBooks)))
     .catch(({ response }) => {
       toastr.error(response.data.error);
+      return dispatch(actionError());
     });
 
 const borrowBook = bookId => dispatch =>
@@ -40,6 +46,7 @@ const borrowBook = bookId => dispatch =>
     })
     .catch(({ response }) => {
       toastr.error(response.data.error);
+      return dispatch(actionError());
     });
 
 const returnBook = (bookId, returned = null) => dispatch =>
@@ -54,11 +61,12 @@ const returnBook = (bookId, returned = null) => dispatch =>
     })
     .catch(({ response }) => {
       toastr.error(response.data.error);
+      return dispatch(actionError());
     });
 
 // entry point for all borrowing actions
 const borrowActions = (action, ...params) => (dispatch) => {
-  if (!authCheck(dispatch)) return;
+  if (!authCheck(dispatch)) return dispatch(actionError());
 
   switch (action) {
     case types.LOAD_BORROWED_BOOKS:
@@ -74,7 +82,7 @@ const borrowActions = (action, ...params) => (dispatch) => {
       return dispatch(returnBook(params[0], params[1]));
 
     default:
-      break;
+      return dispatch(actionError());
   }
 };
 

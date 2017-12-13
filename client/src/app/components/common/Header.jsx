@@ -33,7 +33,7 @@ const Header = ({ user, logout, title }) => {
           <ul className="right hide-on-med-and-down">
             { user.id ?
               <li>
-                <a href="#" onClick={logout}>
+                <a className="logout" href="#" onClick={logout}>
                   Logout
                 </a>
               </li>
@@ -72,7 +72,7 @@ const Header = ({ user, logout, title }) => {
                 </li>
                 <AuthLinks isAdmin={user.admin} />
                 <li>
-                  <a href="#" onClick={logout}>
+                  <a className="logout" href="#" onClick={logout}>
                     Logout
                   </a>
                 </li>

@@ -5,5 +5,5 @@ export default (Page, props) => (
   !props.user || !props.user.id ? (
     <Page {...props} />
   ) : (
-    < Redirect to="/profile" />
+    <Redirect to="/profile" />
   ));

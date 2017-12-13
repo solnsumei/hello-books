@@ -24,5 +24,5 @@ store.dispatch(checkAuthentication());
 
 render(
   <Provider store={store}>
-    <Router history={history}><App /></Router>
+    <Router history={history}><App { ...history }/></Router>
   </Provider>, window.document.getElementById('app'));

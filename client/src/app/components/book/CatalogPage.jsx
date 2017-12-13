@@ -11,7 +11,7 @@ import BookList from './BookList';
 /**
  *
  */
-class CatalogPage extends React.Component {
+export class CatalogPage extends React.Component {
   /**
    * [componentDidMount description]
    * @method componentDidMount
@@ -66,11 +66,7 @@ class CatalogPage extends React.Component {
 
 // Map state from store to component properties
 const mapStateToProps = (state, ownProps) => {
-  let queryParams = ownProps.location.search;
-
-  if (queryParams) {
-    queryParams = queryString.parse(queryParams);
-  }
+  const queryParams = queryString.parse(ownProps.location.search);
 
   return {
     perPage: 2,

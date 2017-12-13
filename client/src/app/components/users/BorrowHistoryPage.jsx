@@ -13,7 +13,7 @@ import borrowActions from '../../actions/borrowActions';
 /**
  *
  */
-class BorrowHistoryPage extends React.Component {
+export class BorrowHistoryPage extends React.Component {
   /**
   * [constructor description]
   * @method constructor
@@ -176,11 +176,7 @@ class BorrowHistoryPage extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  let queryParams = ownProps.location.search;
-
-  if (queryParams) {
-    queryParams = queryString.parse(queryParams);
-  }
+  const queryParams = queryString.parse(ownProps.location.search);
 
   return ({
     perPage: 20,
@@ -194,7 +190,7 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = dispatch => ({
   returnBook: (bookId, returned) =>
     dispatch(borrowActions(actionTypes.RETURN_BOOK, bookId, returned)),
-  loadBorrowedBooks: (page = null, limit = null) =>
+  loadBorrowedBooks: (page, limit) =>
     dispatch(borrowActions(actionTypes.LOAD_BORROWED_BOOKS, page, limit)),
   loadBooksNotReturned: returned =>
     dispatch(borrowActions(actionTypes.LOAD_BOOKS_NOT_RETURNED, returned))

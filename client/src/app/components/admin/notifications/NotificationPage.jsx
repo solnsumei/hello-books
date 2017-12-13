@@ -13,7 +13,7 @@ import notificationActions from '../../../actions/notificationActions';
 /**
  *
  */
-class NotificationPage extends React.Component {
+export class NotificationPage extends React.Component {
   /**
   * [constructor description]
   * @method constructor
@@ -75,6 +75,7 @@ class NotificationPage extends React.Component {
    * @return {void}
    */
   dismissModal() {
+    console.log('dismissModal', '===================');
     this.setState({ notification: {} });
     $('.modal').modal('close');
   }
@@ -104,7 +105,7 @@ class NotificationPage extends React.Component {
                     { this.props.notifications.length > 0 ?
                       this.props.notifications.map(notification =>
                         <NotificationItem key={notification.id}
-                          action={selectedNotification =>
+                          action={() =>
                             this.showNotificationModal(notification)}
                           notification={notification}
                         />
@@ -140,11 +141,7 @@ class NotificationPage extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  let queryParams = ownProps.location.search;
-
-  if (queryParams) {
-    queryParams = queryString.parse(queryParams);
-  }
+  const queryParams = queryString.parse(ownProps.location.search);
 
   return {
     perPage: 20,
