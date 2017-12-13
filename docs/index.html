@@ -1,0 +1,2040 @@
+
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>Hello-Books version1 API Documentation</title>
+
+    <style>
+      .highlight table td { padding: 5px; }
+.highlight table pre { margin: 0; }
+.highlight .gh {
+  color: #999999;
+}
+.highlight .sr {
+  color: #f6aa11;
+}
+.highlight .go {
+  color: #888888;
+}
+.highlight .gp {
+  color: #555555;
+}
+.highlight .gs {
+}
+.highlight .gu {
+  color: #aaaaaa;
+}
+.highlight .nb {
+  color: #f6aa11;
+}
+.highlight .cm {
+  color: #75715e;
+}
+.highlight .cp {
+  color: #75715e;
+}
+.highlight .c1 {
+  color: #75715e;
+}
+.highlight .cs {
+  color: #75715e;
+}
+.highlight .c, .highlight .cd {
+  color: #75715e;
+}
+.highlight .err {
+  color: #960050;
+}
+.highlight .gr {
+  color: #960050;
+}
+.highlight .gt {
+  color: #960050;
+}
+.highlight .gd {
+  color: #49483e;
+}
+.highlight .gi {
+  color: #49483e;
+}
+.highlight .ge {
+  color: #49483e;
+}
+.highlight .kc {
+  color: #66d9ef;
+}
+.highlight .kd {
+  color: #66d9ef;
+}
+.highlight .kr {
+  color: #66d9ef;
+}
+.highlight .no {
+  color: #66d9ef;
+}
+.highlight .kt {
+  color: #66d9ef;
+}
+.highlight .mf {
+  color: #ae81ff;
+}
+.highlight .mh {
+  color: #ae81ff;
+}
+.highlight .il {
+  color: #ae81ff;
+}
+.highlight .mi {
+  color: #ae81ff;
+}
+.highlight .mo {
+  color: #ae81ff;
+}
+.highlight .m, .highlight .mb, .highlight .mx {
+  color: #ae81ff;
+}
+.highlight .sc {
+  color: #ae81ff;
+}
+.highlight .se {
+  color: #ae81ff;
+}
+.highlight .ss {
+  color: #ae81ff;
+}
+.highlight .sd {
+  color: #e6db74;
+}
+.highlight .s2 {
+  color: #e6db74;
+}
+.highlight .sb {
+  color: #e6db74;
+}
+.highlight .sh {
+  color: #e6db74;
+}
+.highlight .si {
+  color: #e6db74;
+}
+.highlight .sx {
+  color: #e6db74;
+}
+.highlight .s1 {
+  color: #e6db74;
+}
+.highlight .s {
+  color: #e6db74;
+}
+.highlight .na {
+  color: #a6e22e;
+}
+.highlight .nc {
+  color: #a6e22e;
+}
+.highlight .nd {
+  color: #a6e22e;
+}
+.highlight .ne {
+  color: #a6e22e;
+}
+.highlight .nf {
+  color: #a6e22e;
+}
+.highlight .vc {
+  color: #ffffff;
+}
+.highlight .nn {
+  color: #ffffff;
+}
+.highlight .nl {
+  color: #ffffff;
+}
+.highlight .ni {
+  color: #ffffff;
+}
+.highlight .bp {
+  color: #ffffff;
+}
+.highlight .vg {
+  color: #ffffff;
+}
+.highlight .vi {
+  color: #ffffff;
+}
+.highlight .nv {
+  color: #ffffff;
+}
+.highlight .w {
+  color: #ffffff;
+}
+.highlight {
+  color: #ffffff;
+}
+.highlight .n, .highlight .py, .highlight .nx {
+  color: #ffffff;
+}
+.highlight .ow {
+  color: #f92672;
+}
+.highlight .nt {
+  color: #f92672;
+}
+.highlight .k, .highlight .kv {
+  color: #f92672;
+}
+.highlight .kn {
+  color: #f92672;
+}
+.highlight .kp {
+  color: #f92672;
+}
+.highlight .o {
+  color: #f92672;
+}
+    </style>
+    <link href="stylesheets/screen.css" rel="stylesheet" media="screen" />
+    <link href="stylesheets/print.css" rel="stylesheet" media="print" />
+      <script src="javascripts/all.js"></script>
+  </head>
+
+  <body class="index" data-languages="[&quot;javascript&quot;]">
+    <a href="#" id="nav-button">
+      <span>
+        NAV
+        <img src="images/navbar.png" alt="Navbar" />
+      </span>
+    </a>
+    <div class="toc-wrapper">
+      <img src="images/logo.png" class="logo" alt="Logo" />
+        <div class="lang-selector">
+              <a href="#" data-language-name="javascript">javascript</a>
+        </div>
+        <div class="search">
+          <input type="text" class="search" id="input-search" placeholder="Search">
+        </div>
+        <ul class="search-results"></ul>
+      <div id="toc" class="toc-list-h1">
+          <li>
+            <a href="#introduction" class="toc-h1 toc-link" data-title="Introduction">Introduction</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#installation-and-setup" class="toc-h2 toc-link" data-title="Introduction">Installation and setup</a>
+                  </li>
+                  <li>
+                    <a href="#features" class="toc-h2 toc-link" data-title="Introduction">Features</a>
+                  </li>
+                  <li>
+                    <a href="#endpoints" class="toc-h2 toc-link" data-title="Introduction">Endpoints</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#authentication-endpoints" class="toc-h1 toc-link" data-title="Authentication Endpoints">Authentication Endpoints</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#sign-up" class="toc-h2 toc-link" data-title="Authentication Endpoints">Sign Up</a>
+                  </li>
+                  <li>
+                    <a href="#sign-in" class="toc-h2 toc-link" data-title="Authentication Endpoints">Sign In</a>
+                  </li>
+                  <li>
+                    <a href="#forgot-password" class="toc-h2 toc-link" data-title="Authentication Endpoints">Forgot Password</a>
+                  </li>
+                  <li>
+                    <a href="#reset-password" class="toc-h2 toc-link" data-title="Authentication Endpoints">Reset Password</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#user-endpoints" class="toc-h1 toc-link" data-title="User Endpoints">User Endpoints</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#get-profile" class="toc-h2 toc-link" data-title="User Endpoints">Get Profile</a>
+                  </li>
+                  <li>
+                    <a href="#update-profile" class="toc-h2 toc-link" data-title="User Endpoints">Update Profile</a>
+                  </li>
+                  <li>
+                    <a href="#change-password" class="toc-h2 toc-link" data-title="User Endpoints">Change Password</a>
+                  </li>
+                  <li>
+                    <a href="#get-all-books" class="toc-h2 toc-link" data-title="User Endpoints">Get All Books</a>
+                  </li>
+                  <li>
+                    <a href="#get-a-single-book" class="toc-h2 toc-link" data-title="User Endpoints">Get A Single Book</a>
+                  </li>
+                  <li>
+                    <a href="#borrow-book" class="toc-h2 toc-link" data-title="User Endpoints">Borrow Book</a>
+                  </li>
+                  <li>
+                    <a href="#return-book" class="toc-h2 toc-link" data-title="User Endpoints">Return Book</a>
+                  </li>
+                  <li>
+                    <a href="#get-borrow-history" class="toc-h2 toc-link" data-title="User Endpoints">Get Borrow History</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#admin-endpoints" class="toc-h1 toc-link" data-title="Admin Endpoints">Admin Endpoints</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#get-membership-types" class="toc-h2 toc-link" data-title="Admin Endpoints">Get Membership Types</a>
+                  </li>
+                  <li>
+                    <a href="#update-membership-type" class="toc-h2 toc-link" data-title="Admin Endpoints">Update Membership Type</a>
+                  </li>
+                  <li>
+                    <a href="#add-category" class="toc-h2 toc-link" data-title="Admin Endpoints">Add Category</a>
+                  </li>
+                  <li>
+                    <a href="#get-all-categories" class="toc-h2 toc-link" data-title="Admin Endpoints">Get All Categories</a>
+                  </li>
+                  <li>
+                    <a href="#edit-category" class="toc-h2 toc-link" data-title="Admin Endpoints">Edit Category</a>
+                  </li>
+                  <li>
+                    <a href="#delete-category" class="toc-h2 toc-link" data-title="Admin Endpoints">Delete Category</a>
+                  </li>
+                  <li>
+                    <a href="#add-book" class="toc-h2 toc-link" data-title="Admin Endpoints">Add Book</a>
+                  </li>
+                  <li>
+                    <a href="#edit-book" class="toc-h2 toc-link" data-title="Admin Endpoints">Edit Book</a>
+                  </li>
+                  <li>
+                    <a href="#add-quantity-to-book" class="toc-h2 toc-link" data-title="Admin Endpoints">Add Quantity To Book</a>
+                  </li>
+                  <li>
+                    <a href="#delete-book" class="toc-h2 toc-link" data-title="Admin Endpoints">Delete Book</a>
+                  </li>
+                  <li>
+                    <a href="#get-all-notifications" class="toc-h2 toc-link" data-title="Admin Endpoints">Get All Notifications</a>
+                  </li>
+                  <li>
+                    <a href="#read-notification" class="toc-h2 toc-link" data-title="Admin Endpoints">Read Notification</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#errors" class="toc-h1 toc-link" data-title="Errors">Errors</a>
+          </li>
+      </div>
+        <ul class="toc-footer">
+            <li><a href='https://github.com/tripit/slate'>Documentation Powered by Slate</a></li>
+        </ul>
+    </div>
+    <div class="page-wrapper">
+      <div class="dark-box"></div>
+      <div class="content">
+        <h1 id='introduction'>Introduction</h1>
+<p>Welcome to Hello-Books, a simple application that helps manage a library and its processes like stocking, tracking and renting books. With this application users are able to find and rent books.</p>
+
+<p>The API can be consumed using any programming language as it returns JSON for all API calls. You can view code examples in the dark area to the right.</p>
+<h3 id='installation-and-setup'>Installation and setup</h3>
+<ul>
+<li> Navigate to a directory of choice on <code>terminal</code> or <code>cmd</code>.</li>
+<li><p>Clone this repository on that directory.</p>
+
+<blockquote>
+<p><code>https://github.com/solnsumei/hello-books.git</code></p>
+</blockquote></li>
+<li><p>Navigate to the repo&#39;s folder on your computer</p>
+
+<ul>
+<li> <code>cd hello-books/</code></li>
+</ul></li>
+<li><p>Install the app&#39;s dependencies. For best results, using a node package manager.</p>
+
+<ul>
+<li> <code>npm install</code></li>
+</ul></li>
+<li><blockquote>
+<p>In order to use app dependencies, you need to install it through <strong>npm</strong>. You also need to have <strong>node</strong> and <strong>postgres</strong> installed on your system.</p>
+</blockquote></li>
+<li><p>Run the app</p>
+
+<ul>
+<li> <code>npm run start</code>
+That should start your server. You are ready to go from there</li>
+</ul></li>
+<li><p>Run the tests</p>
+
+<ul>
+<li> <code>npm run test</code>
+That should run the tests for the app</li>
+</ul></li>
+</ul>
+<h3 id='features'>Features</h3>
+<p>The API has the following features:</p>
+
+<p><strong>Unauthenticated Users</strong></p>
+
+<ul>
+<li>Creating an account</li>
+<li>Signing in as an existing user</li>
+<li>Reset password</li>
+</ul>
+
+<p><strong>Authenticated Users</strong></p>
+
+<ul>
+<li>View and update profile</li>
+<li>Change password</li>
+<li>View books</li>
+<li>Borrow and return borrowed books</li>
+<li>View borrowing history</li>
+<li>Receive email notification when a surcharge is place for late return of borrowed book</li>
+</ul>
+
+<p><strong>Admin</strong></p>
+
+<ul>
+<li>Add, edit and delete books</li>
+<li>Add, edit and delete categories</li>
+<li>Group a books by category</li>
+<li>Edit membership types</li>
+<li>View and read borrowing notifications</li>
+</ul>
+<h3 id='endpoints'>Endpoints</h3>
+<p><strong>Users</strong></p>
+
+<table><thead>
+<tr>
+<th>Feature</th>
+<th>Type</th>
+<th>Endpoint</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>User sign up</td>
+<td>POST</td>
+<td>api/v1/users/signup</td>
+</tr>
+<tr>
+<td>User sign in</td>
+<td>POST</td>
+<td>api/v1/users/signin</td>
+</tr>
+<tr>
+<td>Update profile</td>
+<td>POST</td>
+<td>api/v1/user/profile</td>
+</tr>
+<tr>
+<td>Change password</td>
+<td>POST</td>
+<td>api/v1/user/change-password</td>
+</tr>
+<tr>
+<td>Get all books</td>
+<td>GET</td>
+<td>api/v1/books</td>
+</tr>
+<tr>
+<td>Get borrowed books</td>
+<td>GET</td>
+<td>api/v1/user/history?returned=false</td>
+</tr>
+<tr>
+<td>Get borrow history</td>
+<td>GET</td>
+<td>api/v1/user/history</td>
+</tr>
+<tr>
+<td>Borrow Book</td>
+<td>POST</td>
+<td>api/v1/book/borrow</td>
+</tr>
+<tr>
+<td>Return Book</td>
+<td>PUT</td>
+<td>api/v1/book/return</td>
+</tr>
+</tbody></table>
+
+<p><br/></p>
+
+<p><strong>Admin</strong></p>
+
+<table><thead>
+<tr>
+<th>Feature</th>
+<th>Type</th>
+<th>Endpoint</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>User Signin</td>
+<td>POST</td>
+<td>api/v1/users/signin</td>
+</tr>
+<tr>
+<td>Add Category</td>
+<td>POST</td>
+<td>api/v1/categories</td>
+</tr>
+<tr>
+<td>Edit Category</td>
+<td>PUT</td>
+<td>api/v1/categories/{categoryId}</td>
+</tr>
+<tr>
+<td>Delete Category</td>
+<td>DELETE</td>
+<td>api/v1/categories</td>
+</tr>
+<tr>
+<td>Add Book</td>
+<td>POST</td>
+<td>api/v1/books</td>
+</tr>
+<tr>
+<td>Add Book</td>
+<td>POST</td>
+<td>api/v1/books</td>
+</tr>
+<tr>
+<td>Edit Book</td>
+<td>PUT</td>
+<td>api/v1/books/{bookId}</td>
+</tr>
+<tr>
+<td>Delete Book</td>
+<td>DELETE</td>
+<td>api/v1/books</td>
+</tr>
+<tr>
+<td>Edit Membership type</td>
+<td>PUT</td>
+<td>api/v1/membership/{membershipId}</td>
+</tr>
+<tr>
+<td>Get all membership type</td>
+<td>GET</td>
+<td>api/v1/membership</td>
+</tr>
+<td>Unread Notifications</td>
+<td>GET</td>
+<td>api/v1/notifications</td>
+</tr>
+<tr>
+  <td>Read Notification</td>
+  <td>GET</td>
+  <td>api/v1/notifications/{notificationId}</td>
+</tr>
+</tbody></table>
+<h1 id='authentication-endpoints'>Authentication Endpoints</h1><h2 id='sign-up'>Sign Up</h2>
+<p>This endpoint handles user registration</p>
+<h3 id='http-request'>HTTP Request</h3>
+<p><code>POST api/v1/users/signup</code></p>
+
+<p>onSuccess - Status code (201)</p>
+
+<p>onError - Status code (400, 500)</p>
+
+<blockquote>
+<p>Request Body:</p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
+    <span class="s2">"username"</span><span class="p">:</span> <span class="s2">"solking"</span><span class="p">,</span>
+    <span class="s2">"email"</span><span class="p">:</span> <span class="s2">"sol2@gmail.com"</span><span class="p">,</span>
+    <span class="s2">"password"</span><span class="p">:</span> <span class="s2">"solomon1"</span><span class="p">,</span>
+    <span class="s2">"firstName"</span><span class="p">:</span> <span class="s2">"Chuks"</span><span class="p">,</span>
+    <span class="s2">"surname"</span><span class="p">:</span> <span class="s2">"Ejiro"</span><span class="p">,</span>
+<span class="p">}</span>
+</code></pre>
+<blockquote>
+<p>Sample Response</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"User created successfully"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"user"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"username"</span><span class="p">:</span><span class="w"> </span><span class="s2">"solking"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"firstName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Solomon"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"surname"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Ejiro"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"sol2@gmail.com"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"admin"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"level"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Free"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="s2">"token"</span><span class="p">:</span><span class="w"> </span><span class="s2">"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjo2fSwiaWF0IjoxNTExMTY3MTM4LCJleHAiOjE1MTExNzQzMzh9.nzRRu24vgddpRUipFiNzYhDad3FNuYAIqFRgl9HnVYU"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre><h3 id='request-required-fields'>Request Required Fields</h3>
+<ul>
+<li>Authorization: NA</li>
+</ul>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>username</td>
+<td>null</td>
+<td>This field is required</td>
+</tr>
+<tr>
+<td>password</td>
+<td>null</td>
+<td>This field is required</td>
+</tr>
+<tr>
+<td>email</td>
+<td>null</td>
+<td>This field is required</td>
+</tr>
+<tr>
+<td>firstName</td>
+<td>null</td>
+<td>This field is required</td>
+</tr>
+<tr>
+<td>surname</td>
+<td>null</td>
+<td>This field is required</td>
+</tr>
+</tbody></table>
+
+<aside class="success">
+On successful signup, a 201 status code is returned.
+</aside>
+<h2 id='sign-in'>Sign In</h2>
+<p>This endpoint handles user login</p>
+<h3 id='http-request-2'>HTTP Request</h3>
+<p><code>POST api/v1/users/signin</code></p>
+
+<p>onSuccess - Status code (200)</p>
+
+<p>onError - Status code (400, 401)</p>
+
+<blockquote>
+<p>Request Body:</p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
+    <span class="s2">"username"</span><span class="p">:</span> <span class="s2">"solking"</span><span class="p">,</span>
+    <span class="s2">"email"</span><span class="p">:</span> <span class="s2">"sol2@gmail.com"</span><span class="p">,</span>
+<span class="p">}</span>
+</code></pre>
+<blockquote>
+<p>Sample Response</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Welcome back solking"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"user"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"username"</span><span class="p">:</span><span class="w"> </span><span class="s2">"solking"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"firstName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Solomon"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"surname"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Ejiro"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"sol2@gmail.com"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"admin"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"level"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Free"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="s2">"token"</span><span class="p">:</span><span class="w"> </span><span class="s2">"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjo2fSwiaWF0IjoxNTExMTY3MTM4LCJleHAiOjE1MTExNzQzMzh9.nzRRu24vgddpRUipFiNzYhDad3FNuYAIqFRgl9HnVYU"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre><h3 id='request-required-fields-2'>Request Required Fields</h3>
+<ul>
+<li>Authorization: NA</li>
+</ul>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>username</td>
+<td>null</td>
+<td>This field is required</td>
+</tr>
+<tr>
+<td>password</td>
+<td>null</td>
+<td>This field is required</td>
+</tr>
+</tbody></table>
+<h2 id='forgot-password'>Forgot Password</h2>
+<p>This endpoint verifies the user for password reset. User can enter either their username or email to receive password reset link and token to change their password.</p>
+<h3 id='http-request-3'>HTTP Request</h3>
+<p><code>POST api/v1/users/forgot-password</code></p>
+
+<p>onSuccess - Status code (200)</p>
+
+<p>onError - Status code (400, 404, 409)</p>
+
+<blockquote>
+<p>Request Body:</p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
+    <span class="s2">"entry"</span><span class="p">:</span> <span class="s2">"solking"</span><span class="p">,</span>
+<span class="p">}</span>
+</code></pre>
+<blockquote>
+<p>Success Response</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Reset message has been sent to your registered email."</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<blockquote>
+<p>Error Response</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"error"</span><span class="p">:</span><span class="w"> </span><span class="s2">"User with entry not found in our database"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre><h3 id='request-required-fields-3'>Request Required Fields</h3>
+<ul>
+<li>Authorization: NA</li>
+</ul>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>entry</td>
+<td>username or email</td>
+<td>This field is required</td>
+</tr>
+</tbody></table>
+
+<p>On success a token is created and sent to the user email to reset password.</p>
+<h2 id='reset-password'>Reset Password</h2>
+<p>This endpoint resets the user password</p>
+<h3 id='http-request-4'>HTTP Request</h3>
+<p><code>POST api/v1/users/reset-password?token={token}</code></p>
+
+<p>onSuccess - Status code (200)</p>
+
+<p>onError - Status code (400, 404, 500)</p>
+
+<blockquote>
+<p>Request Body:</p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
+   <span class="s2">"password"</span><span class="p">:</span> <span class="s2">"solking"</span><span class="p">,</span>
+   <span class="s2">"password_confirmation"</span><span class="p">:</span> <span class="s2">"solking"</span><span class="p">,</span>
+<span class="p">}</span>
+</code></pre>
+<blockquote>
+<p>Success Response</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Your password has been reset successfully, please login with your new credentials"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<blockquote>
+<p>Error Response</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"error"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Your password could not be reset, please try again later"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre><h3 id='request-required-fields-4'>Request Required Fields</h3>
+<ul>
+<li>Authorization: NA</li>
+</ul>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>password</td>
+<td>null</td>
+<td>This field is required</td>
+</tr>
+<tr>
+<td>password_confirmation</td>
+<td>null</td>
+<td>This field is required</td>
+</tr>
+</tbody></table>
+
+<aside class="success">
+On success a token is created and sent to the user email to reset password.
+</aside>
+<h1 id='user-endpoints'>User Endpoints</h1><h2 id='get-profile'>Get Profile</h2>
+<p>This endpoint returns the authenticated user profile</p>
+<h3 id='http-request-5'>HTTP Request</h3>
+<p><code>GET api/v1/user/profile</code></p>
+
+<p>onSuccess - Status code (200)</p>
+
+<p>onError - Status code (401, 500)</p>
+
+<blockquote>
+<p>Sample Response</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"User was loaded successfully"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"user"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"username"</span><span class="p">:</span><span class="w"> </span><span class="s2">"solking"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"firstName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Ifelunwa"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"surname"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Ejiro"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"solnsumei@gmail.com"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"admin"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"level"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Gold"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"googleUser"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"borrowedCount"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"notReturned"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<ul>
+<li>Authorization: x-token</li>
+</ul>
+
+<aside class="notice">**Note**
+In using the authenticated endpoints, you must note the following: 
+
+  - An authorization token needs to be attached. The format is: {"x-token": token}
+</aside>
+<h2 id='update-profile'>Update Profile</h2>
+<p>This endpoint handles profile update</p>
+<h3 id='http-request-6'>HTTP Request</h3>
+<p><code>PUT api/v1/user/profile</code></p>
+
+<p>onSuccess - Status code (200)</p>
+
+<p>onError - Status code (400, 401)</p>
+
+<blockquote>
+<p>Request Body:</p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
+    <span class="s2">"firstName"</span><span class="p">:</span> <span class="s2">"Solo"</span><span class="p">,</span>
+    <span class="s2">"surname"</span><span class="p">:</span> <span class="s2">"Ejiro"</span><span class="p">,</span>
+<span class="p">}</span>
+</code></pre>
+<blockquote>
+<p>Sample Response</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"User profile updated successfully"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"user"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"username"</span><span class="p">:</span><span class="w"> </span><span class="s2">"solking"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"firstName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Solo"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"surname"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Ejiro"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"solnsumei@gmail.com"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"admin"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"level"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Gold"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"googleUser"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"borrowedCount"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"notReturned"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre><h3 id='request-body-fields'>Request Body Fields</h3>
+<ul>
+<li>Authorization: x-token</li>
+</ul>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>firstName</td>
+<td>null</td>
+<td>This field is optional</td>
+</tr>
+<tr>
+<td>surname</td>
+<td>null</td>
+<td>This field is optional</td>
+</tr>
+</tbody></table>
+<h2 id='change-password'>Change Password</h2>
+<p>This endpoint handles change password request by authenticated users,</p>
+
+<ul>
+<li>Users who created account using google login cannot change password.</li>
+</ul>
+<h3 id='http-request-7'>HTTP Request</h3>
+<p><code>POST api/v1/users/change-password</code></p>
+
+<p>onSuccess - Status code (200)</p>
+
+<p>onError - Status code (400, 404, 409)</p>
+
+<blockquote>
+<p>Request Body:</p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
+    <span class="s2">"oldPassword"</span><span class="p">:</span> <span class="s2">"solomomn1"</span><span class="p">,</span>
+    <span class="s2">"password"</span><span class="p">:</span> <span class="s2">"solomon22"</span><span class="p">,</span>
+    <span class="s2">"password_confirmation"</span><span class="p">:</span> <span class="s2">"solomom22"</span><span class="p">,</span>
+<span class="p">}</span>
+</code></pre>
+<blockquote>
+<p>Success Response</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Your Password was changed successfully"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre><h3 id='request-required-fields-5'>Request Required Fields</h3>
+<ul>
+<li>Authorization: x-token</li>
+</ul>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>oldPassword</td>
+<td>null</td>
+<td>User current password</td>
+</tr>
+<tr>
+<td>password</td>
+<td>null</td>
+<td>New password</td>
+</tr>
+<tr>
+<td>password_confirmation</td>
+<td>null</td>
+<td>Confirm new password</td>
+</tr>
+</tbody></table>
+<h2 id='get-all-books'>Get All Books</h2>
+<p>This endpoint retrieves all books from the library</p>
+<h3 id='http-request-8'>HTTP Request</h3>
+<p><code>GET api/v1/books</code></p>
+
+<ul>
+<li>Authorization: x-token</li>
+</ul>
+
+<p>onSuccess - Status code (200)</p>
+
+<p>onError - Status code (500)</p>
+
+<blockquote>
+<p>Sample Response</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Books loaded successfully"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"books"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"count"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"rows"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+            </span><span class="p">{</span><span class="w">
+                </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Scala Beginners Guide"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"categoryId"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"author"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Solmei"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Nice little book for all"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"coverPic"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://res.cloudinary.com/solmei/image/upload/v1513071369/wvputpuxwhzchxv4bl9t.png"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"isDeleted"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"stockQuantity"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"borrowedQuantity"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"category"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+                    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Pretty Development"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"slug"</span><span class="p">:</span><span class="w"> </span><span class="s2">"pretty-development"</span><span class="w">
+                </span><span class="p">}</span><span class="w">
+            </span><span class="p">},</span><span class="w">
+            </span><span class="p">{</span><span class="w">
+                </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Javascript For Beginners"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"categoryId"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"author"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Andela Cohorts"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Lovely book for beginners"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"coverPic"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://res.cloudinary.com/solmei/image/upload/v1511255710/xunarbshtsrjbx4nm4wp.jpg"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"isDeleted"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"stockQuantity"</span><span class="p">:</span><span class="w"> </span><span class="mi">13</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"borrowedQuantity"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"category"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+                    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Melodies for comedy"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"slug"</span><span class="p">:</span><span class="w"> </span><span class="s2">"melodies-for-comedy"</span><span class="w">
+                </span><span class="p">}</span><span class="w">
+            </span><span class="p">},</span><span class="w">
+            </span><span class="p">{</span><span class="w">
+                </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Book of Android"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"categoryId"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"author"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Andelans Class"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Lovely book for beginners"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"coverPic"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://res.cloudinary.com/solmei/image/upload/v1511255729/a0rbqsiejdahhogamb22.png"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"isDeleted"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"stockQuantity"</span><span class="p">:</span><span class="w"> </span><span class="mi">38</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"borrowedQuantity"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"category"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+                    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Android"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"slug"</span><span class="p">:</span><span class="w"> </span><span class="s2">"android"</span><span class="w">
+                </span><span class="p">}</span><span class="w">
+            </span><span class="p">}</span><span class="w">
+        </span><span class="p">]</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre><h3 id='query-parameters'>Query Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>limit</td>
+<td>10</td>
+<td>If set, result retrieved will be limited to the limit.</td>
+</tr>
+<tr>
+<td>page</td>
+<td>null</td>
+<td>If set to a positive number, the page will determine the result to be fetched.</td>
+</tr>
+</tbody></table>
+<h2 id='get-a-single-book'>Get A Single Book</h2>
+<p>This endpoint retrieves a specific book by bookId</p>
+<h3 id='http-request-9'>HTTP Request</h3>
+<p><code>GET api/v1/books/&lt;bookId&gt;</code></p>
+
+<ul>
+<li>Authorization: x-token</li>
+</ul>
+
+<p>onSuccess - Status code (200)</p>
+
+<p>onError - Status code (500)</p>
+
+<blockquote>
+<p>Sample Response</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Book loaded successfully"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"book"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Scala Beginners Guide"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"categoryId"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"author"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Solmei"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Nice little book for all"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"coverPic"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://res.cloudinary.com/solmei/image/upload/v1513071369/wvputpuxwhzchxv4bl9t.png"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"isDeleted"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"stockQuantity"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"borrowedQuantity"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"category"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Pretty Development"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"slug"</span><span class="p">:</span><span class="w"> </span><span class="s2">"pretty-development"</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre><h3 id='url-parameters'>URL Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>bookId</td>
+<td>ID of the book to retrieve</td>
+</tr>
+</tbody></table>
+<h2 id='borrow-book'>Borrow Book</h2>
+<p>This endpoint handles borrowing book</p>
+<h3 id='http-request-10'>HTTP Request</h3>
+<p><code>POST api/v1/book/borrow</code></p>
+
+<p>onSuccess - Status code (200)</p>
+
+<p>onError - Status code (400, 404, 409)</p>
+
+<blockquote>
+<p>Request Body:</p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
+    <span class="s2">"bookId"</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+<span class="p">}</span>
+</code></pre>
+<blockquote>
+<p>Success Response</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Book borrowed successfully"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"borrowedBook"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">222</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"bookId"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"borrowDate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-12-13T02:49:22.272Z"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"returnDate"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"dueDate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2018-01-12T02:49:22.272Z"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"returned"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"isSeen"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"book"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Scala Beginners Guide"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"isDeleted"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre><h3 id='request-required-fields-6'>Request Required Fields</h3>
+<ul>
+<li>Authorization: x-token</li>
+</ul>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>bookId</td>
+<td>null</td>
+<td>ID of book to borrow</td>
+</tr>
+</tbody></table>
+<h2 id='return-book'>Return Book</h2>
+<p>This endpoint handles returning a book</p>
+<h3 id='http-request-11'>HTTP Request</h3>
+<p><code>PUT api/v1/book/return</code></p>
+
+<p>onSuccess - Status code (200)</p>
+
+<p>onError - Status code (400, 404, 409)</p>
+
+<blockquote>
+<p>Request Body:</p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
+    <span class="s2">"bookId"</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+<span class="p">}</span>
+</code></pre>
+<blockquote>
+<p>Success Response</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Book was returned successfully"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"returnedBook"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">222</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"bookId"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"borrowDate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-12-13T02:49:22.272Z"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"returnDate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-12-13T02:50:07.793Z"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"dueDate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2018-01-12T02:49:22.272Z"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"returned"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"isSeen"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"book"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Scala Beginners Guide"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"isDeleted"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre><h3 id='request-required-fields-7'>Request Required Fields</h3>
+<ul>
+<li>Authorization: x-token</li>
+</ul>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>bookId</td>
+<td>null</td>
+<td>ID of book to return</td>
+</tr>
+</tbody></table>
+<h2 id='get-borrow-history'>Get Borrow History</h2>
+<p>This endpoint retrieve user borrow history</p>
+<h3 id='http-request-12'>HTTP Request</h3>
+<p><code>GET api/v1/user/history</code></p>
+
+<ul>
+<li>Authorization: x-token</li>
+</ul>
+
+<p>onSuccess - Status code (200)</p>
+
+<p>onError - Status code (500)</p>
+
+<blockquote>
+<p>Sample Response</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Borrow history loaded successfully"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"borrowedBooks"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"count"</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"rows"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+            </span><span class="p">{</span><span class="w">
+                </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">222</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"bookId"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"dueDate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2018-01-12T02:49:22.272Z"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"isSeen"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"returned"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"borrowDate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-12-13T02:49:22.272Z"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"returnDate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-12-13T02:50:07.793Z"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"book"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+                    </span><span class="s2">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Scala Beginners Guide"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"isDeleted"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+                </span><span class="p">}</span><span class="w">
+            </span><span class="p">},</span><span class="w">
+            </span><span class="p">{</span><span class="w">
+                </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">221</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"bookId"</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"dueDate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2018-01-06T09:43:11.867Z"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"isSeen"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"returned"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"borrowDate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-12-07T09:43:11.868Z"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"returnDate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-12-07T09:43:31.845Z"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"book"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+                    </span><span class="s2">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Javascript For Beginners"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"isDeleted"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+                </span><span class="p">}</span><span class="w">
+            </span><span class="p">},</span><span class="w">
+            </span><span class="p">{</span><span class="w">
+                </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">220</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"bookId"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"dueDate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-11-25T09:32:46.573Z"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"isSeen"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"returned"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"borrowDate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-11-04T09:32:46.573Z"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"returnDate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-12-07T09:42:36.077Z"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"book"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+                    </span><span class="s2">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Book of Android"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"isDeleted"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+                </span><span class="p">}</span><span class="w">
+            </span><span class="p">},</span><span class="w">
+            </span><span class="p">{</span><span class="w">
+                </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">219</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"bookId"</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"dueDate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-12-01T09:32:26.480Z"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"isSeen"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"returned"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"borrowDate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-11-02T09:32:26.480Z"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"returnDate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-12-07T09:42:38.504Z"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"book"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+                    </span><span class="s2">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Javascript For Beginners"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"isDeleted"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+                </span><span class="p">}</span><span class="w">
+            </span><span class="p">}</span><span class="w">
+        </span><span class="p">]</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre><h3 id='query-parameters-2'>Query Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>limit</td>
+<td>10</td>
+<td>If set, result retrieved will be limited to the limit.</td>
+</tr>
+<tr>
+<td>page</td>
+<td>null</td>
+<td>If set to a positive number, the page will determine the result to be fetched.</td>
+</tr>
+</tbody></table>
+<h1 id='admin-endpoints'>Admin Endpoints</h1><h2 id='get-membership-types'>Get Membership Types</h2>
+<p>This endpoint retrieves membership types</p>
+<h3 id='http-request-13'>HTTP Request</h3>
+<p><code>GET api/v1/membership</code></p>
+
+<p>onSuccess - Status code (200)</p>
+
+<p>onError - Status code (401, 403, 500)</p>
+
+<blockquote>
+<p>Sample Response</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Membership types loaded successfully"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"memberships"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"level"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Gold"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"lendDuration"</span><span class="p">:</span><span class="w"> </span><span class="mi">30</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"maxBorrowable"</span><span class="p">:</span><span class="w"> </span><span class="mi">12</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"level"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Silver"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"lendDuration"</span><span class="p">:</span><span class="w"> </span><span class="mi">24</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"maxBorrowable"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"level"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Free"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"lendDuration"</span><span class="p">:</span><span class="w"> </span><span class="mi">9</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"maxBorrowable"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"level"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Bronze"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"lendDuration"</span><span class="p">:</span><span class="w"> </span><span class="mi">14</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"maxBorrowable"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<ul>
+<li>Authorization: x-token</li>
+</ul>
+
+<aside class="notice">**Note**
+You must be an admin to access these endpoints, else a 403 error is returned.
+
+  - An authorization token needs to be attached. The format is: {"x-token": token}
+</aside>
+<h2 id='update-membership-type'>Update Membership Type</h2>
+<p>This endpoint handles membership type update</p>
+<h3 id='http-request-14'>HTTP Request</h3>
+<p><code>POST api/v1/membership/&lt;membershipId&gt;</code></p>
+
+<p>onSuccess - Status code (200)</p>
+
+<p>onError - Status code (400, 403, 500)</p>
+
+<blockquote>
+<p>Request Body:</p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
+    <span class="s2">"lendDuration"</span><span class="p">:</span> <span class="mi">12</span><span class="p">,</span>
+    <span class="s2">"maxBorrowable"</span><span class="p">:</span> <span class="mi">7</span><span class="p">,</span>
+<span class="p">}</span>
+</code></pre>
+<blockquote>
+<p>Sample Response</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Membership type updated successfully"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"membership"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"level"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Bronze"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"lendDuration"</span><span class="p">:</span><span class="w"> </span><span class="s2">"7"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"maxBorrowable"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre><h3 id='url-parameter'>URL Parameter</h3>
+<ul>
+<li>Authorization: x-token</li>
+</ul>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>membershipId</td>
+<td>ID of membership type to update</td>
+</tr>
+</tbody></table>
+<h3 id='request-body-fields-2'>Request Body Fields</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>lendDuration</td>
+<td>null</td>
+<td>The number of days book can be kept by users in this level</td>
+</tr>
+<tr>
+<td>maxBorrowable</td>
+<td>null</td>
+<td>The maximum number of books to be held at a time by users in this level</td>
+</tr>
+</tbody></table>
+<h2 id='add-category'>Add Category</h2>
+<p>This endpoint handles adding a category</p>
+<h3 id='http-request-15'>HTTP Request</h3>
+<p><code>POST api/v1/categories</code></p>
+
+<p>onSuccess - Status code (201)</p>
+
+<p>onError - Status code (400, 403, 500)</p>
+
+<blockquote>
+<p>Request Body:</p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
+    <span class="s2">"name"</span><span class="p">:</span> <span class="s1">'Fiction'</span><span class="p">,</span>
+<span class="p">}</span>
+</code></pre>
+<blockquote>
+<p>Sample Response</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Category was saved successfully"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"category"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">12</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Fiction"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"slug"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fiction"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre><h3 id='request-body-fields-3'>Request Body Fields</h3>
+<ul>
+<li>Authorization: x-token</li>
+</ul>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>name</td>
+<td>null</td>
+<td>The name of the category to be added</td>
+</tr>
+</tbody></table>
+<h2 id='get-all-categories'>Get All Categories</h2>
+<p>This endpoint retrieves all categories</p>
+<h3 id='http-request-16'>HTTP Request</h3>
+<p><code>GET api/v1/categories</code></p>
+
+<ul>
+<li>Authorization: x-token</li>
+</ul>
+
+<p>onSuccess - Status code (200)</p>
+
+<p>onError - Status code (500)</p>
+
+<blockquote>
+<p>Sample Response</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Categories loaded successfully"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"categories"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"count"</span><span class="p">:</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"rows"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+            </span><span class="p">{</span><span class="w">
+                </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">12</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Fiction"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"slug"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fiction"</span><span class="w">
+            </span><span class="p">},</span><span class="w">
+            </span><span class="p">{</span><span class="w">
+                </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">8</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Whats Up Category"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"slug"</span><span class="p">:</span><span class="w"> </span><span class="s2">"whats-up-category"</span><span class="w">
+            </span><span class="p">},</span><span class="w">
+            </span><span class="p">{</span><span class="w">
+                </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">7</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"New category"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"slug"</span><span class="p">:</span><span class="w"> </span><span class="s2">"new-category"</span><span class="w">
+            </span><span class="p">},</span><span class="w">
+            </span><span class="p">{</span><span class="w">
+                </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Pretty Development"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"slug"</span><span class="p">:</span><span class="w"> </span><span class="s2">"pretty-development"</span><span class="w">
+            </span><span class="p">},</span><span class="w">
+            </span><span class="p">{</span><span class="w">
+                </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Melodies for comedy"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"slug"</span><span class="p">:</span><span class="w"> </span><span class="s2">"melodies-for-comedy"</span><span class="w">
+            </span><span class="p">},</span><span class="w">
+            </span><span class="p">{</span><span class="w">
+                </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Android"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"slug"</span><span class="p">:</span><span class="w"> </span><span class="s2">"android"</span><span class="w">
+            </span><span class="p">}</span><span class="w">
+        </span><span class="p">]</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre><h3 id='query-parameters-3'>Query Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>limit</td>
+<td>10</td>
+<td>If set, result retrieved will be limited to the limit.</td>
+</tr>
+<tr>
+<td>page</td>
+<td>null</td>
+<td>If set to a positive number, the page will determine the result to be fetched.</td>
+</tr>
+</tbody></table>
+<h2 id='edit-category'>Edit Category</h2>
+<p>This endpoint handles updating a category</p>
+<h3 id='http-request-17'>HTTP Request</h3>
+<p><code>PUT api/v1/categories/&lt;categoryId&gt;</code></p>
+
+<p>onSuccess - Status code (200)</p>
+
+<p>onError - Status code (400, 404, 403, 500)</p>
+
+<blockquote>
+<p>Request Body:</p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
+    <span class="s2">"name"</span><span class="p">:</span> <span class="s1">'Updated Category'</span><span class="p">,</span>
+<span class="p">}</span>
+</code></pre>
+<blockquote>
+<p>Sample Response</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Category updated successfully"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"category"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Java Designs"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"slug"</span><span class="p">:</span><span class="w"> </span><span class="s2">"java-designs"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre><h3 id='url-parameter-2'>URL Parameter</h3>
+<ul>
+<li>Authorization: x-token</li>
+</ul>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>categoryId</td>
+<td>ID of the category to update</td>
+</tr>
+</tbody></table>
+<h3 id='request-body-fields-4'>Request Body Fields</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>name</td>
+<td>null</td>
+<td>The name of the category to be added</td>
+</tr>
+</tbody></table>
+<h2 id='delete-category'>Delete Category</h2>
+<p>This endpoint handles deleting a category</p>
+<h3 id='http-request-18'>HTTP Request</h3>
+<p><code>DELETE api/v1/categories/&lt;categoryId&gt;</code></p>
+
+<p>onSuccess - Status code (200)</p>
+
+<p>onError - Status code (403, 404, 409, 500)</p>
+
+<blockquote>
+<p>Sample Response</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Category was deleted successfully"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"deletedCatgoryId"</span><span class="p">:</span><span class="w"> </span><span class="mi">12</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre><h3 id='url-parameter-3'>URL Parameter</h3>
+<ul>
+<li>Authorization: x-token</li>
+</ul>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>categoryId</td>
+<td>ID of the category to delete</td>
+</tr>
+</tbody></table>
+<h2 id='add-book'>Add Book</h2>
+<p>This endpoint handles adding a book</p>
+<h3 id='http-request-19'>HTTP Request</h3>
+<p><code>POST api/v1/book</code></p>
+
+<p>onSuccess - Status code (201)</p>
+
+<p>onError - Status code (400, 403, 404, 500)</p>
+
+<blockquote>
+<p>Request Body:</p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
+    <span class="nl">title</span><span class="p">:</span> <span class="s2">"Python for Beginners"</span><span class="p">,</span>
+    <span class="nx">categoryId</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+    <span class="nx">author</span><span class="p">:</span> <span class="s2">"Nkem Owoh"</span><span class="p">,</span>
+    <span class="nx">description</span><span class="p">:</span> <span class="s2">"Lovely book for beginners"</span><span class="p">,</span>
+    <span class="nx">coverPic</span><span class="p">:</span> <span class="s2">"image.jpg"</span><span class="p">,</span>
+    <span class="nx">stockQuantity</span><span class="p">:</span> <span class="mi">15</span><span class="p">,</span>
+<span class="p">}</span>
+</code></pre>
+<blockquote>
+<p>Sample Response</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Book added successfully"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"book"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Python for Beginners"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"categoryId"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"author"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Nkem Owoh"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Lovely book for beginners"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"coverPic"</span><span class="p">:</span><span class="w"> </span><span class="s2">"image.jpg"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"stockQuantity"</span><span class="p">:</span><span class="w"> </span><span class="mi">15</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"borrowedQuantity"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"isDeleted"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"createdAt"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-12-13T03:38:31.356Z"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"category"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Java Designs"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"slug"</span><span class="p">:</span><span class="w"> </span><span class="s2">"java-designs"</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre><h3 id='request-body-fields-5'>Request Body Fields</h3>
+<ul>
+<li>Authorization: x-token</li>
+</ul>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>title</td>
+<td>null</td>
+<td>This title of the book</td>
+</tr>
+<tr>
+<td>author</td>
+<td>null</td>
+<td>The book author</td>
+</tr>
+<tr>
+<td>categoryId</td>
+<td>null</td>
+<td>The book category</td>
+</tr>
+<tr>
+<td>description</td>
+<td>null</td>
+<td>Brief description of book</td>
+</tr>
+<tr>
+<td>coverPic</td>
+<td>null</td>
+<td>The cover image of the book</td>
+</tr>
+<tr>
+<td>stockQuantity</td>
+<td>null</td>
+<td>The stock quantity of the book</td>
+</tr>
+</tbody></table>
+
+<aside class="notice">
+All fields are required
+</aside>
+<h2 id='edit-book'>Edit Book</h2>
+<p>This endpoint handles updating a book</p>
+<h3 id='http-request-20'>HTTP Request</h3>
+<p><code>PUT api/v1/book/&lt;bookId&gt;</code></p>
+
+<p>onSuccess - Status code (200)</p>
+
+<p>onError - Status code (400, 403, 404, 500)</p>
+
+<blockquote>
+<p>Request Body:</p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
+    <span class="nl">title</span><span class="p">:</span> <span class="s2">"PHP for Beginners"</span><span class="p">,</span>
+    <span class="nx">categoryId</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+    <span class="nx">author</span><span class="p">:</span> <span class="s2">"Nkem Owoh"</span><span class="p">,</span>
+    <span class="nx">description</span><span class="p">:</span> <span class="s2">"Lovely book for beginners"</span><span class="p">,</span>
+    <span class="nx">coverPic</span><span class="p">:</span> <span class="s2">"image.jpg"</span><span class="p">,</span>
+<span class="p">}</span>
+</code></pre>
+<blockquote>
+<p>Sample Response</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Book updated successfully"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"book"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"PHP for Beginners"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"categoryId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"3"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"author"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Nkem Owoh"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Lovely book for beginners"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"coverPic"</span><span class="p">:</span><span class="w"> </span><span class="s2">"image.jpg"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"stockQuantity"</span><span class="p">:</span><span class="w"> </span><span class="mi">38</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"borrowedQuantity"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"isDeleted"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"createdAt"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-11-15T10:28:56.397Z"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"category"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Android"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"slug"</span><span class="p">:</span><span class="w"> </span><span class="s2">"android"</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre><h3 id='url-parameter-4'>URL Parameter</h3>
+<ul>
+<li>Authorization: x-token</li>
+</ul>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>bookId</td>
+<td>ID of the book to update</td>
+</tr>
+</tbody></table>
+<h3 id='request-body-fields-6'>Request Body Fields</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>title</td>
+<td>null</td>
+<td>This title of the book</td>
+</tr>
+<tr>
+<td>author</td>
+<td>null</td>
+<td>The book author</td>
+</tr>
+<tr>
+<td>categoryId</td>
+<td>null</td>
+<td>The book category</td>
+</tr>
+<tr>
+<td>description</td>
+<td>null</td>
+<td>Brief description of book</td>
+</tr>
+<tr>
+<td>coverPic</td>
+<td>null</td>
+<td>The cover image of the book</td>
+</tr>
+</tbody></table>
+
+<aside class="notice">
+All fields are optional
+</aside>
+<h2 id='add-quantity-to-book'>Add Quantity To Book</h2>
+<p>This endpoint handles adding to a book stock</p>
+<h3 id='http-request-21'>HTTP Request</h3>
+<p><code>POST api/v1/book/&lt;bookId&gt;</code></p>
+
+<p>onSuccess - Status code (200)</p>
+
+<p>onError - Status code (400, 403, 404, 500)</p>
+
+<blockquote>
+<p>Request Body:</p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
+    <span class="nl">quantity</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span>
+<span class="p">}</span>
+</code></pre>
+<blockquote>
+<p>Sample Response</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="w">
+    </span><span class="s2">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Stock quantity updated successfully"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"PHP for Beginners"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"stockQuantity"</span><span class="p">:</span><span class="w"> </span><span class="mi">48</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre><h3 id='url-parameter-5'>URL Parameter</h3>
+<ul>
+<li>Authorization: x-token</li>
+</ul>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>bookId</td>
+<td>ID of the book to update quantity</td>
+</tr>
+</tbody></table>
+<h3 id='request-body-fields-7'>Request Body Fields</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>quantity</td>
+<td>null</td>
+<td>This quantity to add</td>
+</tr>
+</tbody></table>
+<h2 id='delete-book'>Delete Book</h2>
+<p>This endpoint handles deleting a book</p>
+<h3 id='http-request-22'>HTTP Request</h3>
+<p><code>DELETE api/v1/books/&lt;bookId&gt;</code></p>
+
+<p>onSuccess - Status code (200)</p>
+
+<p>onError - Status code (403, 404, 409, 500)</p>
+
+<blockquote>
+<p>Sample Response</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Book has been deleted successfully"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"deletedBookId"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre><h3 id='url-parameter-6'>URL Parameter</h3>
+<ul>
+<li>Authorization: x-token</li>
+</ul>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>bookId</td>
+<td>ID of the book to delete</td>
+</tr>
+</tbody></table>
+<h2 id='get-all-notifications'>Get All Notifications</h2>
+<p>This endpoint retrieves all unread borrowing notifications for admin</p>
+<h3 id='http-request-23'>HTTP Request</h3>
+<p><code>GET api/v1/notifications</code></p>
+
+<ul>
+<li>Authorization: x-token</li>
+</ul>
+
+<p>onSuccess - Status code (200)</p>
+
+<p>onError - Status code (500)</p>
+
+<blockquote>
+<p>Sample Response</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Unread Notifications loaded successfully"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"notifications"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"count"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"rows"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+            </span><span class="p">{</span><span class="w">
+                </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">222</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"borrowDate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-12-13T02:49:22.272Z"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"dueDate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2018-01-12T02:49:22.272Z"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"returned"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"returnDate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-12-13T02:50:07.793Z"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"isSeen"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"book"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+                    </span><span class="s2">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Scala Beginners Guide"</span><span class="w">
+                </span><span class="p">},</span><span class="w">
+                </span><span class="s2">"user"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+                    </span><span class="s2">"firstName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Solo"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"surname"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Ejiro"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"username"</span><span class="p">:</span><span class="w"> </span><span class="s2">"solking"</span><span class="w">
+                </span><span class="p">}</span><span class="w">
+            </span><span class="p">}</span><span class="w">
+        </span><span class="p">]</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre><h3 id='query-parameters-4'>Query Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>limit</td>
+<td>10</td>
+<td>If set, result retrieved will be limited to the limit.</td>
+</tr>
+<tr>
+<td>page</td>
+<td>null</td>
+<td>If set to a positive number, the page will determine the result to be fetched.</td>
+</tr>
+</tbody></table>
+<h2 id='read-notification'>Read Notification</h2>
+<p>This endpoint handles reading a notification</p>
+<h3 id='http-request-24'>HTTP Request</h3>
+<p><code>PUT api/v1/notifications/&lt;notificationId&gt;</code></p>
+
+<p>onSuccess - Status code (200)</p>
+
+<p>onError - Status code (400, 404, 403, 500)</p>
+
+<blockquote>
+<p>Sample Response</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Notification read successfully"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"notification"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">222</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"borrowDate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-12-13T02:49:22.272Z"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"dueDate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2018-01-12T02:49:22.272Z"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"returned"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"returnDate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-12-13T02:50:07.793Z"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"isSeen"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"book"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Scala Beginners Guide"</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="s2">"user"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"firstName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Solo"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"surname"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Ejiro"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"username"</span><span class="p">:</span><span class="w"> </span><span class="s2">"solking"</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre><h3 id='url-parameter-7'>URL Parameter</h3>
+<ul>
+<li>Authorization: x-token</li>
+</ul>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>notificationId</td>
+<td>ID of the notification to read</td>
+</tr>
+</tbody></table>
+<h1 id='errors'>Errors</h1>
+<p>The Hello Books API uses the following error codes:</p>
+
+<table><thead>
+<tr>
+<th>Error Code</th>
+<th>Meaning</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>400</td>
+<td>Bad Request -- Bad request.</td>
+</tr>
+<tr>
+<td>401</td>
+<td>Unauthorized -- Your Authentication token is wrong.</td>
+</tr>
+<tr>
+<td>403</td>
+<td>Forbidden -- The endpoint requested is hidden for administrators only.</td>
+</tr>
+<tr>
+<td>404</td>
+<td>Not Found -- The specified item could not be found.</td>
+</tr>
+<tr>
+<td>409</td>
+<td>Conflict -- Request conflict.</td>
+</tr>
+<tr>
+<td>422</td>
+<td>Unprocessable entity -- Server understands the request but cannot process it</td>
+</tr>
+<tr>
+<td>500</td>
+<td>Internal Server Error -- We had a problem with our server. Try again later.</td>
+</tr>
+<tr>
+<td>503</td>
+<td>Service Unavailable -- We&#39;re temporarily offline for maintenance. Please try again later.</td>
+</tr>
+</tbody></table>
+
+      </div>
+      <div class="dark-box">
+          <div class="lang-selector">
+                <a href="#" data-language-name="javascript">javascript</a>
+          </div>
+      </div>
+    </div>
+  </body>
+</html>
