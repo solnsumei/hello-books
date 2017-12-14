@@ -2,8 +2,12 @@ import types from '../actions/actionTypes';
 import initialState from './initialState';
 
 /**
+ * /**
+ * Category reducer
+ * handles category functions in state
  * @param {object} state
  * @param {object} action
+ *
  * @returns {object} state
  */
 export default function (state = initialState.categories, action) {

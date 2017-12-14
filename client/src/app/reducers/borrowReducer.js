@@ -2,8 +2,11 @@ import types from '../actions/actionTypes';
 import initialState from './initialState';
 
 /**
+ * Borrow reducer
+ * Listens to borrow actions and modifies them in state
  * @param {object} state
  * @param {object} action
+ * 
  * @returns {object} state
  */
 export default function (state = initialState.borrowedBooks, action) {

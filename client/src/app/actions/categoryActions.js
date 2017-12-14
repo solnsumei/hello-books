@@ -24,7 +24,13 @@ const actionError = () => ({
   type: types.FAILED_ACTION
 });
 
-// load book categories from server
+/**
+ * Fetches all categories from the api endpoint
+ * @param {string} page
+ * @param {integer} limit
+ * 
+ * @returns {function} dispatch
+ */
 const loadCategories = (page, limit) => (dispatch) => {
   const queryString = urlHelper('/categories', page, limit);
   return axios.get(queryString)

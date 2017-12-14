@@ -1,3 +1,11 @@
+/**
+   * Handles Sequelize errors
+   * @param {Object} error - error object
+   * @param {Object} res - response object
+   * 
+   * @return {array} errors
+   * @return {string} error
+*/
 const sequelizeErrorHandler = (error, res) => {
   const errors = {};
   let errorCode = 422;
@@ -15,6 +23,16 @@ const sequelizeErrorHandler = (error, res) => {
   });
 };
 
+/**
+   * Handles errors
+   * @param {Object} res - response object
+   * @param {string} message
+   * @param {integer} statusCode - request object
+   * @param {Object} error - error object
+   * 
+   * @return {array} errors
+   * @return {string} error
+*/
 const errorResponseHandler = (res, message = null, statusCode = null, error = null) => {
   if (error && (error.name === 'SequelizeUniqueConstraintError' || error.name === 'SequelizeValidationError')) {
     return sequelizeErrorHandler(error, res);

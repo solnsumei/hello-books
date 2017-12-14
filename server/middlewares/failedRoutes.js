@@ -2,7 +2,8 @@
  * Middleware to catch all non existing routes
  * @export
  * @param {Object} req 
- * @param {Object} res 
+ * @param {Object} res
+ * 
  * @returns {Object} res
  */
 export default function failedRoutes(req, res) {

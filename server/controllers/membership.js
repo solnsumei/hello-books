@@ -11,7 +11,7 @@ export default {
    * @param {Object} req
    * @param {Object} res
    *
-   * @returns {Promise.<Object>} membershipTypes
+   * @returns {Object} membershipTypes
    */
   getAllMemberShipTypes(req, res) {
     let attributes = ['level'];
@@ -41,7 +41,7 @@ export default {
    * @param {Object} req
    * @param {Object} res
    *
-   * @returns {Object} membershipTypeId
+   * @returns {Object} membership
    */
   update(req, res) {
     if (!parseInt(req.params.membershipId, 10)) {

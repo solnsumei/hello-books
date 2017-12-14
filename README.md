@@ -40,7 +40,7 @@ That should start your server. You are ready to go from there
 That should run the tests for the app
 
 ## Features and Documentation
-For more in depth documentation see: [https://hello-book.herokuapp.com/api/docs]
+For features and in depth documentation see: [https://hello-book.herokuapp.com/api/docs]
 
 
 ## Contributing to the Project

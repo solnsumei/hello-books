@@ -14,10 +14,11 @@ import { routeTitles } from '../helpers/constants';
  */
 export class App extends React.Component {
   /**
-   * [constructor description]
+   * Class constructor
    * @method constructor
-   * @param  {[type]}    props [description]
-   * @return {[type]}          [description]
+   * @param {Object} props
+   * 
+   * @return {void}
    */
   constructor(props) {
     super(props);
@@ -26,10 +27,11 @@ export class App extends React.Component {
   }
 
   /**
-   * [doLogout description]
+   * Logs out user when logout is cliocked
    * @method doLogout
-   * @param  {[type]} event [description]
-   * @return {[type]}       [description]
+   * @param  {Object} event
+   * 
+   * @return {void}
    */
   doLogout(event) {
     event.preventDefault();
@@ -38,18 +40,20 @@ export class App extends React.Component {
   }
 
   /**
-   * [render description]
+   * Renders output display
    * @method render
-   * @return {[type]} [description]
+   * 
+   * @return {Object} html
    */
   render() {
     const props = this.props;
+
     return (
       <div>
-        <Header title={routeTitles(this.props.pathname)}
-          user={this.props.user} logout={this.doLogout} />
+        <Header title={routeTitles(props.pathname)}
+          user={props.user} logout={this.doLogout} />
         <Routes {...props} />
-        {this.props.user.id && <Footer />}
+        {props.user.id && <Footer />}
       </div>
     );
   }

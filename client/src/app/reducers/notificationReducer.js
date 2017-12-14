@@ -2,8 +2,11 @@ import types from '../actions/actionTypes';
 import initialState from './initialState';
 
 /**
+ * Notification reducer
+ * handles fetching and reading borrow notifications by admin in state
  * @param {object} state
  * @param {object} action
+ * 
  * @returns {object} state
  */
 export default function (state = initialState.notifications, action) {

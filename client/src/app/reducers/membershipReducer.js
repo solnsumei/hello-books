@@ -2,8 +2,11 @@ import types from '../actions/actionTypes';
 import initialState from './initialState';
 
 /**
+ * Membership reducer
+ * handles fetching and updating membership types by admin in state
  * @param {object} state
  * @param {object} action
+ * 
  * @returns {object} state
  */
 export default function (state = initialState.memberships, action) {

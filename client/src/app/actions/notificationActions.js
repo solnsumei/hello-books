@@ -16,6 +16,13 @@ const actionError = () => ({
   type: types.FAILED_ACTION
 });
 
+/**
+ * Fetches all unread notifications from the api endpoint
+ * @param {string} page
+ * @param {integer} limit
+ * 
+ * @returns {function} dispatch
+ */
 const loadUnreadNotifications = (page, limit) => (dispatch) => {
   const queryString = urlHelper('/notifications', page, limit);
   return axios.get(queryString)

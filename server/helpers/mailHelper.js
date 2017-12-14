@@ -13,7 +13,7 @@ const mailText = (user, context, book = null) => {
     return `<h3>Dear ${user.firstName} ${user.surname}</h3>
     <p>You have requested to reset your password.</p>
     <p>Please click on the link below to reset your password or copy and paste it on your browser</p>
-    <p><a href="http:localhost:8000/reset-password?token=${user.resetToken}">${user.resetToken}</a></p>
+    <p><a href="${process.env.HOST_NAME}/reset-password?token=${user.resetToken}">${user.resetToken}</a></p>
     <p>Thank you</p>
     <p>&nbsp;</p>
     <p>&nbsp;</p>

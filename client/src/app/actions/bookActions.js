@@ -32,7 +32,13 @@ export const actionError = () => ({
   type: types.FAILED_ACTION
 });
 
-// load all books
+/**
+ * Fetches all books for the api endpoint
+ * @param {string} page
+ * @param {integer} limit
+ * 
+ * @returns {function} dispatch
+ */
 const loadBooks = (page = null, limit = null) => (dispatch) => {
   const queryString = urlHelper('/books', page, limit);
   return axios.get(queryString)

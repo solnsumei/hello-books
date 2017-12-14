@@ -15,7 +15,7 @@ export default {
    * @param {Object} req
    * @param {Object} res
    *
-   * @returns {Promise.<Object>} notifications
+   * @returns {array} notifications
    */
   getAllUnreadNotifications(req, res) {
     const { offset, limit } = pagination(req.query.page, req.query.limit);
@@ -45,11 +45,14 @@ export default {
   },
 
   /**
-   * get a single notification and update
-   * @method getNotification
-   * @param  {[type]} req [description]
-   * @param  {[type]} res [description]
-   * @return {[type]}     [description]
+   * Get a single notification and update it to read
+   * @param {Object} req - request object
+   * @param {Object} res - response object
+   *
+   * @return {string} message
+   * @return {boolean} success
+   * @returns {Object} notification
+   * @return {function} errorResponseHandler
    */
   getNotification(req, res) {
     if (!parseInt(req.params.notificationId, 10)) {

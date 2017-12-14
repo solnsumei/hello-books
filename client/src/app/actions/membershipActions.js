@@ -15,6 +15,11 @@ const actionError = () => ({
   type: types.FAILED_ACTION
 });
 
+/**
+ * Fetches all membership types from the api endpoint
+ * 
+ * @returns {function} dispatch
+ */
 const loadMembershipTypes = () => dispatch =>
   axios.get('/membership')
     .then(({ data }) => dispatch(loadMembershipTypesSuccess(data.memberships)))

@@ -192,6 +192,15 @@ h5 { font-size:16px; font-weight: 400 }
   min-height: 600px;
 }
 
+.card {
+  overflow: auto !important;
+  padding-bottom: 16px !important;
+}
+
+.add-margin-bottom {
+  margin-bottom: 16px;
+}
+
 .book-details p { line-height: 12px; font-size: 12px }
 
 .header, .main, .footer {
@@ -229,6 +238,11 @@ h5 { font-size:16px; font-weight: 400 }
   .header, .main, .footer {
     padding-left: 0 !important;
   }
+  nav .brand-logo {
+  padding-left: Opx;
+  font-size: 1.4rem;
+}
+  
 }
 
 /***** Form Customization  *******/

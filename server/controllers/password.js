@@ -3,7 +3,6 @@ import moment from 'moment';
 import Validator from 'validatorjs';
 import nodemailer from 'nodemailer';
 import createToken from '../helpers/token';
-import { formatUserObject, formatBorrowedBookObject } from '../helpers/formatData';
 import models from '../models/index';
 import errorResponseHandler from '../helpers/errorResponseHandler';
 import formHelper from '../helpers/formHelper';
@@ -16,7 +15,15 @@ import { transport, mailOptions } from '../helpers/mailHelper';
  * @export userController
  */
 const passwordController = {
-  // Get a single user
+  /**
+   * Forgot password method
+   * @param {Object} req - request object
+   * @param {Object} res - response object
+   *
+   * @return {string} message
+   * @return {boolean} success
+   * @return {function} errorResponseHandler
+   */
   forgotPassword(req, res) {
     if (!req.body.entry) {
       return errorResponseHandler(res, null, null, { name: 'Entry' });
@@ -64,7 +71,15 @@ const passwordController = {
       .catch(() => errorResponseHandler(res));
   },
 
-  // Reset user password
+  /**
+   * Reset password
+   * @param {Object} req - request object
+   * @param {Object} res - response object
+   *
+   * @return {string} message
+   * @return {boolean} success
+   * @return {function} errorResponseHandler
+   */
   resetPassword(req, res) {
     if (req.reset && !req.reset.googleUser) {
       return req.reset.update({

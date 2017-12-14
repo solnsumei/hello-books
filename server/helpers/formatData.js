@@ -1,6 +1,5 @@
-
 // format return attributes for books
-const formatBookObject = (book, category) => ({
+const formatBook = (book, category) => ({
   id: book.id,
   title: book.title,
   categoryId: book.categoryId,
@@ -18,7 +17,7 @@ const formatBookObject = (book, category) => ({
 });
 
 // Format borrowed book return type
-const formatBorrowedBookObject = (borrowedBook, book) => ({
+const formatBorrowedBook = (borrowedBook, book) => ({
   id: borrowedBook.id,
   bookId: borrowedBook.bookId,
   borrowDate: borrowedBook.borrowDate,
@@ -30,7 +29,7 @@ const formatBorrowedBookObject = (borrowedBook, book) => ({
 });
 
 // Format user object 
-const formatUserObject = user => ({
+const formatUser = user => ({
   id: user.id,
   username: user.username,
   firstName: user.firstName,
@@ -43,4 +42,4 @@ const formatUserObject = user => ({
   notReturned: user.notReturned || 0,
 });
 
-export { formatBookObject, formatBorrowedBookObject, formatUserObject };
+export { formatBook, formatBorrowedBook, formatUser };

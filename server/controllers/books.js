@@ -1,5 +1,5 @@
 import models from '../models/index';
-import { formatBookObject } from '../helpers/formatData';
+import { formatBook } from '../helpers/formatData';
 import errorResponseHandler from '../helpers/errorResponseHandler';
 import pagination from '../helpers/pagination';
 
@@ -16,10 +16,12 @@ const include = [{ model: models.Category, as: 'category', attributes: ['name', 
 export default {
   /**
    * Method create book in the library
-   * @param {Object} req
-   * @param {Object} res
+   * @param {Object} req - request object
+   * @param {Object} res - response object
    *
-   * @return {Bluebird<Object> | Promise.<Object>} res
+   * @return {string} message
+   * @return {Object} book
+   * @return {boolean} success
    */
   create(req, res) {
     const { title, categoryId, author, description, coverPic, stockQuantity } = req.body;
@@ -35,17 +37,19 @@ export default {
       .then(book => res.status(201).send({
         success: true,
         message: 'Book added successfully',
-        book: formatBookObject(book, req.category)
+        book: formatBook(book, req.category)
       }))
       .catch(error => errorResponseHandler(res, null, null, error));
   },
 
   /**
    * Method to get all books from the library
-   * @param {Object} req
-   * @param {Object} res
+   * @param {Object} req - request object
+   * @param {Object} res - response object
    *
-   * @returns {Promise.<Object>} books
+   * @return {string} message
+   * @return {Object} books
+   * @return {boolean} success
    */
   getAllBooks(req, res) {
     if (req.auth.admin) {
@@ -75,11 +79,14 @@ export default {
   },
 
   /**
-   * [getBook description]
+   * Get a single book 
    * @method getBook
-   * @param  {[type]} req [description]
-   * @param  {[type]} res [description]
-   * @return {[type]}     [description]
+   * @param  {Object} req - request object
+   * @param  {Object} res - response object
+   * 
+   * @return {string} message
+   * @return {Object} book
+   * @return {boolean} success
    */
   getBook(req, res) {
     if (req.auth.admin) {
@@ -117,7 +124,10 @@ export default {
    * @param {Object} req
    * @param {Object} res
    *
+   * @returns {string} message
    * @returns {Object} book
+   * @returns {boolean} success
+   * @returns {array} errors
    */
   update(req, res) {
     if (!parseInt(req.params.bookId, 10)) {
@@ -147,7 +157,7 @@ export default {
             return res.status(200).send({
               success: true,
               message: 'Book updated successfully',
-              book: formatBookObject(book, book.category)
+              book: formatBook(book, book.category)
             });
           }
         })
@@ -155,6 +165,16 @@ export default {
       });
   },
 
+  /**
+   * Adds to boook quantity
+   * @param {any} req - request object
+   * @param {any} res - response object
+   * 
+   * @returns {Object} data
+   * @returns {string} message
+   * @returns {boolean} success
+   * @returns {string} error
+   */
   addQuantity(req, res) {
     req.book.update({
       stockQuantity: req.book.stockQuantity + parseInt(req.body.quantity, 10)
@@ -173,6 +193,17 @@ export default {
       .catch(() => errorResponseHandler(res, 'Stock quantity could not be updated, please try again later.', 500));
   },
 
+  /**
+   * Deletes a book from the library
+   * 
+   * @param {any} req - request object
+   * @param {any} res - response object
+   * 
+   * @returns {Object} data
+   * @returns {string} message
+   * @returns {boolean} success
+   * @returns {string} error
+   */
   delete(req, res) {
     if (req.book.isBorrowed) {
       return errorResponseHandler(res, 'Book is borrowed and cannot be deleted at this time', 400);

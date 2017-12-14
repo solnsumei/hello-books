@@ -2,7 +2,7 @@ import bcrypt from 'bcryptjs';
 import moment from 'moment';
 import Validator from 'validatorjs';
 import createToken from '../helpers/token';
-import { formatUserObject, formatBorrowedBookObject } from '../helpers/formatData';
+import { formatUser, formatBorrowedBook } from '../helpers/formatData';
 import models from '../models/index';
 import errorResponseHandler from '../helpers/errorResponseHandler';
 import formHelper from '../helpers/formHelper';
@@ -14,6 +14,14 @@ import pagination from '../helpers/pagination';
  * @export userController
  */
 const userController = {
+  /**
+   * Validates google parameters for gool=gl login
+   * @param {Object} req - request object
+   * @param {Object} res - response object
+   *
+   * @return {function} create
+   * @return {array} errors
+   */
   checkGoogleParams(req, res) {
     const validationData = formHelper.signup();
     const validation = new Validator(req.body, validationData.rules);
@@ -28,7 +36,16 @@ const userController = {
     }
     return userController.create(req, res);
   },
-  // Create a user account in database
+
+  /**
+   * Method create user account
+   * @param {Object} req - request object
+   * @param {Object} res - response object
+   *
+   * @return {string} message
+   * @return {Object} user
+   * @return {boolean} success
+   */
   create(req, res) {
     const { firstName, surname, username, email, password } = req.body;
     return models.User
@@ -45,18 +62,26 @@ const userController = {
         if (!token) {
           return errorResponseHandler(res);
         }
-        // Return logged in user
+        // Returns logged in user
         return res.status(201).send({
           success: true,
           message: 'User created successfully',
-          user: formatUserObject(user),
+          user: formatUser(user),
           token
         });
       })
       .catch(error => errorResponseHandler(res, null, null, error));
   },
 
-  // Get a single user
+  /**
+   * Gets user profile
+   * @param {Object} req - request object
+   * @param {Object} res - response object
+   *
+   * @return {string} message
+   * @return {Object} user
+   * @return {boolean} success
+  */
   getUser(req, res) {
     return models.BorrowedBook.findAndCountAll({ where: { userId: req.auth.id } })
       .then((result) => {
@@ -68,13 +93,21 @@ const userController = {
         return res.status(200).send({
           success: true,
           message: 'User was loaded successfully',
-          user: formatUserObject(req.auth)
+          user: formatUser(req.auth)
         });
       })
       .catch(error => res.status(503).send(error));
   },
 
-  // Update a user account in database
+  /**
+   * Update user profile
+   * @param {Object} req - request object
+   * @param {Object} res - response object
+   *
+   * @return {string} message
+   * @return {Object} user
+   * @return {boolean} success
+  */
   updateProfile(req, res) {
     const { firstName, surname } = req.body;
     req.auth.update({
@@ -87,7 +120,7 @@ const userController = {
           return res.status(200).send({
             message: 'User profile updated successfully',
             success: true,
-            user: formatUserObject(req.auth),
+            user: formatUser(req.auth),
           });
         }
         return errorResponseHandler(res);
@@ -95,7 +128,15 @@ const userController = {
       .catch(error => errorResponseHandler(res, null, null, error));
   },
 
-  // Change user password
+  /**
+   * Change password method
+   * @param {Object} req - request object
+   * @param {Object} res - response object
+   *
+   * @return {string} message
+   * @return {boolean} success
+   * @return {function} errorResponseHandler
+   */
   changePassword(req, res) {
     return models.User
       .findById(req.auth.id)
@@ -126,7 +167,16 @@ const userController = {
       .catch(() => errorResponseHandler(res));
   },
 
-  // Authenticate users
+  /**
+   * Authenticate user
+   * @param {Object} req - request object
+   * @param {Object} res - response object
+   *
+   * @return {string} message
+   * @return {boolean} success
+   * @returns {Object} user
+   * @return {function} errorResponseHandler
+   */
   login(req, res) {
     return models.User
       .findOne({ where: {
@@ -149,7 +199,7 @@ const userController = {
           return res.status(200).send({
             success: true,
             message: `Welcome back ${user.username}`,
-            user: formatUserObject(user),
+            user: formatUser(user),
             token
           });
         }
@@ -157,7 +207,16 @@ const userController = {
       }).catch(() => errorResponseHandler(res));
   },
 
-  // Borrow book
+  /**
+   * Borrow book method
+   * @param {Object} req - request object
+   * @param {Object} res - response object
+   *
+   * @return {string} message
+   * @return {boolean} success
+   * @returns {Object} borrowedBook
+   * @return {function} errorResponseHandler
+   */
   borrowBook(req, res) {
     if (req.book.stockQuantity === req.book.borrowedQuantity) {
       return errorResponseHandler(res, 'No copies available for borrowing', 404);
@@ -195,7 +254,7 @@ const userController = {
                   return res.status(200).send({
                     success: true,
                     message: 'Book borrowed successfully',
-                    borrowedBook: formatBorrowedBookObject(borrowedBook, req.book),
+                    borrowedBook: formatBorrowedBook(borrowedBook, req.book),
                   });
                 }
               })
@@ -205,7 +264,16 @@ const userController = {
       .catch(() => errorResponseHandler(res));
   },
 
-  // Borrow History method with returned query string
+  /**
+   * View borrow history method by user
+   * @param {Object} req - request object
+   * @param {Object} res - response object
+   *
+   * @return {string} message
+   * @return {boolean} success
+   * @returns {array} borrowedBooks
+   * @return {function} errorResponseHandler
+   */
   borrowHistory(req, res) {
     const query = { userId: req.auth.id };
     const { offset, limit } = pagination(req.query.page, req.query.limit);
@@ -233,7 +301,16 @@ const userController = {
       .catch(() => errorResponseHandler(res));
   },
 
-  // Return book method
+  /**
+   * Method for returning a borrowed book
+   * @param {Object} req - request object
+   * @param {Object} res - response object
+   *
+   * @return {string} message
+   * @return {boolean} success
+   * @returns {Object} retrunedBook
+   * @return {function} errorResponseHandler
+   */
   returnBook(req, res) {
     // Update users borrow history if the user borrowed
     if (req.book.borrowedQuantity === 0 && req.book.isBorrowed === false) {
@@ -275,7 +352,7 @@ const userController = {
                   return res.status(200).send({
                     success: true,
                     message: 'Book was returned successfully',
-                    returnedBook: formatBorrowedBookObject(borrowedBook, req.book),
+                    returnedBook: formatBorrowedBook(borrowedBook, req.book),
                   });
                 })
                 .catch(() => errorResponseHandler(res));

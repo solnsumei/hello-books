@@ -10,11 +10,14 @@ import pagination from '../helpers/pagination';
 export default {
 
   /**
-   * This creates book category
-   * @param {Object} req
-   * @param {Object} res
+   * This creates a book category
+   * @param {Object} req - request object
+   * @param {Object} res - response object
    *
-   * @return {Bluebird<Object> | Promise.<Object>} res
+   * @return {string} message
+   * @return {boolean} success
+   * @returns {Object} category
+   * @return {function} errorResponseHandler
    */
   create(req, res) {
     return models.Category
@@ -38,7 +41,8 @@ export default {
    * Method to get all categories
    * @param {Object} req
    * @param {Object} res
-   * @returns {Promise.<Object>} categories
+   * 
+   * @returns {array} categories
    */
   getAllCategories(req, res) {
     const { offset, limit } = pagination(req.query.page, req.query.limit);
@@ -61,6 +65,7 @@ export default {
    * This updates the category
    * @param {Object} req
    * @param {Object} res
+   * 
    * @returns {Object} category
    */
   update(req, res) {
@@ -83,6 +88,16 @@ export default {
       .catch(error => errorResponseHandler(res, null, null, error));
   },
 
+  /**
+   * Deletes a book category
+   * @param {Object} req - request object
+   * @param {Object} res - response object
+   *
+   * @return {string} message
+   * @return {boolean} success
+   * @returns {Object} data
+   * @return {function} errorResponseHandler
+   */
   delete(req, res) {
     return req.category.getBooks({ where: { isDeleted: false } })
       .then((books) => {

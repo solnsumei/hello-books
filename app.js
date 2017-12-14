@@ -38,7 +38,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // Api Routes
 app.use('/api/v1', router);
 
-if (env === 'development') {
+if (env === 'development' || env === 'local') {
   app.use(webpackDevMiddleware(compiler, {
     historyApiFallback: true,
     hot: true,

@@ -45,9 +45,10 @@ export class IsAdmin extends React.Component {
   }
 
   /**
-   * [render description]
+   * Renders routes if admin is logged in
    * @method render
-   * @return {[type]} [description]
+   * 
+   * @return {Object} Switch
    */
   render() {
     if (this.props.user.admin) {

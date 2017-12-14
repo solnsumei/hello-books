@@ -20,6 +20,13 @@ export const actionError = () => ({
   type: types.FAILED_ACTION
 });
 
+/**
+ * Fetches all borrowed books from the api endpoint
+ * @param {string} page
+ * @param {integer} limit
+ * 
+ * @returns {function} dispatch
+ */
 const loadBorrowedBooks = (page, limit) => (dispatch) => {
   const queryString = urlHelper('/user/history', page, limit);
   return axios.get(queryString)
@@ -30,6 +37,12 @@ const loadBorrowedBooks = (page, limit) => (dispatch) => {
     });
 };
 
+/**
+ * Fetches all books that have not been returned for the api endpoint
+ * @param {string} returned
+ * 
+ * @returns {function} dispatch
+ */
 const loadBooksNotReturned = returned => dispatch =>
   axios.get(`/user/history?returned=${returned}`)
     .then(({ data }) => dispatch(loadBorrowedBooksSuccess(data.borrowedBooks)))
@@ -37,6 +50,7 @@ const loadBooksNotReturned = returned => dispatch =>
       toastr.error(response.data.error);
       return dispatch(actionError());
     });
+
 
 const borrowBook = bookId => dispatch =>
   axios.post('/book/borrow', { bookId })

@@ -8,6 +8,7 @@ import formHelper from '../helpers/formHelper';
  * 
  * @export
  * @param {string} type
+ * 
  * @returns {Object} res
  */
 export default function formValidation(type) {
