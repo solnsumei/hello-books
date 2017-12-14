@@ -87,7 +87,7 @@ const Header = ({ user, logout, title }) => {
                 </li>
               </div>
               : <li className="hide-on-large-only">{linkToShow}</li> }
-            <hr/>
+            <hr className="hide-on-large-only" />
             <li className="hide-on-large-only">
               <a href='/api/docs'>API Docs</a>
             </li>

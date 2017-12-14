@@ -4,22 +4,52 @@ import types from './actionTypes';
 import { authCheck } from './userActions';
 import urlHelper from '../helpers/urlHelper';
 
+/**
+ * Triggers the category reducer to add category to state
+ * @param {Object} category
+ * 
+ * @returns {Object} with a type as string and a category object
+ */
 export const addCategorySuccess = category => ({
   type: types.ADD_CATEGORY_SUCCESS, category
 });
 
+/**
+ * Triggers the category reducer to update category array in state
+ * @param {Object} categories
+ * 
+ * @returns {Object} with a type as string and a categories array
+ */
 export const loadCategoriesSuccess = categories => ({
   type: types.LOAD_CATEGORIES_SUCCESS, categories
 });
 
+/**
+ * Triggers the category reducer to update category in state
+ * @param {Object} category
+ * 
+ * @returns {Object} with a type as string and a category object
+ */
 export const updateCategorySuccess = category => ({
   type: types.UPDATE_CATEGORY_SUCCESS, category
 });
 
+/**
+ * Triggers the category reducer to delete category in state
+ * @param {Object} category
+ * 
+ * @returns {Object} with a type as string and a category object
+ */
 export const deleteCategorySuccess = category => ({
   type: types.DELETE_CATEGORY_SUCCESS, category
 });
 
+/**
+ * Error action type to call when action fails
+ * @param {void} null
+ * 
+ * @returns {string} type
+ */
 const actionError = () => ({
   type: types.FAILED_ACTION
 });
@@ -41,9 +71,15 @@ const loadCategories = (page, limit) => (dispatch) => {
     });
 };
 
-// save or update book category
+/**
+ * Creates or updates a category
+ * @param {Object} category
+ * 
+ * @returns {function} dispatch
+ */
 const saveOrUpdateCategory = category => (dispatch) => {
   if (category.id) {
+    // updates category
     return axios.put(`/categories/${category.id}`,
       category)
       .then(({ data }) => {
@@ -52,6 +88,7 @@ const saveOrUpdateCategory = category => (dispatch) => {
       });
   }
 
+  // create a category call
   return axios.post('/categories', category)
     .then(({ data }) => {
       toastr.success(data.message);
@@ -59,7 +96,12 @@ const saveOrUpdateCategory = category => (dispatch) => {
     });
 };
 
-// delete book
+/**
+ * Delete a category
+ * @param {Object} category - book to add quantity to
+ * 
+ * @returns {function} dispatch
+ */
 const deleteCategory = category => dispatch =>
   axios.delete(`/categories/${category.id}`)
     .then(({ data }) => {
@@ -72,7 +114,13 @@ const deleteCategory = category => dispatch =>
     });
 
 
-// action entry point for category actions
+/**
+ * Entry point for all category actions
+ * @param {string} action - action to perform
+ * @param {array} params - extra params that are optional
+ * 
+ * @returns {function} dispatch
+ */
 const categoryActions = (action, ...params) => (dispatch) => {
   if (!authCheck(dispatch)) return dispatch(actionError());
 

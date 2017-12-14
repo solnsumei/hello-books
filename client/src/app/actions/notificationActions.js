@@ -4,10 +4,22 @@ import types from './actionTypes';
 import { authCheck } from './userActions';
 import urlHelper from '../helpers/urlHelper';
 
+/**
+ * Triggers the notification reducer to update notification in state
+ * @param {Object} notification
+ * 
+ * @returns {Object} with a type as string and a notification object
+ */
 export const readNotificationSuccess = notification => ({
   type: types.READ_NOTIFICATION_SUCCESS, notification
 });
 
+/**
+ * Triggers the notification reducer to update notification array in state
+ * @param {array} notifications
+ * 
+ * @returns {Object} with a type as string and a notification array
+ */
 export const loadUnreadNotificationsSuccess = notifications => ({
   type: types.LOAD_UNREAD_NOTIFICATIONS_SUCCESS, notifications
 });
@@ -34,6 +46,12 @@ const loadUnreadNotifications = (page, limit) => (dispatch) => {
     });
 };
 
+/**
+ * Gets and updates a single notification by id
+ * @param {integer} notificationId
+ * 
+ * @returns {function} dispatch
+ */
 const readNotification = notificationId => dispatch =>
   axios.get(`/notifications/${notificationId}`)
     .then(({ data }) => dispatch(readNotificationSuccess(data.notification)))
@@ -42,7 +60,14 @@ const readNotification = notificationId => dispatch =>
       dispatch(actionError());
     });
 
-// entry point for all notification actions
+/**
+ * Entry point for all notification action
+ * Determnines the action to trigger
+ * @param {string} action - action to perform
+ * @param {array} params - optional parameters
+ * 
+ * @returns {function} dispatch
+ */
 const notificationActions = (action, ...params) => (dispatch) => {
   if (!authCheck(dispatch)) return dispatch(actionError());
 
