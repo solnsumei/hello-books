@@ -83,7 +83,7 @@ describe('App Functions', () => {
     const text1 = `<h3>Dear ${user1.firstName} ${user1.surname}</h3>
     <p>You have requested to reset your password.</p>
     <p>Please click on the link below to reset your password or copy and paste it on your browser</p>
-    <p><a href="http:localhost:8000/reset-password?token=${user1.resetToken}">${user1.resetToken}</a></p>
+    <p><a href="https://hello-book.herokuapp.com/reset-password?token=${user1.resetToken}">${user1.resetToken}</a></p>
     <p>Thank you</p>
     <p>&nbsp;</p>
     <p>&nbsp;</p>
