@@ -1,0 +1,9 @@
+node_modules
+server/seeders/addAdminSeeder.js
+client/dist
+.env
+env
+.DS_STORE
+.nyc_output/
+coverage/
+build
