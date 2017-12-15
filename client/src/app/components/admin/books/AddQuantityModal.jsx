@@ -2,6 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import TextInput from '../../common/TextInput';
 
+/**
+ * Add quantity modal react component
+ * renders the add quantity form for updating
+ * book stock
+ * @param {Object} props
+ * 
+ * @return {Object} jsx
+ */
 const AddQuantityModal = ({ quantity, onSubmit, error, onChange }) => (
   <div id="add-quantity-modal" className="modal">
     <form onSubmit={onSubmit}>

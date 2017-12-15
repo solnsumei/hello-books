@@ -1,5 +1,12 @@
 import React from 'react';
 
+/**
+ * Reusable modal component
+ * for affirming actions
+ * @param {Object} props
+ * 
+ * @return {Object} jsx
+ */
 const Modal = ({ id, title, text, action }) => (
   <div id={id} className="modal">
     <div className="modal-content black-text">

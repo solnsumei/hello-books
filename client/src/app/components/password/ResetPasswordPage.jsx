@@ -9,10 +9,13 @@ import ResetPasswordForm from './ResetPasswordForm';
 import { resetPassword } from '../../actions/userActions';
 
 /**
- *
+ * Reset password page
+ * handles resetting the user password
+ * @extends React.Component
  */
 export class ResetPasswordPage extends React.Component {
   /**
+   * Initializes props and state
    * @param {object} props
    */
   constructor(props) {
@@ -30,8 +33,10 @@ export class ResetPasswordPage extends React.Component {
   }
 
   /**
-   * @param {object} event
-   * @returns {object} state
+   * Updates the form state
+   * @param {Object} event
+   * 
+   * @returns {function} setState
    */
   updateFormState(event) {
     const field = event.target.name;
@@ -41,8 +46,9 @@ export class ResetPasswordPage extends React.Component {
   }
 
   /**
-   * @param {object} event
-   * @return {object} state
+   * Submit form
+   * @param {Object} event
+   * @return {Object} response
    */
   onSubmit(event) {
     event.preventDefault();
@@ -58,8 +64,9 @@ export class ResetPasswordPage extends React.Component {
   }
 
   /**
-   * [render description]
-   * @return {[type]} [description]
+   * Renders the component
+   * 
+   * @return {Object} jsx
    */
   render() {
     if (!this.props.token) {
@@ -84,6 +91,13 @@ ResetPasswordPage.propTypes = {
   token: PropTypes.string
 };
 
+/**
+ * Maps redux state to class props
+ * @param {Object} state 
+ * @param {Object} ownProps
+ * 
+ * @returns {Object} props
+ */
 const mapStateToProps = (state, ownProps) => {
   const queryParams = queryString.parse(ownProps.location.search);
 
@@ -93,6 +107,12 @@ const mapStateToProps = (state, ownProps) => {
   };
 };
 
+/**
+ * Maps dispatch to props
+ * @param {function} dispatch
+ * 
+ * @returns {Object} actions
+ */
 const mapDispatchToProps = dispatch => ({
   resetPassword: (resetParams, token) => dispatch(resetPassword(resetParams, token)),
 });

@@ -2,6 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import BookListRow from './BookListRow';
 
+/**
+ * Book list component
+ * renders list of books
+ * @param {Object} props
+ * 
+ * @return {Object} jsx
+ */
 const BookList = ({ books, onClickAddQuantity, onDelete }) => (
   <table className="responsive-table striped bordered">
     <thead>

@@ -2,6 +2,14 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
+/**
+ * Pagination component
+ * renders pagination on pages
+ * with high number of items
+ * @param {Object} props
+ * 
+ * @return {Object} jsx
+ */
 const Pagination = ({ pageNumber, itemCount, perPage, pageUrl }) => {
   pageNumber = parseInt(pageNumber, 10);
   if (!pageNumber || pageNumber < 1) {

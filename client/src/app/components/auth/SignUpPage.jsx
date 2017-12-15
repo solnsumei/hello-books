@@ -9,10 +9,13 @@ import SignUpForm from './SignUpForm';
 import { userSignUpRequest } from '../../actions/userActions';
 
 /**
- *
+ * Sign up page react component class
+ * @extends React.Component
  */
 export class SignUpPage extends React.Component {
   /**
+   * Initailizes props
+   * sets state
    * @param {object} props
    */
   constructor(props) {
@@ -28,8 +31,10 @@ export class SignUpPage extends React.Component {
   }
 
   /**
-   * @param {object} event
-   * @returns {object} state
+   * Updates the form state
+   * @param {Object} event
+   * 
+   * @return {function} setState
    */
   updateFormState(event) {
     const field = event.target.name;
@@ -39,10 +44,11 @@ export class SignUpPage extends React.Component {
   }
 
   /**
-   * 
-   * @param {any} response 
+   * Google login response
+   * @param {Object} response
    * @memberof SignUpPage
-   * @returns {void}
+   * 
+   * @returns {function} signUpRequest
    */
   responseGoogle(response) {
     if (response.error) {
@@ -53,8 +59,11 @@ export class SignUpPage extends React.Component {
   }
 
   /**
+   * Set up normal user registration
+   * call the signUpRequest method
    * @param {object} event
-   * @return {object} state
+   * 
+   * @returns {function} signUpRequest
    */
   onRegistrationSubmit(event) {
     event.preventDefault();
@@ -62,8 +71,10 @@ export class SignUpPage extends React.Component {
   }
 
   /**
+   * Function to sign up user
    * @param {Object} data
    * @param {Boolean} googleError
+   * 
    * @return {void}
    */
   signUpRequest(data, googleError = false) {
@@ -78,8 +89,9 @@ export class SignUpPage extends React.Component {
   }
 
   /**
-   * [render description]
-   * @return {[type]} [description]
+   * Renders the react component
+   * 
+   * @return {Object} jsx
    */
   render() {
     return (
@@ -101,6 +113,13 @@ SignUpPage.propTypes = {
   signUpRequest: PropTypes.func.isRequired,
 };
 
+/**
+ * Maps redux state to class props
+ * @param {Object} state 
+ * @param {Object} ownProps
+ * 
+ * @returns {Object} props
+ */
 const mapStateToProps = (state, ownProps) => {
   const formParams = {
     firstName: '',
@@ -115,6 +134,12 @@ const mapStateToProps = (state, ownProps) => {
   };
 };
 
+/**
+ * Maps dispatch to props
+ * @param {function} dispatch
+ * 
+ * @returns {Object} actions
+ */
 const mapDispatchToProps = dispatch => ({
   signUpRequest: userData => dispatch(userSignUpRequest(userData)),
 });

@@ -3,6 +3,12 @@ import moment from 'moment';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
+/**
+ * Borrowed Item component
+ * @param {Object} props
+ * 
+ * @return {Object} jsx
+ */
 const BorrowedItem = ({ borrowedBook, page, action }) => {
   const returned = !borrowedBook.returned ?
     <button

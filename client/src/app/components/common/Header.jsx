@@ -4,6 +4,12 @@ import { NavLink, Link } from 'react-router-dom';
 import AuthLinks from './AuthLinks';
 import logo from '../../../images/icon.png';
 
+/**
+ * Header component
+ * @param {Object} props
+ * 
+ * @return {Object} jsx
+ */
 const Header = ({ user, logout, title }) => {
   let linkToShow =
   <NavLink to="/" activeClassName="active-top">Login</NavLink>;

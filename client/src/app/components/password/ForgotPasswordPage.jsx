@@ -13,6 +13,7 @@ import { forgotPassword } from '../../actions/userActions';
  */
 export class ForgotPasswordPage extends React.Component {
   /**
+   * Initializes props and state
    * @param {object} props
    */
   constructor(props) {
@@ -30,7 +31,9 @@ export class ForgotPasswordPage extends React.Component {
   }
 
   /**
+   * Update form state
    * @param {object} event
+   * 
    * @returns {object} state
    */
   updateFormState(event) {
@@ -41,7 +44,9 @@ export class ForgotPasswordPage extends React.Component {
   }
 
   /**
+   * Submit form
    * @param {object} event
+   * 
    * @return {object} state
    */
   onSubmit(event) {
@@ -53,8 +58,9 @@ export class ForgotPasswordPage extends React.Component {
   }
 
   /**
-   * [render description]
-   * @return {[type]} [description]
+   * Render the component
+   * 
+   * @return {Object} jsx
    */
   render() {
     return (
@@ -76,6 +82,12 @@ ForgotPasswordPage.propTypes = {
   resetPassword: PropTypes.func.isRequired,
 };
 
+/**
+ * Maps dispatch to props
+ * @param {function} dispatch
+ * 
+ * @returns {Object} actions
+ */
 const mapDispatchToProps = dispatch => ({
   resetPassword: resetParams => dispatch(forgotPassword(resetParams)),
 });

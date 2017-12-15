@@ -3,7 +3,11 @@ import PropTypes from 'prop-types';
 import TextInput from '../common/TextInput';
 
 /**
- * @returns {object} component
+ * Reset password form
+ * renders the reset password form
+ * @param {Object} props
+ * 
+ * @return {Object} jsx
  */
 const ResetPasswordForm = ({ resetParams, onSubmit, onChange, errors }) => (
   <div className="col s12 m6 offset-m3">

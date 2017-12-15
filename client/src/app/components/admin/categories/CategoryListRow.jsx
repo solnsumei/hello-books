@@ -1,6 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+/**
+ * Category list row react component
+ * @param {Object} props
+ * 
+ * @return {Object} jsx
+ */
 const CategoryListRow = ({ category, onClickEdit, onClickDelete }) => (
   <tr>
     <td>{category.name}</td>

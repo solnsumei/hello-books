@@ -2,6 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import TextInput from '../../common/TextInput';
 
+/**
+ * Category modal react component
+ * shows form to add and update categories
+ * @param {Object} props
+ * 
+ * @return {Object} jsx
+ */
 const CategoryModal = ({ category, onSubmit, errors, onChange }) => {
   let active = true;
   if (!category.slug) {

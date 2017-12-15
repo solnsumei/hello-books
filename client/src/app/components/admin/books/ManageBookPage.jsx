@@ -9,7 +9,7 @@ import categoryActions from '../../../actions/categoryActions';
 
 /**
  * Adds and updates books copmponent
- * @type {String}
+ * @extends React.Component
  */
 export class ManageBookPage extends React.Component {
   /**

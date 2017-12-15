@@ -70,8 +70,9 @@ export class BookDetailPage extends React.Component {
   }
 
   /**
-  * [render description]
-  * @return {[type]} [description]
+  * Renders the book detail page
+
+  * @return {Object} jsx
   */
   render() {
     const { user, book } = this.props;
@@ -137,6 +138,13 @@ export class BookDetailPage extends React.Component {
   }
 }
 
+/**
+ * Checks if book is already borrowed by user
+ * @param {array} borrowedBooks 
+ * @param {number} id
+ * 
+ * @returns {boolean} true or false
+ */
 const inBorrowedList = (borrowedBooks, id) => {
   const foundInList = borrowedBooks.filter(borrowedBook =>
     borrowedBook.bookId === id && !borrowedBook.returned);
@@ -145,6 +153,13 @@ const inBorrowedList = (borrowedBooks, id) => {
   return false;
 };
 
+/**
+ * Gets a book from the redux state
+ * @param {array} books 
+ * @param {number} id
+ * 
+ * @returns {Object|null} book or null
+ */
 const getBookById = (books, id) => {
   const foundBook = books.filter(book => book.id === id);
   // since filter returns an array, you have to grab the first
@@ -152,6 +167,13 @@ const getBookById = (books, id) => {
   return null;
 };
 
+/**
+ * Maps redux state to class props
+ * @param {Object} state 
+ * @param {Object} ownProps
+ * 
+ * @returns {Object} props
+ */
 const mapStateToProps = (state, ownProps) => {
   // from the path '/books/:id'
   const bookId = ownProps.match.params.id;
@@ -168,7 +190,12 @@ const mapStateToProps = (state, ownProps) => {
   });
 };
 
-// map dispatch actions to borrow actions
+/**
+ * Maps dispatch to props
+ * @param {function} dispatch
+ * 
+ * @returns {Object} actions
+ */
 const mapDispatchToProps = dispatch => ({
   getBook: bookId => dispatch(bookActions(actionTypes.GET_BOOK, bookId)),
   performAction: (action, bookId) =>

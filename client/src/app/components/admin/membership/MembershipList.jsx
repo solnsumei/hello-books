@@ -2,6 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import MembershipRow from './MembershipRow';
 
+/**
+ * MembershipList react component
+ * @param {Object} props
+ * 
+ * @return {Object} jsx
+ */
 const MembershipList = ({ memberships, onEdit }) => (
   <table className="responsive-table striped bordered">
     <thead>

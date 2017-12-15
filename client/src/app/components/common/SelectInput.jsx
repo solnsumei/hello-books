@@ -1,6 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+/**
+ * Select input component
+ * @param {Object} props
+ * 
+ * @return {Object} jsx
+ */
 const SelectInput = ({ name, active, label, onChange, defaultOption, value, error, options }) => (
   <div className="row">
     <div className="col s12">

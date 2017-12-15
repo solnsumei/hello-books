@@ -1,6 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+/**
+ * User detail component
+ * renders the user details on the profile page
+ * @param {Object} props
+ * 
+ * @return {Object} jsx
+ */
 const UserDetail = ({ user, borrowedCount,
   noOfBooksNotReturned, onClickEdit, onClickChangePassword }) => (
   <div>

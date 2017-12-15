@@ -2,6 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Book from './Book';
 
+/**
+ * Book list component
+ * renders the book list for
+ * the catalog page
+ * @param {Object} props
+ * 
+ * @return {Object} jsx
+ */
 const BookList = ({ books, link }) => (
   <div className="row">
     { books.length > 0 ?

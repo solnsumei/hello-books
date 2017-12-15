@@ -51,7 +51,7 @@ export class LoginPage extends React.Component {
 
   /**
    * Google login response
-   * @param {any} response 
+   * @param {Object} response 
    * @memberof LoginPage
    * 
    * @returns {void}
@@ -65,8 +65,10 @@ export class LoginPage extends React.Component {
   }
 
   /**
+   * Submit form
    * @param {object} event
-   * @return {object} state
+   * 
+   * @return {function} loginRequest
    */
   onSubmit(event) {
     event.preventDefault();
@@ -74,8 +76,10 @@ export class LoginPage extends React.Component {
   }
 
   /**
+   * Make login request to action creators
    * @param {Object} data
    * @param {Boolean} googleError
+   * 
    * @return {void}
    */
   loginRequest(data) {
@@ -85,8 +89,9 @@ export class LoginPage extends React.Component {
   }
 
   /**
-   * [render description]
-   * @return {[type]} [description]
+   * Renders the login page
+   * 
+   * @return {Object} jsx
    */
   render() {
     return (
@@ -108,6 +113,12 @@ LoginPage.propTypes = {
   loginUser: PropTypes.func.isRequired,
 };
 
+/**
+ * Maps dispatch to props
+ * @param {function} dispatch
+ * 
+ * @returns {Object} actions
+ */
 const mapDispatchToProps = dispatch => ({
   loginUser: loginData => dispatch(loginRequest(loginData)),
 });

@@ -15,6 +15,13 @@ import IsAdmin from './common/IsAdmin';
 import PreventAuthenticated from './middlewares/PreventAuthenticated';
 import NotFound from './NotFound';
 
+/**
+ * Routes component to render
+ * respective routes
+ * @param {Object} props
+ * 
+ * @return {Object} jsx
+ */
 const Routes = props => (
   <main className={props.user.id ? 'main' : 'top-padding'}>
     <Switch>

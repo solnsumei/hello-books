@@ -2,6 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import TextInput from '../../common/TextInput';
 
+/**
+ * Membership modal react component
+ * @param {Object} props
+ * 
+ * @return {Object} jsx
+ */
 const MembershipModal = ({ membership, onSubmit, errors, onChange }) => {
   const active = true;
   return (
