@@ -1,3 +1,10 @@
+/**
+* Format payload returned from google login
+* to match app user format 
+* @param {Object} payload - google login payload
+* 
+* @return {Object|boolean} User
+*/
 const googleUserFormatter = (payload) => {
   if (!payload) {
     return false;

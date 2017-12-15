@@ -1,6 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+/**
+ * Text input component
+ * for forms
+ * @param {Object} props
+ * 
+ * @return {Object} jsx
+ */
 const TextInput = (
   { type, name, label, onChange, placeholder, prefix,
     value, error, errorMsg, active, required }) => (

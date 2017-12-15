@@ -9,12 +9,14 @@ import bookActions from '../../actions/bookActions';
 import borrowActions from '../../actions/borrowActions';
 import BookList from './BookList';
 /**
- *
+ * Book Catalog page
+ * handles displaying books for all users
  */
 export class CatalogPage extends React.Component {
   /**
-   * [componentDidMount description]
+   * React lifecycle method
    * @method componentDidMount
+   * 
    * @return {void}
    */
   componentDidMount() {
@@ -26,9 +28,10 @@ export class CatalogPage extends React.Component {
   }
 
   /**
-     * 
-     * @param {any} nextProps 
+     * React lifecycle method
+     * @param {Object} nextProps 
      * @memberof BooksPage
+     * 
      * @returns {void}
      */
   componentWillReceiveProps(nextProps) {
@@ -38,9 +41,10 @@ export class CatalogPage extends React.Component {
   }
 
   /**
- * [render description]
- * @return {[type]} [description]
- */
+   * Renders the react component
+   * 
+   * @return {Object} jsx
+   */
   render() {
     return (
       <div className="book-page">
@@ -64,18 +68,29 @@ export class CatalogPage extends React.Component {
   }
 }
 
-// Map state from store to component properties
+/**
+ * @param {Object} state - redux store
+ * @param {Object} ownProps
+ * 
+ * @returns {Object} props
+ */
 const mapStateToProps = (state, ownProps) => {
   const queryParams = queryString.parse(ownProps.location.search);
 
   return {
-    perPage: 2,
+    perPage: 20,
     itemCount: state.itemCount.books,
     queryParams,
     books: state.books
   };
 };
 
+/**
+ * Maps dispatch to props
+ * @param {function} dispatch
+ * 
+ * @returns {Object} actions
+ */
 const mapDispatchToProps = dispatch => ({
   loadBooks: (page, limit) => dispatch(bookActions(actionTypes.LOAD_BOOKS, page, limit)),
 });

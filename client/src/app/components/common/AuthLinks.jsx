@@ -2,6 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { NavLink, Link } from 'react-router-dom';
 
+/**
+ * Admin links components
+ * @param {Object} props
+ * 
+ * @return {Object} jsx
+ */
 const AuthLinks = ({ isAdmin }) => (
   <div>
     { !isAdmin ?

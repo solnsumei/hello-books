@@ -2,6 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
+/**
+ * Book list row
+ * renders individual book rows
+ * @param {Object} props
+ * 
+ * @return {Object} jsx
+ */
 const BookListRow = ({ book, onClickAdd, onClickDelete }) => (
   <tr>
     <td>{book.title}</td>

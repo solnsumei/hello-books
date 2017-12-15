@@ -1,5 +1,5 @@
 // Import the required files and classes for test
-import app from '../../app';
+import app from '../../server/app';
 import request from 'supertest';
 import assert from 'assert';
 import models from '../../server/models/index';

@@ -24,8 +24,8 @@ describe('Routes', () => {
     const resetPasswordRoute = (wrapper.find('Route').getElements())[4].props.render();
     expect(wrapper).toBeDefined();
     expect(wrapper.getElement().type).toBe('main');
-    expect(wrapper.find('Route')).toHaveLength(5);
-    expect(wrapper.find('AuthRoute')).toHaveLength(6);
+    expect(wrapper.find('Route')).toHaveLength(6);
+    expect(wrapper.find('AuthRoute')).toHaveLength(7);
     expect(wrapper.find('Switch')).toHaveLength(1);
   });
 

@@ -11,13 +11,16 @@ import actionTypes from '../../actions/actionTypes';
 import borrowActions from '../../actions/borrowActions';
 
 /**
- *
+ * BorrowHistory page
+ * @extends React.Component
  */
 export class BorrowHistoryPage extends React.Component {
   /**
-  * [constructor description]
+  * Initializes components
+  * sets component states and props
   * @method constructor
   * @param  {Object} props
+
   * @return {void} 
  */
   constructor(props) {
@@ -38,6 +41,7 @@ export class BorrowHistoryPage extends React.Component {
   /**
    * Load user's borrowed books
    * @memberof BorrowHistoryPage
+   * 
    * @returns {void}
    */
   componentDidMount() {
@@ -54,9 +58,10 @@ export class BorrowHistoryPage extends React.Component {
   }
 
   /**
-   * 
-   * @param {any} nextProps 
+   * React lifecycle method
+   * @param {Object} nextProps 
    * @memberof BorrowHistoryPage
+   * 
    * @returns {void}
    */
   componentWillReceiveProps(nextProps) {
@@ -73,6 +78,7 @@ export class BorrowHistoryPage extends React.Component {
    * Method to show modal to confirm returning book
    * @method showReturnModal
    * @param  {Object} borrowedBook [description]
+   * 
    * @return {void}
    */
   showReturnModal(borrowedBook) {
@@ -84,6 +90,7 @@ export class BorrowHistoryPage extends React.Component {
    * Confirm book return to library
    * @method confirmReturn
    * @param  {Object} borrowedBook
+   * 
    * @return {void}
    */
   confirmReturn() {
@@ -101,8 +108,9 @@ export class BorrowHistoryPage extends React.Component {
   }
 
   /**
-   * [render description]
-   * @return {[type]} [description]
+   * Renders the component
+   * 
+   * @return {Object} jsx
    */
   render() {
     return (
@@ -175,6 +183,13 @@ export class BorrowHistoryPage extends React.Component {
   }
 }
 
+/**
+ * Maps redux state to class props
+ * @param {Object} state 
+ * @param {Object} ownProps
+ * 
+ * @returns {Object} props
+ */
 const mapStateToProps = (state, ownProps) => {
   const queryParams = queryString.parse(ownProps.location.search);
 
@@ -187,6 +202,12 @@ const mapStateToProps = (state, ownProps) => {
   });
 };
 
+/**
+ * Maps dispatch to props
+ * @param {function} dispatch
+ * 
+ * @returns {Object} actions
+ */
 const mapDispatchToProps = dispatch => ({
   returnBook: (bookId, returned) =>
     dispatch(borrowActions(actionTypes.RETURN_BOOK, bookId, returned)),

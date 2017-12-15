@@ -6,18 +6,19 @@ import Routes from './Routes';
 import Header from './common/Header';
 import Footer from './common/Footer';
 import { logoutRequest } from '../actions/userActions';
-import { routeTitles } from '../helpers/constants';
+import routeTitle from '../helpers/routeTitle';
 
 /**
- * [propTypes description]
- * @type {Object}
+ * App class, renders the default page
+ * @extends React.Component
  */
 export class App extends React.Component {
   /**
-   * [constructor description]
+   * Class constructor
    * @method constructor
-   * @param  {[type]}    props [description]
-   * @return {[type]}          [description]
+   * @param {Object} props
+   * 
+   * @return {void}
    */
   constructor(props) {
     super(props);
@@ -26,10 +27,11 @@ export class App extends React.Component {
   }
 
   /**
-   * [doLogout description]
+   * Logs out user when logout is cliocked
    * @method doLogout
-   * @param  {[type]} event [description]
-   * @return {[type]}       [description]
+   * @param  {Object} event
+   * 
+   * @return {void}
    */
   doLogout(event) {
     event.preventDefault();
@@ -38,18 +40,20 @@ export class App extends React.Component {
   }
 
   /**
-   * [render description]
+   * Renders output display
    * @method render
-   * @return {[type]} [description]
+   * 
+   * @return {Object} html
    */
   render() {
     const props = this.props;
+
     return (
       <div>
-        <Header title={routeTitles(this.props.pathname)}
-          user={this.props.user} logout={this.doLogout} />
+        <Header title={routeTitle(props.pathname)}
+          user={props.user} logout={this.doLogout} />
         <Routes {...props} />
-        {this.props.user.id && <Footer />}
+        {props.user.id && <Footer />}
       </div>
     );
   }
@@ -61,11 +65,23 @@ App.propTypes = {
   logoutUser: PropTypes.func.isRequired
 };
 
+/**
+ * @param {Object} state 
+ * @param {Object} ownProps
+ * 
+ * @returns {Object} props
+ */
 const mapStateToProps = (state, ownProps) => ({
   user: state.user,
   pathname: ownProps.location.pathname
 });
 
+/**
+ * Maps dispatch to props
+ * @param {function} dispatch
+ * 
+ * @returns {Object} actions
+ */
 const mapDispatchToProps = dispatch => ({
   logoutUser: () => dispatch(logoutRequest())
 });

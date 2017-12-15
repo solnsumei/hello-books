@@ -4,7 +4,13 @@ import { Link } from 'react-router-dom';
 import TextInput from '../common/TextInput';
 import SelectInput from '../common/SelectInput';
 
-
+/**
+ * Change password form component
+ * renders form for changing user password
+ * @param {Object} props
+ * 
+ * @return {Object} jsx
+ */
 const ChangePasswordForm = ({ passwordObject, onSubmit, onChange, loading, errors }) => (
   <form onSubmit={onSubmit}>
     <div className="card">

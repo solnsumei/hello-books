@@ -2,6 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
+/**
+ * Book item component
+ * renders book for library catalog
+ * @param {Object} props
+ * 
+ * @return {Object} jsx
+ */
 const Book = ({ book, link }) => (
   <div className="col s12 m4">
     <div className="card horizontal">

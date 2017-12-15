@@ -1,5 +1,10 @@
 import React from 'react';
 
+/**
+ * Displays loading
+ * 
+ * @return {Object} jsx
+ */
 const Loader = () => (
   <div className="col s12 center-align margin-2x">
     <div className="preloader-wrapper small active">

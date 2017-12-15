@@ -11,14 +11,15 @@ import categoryActions from '../../../actions/categoryActions';
 import Modal from '../../common/Modal';
 
 /**
- * [className description]
- * @type {String}
+ * Categories component class
+ * @type {Object}
  */
 export class CategoriesPage extends React.Component {
   /**
    * Category page constructor
    * @method constructor
    * @param  {Object} props
+   * 
    * @return {void}
    */
   constructor(props) {
@@ -40,6 +41,7 @@ export class CategoriesPage extends React.Component {
   /**
    * Load categories when component mounts
    * @method componentDidMount
+   * 
    * @return {void}
    */
   componentDidMount() {
@@ -52,9 +54,10 @@ export class CategoriesPage extends React.Component {
   }
 
   /**
-     * 
-     * @param {any} nextProps 
+     * React lifecycle method
+     * @param {Object} nextProps 
      * @memberof CategoriesPage
+     * 
      * @returns {void}
      */
   componentWillReceiveProps(nextProps) {
@@ -67,6 +70,7 @@ export class CategoriesPage extends React.Component {
   /**
    * Show modal to add a category
    * @method showAddModal
+   * 
    * @return {void}
    */
   showAddModal() {
@@ -87,6 +91,7 @@ export class CategoriesPage extends React.Component {
    * Show modal to edit a category
    * @method onEdit
    * @param  {Object} category
+   * 
    * @return {void}
    */
   onEdit(category) {
@@ -102,6 +107,7 @@ export class CategoriesPage extends React.Component {
    * Delete a category
    * @method onDelete
    * @param  {Object} category
+   * 
    * @return {void}
    */
   onDelete(category) {
@@ -116,6 +122,7 @@ export class CategoriesPage extends React.Component {
   /**
    * show delete modal
    * @method showReturnModal
+   * 
    * @return {void}
    */
   confirmDelete() {
@@ -131,7 +138,9 @@ export class CategoriesPage extends React.Component {
   }
 
   /**
+   * Updates the category form state
    * @param {object} event
+   * 
    * @returns {object} state
    */
   updateCategoryFormState(event) {
@@ -142,10 +151,11 @@ export class CategoriesPage extends React.Component {
   }
 
   /**
-   * [saveCategory description]
+   * Save category to state
    * @method saveCategory
-   * @param  {[type]} event [description]
-   * @return {[type]} [description]
+   * @param  {Object} event
+   * 
+   * @return {function} setState
    */
   saveCategory(event) {
     event.preventDefault();
@@ -159,8 +169,10 @@ export class CategoriesPage extends React.Component {
   }
 
   /**
+   * Renders the jsx page
    * @method render
-   * @return {Object} jsxObject
+   * 
+   * @return {Object} jsx
    */
   render() {
     return (
@@ -212,6 +224,13 @@ export class CategoriesPage extends React.Component {
   }
 }
 
+/**
+ * Maps redux state to class props
+ * @param {Object} state 
+ * @param {Object} ownProps
+ * 
+ * @returns {Object} props
+ */
 const mapStateToProps = (state, ownProps) => {
   const category = {
     id: '',
@@ -228,6 +247,12 @@ const mapStateToProps = (state, ownProps) => {
   };
 };
 
+/**
+ * Maps dispatch to props
+ * @param {function} dispatch
+ * 
+ * @returns {Object} actions
+ */
 const mapDispatchToProps = dispatch => ({
   loadCategories: (page, limit) =>
     dispatch(categoryActions(actionTypes.LOAD_CATEGORIES, page, limit)),

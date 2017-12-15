@@ -10,12 +10,17 @@ import LoginForm from './LoginForm';
 import { loginRequest } from '../../actions/userActions';
 
 /**
- *
+ * Login page component
+ * @extends React.Component
  */
 export class LoginPage extends React.Component {
   /**
-   * @param {object} props
-   */
+  * Initializes class
+  * @method constructor
+  * @param  {Object} props
+  *
+  * @return {void} 
+  */
   constructor(props) {
     super(props);
     this.state = {
@@ -32,7 +37,9 @@ export class LoginPage extends React.Component {
   }
 
   /**
+   * Update form state
    * @param {object} event
+   * 
    * @returns {object} state
    */
   updateFormState(event) {
@@ -43,9 +50,10 @@ export class LoginPage extends React.Component {
   }
 
   /**
-   * 
-   * @param {any} response 
+   * Google login response
+   * @param {Object} response 
    * @memberof LoginPage
+   * 
    * @returns {void}
    */
   responseGoogle(response) {
@@ -57,8 +65,10 @@ export class LoginPage extends React.Component {
   }
 
   /**
+   * Submit form
    * @param {object} event
-   * @return {object} state
+   * 
+   * @return {function} loginRequest
    */
   onSubmit(event) {
     event.preventDefault();
@@ -66,8 +76,10 @@ export class LoginPage extends React.Component {
   }
 
   /**
+   * Make login request to action creators
    * @param {Object} data
    * @param {Boolean} googleError
+   * 
    * @return {void}
    */
   loginRequest(data) {
@@ -77,8 +89,9 @@ export class LoginPage extends React.Component {
   }
 
   /**
-   * [render description]
-   * @return {[type]} [description]
+   * Renders the login page
+   * 
+   * @return {Object} jsx
    */
   render() {
     return (
@@ -100,6 +113,12 @@ LoginPage.propTypes = {
   loginUser: PropTypes.func.isRequired,
 };
 
+/**
+ * Maps dispatch to props
+ * @param {function} dispatch
+ * 
+ * @returns {Object} actions
+ */
 const mapDispatchToProps = dispatch => ({
   loginUser: loginData => dispatch(loginRequest(loginData)),
 });

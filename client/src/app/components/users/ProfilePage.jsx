@@ -13,13 +13,16 @@ import actionTypes from '../../actions/actionTypes';
 import borrowActions from '../../actions/borrowActions';
 
 /**
- *
+ * Shows the user profile page
+ * handles profile update
+ * @extends React.Component
  */
 class ProfilePage extends React.Component {
   /**
-   * [constructor description]
+   * Initializes props and state
    * @method constructor
    * @param  {Object} props
+   * 
    * @return {void}
    */
   constructor(props) {
@@ -39,6 +42,7 @@ class ProfilePage extends React.Component {
   /**
    * Fetch user when component mounts
    * @memberof ProfilePage
+   * 
    * @returns {void}
    */
   componentWillMount() {
@@ -46,10 +50,11 @@ class ProfilePage extends React.Component {
   }
 
   /**
-   * [updateUser description]
+   * Update user profile method
    * @method updateUser
    * @param  {Object} event
-   * @return {void}
+   * 
+   * @return {Object} response
    */
   updateUser(event) {
     event.preventDefault();
@@ -68,7 +73,9 @@ class ProfilePage extends React.Component {
   }
 
   /**
+   * Update form state
    * @param {object} event
+   * 
    * @returns {object} state
    */
   updateFormState(event) {
@@ -79,10 +86,11 @@ class ProfilePage extends React.Component {
   }
 
   /**
-   * [onShowUpdateForm description]
+   * Show the update form
    * @method onShowUpdateForm
-   * @param  {[type]}         event [description]
-   * @return {[type]}               [description]
+   * @param  {Object} event
+   *
+   * @return {function} setState
    */
   onShowUpdateForm(event) {
     event.preventDefault();
@@ -93,17 +101,18 @@ class ProfilePage extends React.Component {
   }
 
   /**
-   * [closeEditProfileForm description]
-   * @method onShowUpdateForm
-   * @param  {[type]}         event [description]
-   * @return {[type]}               [description]
+   * Close Edit profile form
+   * @method closeEditProfileForm
+   * @param  {Object} event
+   * 
+   * @return {function} setState 
    */
   closeEditProfileForm(event) {
     event.preventDefault();
     this.setState({ editUser: false });
   }
   /**
-  * [render description]
+  * Renders the profile page
   * @return {[type]} [description]
   */
   render() {
@@ -135,10 +144,23 @@ ProfilePage.propTypes = {
   updateFormState: PropTypes.func
 };
 
+/**
+ * Maps redux state to class props
+ * @param {Object} state 
+ * @param {Object} ownProps
+ * 
+ * @returns {Object} props
+ */
 const mapStateToProps = (state, ownProps) => ({
   user: state.user,
 });
 
+/**
+ * Maps dispatch to props
+ * @param {function} dispatch
+ * 
+ * @returns {Object} actions
+ */
 const mapDispatchToProps = dispatch => ({
   updateUser: user => dispatch(updateUserAccount(user)),
   getUserDetails: () => dispatch(getUserProfile())

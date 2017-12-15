@@ -1,6 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+/**
+ * TopTitle component
+ * @param {Object} props
+ * 
+ * @return {Object} jsx
+ */
 const TopTitle = ({ icon, title }) => (
   <div className="row">
     <div className="col s12">

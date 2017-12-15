@@ -29,7 +29,7 @@ describe('IsAdmin Middleware', () => {
     const wrapper = shallow(<IsAdmin { ...props } />);
     expect(wrapper).toBeDefined();
     expect(wrapper.find('Switch')).toHaveLength(1);
-    expect(wrapper.find('Route')).toHaveLength(7);
+    expect(wrapper.find('Route')).toHaveLength(8);
   });
 
   it('should render shallow component with page components when user is an admin', () => {

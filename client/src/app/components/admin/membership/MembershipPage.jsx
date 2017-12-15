@@ -14,8 +14,10 @@ import membershipActions from '../../../actions/membershipActions';
  */
 export class MembershipPage extends React.Component {
   /**
+   * Initializes object
    * @method constructor
    * @param  {Object} props
+   * 
    * @return {void}
    */
   constructor(props) {
@@ -32,7 +34,10 @@ export class MembershipPage extends React.Component {
   }
 
   /**
+   * Loads the membership types
+   * when component mounts
    * @memberof MembershipPage
+   * 
    * @returns {void}
    */
   componentDidMount() {
@@ -44,6 +49,7 @@ export class MembershipPage extends React.Component {
    * Open modal to edit a membership type
    * @method onEdit
    * @param  {Object} membership
+   * 
    * @return {void}
    */
   onEdit(membership) {
@@ -56,7 +62,9 @@ export class MembershipPage extends React.Component {
   }
 
   /**
+   * Update form state
    * @param {object} event
+   * 
    * @returns {object} state
    */
   updateFormState(event) {
@@ -67,9 +75,10 @@ export class MembershipPage extends React.Component {
   }
 
   /**
-   * [saveMembershipType description]
+   * Updates the membership type in redux store
    * @method saveMembershipType
-   * @param  {Object} event [description]
+   * @param  {Object} event
+   * 
    * @return {void}
    */
   updateMembershipType(event) {
@@ -95,9 +104,10 @@ export class MembershipPage extends React.Component {
   }
 
   /**
-   * [render description]
+   * Renders the react component
    * @method render
-   * @return {[type]} [description]
+   * 
+   * @return {Object} jsx
    */
   render() {
     return (
@@ -128,6 +138,13 @@ export class MembershipPage extends React.Component {
   }
 }
 
+/**
+ * Maps redux state to class props
+ * @param {Object} state 
+ * @param {Object} ownProps
+ * 
+ * @returns {Object} props
+ */
 const mapStateToProps = (state, ownProps) => {
   const membership = {
     id: '',
@@ -142,6 +159,12 @@ const mapStateToProps = (state, ownProps) => {
   });
 };
 
+/**
+ * Maps dispatch to props
+ * @param {function} dispatch
+ * 
+ * @returns {Object} actions
+ */
 const mapDispatchToProps = dispatch => ({
   saveMembershipType: membership =>
     dispatch(membershipActions(actionTypes.UPDATE_MEMBERSHIP_TYPE, membership)),

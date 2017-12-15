@@ -7,6 +7,14 @@ import borrowedBooks from './borrowReducer';
 import notifications from './notificationReducer';
 import itemCount from './itemCountReducer';
 
+/**
+ * rootReducer function
+ * Combines all the reducers available for state
+ * @param {Object} state 
+ * @param {Object} action 
+ * 
+ * @returns {function} combineReducer
+ */
 const rootReducer = combineReducers({
   user,
   memberships,

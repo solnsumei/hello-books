@@ -17,9 +17,10 @@ const enhancer = composeEnhancers(
 );
 
 /**
- * [configureStore description]
+ * Configures redux store
  * @method configureStore
- * @return {[type]}                    [description]
+ * 
+ * @return {function} createStore
  */
 export default function configureStore() {
   return createStore(appReducer, enhancer);

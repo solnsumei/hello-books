@@ -4,7 +4,13 @@ import { Link } from 'react-router-dom';
 import TextInput from '../common/TextInput';
 import SelectInput from '../common/SelectInput';
 
-
+/**
+ * Edit profile form
+ * renders form for editing user profile
+ * @param {Object} props
+ * 
+ * @return {Object} jsx
+ */
 const EditProfileForm = ({ user, onSubmit,
   closeForm, onChange, loading, errors }) => (
   <div className="col s12">

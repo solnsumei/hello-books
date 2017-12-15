@@ -8,15 +8,16 @@ import bookActions from '../../../actions/bookActions';
 import categoryActions from '../../../actions/categoryActions';
 
 /**
- * [className description]
- * @type {String}
+ * Adds and updates books copmponent
+ * @extends React.Component
  */
 export class ManageBookPage extends React.Component {
   /**
-   * [constructor description]
+   * ManageBookPage constructor
    * @method constructor
-   * @param  {[type]}    props [description]
-   * @return {[type]}          [description]
+   * @param  {Object} props
+   * 
+   * @return {void}
    */
   constructor(props) {
     super(props);
@@ -32,9 +33,10 @@ export class ManageBookPage extends React.Component {
   }
 
   /**
-   * [componentDidMount description]
+   * Functions called when components has mounted
    * @method componentDidMount
-   * @return {[type]}          [description]
+   * 
+   * @return {void}
    */
   componentDidMount() {
     if (this.props.bookId) {
@@ -44,10 +46,11 @@ export class ManageBookPage extends React.Component {
   }
 
   /**
-   * [componentWillReceiveProps description]
+   * Components receives new props
    * @method componentWillReceiveProps
-   * @param  {[type]}                  nextProps [description]
-   * @return {[type]}                            [description]
+   * @param  {Object} nextProps
+   * 
+   * @return {void}
    */
   componentWillReceiveProps(nextProps) {
     if (this.props.book.id !== nextProps.book.id) {
@@ -57,9 +60,10 @@ export class ManageBookPage extends React.Component {
   }
 
   /**
-   * [uploadCoverPicture description]
+   * Upload cover picture to cloudibary
    * @method uploadCoverPicture
-   * @return {null} [description]
+   * 
+   * @return {void}
    */
   uploadCoverPicture() {
     const book = this.state.book;
@@ -84,7 +88,9 @@ export class ManageBookPage extends React.Component {
   }
 
   /**
+   * Updates the form state
    * @param {Object} event
+   * 
    * @returns {Object} state
    */
   updateFormState(event) {
@@ -95,10 +101,11 @@ export class ManageBookPage extends React.Component {
   }
 
   /**
-   * [saveCategory description]
+   * Save category
    * @method saveCategory
-   * @param  {Object} event [description]
-   * @return {null} [description]
+   * @param  {Object} event
+   * 
+   * @return {void}
    */
   saveBook(event) {
     event.preventDefault();
@@ -111,8 +118,9 @@ export class ManageBookPage extends React.Component {
   }
 
   /**
-   * [render description]
+   * Renders page object
    * @method render
+   * 
    * @return {Object} jsxObject
    */
   render() {
@@ -133,6 +141,13 @@ export class ManageBookPage extends React.Component {
   }
 }
 
+/**
+ * Gets a book from the redux state
+ * @param {array} books 
+ * @param {number} id
+ * 
+ * @returns {Object|null} book or null
+ */
 const getBookById = (books, id) => {
   const foundBook = books.filter(book => book.id === id);
   // since filter returns an array, you have to grab the first
@@ -140,6 +155,13 @@ const getBookById = (books, id) => {
   return null;
 };
 
+/**
+ * Maps redux state to class props
+ * @param {Object} state 
+ * @param {Object} ownProps
+ * 
+ * @returns {Object} props
+ */
 const mapStateToProps = (state, ownProps) => {
   // from the path '/books/:id'
   const bookId = ownProps.match.params.id;
@@ -174,6 +196,12 @@ const mapStateToProps = (state, ownProps) => {
   });
 };
 
+/**
+ * Maps dispatch to props
+ * @param {function} dispatch
+ * 
+ * @returns {Object} actions
+ */
 const mapDispatchToProps = dispatch => ({
   getBook: bookId =>
     dispatch(bookActions(actionTypes.GET_BOOK, bookId)),

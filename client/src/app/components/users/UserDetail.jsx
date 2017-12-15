@@ -1,6 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+/**
+ * User detail component
+ * renders the user details on the profile page
+ * @param {Object} props
+ * 
+ * @return {Object} jsx
+ */
 const UserDetail = ({ user, borrowedCount,
   noOfBooksNotReturned, onClickEdit, onClickChangePassword }) => (
   <div>
@@ -10,7 +17,7 @@ const UserDetail = ({ user, borrowedCount,
           <p className="center-align">
             <i className="material-icons medium primary-color">assignment_ind</i>
           </p>
-          <h3 className="card-title center-align">
+          <h3 className="card-title center-align user-details">
             <strong>{`${user.firstName} ${user.surname}`}</strong>
           </h3>
 
@@ -32,21 +39,23 @@ const UserDetail = ({ user, borrowedCount,
           </div>}
 
           <div className="card-action">
-            <p>
+            <div className="row">
+              <br />
               <button title="edit profile"
-                className="btn waves-effect waves-light teal"
+                className="btn waves-effect waves-light teal col s12 m4 add-margin-bottom"
                 onClick={onClickEdit}>
                 <i className="material-icons">edit</i> Edit
               </button>
-              &nbsp;
+              <div className="col m1"></div>
               {!user.googleUser &&
               <Link title="change password"
-                className="btn waves-effect waves-light teal"
+                className="btn waves-effect waves-light teal col s12 m7"
                 to='/change-password'>
                 <i className="material-icons">lock</i> Change Password
               </Link>
               }
-            </p>
+              <br/>
+            </div>
           </div>
         </div>
       </div>
@@ -77,12 +86,11 @@ const UserDetail = ({ user, borrowedCount,
           </h4>
           <br/>
           <div className="card-action">
-            <p>
-              <Link to="borrow-history" title="borrow history"
-                className="btn waves-effect waves-light">
-                <i className="material-icons">book</i> Borrow History
-              </Link>
-            </p>
+            <Link to="borrow-history" title="borrow history"
+              className="btn waves-effect waves-light col s12 m8">
+              <i className="material-icons">book</i> Borrow History
+            </Link>
+            <br/>
           </div>
         </div>
       </div>

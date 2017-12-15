@@ -1,6 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+/**
+ * Membership row react component
+ * @param {Object} props
+ * 
+ * @return {Object} jsx
+ */
 const MembershipRow = ({ membership, onClickEdit }) => (
   <tr>
     <td>{membership.level}</td>

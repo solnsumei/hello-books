@@ -1,8 +1,12 @@
 import types from '../actions/actionTypes';
 
-const constants = () => ({ headers: { 'x-token': localStorage.getItem(types.USER_TOKEN) } });
-
-const routeTitles = (route) => {
+/**
+   * Determine title to show on page
+   * @param {string} route - location
+   * 
+   * @return {string} title
+   */
+const routeTitle = (route) => {
   switch (route) {
     case '/forgot-password':
       return 'Forgot Password';
@@ -27,4 +31,4 @@ const routeTitles = (route) => {
   }
 };
 
-export { constants, routeTitles };
+export default routeTitle;

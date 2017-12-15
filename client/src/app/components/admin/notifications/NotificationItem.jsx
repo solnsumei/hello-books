@@ -2,8 +2,13 @@ import React from 'react';
 import moment from 'moment';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { formatDate } from '../../../helpers/constants';
 
+/**
+ * Notification item react component
+ * @param {Object} props
+ * 
+ * @return {Object} jsx
+ */
 const NotificationItem = ({ notification, action }) => (
   <tr>
     <td>{notification.book.title} {notification.returned ? 'was returned' : 'was borrowed'}</td>

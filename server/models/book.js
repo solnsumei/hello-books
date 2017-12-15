@@ -1,3 +1,10 @@
+/**
+* Book model
+* @param {Object} sequelize - sequelize object
+* @param {Object} DataTypes - database datatypes
+* 
+* @return {Object} Book model
+*/
 export default (sequelize, DataTypes) => {
   const Book = sequelize.define('Book', {
     title: {

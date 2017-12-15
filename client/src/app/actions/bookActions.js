@@ -4,35 +4,83 @@ import types from './actionTypes';
 import { authCheck } from './userActions';
 import urlHelper from '../helpers/urlHelper';
 
+/**
+ * Triggers the book reducer to add book to state
+ * @param {Object} book
+ * 
+ * @returns {Object} with a type as string and a book object
+ */
 export const addBookSuccess = book => ({
   type: types.ADD_BOOK_SUCCESS, book
 });
 
+/**
+ * Triggers the book reducer to replace a book in state
+ * @param {Object} book
+ * 
+ * @returns {Object} with a type as string and a book object
+ */
 export const getBookSuccess = book => ({
   type: types.GET_BOOK_SUCCESS, book
 });
 
+/**
+ * Triggers the book reducer to update book array in state
+ * @param {Object} books
+ * 
+ * @returns {Object} with a type as string and a books array
+ */
 export const loadBooksSuccess = books => ({
   type: types.LOAD_BOOKS_SUCCESS, books
 });
 
+/**
+ * Triggers the book reducer to update a book in state
+ * @param {Object} book
+ * 
+ * @returns {Object} with a type as string and a book object
+ */
 export const updateBookSuccess = book => ({
   type: types.UPDATE_BOOK_SUCCESS, book
 });
 
+/**
+ * Updates the stock quantity of a book in state
+ * @param {Object} book
+ * 
+ * @returns {Object} with a type as string and a book object
+ */
 export const addStockQuantitySuccess = book => ({
   type: types.ADD_STOCK_QUANTITY_SUCCESS, book
 });
 
+/**
+ * Triggers the book reducer to remove a book in state
+ * @param {Object} book
+ * 
+ * @returns {Object} with a type as string and a book object
+ */
 export const deleteBookSuccess = book => ({
   type: types.DELETE_BOOK_SUCCESS, book
 });
 
+/**
+ * Error action type to call when action fails
+ * @param {void} null
+ * 
+ * @returns {string} type
+ */
 export const actionError = () => ({
   type: types.FAILED_ACTION
 });
 
-// load all books
+/**
+ * Fetches all books for the api endpoint
+ * @param {string} page
+ * @param {integer} limit
+ * 
+ * @returns {function} dispatch
+ */
 const loadBooks = (page = null, limit = null) => (dispatch) => {
   const queryString = urlHelper('/books', page, limit);
   return axios.get(queryString)
@@ -43,7 +91,12 @@ const loadBooks = (page = null, limit = null) => (dispatch) => {
     });
 };
 
-  // get a single book
+/**
+ * Fetches a single book for the api endpoint
+ * @param {string} bookId
+ * 
+ * @returns {function} dispatch
+ */
 const getBook = bookId => dispatch =>
   axios.get(`/books/${bookId}`)
     .then(({ data }) => dispatch(getBookSuccess(data.book)))
@@ -52,9 +105,15 @@ const getBook = bookId => dispatch =>
       return dispatch(actionError());
     });
 
-// save or update book
+/**
+ * Creates or updates a book
+ * @param {Object} book
+ * 
+ * @returns {function} dispatch
+ */
 const saveOrUpdateBook = book => (dispatch) => {
   if (book.id) {
+    // updates a book
     return axios.put(`/books/${book.id}`, book)
       .then(({ data }) => {
         toastr.success(data.message);
@@ -62,6 +121,7 @@ const saveOrUpdateBook = book => (dispatch) => {
       });
   }
 
+  // creates a book
   return axios.post('/books', book)
     .then(({ data }) => {
       toastr.success(data.message);
@@ -69,7 +129,13 @@ const saveOrUpdateBook = book => (dispatch) => {
     });
 };
 
-// add quantity to book stock
+/**
+ * Adds quantity to a book api call
+ * @param {Object} book - book to add quantity to
+ * @param {quantity} quantity - quatity to add
+ * 
+ * @returns {function} dispatch
+ */
 const addStockQuantity = (book, quantity) => dispatch =>
   axios.post(`/books/${book.id}`, { quantity })
     .then(({ data }) => {
@@ -78,7 +144,12 @@ const addStockQuantity = (book, quantity) => dispatch =>
       return dispatch(addStockQuantitySuccess(book));
     });
 
-// delete book
+/**
+ * Delete a book
+ * @param {Object} book - book to add quantity to
+ * 
+ * @returns {function} dispatch
+ */
 const deleteBook = book => dispatch =>
   axios.delete(`/books/${book.id}`)
     .then(({ data }) => {
@@ -90,7 +161,13 @@ const deleteBook = book => dispatch =>
       return dispatch(actionError());
     });
 
-// entry point for all book actions
+/**
+ * Entry point for all book actions
+ * @param {string} action - action to perform
+ * @param {array} params - extra params that are optional
+ * 
+ * @returns {function} dispatch
+ */
 const bookActions = (action, ...params) => (dispatch) => {
   if (!authCheck(dispatch)) return dispatch(actionError());
 

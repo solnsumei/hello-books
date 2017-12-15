@@ -11,13 +11,15 @@ import actionTypes from '../../../actions/actionTypes';
 import notificationActions from '../../../actions/notificationActions';
 
 /**
- *
+ * Notification page
+ * @extends React.Component
  */
 export class NotificationPage extends React.Component {
   /**
-  * [constructor description]
+  * Initializes class
   * @method constructor
   * @param  {Object} props
+  *
   * @return {void} 
  */
   constructor(props) {
@@ -34,6 +36,7 @@ export class NotificationPage extends React.Component {
   /**
    * Load notifications
    * @memberof NotificationPage
+   * 
    * @returns {void}
    */
   componentDidMount() {
@@ -46,10 +49,11 @@ export class NotificationPage extends React.Component {
   }
 
   /**
-     * 
-     * @param {any} nextProps 
+     * Lifecycle method
+     * @param {Object} nextProps 
      * @memberof NotificationPage
-     * @returns {void}
+     * 
+     * @return {void}
      */
   componentWillReceiveProps(nextProps) {
     if ((this.props.queryParams.page !== nextProps.queryParams.page) ||
@@ -60,7 +64,8 @@ export class NotificationPage extends React.Component {
   /**
    * Method to show modal show notification item
    * @method showModal
-   * @param  {Object} notification [description]
+   * @param  {Object} notification
+   * 
    * @return {void}
    */
   showNotificationModal(notification) {
@@ -72,17 +77,18 @@ export class NotificationPage extends React.Component {
   /**
    * Dismiss modal
    * @memberof NotificationPage
+   * 
    * @return {void}
    */
   dismissModal() {
-    console.log('dismissModal', '===================');
     this.setState({ notification: {} });
     $('.modal').modal('close');
   }
 
   /**
-   * [render description]
-   * @return {[type]} [description]
+   * Renders the react component
+   * 
+   * @return {Object} jsx
    */
   render() {
     return (
@@ -140,6 +146,13 @@ export class NotificationPage extends React.Component {
   }
 }
 
+/**
+ * Maps redux state to class props
+ * @param {Object} state 
+ * @param {Object} ownProps
+ * 
+ * @returns {Object} props
+ */
 const mapStateToProps = (state, ownProps) => {
   const queryParams = queryString.parse(ownProps.location.search);
 
@@ -151,6 +164,12 @@ const mapStateToProps = (state, ownProps) => {
   };
 };
 
+/**
+ * Maps dispatch to props
+ * @param {function} dispatch
+ * 
+ * @returns {Object} actions
+ */
 const mapDispatchToProps = dispatch => ({
   readNotification: notificationId =>
     dispatch(notificationActions(actionTypes.READ_NOTIFICATION, notificationId)),

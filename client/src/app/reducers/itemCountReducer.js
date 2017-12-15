@@ -2,8 +2,10 @@ import types from '../actions/actionTypes';
 import initialState from './initialState';
 
 /**
+ * Item count reducer for pagination
  * @param {object} state
  * @param {object} action
+ * 
  * @returns {object} state
  */
 export default function (state = initialState.itemCount, action) {

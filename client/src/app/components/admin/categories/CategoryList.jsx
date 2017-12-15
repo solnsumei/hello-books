@@ -2,6 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import CategoryListRow from './CategoryListRow';
 
+/**
+ * Category list react component
+ * @param {Object} props
+ * 
+ * @return {Object} jsx
+ */
 const CategoryList = ({ categories, onEdit, onDelete }) => (
   <table className="responsive-table striped bordered">
     <thead>

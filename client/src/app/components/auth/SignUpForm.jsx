@@ -5,7 +5,12 @@ import { GoogleLogin } from 'react-google-login';
 import { Link } from 'react-router-dom';
 import TextInput from '../common/TextInput';
 
-
+/**
+ * Sign up form
+ * @param {Object} props
+ * 
+ * @returns {Object} jsx component
+ */
 const SignUpForm = ({ formParams, onSubmit, onChange, errors, responseGoogle }) => (
   <div className="col s12 m8 offset-m2 l8 offset-l2">
     <div className="card login-form">

@@ -1,5 +1,4 @@
 // Import the required files and classes for test
-import app from '../../app';
 import { assert } from 'chai';
 import createToken from '../../server/helpers/token';
 import pagination from '../../server/helpers/pagination';
@@ -83,7 +82,7 @@ describe('App Functions', () => {
     const text1 = `<h3>Dear ${user1.firstName} ${user1.surname}</h3>
     <p>You have requested to reset your password.</p>
     <p>Please click on the link below to reset your password or copy and paste it on your browser</p>
-    <p><a href="http:localhost:8000/reset-password?token=${user1.resetToken}">${user1.resetToken}</a></p>
+    <p><a href="${process.env.HOST_NAME}/reset-password?token=${user1.resetToken}">${user1.resetToken}</a></p>
     <p>Thank you</p>
     <p>&nbsp;</p>
     <p>&nbsp;</p>

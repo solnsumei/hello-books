@@ -11,15 +11,19 @@ import actionTypes from '../../../actions/actionTypes';
 import bookActions from '../../../actions/bookActions';
 
 /**
- * [className description]
- * @type {String}
+ * Books page
+ * Handles fetching books
+ * adding quantity to book
+ * deleting book
+ * @type {Object}
  */
 export class BooksPage extends React.Component {
   /**
-   * [constructor description]
+   * Books page contructor
    * @method constructor
-   * @param  {[type]}    props [description]
-   * @return {[type]}          [description]
+   * @param  {Object} props - initial props
+   * 
+   * @return {void}
    */
   constructor(props) {
     super(props);
@@ -38,8 +42,10 @@ export class BooksPage extends React.Component {
   }
 
   /**
-   * [componentDidMount description]
+   * Component did mount function
+   * Fetches all books and handle pagination functions
    * @method componentDidMount
+   * 
    * @return {void}
    */
   componentDidMount() {
@@ -52,9 +58,10 @@ export class BooksPage extends React.Component {
   }
 
   /**
-     * 
+     * @description Triggers when component is about to have new props
      * @param {any} nextProps 
      * @memberof BooksPage
+     * 
      * @returns {void}
      */
   componentWillReceiveProps(nextProps) {
@@ -68,6 +75,7 @@ export class BooksPage extends React.Component {
    * Add quantity to book
    * @method addQuantity
    * @param  {Object} book
+   * 
    * @return {void}
    */
   addQuantity(book) {
@@ -83,6 +91,7 @@ export class BooksPage extends React.Component {
   /**
    * delete a book from library
    * @method deleteBook
+   * 
    * @return {void}
    */
   deleteBook() {
@@ -93,6 +102,7 @@ export class BooksPage extends React.Component {
    * Open modal to confirm delete book
    * @method onClickDeleteBook
    * @param  {Object} book
+   * 
    * @return {void}
    */
   onClickDeleteBook(book) {
@@ -104,7 +114,9 @@ export class BooksPage extends React.Component {
   }
 
   /**
+   * Update quantity in state
    * @param {object} event
+   * 
    * @returns {object} state
    */
   updateQuantityFormState(event) {
@@ -114,10 +126,11 @@ export class BooksPage extends React.Component {
   }
 
   /**
-   * [saveCategory description]
+   * Saves quantity
    * @method saveCategory
-   * @param  {[type]} event [description]
-   * @return {[type]} [description]
+   * @param  {Object} event
+   * 
+   * @return {Object} state
    */
   saveQuantity(event) {
     event.preventDefault();
@@ -132,9 +145,10 @@ export class BooksPage extends React.Component {
   }
 
   /**
-   * [render description]
+   * renders the page
    * @method render
-   * @return {[type]} [description]
+   * 
+   * @return {Object} html
    */
   render() {
     return (
@@ -185,7 +199,12 @@ export class BooksPage extends React.Component {
   }
 }
 
-// Map state from store to component properties
+/**
+ * @param {Object} state 
+ * @param {Object} ownProps
+ * 
+ * @returns {Object} props
+ */
 const mapStateToProps = (state, ownProps) => {
   const queryParams = queryString.parse(ownProps.location.search);
 
@@ -197,6 +216,12 @@ const mapStateToProps = (state, ownProps) => {
   };
 };
 
+/**
+ * Maps dispatch to props
+ * @param {function} dispatch
+ * 
+ * @returns {Object} actions
+ */
 const mapDispatchToProps = dispatch => ({
   addStockQuantity: (book, quantity) =>
     dispatch(bookActions(actionTypes.ADD_STOCK_QUANTITY, book, quantity)),

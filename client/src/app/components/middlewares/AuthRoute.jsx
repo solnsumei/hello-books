@@ -1,6 +1,13 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 
+/**
+ * Authenticated user component
+ * redirects unauthorised users
+ * @param {Object} props
+ * 
+ * @return {Object} jsx
+ */
 const AuthRoute = ({ component: Component, ...rest }) => {
   const { user } = rest;
   return (

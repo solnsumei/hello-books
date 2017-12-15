@@ -5,7 +5,10 @@ import { GoogleLogin } from 'react-google-login';
 import TextInput from '../common/TextInput';
 
 /**
- * @returns {object} component
+ * Login form
+ * @param {Object} props
+ * 
+ * @returns {Object} jsx component
  */
 const LoginForm = ({ loginParams, onSubmit, onChange, errors, responseGoogle }) => (
   <div className="col s12 m6 offset-m3">

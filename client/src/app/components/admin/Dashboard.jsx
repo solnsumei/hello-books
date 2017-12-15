@@ -2,6 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
+/**
+ * Dashboard react component
+ * @param {Object} props
+ * 
+ * @return {Object} jsx
+ */
 const Dashboard = props => (
   <div className="top-padding">
     <div className="row">

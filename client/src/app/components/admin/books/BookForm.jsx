@@ -4,7 +4,14 @@ import { Link } from 'react-router-dom';
 import TextInput from '../../common/TextInput';
 import SelectInput from '../../common/SelectInput';
 
-
+/**
+ * Book Form component
+ * renders form for adding and updating
+ * books
+ * @param {Object} props
+ * 
+ * @return {Object} jsx
+ */
 const BookForm = ({ book, onSubmit, categories, uploadCoverPic, onChange, errors }) => (
   <div className="card">
     <form onSubmit={onSubmit}>

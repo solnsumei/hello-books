@@ -1,6 +1,12 @@
 import models from '../models/index';
 import { transport, mailOptions } from '../helpers/mailHelper';
 
+/**
+ * Sends email to users
+ * @param {array} mailingList - mailing List
+ * 
+ * @return {void}
+ */
 const sendMail = (mailingList) => {
   if (mailingList.length > 0) {
     mailingList.map(item =>
@@ -10,6 +16,12 @@ const sendMail = (mailingList) => {
   }
 };
 
+/**
+ * Fetches all users who have failed to return
+ * books before due date
+ * 
+ * @return {function} sendMail - Sends mail
+ */
 const sendMailToDefaulters = () =>
   models.BorrowedBook
     .findAll({

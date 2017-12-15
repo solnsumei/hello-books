@@ -1,6 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+/**
+ * Catch all for resources 
+ * not found
+ * @param {Object} props
+ * 
+ * @return {Object} jsx
+ */
 const NotFound = () => (
   <div className="row">
     <div className="col s12">

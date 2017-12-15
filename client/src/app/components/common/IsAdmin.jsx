@@ -11,13 +11,15 @@ import NotificationPage from '../admin/notifications/NotificationPage';
 import NotFound from '../NotFound';
 
 /**
-*
+* Admin middleware class
+* handles admin sections of the app
 */
 export class IsAdmin extends React.Component {
   /**
-   * [redirectUnauthorisedUser description]
+   * Redirects non admins off the admin routes
    * @method redirectUnauthorisedUser
-   * @return {[type]}                 [description]
+   * 
+   * @return {void}
    */
   redirectUnauthorisedUser({ user }) {
     if (!user.admin) {
@@ -26,18 +28,20 @@ export class IsAdmin extends React.Component {
   }
 
   /**
-   * [componentDidMount description]
+   * React lifecycle method
    * @method componentWillMount
-   * @return {[type]}          [description]
+   * 
+   * @return {void}
    */
   componentWillMount() {
     this.redirectUnauthorisedUser(this.props);
   }
 
   /**
-   * 
-   * @param {any} nextProps 
+   * React lifecycle method
+   * @param {Object} nextProps 
    * @memberof IsAdmin
+   * 
    * @returns {void}
    */
   componentWillReceiveProps(nextProps) {
@@ -45,9 +49,10 @@ export class IsAdmin extends React.Component {
   }
 
   /**
-   * [render description]
+   * Renders routes if admin is logged in
    * @method render
-   * @return {[type]} [description]
+   * 
+   * @return {Object} jsx
    */
   render() {
     if (this.props.user.admin) {
@@ -68,6 +73,12 @@ export class IsAdmin extends React.Component {
   }
 }
 
+/**
+ * @param {Object} state 
+ * @param {Object} ownProps
+ * 
+ * @returns {Object} props
+ */
 const mapStateToProps = (state, ownProps) => ({
   user: state.user,
 });

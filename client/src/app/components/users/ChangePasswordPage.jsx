@@ -13,13 +13,15 @@ import actionTypes from '../../actions/actionTypes';
 import borrowActions from '../../actions/borrowActions';
 
 /**
- *
+ * Updates the user password
+ * @extends React.Component
  */
 class ChangePasswordPage extends React.Component {
   /**
-   * [constructor description]
+   * Initialize props and state
    * @method constructor
    * @param  {Object} props
+   * 
    * @return {void}
    */
   constructor(props) {
@@ -42,6 +44,7 @@ class ChangePasswordPage extends React.Component {
    * Change user password
    * @method changeUserPassword
    * @param  {Object} event
+   * 
    * @return {void}
    */
   changeUserPassword(event) {
@@ -61,7 +64,9 @@ class ChangePasswordPage extends React.Component {
   }
 
   /**
+   * Update form state
    * @param {object} event
+   * 
    * @returns {object} state
    */
   updateFormState(event) {
@@ -72,10 +77,12 @@ class ChangePasswordPage extends React.Component {
   }
 
   /**
-  * [render description]
-  * @return {[type]} [description]
+  * Renders components
+
+  * @return {Object} jsx
   */
   render() {
+    // if user logged in through google redirect them
     if (this.props.user.googleUser) {
       return (
         <Redirect to='/profile' />
@@ -105,11 +112,23 @@ ChangePasswordPage.propTypes = {
   updateFormState: PropTypes.func
 };
 
+/**
+ * Maps redux state to class props
+ * @param {Object} state 
+ * @param {Object} ownProps
+ * 
+ * @returns {Object} props
+ */
 const mapStateToProps = (state, ownProps) => ({
   user: state.user,
 });
 
-
+/**
+ * Maps dispatch to props
+ * @param {function} dispatch
+ * 
+ * @returns {Object} actions
+ */
 const mapDispatchToProps = dispatch => ({
   changePassword: passwordObject => dispatch(changeUserPassword(passwordObject))
 });

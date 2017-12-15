@@ -6,14 +6,16 @@ import actionTypes from '../../actions/actionTypes';
 import bookActions from '../../actions/bookActions';
 import borrowActions from '../../actions/borrowActions';
 /**
- *
+  * Book details page
+ * @extends React.Component
  */
 export class BookDetailPage extends React.Component {
   /**
    * Book detail constructor
    * @method constructor
-   * @param  {obj} props react properties
-   * @return {null} set default states and bind functions
+   * @param  {Object} props react properties
+   * 
+   * @return {void} set default states and bind functions
    */
   constructor(props) {
     super(props);
@@ -26,9 +28,11 @@ export class BookDetailPage extends React.Component {
   }
 
   /**
-   * [componentDidMount description]
+   * React lifecycle method
+   * calls the getBook function
    * @method componentDidMount
-   * @return {[type]}          [description]
+   * 
+   * @return {void}
    */
   componentDidMount() {
     this.props.getBook(this.props.bookId);
@@ -36,10 +40,11 @@ export class BookDetailPage extends React.Component {
   }
 
   /**
-   * [componentWillReceiveProps description]
+   * React lifecycle method
    * @method componentWillReceiveProps
-   * @param  {[type]} nextProps [description]
-   * @return {[type]} [description]
+   * @param  {Object} nextProps
+   * 
+   * @return {void}
    */
   componentWillReceiveProps(nextProps) {
     if (this.props.isBorrowed !== nextProps.isBorrowed) {
@@ -49,10 +54,12 @@ export class BookDetailPage extends React.Component {
   }
 
   /**
-   * [confirmBorrow description]
+   * Class method to confirm borrow action
+   * closes modal rendered
    * @param {String} action
    * @method confirmBorrow
-   * @return {[type]} [description]
+   * 
+   * @return {void}
    */
   confirmAction(action) {
     const { book } = this.props;
@@ -63,8 +70,9 @@ export class BookDetailPage extends React.Component {
   }
 
   /**
-  * [render description]
-  * @return {[type]} [description]
+  * Renders the book detail page
+
+  * @return {Object} jsx
   */
   render() {
     const { user, book } = this.props;
@@ -130,6 +138,13 @@ export class BookDetailPage extends React.Component {
   }
 }
 
+/**
+ * Checks if book is already borrowed by user
+ * @param {array} borrowedBooks 
+ * @param {number} id
+ * 
+ * @returns {boolean} true or false
+ */
 const inBorrowedList = (borrowedBooks, id) => {
   const foundInList = borrowedBooks.filter(borrowedBook =>
     borrowedBook.bookId === id && !borrowedBook.returned);
@@ -138,6 +153,13 @@ const inBorrowedList = (borrowedBooks, id) => {
   return false;
 };
 
+/**
+ * Gets a book from the redux state
+ * @param {array} books 
+ * @param {number} id
+ * 
+ * @returns {Object|null} book or null
+ */
 const getBookById = (books, id) => {
   const foundBook = books.filter(book => book.id === id);
   // since filter returns an array, you have to grab the first
@@ -145,6 +167,13 @@ const getBookById = (books, id) => {
   return null;
 };
 
+/**
+ * Maps redux state to class props
+ * @param {Object} state 
+ * @param {Object} ownProps
+ * 
+ * @returns {Object} props
+ */
 const mapStateToProps = (state, ownProps) => {
   // from the path '/books/:id'
   const bookId = ownProps.match.params.id;
@@ -161,7 +190,12 @@ const mapStateToProps = (state, ownProps) => {
   });
 };
 
-// map dispatch actions to borrow actions
+/**
+ * Maps dispatch to props
+ * @param {function} dispatch
+ * 
+ * @returns {Object} actions
+ */
 const mapDispatchToProps = dispatch => ({
   getBook: bookId => dispatch(bookActions(actionTypes.GET_BOOK, bookId)),
   performAction: (action, bookId) =>
