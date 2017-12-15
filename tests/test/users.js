@@ -1,7 +1,7 @@
 // Import the required files and classes for test
 import request from 'supertest';
 import assert from 'assert';
-import app from '../../app';
+import app from '../../server/app';
 import models from '../../server/models/index';
 import { users, booksForUserTest } from '../mockData';
 

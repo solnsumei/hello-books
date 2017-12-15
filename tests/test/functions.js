@@ -1,5 +1,4 @@
 // Import the required files and classes for test
-import app from '../../app';
 import { assert } from 'chai';
 import createToken from '../../server/helpers/token';
 import pagination from '../../server/helpers/pagination';
