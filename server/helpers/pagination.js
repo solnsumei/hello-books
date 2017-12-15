@@ -1,3 +1,11 @@
+/**
+ * Provides pagination
+ * @param {number} page 
+ * @param {number} limit
+ * 
+ * @return {Object} with the limit and offset fields
+ * to query database
+ */
 const pagination = (page, limit) => {
   page = parseInt(page, 10);
   limit = parseInt(limit, 10) || 10;

@@ -1,4 +1,10 @@
-// format return attributes for books
+/**
+ * Formats book object
+ * @param {Object} book - book object
+ * @param {Object} category - category object
+ * 
+ * @return {Object} formatted book object
+ */
 const formatBook = (book, category) => ({
   id: book.id,
   title: book.title,
@@ -16,7 +22,13 @@ const formatBook = (book, category) => ({
   }
 });
 
-// Format borrowed book return type
+/**
+ * Formats the borrowed book object
+ * @param {Object} borrowedBook - borrowed book object
+ * @param {Object} book - book object
+ * 
+ * @return {Object} borrowed book
+ */
 const formatBorrowedBook = (borrowedBook, book) => ({
   id: borrowedBook.id,
   bookId: borrowedBook.bookId,
@@ -28,7 +40,12 @@ const formatBorrowedBook = (borrowedBook, book) => ({
   book: { title: book.title, isDeleted: book.isDeleted }
 });
 
-// Format user object 
+/**
+ * Formats user object
+ * @param {Object} user - user object
+ * 
+ * @return {Object} formatted user object
+ */
 const formatUser = user => ({
   id: user.id,
   username: user.username,

@@ -3,7 +3,6 @@ import jwt from 'jsonwebtoken';
 import toastr from 'toastr';
 import types from './actionTypes';
 import borrowActions from './borrowActions';
-import { constants } from '../helpers/constants';
 
 /**
  * Removes local storage items

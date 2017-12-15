@@ -1,5 +1,11 @@
 import models from '../models/index';
 
+/**
+* Upgrades a user membership level
+* @param {Object} user - user
+* 
+* @return {promise|booleanj} true
+*/
 const upgradeUserLevel = user =>
   models.BorrowedBook.count({
     where: {

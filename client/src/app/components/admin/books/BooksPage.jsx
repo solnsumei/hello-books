@@ -203,7 +203,7 @@ export class BooksPage extends React.Component {
  * @param {Object} state 
  * @param {Object} ownProps
  * 
- * @returns {Object} object
+ * @returns {Object} props
  */
 const mapStateToProps = (state, ownProps) => {
   const queryParams = queryString.parse(ownProps.location.search);
@@ -220,7 +220,7 @@ const mapStateToProps = (state, ownProps) => {
  * Maps dispatch to props
  * @param {function} dispatch
  * 
- * @returns {void}
+ * @returns {Object} actions
  */
 const mapDispatchToProps = dispatch => ({
   addStockQuantity: (book, quantity) =>

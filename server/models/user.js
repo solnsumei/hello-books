@@ -1,5 +1,12 @@
 import bcrypt from 'bcryptjs';
 
+/**
+* User model
+* @param {Object} sequelize - sequelize object
+* @param {Object} DataTypes - database datatypes
+* 
+* @return {Object} User model
+*/
 export default (sequelize, DataTypes) => {
   const User = sequelize.define('User', {
     firstName: {

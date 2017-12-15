@@ -1,3 +1,10 @@
+/**
+* Borrowed book model
+* @param {Object} sequelize - sequelize object
+* @param {Object} DataTypes - database datatypes
+* 
+* @return {Object} BorrowedBook model
+*/
 export default (sequelize, DataTypes) => {
   const BorrowedBook = sequelize.define('BorrowedBook', {
     userId: {

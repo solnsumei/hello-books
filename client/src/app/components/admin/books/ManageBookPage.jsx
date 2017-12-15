@@ -141,6 +141,13 @@ export class ManageBookPage extends React.Component {
   }
 }
 
+/**
+ * Gets a book from the redux state
+ * @param {array} books 
+ * @param {number} id
+ * 
+ * @returns {Object|null} book or null
+ */
 const getBookById = (books, id) => {
   const foundBook = books.filter(book => book.id === id);
   // since filter returns an array, you have to grab the first
@@ -148,6 +155,13 @@ const getBookById = (books, id) => {
   return null;
 };
 
+/**
+ * Maps redux state to class props
+ * @param {Object} state 
+ * @param {Object} ownProps
+ * 
+ * @returns {Object} props
+ */
 const mapStateToProps = (state, ownProps) => {
   // from the path '/books/:id'
   const bookId = ownProps.match.params.id;
@@ -182,6 +196,12 @@ const mapStateToProps = (state, ownProps) => {
   });
 };
 
+/**
+ * Maps dispatch to props
+ * @param {function} dispatch
+ * 
+ * @returns {Object} actions
+ */
 const mapDispatchToProps = dispatch => ({
   getBook: bookId =>
     dispatch(bookActions(actionTypes.GET_BOOK, bookId)),

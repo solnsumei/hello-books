@@ -10,12 +10,17 @@ import LoginForm from './LoginForm';
 import { loginRequest } from '../../actions/userActions';
 
 /**
- *
+ * Login page component
+ * @extends React.Component
  */
 export class LoginPage extends React.Component {
   /**
-   * @param {object} props
-   */
+  * Initializes class
+  * @method constructor
+  * @param  {Object} props
+  *
+  * @return {void} 
+  */
   constructor(props) {
     super(props);
     this.state = {
@@ -32,7 +37,9 @@ export class LoginPage extends React.Component {
   }
 
   /**
+   * Update form state
    * @param {object} event
+   * 
    * @returns {object} state
    */
   updateFormState(event) {
@@ -43,9 +50,10 @@ export class LoginPage extends React.Component {
   }
 
   /**
-   * 
+   * Google login response
    * @param {any} response 
    * @memberof LoginPage
+   * 
    * @returns {void}
    */
   responseGoogle(response) {

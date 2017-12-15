@@ -1,4 +1,9 @@
 export default {
+  /**
+   * Returns data for sign up form validation
+   * 
+   * @return {Object} with rules and customMessage
+   */
   signup() {
     return {
       rules: {
@@ -14,6 +19,11 @@ export default {
     };
   },
 
+  /**
+   * Returns data for login form validation
+   * 
+   * @return {Object} with rules
+   */
   login() {
     return {
       rules: {
@@ -23,6 +33,11 @@ export default {
     };
   },
 
+  /**
+   * Returns data for update profile form validation
+   * 
+   * @return {Object} with rules and customMessage
+   */
   updateProfile() {
     return {
       rules: {
@@ -35,6 +50,11 @@ export default {
     };
   },
 
+  /**
+   * Returns data for change password form validation
+   * 
+   * @return {Object} with rules and customMessage
+   */
   changePassword() {
     return {
       rules: {
@@ -47,6 +67,11 @@ export default {
     };
   },
 
+  /**
+   * Returns data for reset password form validation
+   * 
+   * @return {Object} with rules
+   */
   resetPassword() {
     return {
       rules: {
@@ -55,6 +80,11 @@ export default {
     };
   },
 
+  /**
+   * Returns data for add book form validation
+   * 
+   * @return {Object} with rules and customMessage
+   */
   addBook() {
     return {
       rules: {
@@ -73,6 +103,11 @@ export default {
     };
   },
 
+  /**
+   * Returns data for edit book form validation
+   * 
+   * @return {Object} with rules and customMessage
+   */
   editBook() {
     return {
       rules: {
@@ -88,6 +123,11 @@ export default {
     };
   },
 
+  /**
+   * Returns data for add quantity form validation
+   * 
+   * @return {Object} with rules
+   */
   addQuantity() {
     return {
       rules: {
@@ -96,6 +136,11 @@ export default {
     };
   },
 
+  /**
+   * Returns data for add category form validation
+   * 
+   * @return {Object} with rules
+   */
   addCategory() {
     return {
       rules: {
@@ -104,6 +149,11 @@ export default {
     };
   },
 
+  /**
+   * Returns data for edit category form validation
+   * 
+   * @return {Object} with rules
+   */
   editCategory() {
     return {
       rules: {
@@ -112,6 +162,11 @@ export default {
     };
   },
 
+  /**
+   * Returns data for edit membership form validation
+   * 
+   * @return {Object} with rules and customMessage
+   */
   editMembershipType() {
     return {
       rules: {

@@ -1,3 +1,10 @@
+/**
+* Category model
+* @param {Object} sequelize - sequelize object
+* @param {Object} DataTypes - database datatypes
+* 
+* @return {Object} Category model
+*/
 export default (sequelize, DataTypes) => {
   const Category = sequelize.define('Category', {
     name: {

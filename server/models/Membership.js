@@ -1,3 +1,10 @@
+/**
+* Membership model
+* @param {Object} sequelize - sequelize object
+* @param {Object} DataTypes - database datatypes
+* 
+* @return {Object} Membership model
+*/
 export default (sequelize, DataTypes) => {
   const Membership = sequelize.define('Membership', {
     level: {

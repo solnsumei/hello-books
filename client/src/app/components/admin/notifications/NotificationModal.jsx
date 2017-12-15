@@ -1,6 +1,12 @@
 import React from 'react';
 import moment from 'moment';
 
+/**
+ * Notification modal react component
+ * @param {Object} props
+ * 
+ * @return {Object} jsx
+ */
 const NotificationModal = ({ id, title, notification, action }) => (
   <div id={id} className="modal">
     <div className="modal-content black-text">

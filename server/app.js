@@ -7,10 +7,10 @@ import path from 'path';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
 import webpack from 'webpack';
-import router from './server/routes';
-import webpackConfig from './webpack.config';
-import failedRoutes from './server/middlewares/failedRoutes';
-import cronJob from './server/cron/index';
+import router from './routes';
+import webpackConfig from '../webpack.config';
+import failedRoutes from './middlewares/failedRoutes';
+import cronJob from './cron/index';
 
 // Set up the express app
 const app = express();
@@ -21,11 +21,11 @@ const compiler = webpack(webpackConfig);
 
 const env = process.env.NODE_ENV || 'development';
 
-const publicPath = path.join(__dirname, './client/dist/');
+const publicPath = path.join(__dirname, '../client/dist/');
 
 const indexPath = path.resolve(__dirname, publicPath, 'index.html');
 
-const docPath = path.join(__dirname, './docs/');
+const docPath = path.join(__dirname, '../docs/');
 const docIndexPath = path.resolve(__dirname, docPath, 'index.html');
 
 // Log requests to the console

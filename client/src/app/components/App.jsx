@@ -6,11 +6,11 @@ import Routes from './Routes';
 import Header from './common/Header';
 import Footer from './common/Footer';
 import { logoutRequest } from '../actions/userActions';
-import { routeTitles } from '../helpers/constants';
+import routeTitle from '../helpers/routeTitle';
 
 /**
- * [propTypes description]
- * @type {Object}
+ * App class, renders the default page
+ * @extends React.Component
  */
 export class App extends React.Component {
   /**
@@ -50,7 +50,7 @@ export class App extends React.Component {
 
     return (
       <div>
-        <Header title={routeTitles(props.pathname)}
+        <Header title={routeTitle(props.pathname)}
           user={props.user} logout={this.doLogout} />
         <Routes {...props} />
         {props.user.id && <Footer />}
@@ -65,11 +65,23 @@ App.propTypes = {
   logoutUser: PropTypes.func.isRequired
 };
 
+/**
+ * @param {Object} state 
+ * @param {Object} ownProps
+ * 
+ * @returns {Object} props
+ */
 const mapStateToProps = (state, ownProps) => ({
   user: state.user,
   pathname: ownProps.location.pathname
 });
 
+/**
+ * Maps dispatch to props
+ * @param {function} dispatch
+ * 
+ * @returns {Object} actions
+ */
 const mapDispatchToProps = dispatch => ({
   logoutUser: () => dispatch(logoutRequest())
 });
