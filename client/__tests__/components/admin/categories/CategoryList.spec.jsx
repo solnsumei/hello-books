@@ -20,7 +20,7 @@ describe('CategoryList', () => {
     expect(wrapper.find('CategoryListRow')).toHaveLength(props.categories.length);
   });
 
-  it('should render empty row when categories array is empty', () => {
+  it('should render an empty row when categories array is empty', () => {
     props.categories = [];
     const wrapper = mount(<CategoryList { ...props } />);
     expect(wrapper).toBeDefined();

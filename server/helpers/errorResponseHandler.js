@@ -18,8 +18,8 @@ const sequelizeErrorHandler = (error, res) => {
   }
 
   return res.status(errorCode).send({
-    errors,
-    success: false
+    success: false,
+    errors
   });
 };
 
@@ -40,6 +40,7 @@ const errorResponseHandler = (res, message = null, statusCode = null, error = nu
 
   if (error && error.name === 'oldPassword') {
     return res.status(400).send({
+      success: false,
       errors: {
         oldPassword: ['Wrong password entered']
       }
@@ -48,6 +49,7 @@ const errorResponseHandler = (res, message = null, statusCode = null, error = nu
 
   if (error && error.name === 'Entry') {
     return res.status(400).send({
+      success: false,
       errors: {
         entry: ['Entry field is required']
       }
@@ -56,14 +58,14 @@ const errorResponseHandler = (res, message = null, statusCode = null, error = nu
 
   if (message && statusCode) {
     return res.status(statusCode).send({
-      error: message,
       success: false,
+      error: message,
     });
   }
 
   return res.status(500).send({
+    success: false,
     error: 'Request could not be completed, please try again later',
-    success: false
   });
 };
 

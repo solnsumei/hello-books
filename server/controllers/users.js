@@ -1,7 +1,7 @@
 import bcrypt from 'bcryptjs';
 import moment from 'moment';
 import Validator from 'validatorjs';
-import createToken from '../helpers/token';
+import createToken from '../helpers/createToken';
 import { formatUser, formatBorrowedBook } from '../helpers/formatData';
 import models from '../models/index';
 import errorResponseHandler from '../helpers/errorResponseHandler';
@@ -96,7 +96,7 @@ const userController = {
           user: formatUser(req.auth)
         });
       })
-      .catch(error => res.status(503).send(error));
+      .catch(() => errorResponseHandler(res));
   },
 
   /**
@@ -278,12 +278,22 @@ const userController = {
     const query = { userId: req.auth.id };
     const { offset, limit } = pagination(req.query.page, req.query.limit);
 
+    const attributes =
+    ['id',
+      'bookId',
+      'dueDate',
+      'isSeen',
+      'returned',
+      'borrowDate',
+      'returnDate'
+    ];
+
     if (req.query.returned === 'true') {
       query.returned = true;
     } else if (req.query.returned === 'false') { query.returned = false; }
     return models.BorrowedBook
       .findAndCountAll({
-        attributes: ['id', 'bookId', 'dueDate', 'isSeen', 'returned', 'borrowDate', 'returnDate'],
+        attributes,
         order: [['id', 'DESC']],
         include: [{
           model: models.Book,
@@ -317,7 +327,14 @@ const userController = {
       return errorResponseHandler(res, 'You cannot return a book that has not been borrowed', 400);
     }
 
-    const attributes = ['id', 'bookId', 'dueDate', 'isSeen', 'returned', 'borrowDate', 'returnDate'];
+    const attributes =
+    ['id',
+      'bookId',
+      'dueDate',
+      'isSeen',
+      'returned',
+      'borrowDate',
+      'returnDate'];
 
     return models.BorrowedBook
       .findOne({

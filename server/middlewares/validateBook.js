@@ -9,7 +9,7 @@ import errorResponseHandler from '../helpers/errorResponseHandler';
  *
  * @returns {Request|Response|*|void|boolean} res
  */
-export default function validateBook(req, res, next) {
+export default (req, res, next) => {
   let bookId = null;
   if (req.url === '/book/borrow' || req.url === '/book/return') {
     bookId = req.body.bookId;
@@ -29,4 +29,4 @@ export default function validateBook(req, res, next) {
       req.book = book;
       next();
     });
-}
+};

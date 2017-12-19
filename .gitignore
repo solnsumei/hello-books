@@ -7,3 +7,5 @@ env
 .nyc_output/
 coverage/
 build
+results/
+reports/

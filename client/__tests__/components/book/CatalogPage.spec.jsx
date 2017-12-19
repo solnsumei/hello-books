@@ -33,7 +33,7 @@ describe('CatalogPage', () => {
     expect(wrapper.find('Pagination')).toHaveLength(0);
   });
 
-  it('should render shallow component with pagination without a page number', () => {
+  it('should render component with pagination when itemCount is greater than perPage', () => {
     const newProps = { ...props };
     newProps.itemCount = 7;
     const wrapper = shallow(<CatalogPage { ...newProps } />);

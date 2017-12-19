@@ -81,7 +81,7 @@ const BookForm = ({ book, onSubmit, categories, uploadCoverPic, onChange, errors
         <div className="card-action">
           <div className="row valign-wrapper">
             <div className="col s12">
-              { book.coverPic && <button className="btn waves-effect waves-light"
+              { book.coverPic && <button id="submit-btn" className="btn save-btn waves-effect waves-light"
                 type="submit">Save <i className="material-icons">send</i>
               </button>}
             </div>

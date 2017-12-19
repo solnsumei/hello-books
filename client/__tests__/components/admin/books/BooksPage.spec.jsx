@@ -36,13 +36,13 @@ describe('Admin Book Page', () => {
     expect(wrapper.find('Pagination')).toHaveLength(0);
   });
 
-  it('should render shallow component with pagination without a page number', () => {
+  it('should the page with pagination itemCount is greater than perPage', () => {
     const newProps = { ...props, queryParams: { page: 1 }, itemCount: 8 };
     const wrapper = shallow(<BooksPage { ...newProps } />);
     expect(wrapper.find('Pagination')).toHaveLength(1);
   });
 
-  it('should not render any book item books is empty', () => {
+  it('should not render any book item when books props is empty', () => {
     const newProps = { ...props, books: [] };
     const wrapper = shallow(<BooksPage { ...newProps } />);
     expect(wrapper.find('BookList').dive().find('BookListRow')).toHaveLength(0);
@@ -66,7 +66,7 @@ describe('Admin Book Page', () => {
     expect(componentWillReceivePropsSpy).toHaveBeenCalled();
   });
 
-  it('should call componentWillReceiveProps when book length changes', () => {
+  it('should call componentWillReceiveProps when book list length changes', () => {
     const newProps = { ...props };
     const newProps2 = { ...props, books: [mockData.books[0]] };
     const wrapper = shallow(<BooksPage { ...newProps } />);
@@ -125,7 +125,7 @@ describe('Admin Book Page', () => {
     expect(wrapper.instance().state.quantity).toBe(1);
   });
 
-  it('should call deleteBook method', () => {
+  it('should call the deleteBook method', () => {
     const newProps = { ...props };
     const wrapper = shallow(<BooksPage { ...newProps } />);
     const spy = jest.spyOn(wrapper.instance(), 'deleteBook');

@@ -2,7 +2,7 @@ import bcrypt from 'bcryptjs';
 import moment from 'moment';
 import Validator from 'validatorjs';
 import nodemailer from 'nodemailer';
-import createToken from '../helpers/token';
+import createToken from '../helpers/createToken';
 import models from '../models/index';
 import errorResponseHandler from '../helpers/errorResponseHandler';
 import formHelper from '../helpers/formHelper';

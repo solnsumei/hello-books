@@ -10,7 +10,7 @@ import errorResponseHandler from '../helpers/errorResponseHandler';
  *
  * @returns {Request|Response|*|void|boolean} res
  */
-export default function validateResetToken(req, res, next) {
+export default (req, res, next) => {
   const token = req.query.token;
   if (!token) {
     return errorResponseHandler(res, 'Reset token is invalid', 400);
@@ -19,7 +19,7 @@ export default function validateResetToken(req, res, next) {
   // Verify token using jsonwebtokens
   jwt.verify(token, process.env.SECRET, (err, decoded) => {
     if (err) {
-      return errorResponseHandler(res, 'Reset token is invalid', 403);
+      return errorResponseHandler(res, 'Reset token is invalid', 401);
     }
 
     return models.User
@@ -28,7 +28,7 @@ export default function validateResetToken(req, res, next) {
       })
       .then((user) => {
         if (!user) {
-          return errorResponseHandler(res, 'Reset token is invalid', 403);
+          return errorResponseHandler(res, 'Reset token is invalid', 401);
         }
 
         req.reset = user;
@@ -37,4 +37,4 @@ export default function validateResetToken(req, res, next) {
       })
       .catch(() => errorResponseHandler(res));
   });
-}
+};

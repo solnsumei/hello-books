@@ -53,7 +53,7 @@ export class ManageBookPage extends React.Component {
    * @return {void}
    */
   componentWillReceiveProps(nextProps) {
-    if (this.props.book.id !== nextProps.book.id) {
+    if (this.props.book !== nextProps.book) {
       // Necessary to populate form when existing book is loaded directly
       this.setState({ book: { ...nextProps.book } });
     }
@@ -151,7 +151,7 @@ export class ManageBookPage extends React.Component {
 const getBookById = (books, id) => {
   const foundBook = books.filter(book => book.id === id);
   // since filter returns an array, you have to grab the first
-  if (foundBook) return foundBook[0];
+  if (foundBook && foundBook.length > 0) return foundBook[0];
   return null;
 };
 
@@ -186,7 +186,7 @@ const mapStateToProps = (state, ownProps) => {
     }));
 
   if (bookId) {
-    book = getBookById(state.books, (parseInt(bookId, 10)));
+    book = getBookById(state.books, (parseInt(bookId, 10))) || book;
   }
 
   return ({

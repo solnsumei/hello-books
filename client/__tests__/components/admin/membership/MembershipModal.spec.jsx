@@ -21,7 +21,7 @@ describe('Membership Modal', () => {
     expect(wrapper.find('TextInput')).toHaveLength(2);
   });
 
-  it('should show errors when errors is not empty', () => {
+  it('should show errors when errors props is not empty', () => {
     const newProps = { ...props, errors: { lendDuration: ['Lend duration error'], maxBorrowable: ['Max borrowable error'] } };
     const wrapper = shallow(<MembershipModal { ...newProps } />);
     expect(wrapper.find('TextInput').at(0).props().error).toBe(newProps.errors.lendDuration[0]);

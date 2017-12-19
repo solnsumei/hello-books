@@ -127,7 +127,7 @@ describe('>>>A C T I O N --- bookActions', () => {
   });
 
   describe('addBook', () => {
-    it('should create a ADD_BOOK_SUCCESS action', (done) => {
+    it('should create an ADD_BOOK_SUCCESS action', (done) => {
       moxios.stubRequest('/books', {
         status: 201,
         response: {
@@ -153,7 +153,7 @@ describe('>>>A C T I O N --- bookActions', () => {
   });
 
   describe('updateBook', () => {
-    it('should create a UPDATE_BOOK_SUCCESS action', (done) => {
+    it('should create an UPDATE_BOOK_SUCCESS action', (done) => {
       moxios.stubRequest('/books/1', {
         status: 201,
         response: {
@@ -179,7 +179,7 @@ describe('>>>A C T I O N --- bookActions', () => {
   });
 
   describe('addStockQuantity', () => {
-    it('should create a ADD_STOCK_QUANTITY_SUCCESS action', (done) => {
+    it('should create an ADD_STOCK_QUANTITY_SUCCESS action', (done) => {
       moxios.stubRequest('/books/1', {
         status: 200,
         response: {

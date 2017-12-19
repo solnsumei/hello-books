@@ -21,13 +21,13 @@ describe('BookList', () => {
     wrapper.find(`#delete-book-${props.books[0].id}`).simulate('click');
   });
 
-  it('should not show the delete button if book has been ddleted', () => {
+  it('should not show the delete button if book has already been deleted', () => {
     props.books[0].isDeleted = 1;
     const wrapper = mount(<BookList { ...props } />);
     expect(wrapper.find('.delete-button')).toHaveLength(props.books.length - 1);
   });
 
-  it('should render empty row when books array is empty', () => {
+  it('should render an empty row when books array is empty', () => {
     props.books = [];
     const wrapper = mount(<BookList { ...props } />);
     expect(wrapper).toBeDefined();

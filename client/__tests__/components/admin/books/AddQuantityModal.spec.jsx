@@ -20,7 +20,7 @@ describe('Add Quantity Modal', () => {
     expect(wrapper.find('TextInput')).toHaveLength(1);
   });
 
-  it('should show errors when errors is not empty', () => {
+  it('should show errors when errors property is available', () => {
     const newProps = { ...props, error: 'Invalid quantity' };
     const wrapper = shallow(<AddQuantityModal { ...newProps } />);
     expect(wrapper.find('TextInput').props().error).toBe(newProps.error);

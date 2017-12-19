@@ -59,7 +59,7 @@ describe('Admin Manage Book Page', () => {
     expect(connectedComponent.dive().find('BookForm').length).toBe(1);
   });
 
-  it('should render component with book Id set', () => {
+  it('should render component when book Id is set', () => {
     const newProps = { ...props, book: mockData.books[0], bookId: 1 };
     const wrapper = shallow(<ManageBookPage { ...newProps } />);
     expect(wrapper.find('BookForm').dive().find('TextInput').at(0)
@@ -67,24 +67,27 @@ describe('Admin Manage Book Page', () => {
     expect(wrapper.find('BookForm').dive().find('#stockQuantity')).toHaveLength(0);
   });
 
-  it('should call the getBook props function on connected component params set', () => {
-    const newProps = { ...props, match: { params: { id: 1 } } };
-    const connectedComponent =
-      shallow(<ConnectedManageBookPage { ...newProps } store={store} />);
-    mockAuthCheck();
-    const spy = jest.spyOn(connectedComponent.instance().props, 'getBook');
-    connectedComponent.dive().instance().componentDidMount();
-    expect(connectedComponent.length).toBe(1);
-    expect(spy).toHaveBeenCalled();
-  });
+  it('should call the getBook props function on connected component when params is set',
+    () => {
+      const newProps = { ...props, match: { params: { id: 1 } } };
+      const connectedComponent =
+        shallow(<ConnectedManageBookPage { ...newProps } store={store} />);
+      mockAuthCheck();
+      const spy = jest.spyOn(connectedComponent.instance().props, 'getBook');
+      connectedComponent.dive().instance().componentDidMount();
+      expect(connectedComponent.length).toBe(1);
+      expect(spy).toHaveBeenCalled();
+    });
 
-  it('should call componentWillReceiveProps with no changes to state', () => {
-    const wrapper = shallow(<ManageBookPage { ...props } />);
-    const componentWillReceivePropsSpy = jest.spyOn(wrapper.instance(), 'componentWillReceiveProps');
-    wrapper.setProps({ ...props });
-    expect(componentWillReceivePropsSpy).toHaveBeenCalled();
-    expect(wrapper.instance().state.book).toEqual(props.book);
-  });
+  it('should call componentWillReceiveProps with no changes to state when props update',
+    () => {
+      const wrapper = shallow(<ManageBookPage { ...props } />);
+      const componentWillReceivePropsSpy =
+    jest.spyOn(wrapper.instance(), 'componentWillReceiveProps');
+      wrapper.setProps({ ...props });
+      expect(componentWillReceivePropsSpy).toHaveBeenCalled();
+      expect(wrapper.instance().state.book).toEqual(props.book);
+    });
 
   it('should call componentWillReceiveProps when bookId changes and set the state', () => {
     const newProps = { ...props, book: mockData.books[0], bookId: 1 };

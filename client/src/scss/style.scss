@@ -15,24 +15,30 @@ $default-margin: 10px;
 $color-black: "0,0,0";
 $select-background-color: transparent;
 $input-border-color: #9e9e9e;
-$input-field-active-color: $primary-color;
+$input-field-active-color: #388E3C;
 $select-font-size: 1rem;
-$select-color: $offset-color;
+$select-color: #212121;
+
+html, body {
+  width: 100%;
+  height: 100%;
+}
 
 body {
-  color: $primary-text-color;
   background-color: $offset-color !important;
-  background-repeat: true;
   -webkit-font-smoothing: antialiased;
-  font-smoothing: antialiased;
   display: flex !important;
   min-height: 100vh !important;
   flex-direction: column !important;
 }
 
+#app {
+  position: relative;
+  width: 100%;
+}
+
 main {
   flex: 1 0 auto !important;
-  min-height: 700px;
 }
 
 .book-page {
@@ -40,8 +46,14 @@ main {
 }
 
 .page-footer {
+  margin-top: 15px !important;
   padding-top: 5px !important;
   background-color: black !important;
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 989;
 }
 
 nav {
@@ -79,6 +91,11 @@ main a {
 
 .card a {
   color: $primary-text-color !important;
+}
+
+.header-item-div {
+  padding-top: 0 !important;
+  margin-top: 0 !important;
 }
 
 .background {
@@ -194,7 +211,7 @@ h5 { font-size:16px; font-weight: 400 }
 
 .card {
   overflow: auto !important;
-  padding-bottom: 16px !important;
+  padding-bottom: 15px !important;
 }
 
 .add-margin-bottom {

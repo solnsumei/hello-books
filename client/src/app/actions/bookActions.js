@@ -5,7 +5,7 @@ import { authCheck } from './userActions';
 import urlHelper from '../helpers/urlHelper';
 
 /**
- * Triggers the book reducer to add book to state
+ * Triggers the book reducer to add a book to state
  * @param {Object} book
  * 
  * @returns {Object} with a type as string and a book object
@@ -92,7 +92,7 @@ const loadBooks = (page = null, limit = null) => (dispatch) => {
 };
 
 /**
- * Fetches a single book for the api endpoint
+ * Fetches a single book from the api endpoint
  * @param {string} bookId
  * 
  * @returns {function} dispatch
@@ -130,7 +130,7 @@ const saveOrUpdateBook = book => (dispatch) => {
 };
 
 /**
- * Adds quantity to a book api call
+ * Adds quantity to a book
  * @param {Object} book - book to add quantity to
  * @param {quantity} quantity - quatity to add
  * 

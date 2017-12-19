@@ -11,7 +11,7 @@ import formHelper from '../helpers/formHelper';
  * 
  * @returns {Object} res
  */
-export default function formValidation(type) {
+export default (type) => {
   let validationData = null;
   switch (type) {
     case requestType.SIGNUP:
@@ -60,10 +60,11 @@ export default function formValidation(type) {
 
     if (validation.fails()) {
       return res.status(400).send({
+        sucess: false,
         errors: validation.errors.errors
       });
     }
 
     return next();
   };
-}
+};

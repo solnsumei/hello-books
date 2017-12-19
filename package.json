@@ -26,7 +26,8 @@
     "e2e-node-server": "NODE_ENV=local nodemon ./server/server.js --exec babel-node --presets env",
     "e2e-test": "npm run setup:e2e && NODE_ENV=local nightwatch",
     "e2e-setup": "selenium-standalone install",
-    "setup:e2e": "npm run set-local-migration && npm run seed:local-data",
+    "setup:e2e": "npm run set-local-migration && npm run seed:local-data && npm run seed-book",
+    "seed-book": "NODE_ENV=local babel-node ./e2e-seeder/bookSeeder.js",
     "seed:local-data": "NODE_ENV=local sequelize db:seed:all",
     "set-local-migration": "NODE_ENV=local sequelize db:migrate:undo:all && NODE_ENV=local sequelize db:migrate"
   },

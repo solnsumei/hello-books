@@ -64,7 +64,7 @@ export class IsAdmin extends React.Component {
           <Route path="/admin/membership-types" component={MembershipPage} />
           <Route exact path="/admin/books" component={BooksPage} />
           <Route path="/admin/books/create" component={ManageBookPage} />
-          <Route path="/admin/books/:id" component={ManageBookPage} />
+          <Route path="/admin/books/edit/:id" component={ManageBookPage} />
           <Route path="*" component={NotFound} />
         </Switch>
       );

@@ -110,7 +110,7 @@ export default {
           .then(() => res.status(200).send({
             success: true,
             message: 'Category was deleted successfully',
-            data: { deletedCatgoryId: req.category.id }
+            deletedCategoryId: req.category.id
           }))
           .catch(() => errorResponseHandler(res));
       });
