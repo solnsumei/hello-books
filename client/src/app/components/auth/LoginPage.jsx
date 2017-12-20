@@ -77,14 +77,14 @@ export class LoginPage extends React.Component {
 
   /**
    * Make login request to action creators
-   * @param {Object} data
+   * @param {Object} loginParams
    * @param {Boolean} googleError
    * 
    * @return {void}
    */
-  loginRequest(data) {
+  loginRequest(loginParams) {
     this.setState({ errors: {} });
-    this.props.loginUser(data)
+    this.props.loginUser(loginParams)
       .catch(({ response }) => this.setState({ errors: response.data }));
   }
 

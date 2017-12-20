@@ -24,23 +24,31 @@ const transport = nodemailer.createTransport({
 */
 const mailText = (user, context, book = null) => {
   if (context === 'Forgot Password') {
-    return `<h3 style="color:#388E3C">Dear ${user.firstName} ${user.surname}</h3>
-    <p>You have requested to reset your password.</p>
-    <p>Please click on the link below to reset your password or copy and paste it on your browser</p>
-    <p><a href="${process.env.HOST_NAME}/reset-password?token=${user.resetToken}">${user.resetToken}</a></p>
-    <p>Thank you</p>
-    <p>&nbsp;</p>
-    <p>&nbsp;</p>
-    <p style="color:#388E3C">Regards: Hello Books</p>`;
+    return `<div style="background-color:#ccc">
+  <h3 style="color:#fff;background-color:#388E3C;padding:15px">Dear ${user.firstName} ${user.surname}</h3>
+  <div style="padding:0 15px;padding-bottom:15px">
+  <p>You have requested to reset your password.</p>
+  <p>Please click on the link below to reset your password or copy and paste it on your browser</p>
+  <p><a href="${process.env.HOST_NAME}/reset-password?toke=${user.resetToken}">${user.resetToken}</a></p>
+  <p>Thank you</p>
+  <p>&nbsp;</p>
+  <p>&nbsp;</p>
+  <p style="color:#388E3C">Regards: Hello Books</p>
+  </div>
+  </div>`;
   }
-  return `<h3 style="color:#388E3C">Dear ${user.firstName} ${user.surname}</h3>
-    <p>You have been surcharged for not returning <strong>${book.title}</strong> as at when due</p>
-    <p>For this reason you will not be able to borrow more books from the library until you return this book.</p>
-    <p>Please endeavour to return the book in order to enjoy our library services</p>
-    <p>Thank you</p>
-    <p>&nbsp;</p>
-    <p>&nbsp;</p>
-    <p style="color:#388E3C">Regards: Hello Books</p>`;
+  return `<div style="background-color:#ccc">
+  <h3 style="color:#fff;background-color:#388E3C;padding:15px">Dear ${user.firstName} ${user.surname}</h3>
+  <div style="padding:0 15px;padding-bottom:15px">
+  <p>You have been surcharged for not returning <strong>${book.title}</strong> as at when due</p>
+  <p>For this reason you will not be able to borrow more books from the library until you return this book.</p>
+  <p>Please endeavour to return the book in order to enjoy our library services</p>
+  <p>Thank you</p>
+  <p>&nbsp;</p>
+  <p>&nbsp;</p>
+  <p style="color:#388E3C">Regards: Hello Books</p>
+  </div>
+  </div>`;
 };
 
 /**

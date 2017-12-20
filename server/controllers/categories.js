@@ -95,7 +95,7 @@ export default {
    *
    * @return {string} message
    * @return {boolean} success
-   * @returns {Object} data
+   * @returns {number} deletedCategoryId
    * @return {function} errorResponseHandler
    */
   delete(req, res) {

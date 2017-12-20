@@ -173,7 +173,7 @@ export default {
    * @param {any} req - request object
    * @param {any} res - response object
    * 
-   * @returns {Object} data
+   * @returns {Object} book
    * @returns {string} message
    * @returns {boolean} success
    * @returns {string} error
@@ -203,7 +203,7 @@ export default {
    * @param {any} req - request object
    * @param {any} res - response object
    * 
-   * @returns {Object} data
+   * @returns {Object} book
    * @returns {string} message
    * @returns {boolean} success
    * @returns {string} error

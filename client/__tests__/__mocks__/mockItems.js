@@ -32,7 +32,7 @@ export default {
       {}
     ]
   },
-  // Membership types mock data 
+  // Membership types mock   
   membership: {
     id: 1,
     name: 'GOLD',
@@ -45,7 +45,7 @@ export default {
       {}
     ]
   },
-  // notification mock data 
+  // notification mock
   notification: {
     id: 1,
   },
@@ -56,7 +56,7 @@ export default {
       {}
     ]
   },
-  // borrowed mock data 
+  // borrowed mock   
   borrowedBook: {
     bookId: 1,
     borrowed: true
