@@ -50,7 +50,7 @@ describe('Book Detail Page', () => {
     expect(wrapper.find('button')).toHaveLength(0);
   });
 
-  it('should call componentWillReceiveProps', () => {
+  it('should call componentWillReceiveProps when props update', () => {
     const newProps = { ...props };
     const wrapper = shallow(<BookDetailPage { ...newProps } />);
     const componentWillReceivePropsSpy = jest.spyOn(wrapper.instance(), 'componentWillReceiveProps');
@@ -64,17 +64,18 @@ describe('Book Detail Page', () => {
     expect(wrapper.find('Modal').props().text).toBe('Do you want to return this book?');
   });
 
-  it('should call componentWillReceiveProps with no changes', () => {
-    const newProps = { ...props };
-    const wrapper = shallow(<BookDetailPage { ...newProps } />);
-    wrapper.setProps({
-      isBorrowed: false,
+  it('should call componentWillReceiveProps with no changes when props update',
+    () => {
+      const newProps = { ...props };
+      const wrapper = shallow(<BookDetailPage { ...newProps } />);
+      wrapper.setProps({
+        isBorrowed: false,
+      });
+      expect(wrapper.instance().state.isBorrowed).toBe(false);
+      expect(wrapper.find('button')).toHaveLength(1);
+      expect(wrapper.find('button').props().children).toBe('Borrow');
+      expect(wrapper.find('Modal').props().text).toBe('Do you want to borrow this book?');
     });
-    expect(wrapper.instance().state.isBorrowed).toBe(false);
-    expect(wrapper.find('button')).toHaveLength(1);
-    expect(wrapper.find('button').props().children).toBe('Borrow');
-    expect(wrapper.find('Modal').props().text).toBe('Do you want to borrow this book?');
-  });
 
   it('should call confirm action when return book button is clicked', () => {
     const newProps = { ...props };
@@ -118,17 +119,18 @@ describe('Book Detail Page', () => {
     expect(connectedComponent.dive().find('Link')).toHaveLength(1);
   });
 
-  it('should render the connected component with book not found in list', () => {
-    const newProps = { ...connectedProps,
-      match: {
-        params: { id: 20 }
-      } };
-    newProps.match.params.id = 20;
-    const connectedComponent =
+  it('should render the connected component when bookId params does not match any bookId',
+    () => {
+      const newProps = { ...connectedProps,
+        match: {
+          params: { id: 20 }
+        } };
+      newProps.match.params.id = 20;
+      const connectedComponent =
       shallow(<ConnectedBookDetailPage { ...newProps} store={store} />);
-    expect(connectedComponent.dive().find('Modal')).toHaveLength(0);
-    expect(connectedComponent.dive().find('h4').props().children).toBe('Book not found');
-  });
+      expect(connectedComponent.dive().find('Modal')).toHaveLength(0);
+      expect(connectedComponent.dive().find('h4').props().children).toBe('Book not found');
+    });
 
   it('should expect getBooks has been called on the connected component', () => {
     const connectedComponent =

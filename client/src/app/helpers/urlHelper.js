@@ -5,7 +5,7 @@
 * @param {number} page - page count
 * @param {number} limit - item limit per page
 *
-* @return {string} structured string
+* @return {string} formatted url
 */
 const urlHelper = (url, page, limit) => {
   let returnString = `${url}`;

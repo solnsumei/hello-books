@@ -9,7 +9,7 @@ import errorResponseHandler from '../helpers/errorResponseHandler';
  *
  * @returns {Request|Response|*|void|boolean} res
  */
-export default function validateCategory(req, res, next) {
+export default (req, res, next) => {
   let categoryId = null;
   if (req.url === '/books' || (/books/g).test(req.url)) {
     categoryId = req.body.categoryId;
@@ -34,5 +34,5 @@ export default function validateCategory(req, res, next) {
       req.category = category;
       next();
     });
-}
+};
 

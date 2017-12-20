@@ -21,7 +21,7 @@ const BookListRow = ({ book, onClickAdd, onClickDelete }) => (
       <button title="add quantity" id={`add-quantity-${book.id}`} onClick={onClickAdd} className="btn-floating bg-primary">
         <i className="material-icons">store</i>
       </button>&nbsp;
-      <Link to={`/admin/books/${book.id}`} title="edit" className="btn-floating orange">
+      <Link to={`/admin/books/edit/${book.id}`} title="edit" className="btn-floating orange">
         <i className="material-icons">edit</i>
       </Link>&nbsp;
       {!book.isDeleted &&

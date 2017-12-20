@@ -95,7 +95,7 @@ export default {
    *
    * @return {string} message
    * @return {boolean} success
-   * @returns {Object} data
+   * @returns {number} deletedCategoryId
    * @return {function} errorResponseHandler
    */
   delete(req, res) {
@@ -110,7 +110,7 @@ export default {
           .then(() => res.status(200).send({
             success: true,
             message: 'Category was deleted successfully',
-            data: { deletedCatgoryId: req.category.id }
+            deletedCategoryId: req.category.id
           }))
           .catch(() => errorResponseHandler(res));
       });

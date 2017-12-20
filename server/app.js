@@ -31,7 +31,7 @@ const docIndexPath = path.resolve(__dirname, docPath, 'index.html');
 // Log requests to the console
 app.use(logger('dev'));
 
-// Parse incoming requests data (https://github.com/expressjs/body-parser
+// Parse incoming requests object (https://github.com/expressjs/body-parser
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 

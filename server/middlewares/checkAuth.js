@@ -10,7 +10,7 @@ import errorResponseHandler from '../helpers/errorResponseHandler';
  *
  * @returns {Request|Response|*|void|boolean} res
  */
-export default function authMiddleware(req, res, next) {
+export default (req, res, next) => {
   // check request for token
   const token = req.body.token || req.query.token || req.headers['x-token'];
 
@@ -40,4 +40,4 @@ export default function authMiddleware(req, res, next) {
       })
       .catch(() => errorResponseHandler(res));
   });
-}
+};

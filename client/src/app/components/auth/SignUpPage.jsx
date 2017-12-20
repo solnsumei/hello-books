@@ -72,14 +72,14 @@ export class SignUpPage extends React.Component {
 
   /**
    * Function to sign up user
-   * @param {Object} data
+   * @param {Object} formParams
    * @param {Boolean} googleError
    * 
    * @return {void}
    */
-  signUpRequest(data, googleError = false) {
+  signUpRequest(formParams, googleError = false) {
     this.setState({ errors: {} });
-    return this.props.signUpRequest(data)
+    return this.props.signUpRequest(formParams)
       .catch(({ response }) => {
         if (googleError) {
           return toastr.error('Account already exists, please login or there was an error');

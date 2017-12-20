@@ -8,10 +8,12 @@ import pagination from '../helpers/pagination';
  * @exports {Object} booksController
  */
 
-let attributes = ['id', 'title', 'categoryId', 'author', 'description', 'coverPic', 'isDeleted', 'stockQuantity',
-  'borrowedQuantity'];
+let attributes = ['id', 'title', 'categoryId', 'author', 'description',
+  'coverPic', 'isDeleted', 'stockQuantity', 'borrowedQuantity'];
 
-const include = [{ model: models.Category, as: 'category', attributes: ['name', 'slug'] }];
+const include = [{ model: models.Category,
+  as: 'category',
+  attributes: ['name', 'slug'] }];
 
 export default {
   /**
@@ -25,6 +27,7 @@ export default {
    */
   create(req, res) {
     const { title, categoryId, author, description, coverPic, stockQuantity } = req.body;
+
     return models.Book
       .create({
         title,
@@ -170,7 +173,7 @@ export default {
    * @param {any} req - request object
    * @param {any} res - response object
    * 
-   * @returns {Object} data
+   * @returns {Object} book
    * @returns {string} message
    * @returns {boolean} success
    * @returns {string} error
@@ -183,14 +186,15 @@ export default {
         return res.status(200).send({
           success: true,
           message: 'Stock quantity updated successfully',
-          data: {
+          book: {
             id: req.book.id,
             title: req.book.title,
             stockQuantity: req.book.stockQuantity }
         });
       }
     })
-      .catch(() => errorResponseHandler(res, 'Stock quantity could not be updated, please try again later.', 500));
+      .catch(() => errorResponseHandler(res,
+        'Stock quantity could not be updated, please try again later.', 500));
   },
 
   /**
@@ -199,14 +203,15 @@ export default {
    * @param {any} req - request object
    * @param {any} res - response object
    * 
-   * @returns {Object} data
+   * @returns {Object} book
    * @returns {string} message
    * @returns {boolean} success
    * @returns {string} error
    */
   delete(req, res) {
     if (req.book.isBorrowed) {
-      return errorResponseHandler(res, 'Book is borrowed and cannot be deleted at this time', 400);
+      return errorResponseHandler(res,
+        'Book is borrowed and cannot be deleted at this time', 400);
     }
 
     return req.book.update({
@@ -216,10 +221,11 @@ export default {
         return res.status(200).send({
           success: true,
           message: 'Book has been deleted successfully',
-          data: { deletedBookId: req.book.id }
+          deletedBookId: req.book.id
         });
       }
     })
-      .catch(() => errorResponseHandler(res, 'Book could not be deleted at this time, please try again later.', 500));
+      .catch(() => errorResponseHandler(res,
+        'Book could not be deleted at this time, please try again later.', 500));
   }
 };

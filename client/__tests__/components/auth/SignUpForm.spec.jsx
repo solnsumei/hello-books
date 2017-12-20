@@ -28,7 +28,7 @@ describe('Sign Up Form', () => {
     expect(wrapper.find('Link')).toHaveLength(1);
   });
 
-  it('should show errors when errors is not empty', () => {
+  it('should show errors when errors props is not empty', () => {
     const newProps = { ...props,
       errors: { username: ['username error'],
         password: ['password error'],

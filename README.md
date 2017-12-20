@@ -66,7 +66,11 @@ That should start your server. You are ready to go from there
 ## Testing
 -   Use separate databases for development and testing as shown in the .env.example file
 -   Run server-side test with `npm test:local`
--   Run client-side test withh `npm run test:client`
+-   Run client-side test with `npm run test:client`
+-   For end to end test: 
+    -  Run `npm run e2e-node-server` to start up the test server environment
+    -  Run `npm run e2e-server` to start up nightwatch standalone server
+    -  Run `npm run e2e-test` to run end to end test
 
 ## Documentation
 For in depth documentation see: [https://hello-book.herokuapp.com/api/docs]
@@ -95,6 +99,37 @@ Hello-books current limitations (aka features in development) include:
 - Upload book by admin
 - Users can contribute books by region
 - Users ability to read books online
+
+## FAQ
+#### Is this an Open-Source Application?
+
+    Yes it is, and contributing to the development of this
+    application is by raising PRs
+    
+
+#### Who can contribute?
+
+    Anyone!. This application is open to all those who want to
+    contribute to open-source development and are willing to follow
+    set standards for contributing.
+    
+#### Is there a set standard for PRs to this repository?
+
+    Yes, there are set conventions for PRs to this repository and can be found
+    in the project wiki.
+    
+#### What language was used to develop this application?
+
+    This project is a full stack Javascript application
+    
+#### Can I clone this application for personal use?
+
+    Yes!. This application is licensed under MIT, and is open for
+    whatever you may choose to use it for.
+
+## Credits
+
+  Solomon Nsumei, Andela Fellowship
 
 ## License
   This project is available for use and modification under the MIT License. See the LICENSE file for more details.

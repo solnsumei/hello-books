@@ -161,7 +161,7 @@ const checkAuthentication = () => (dispatch) => {
     return dispatch(userAuthFailed());
   }
   dispatch(userAuthSuccess(user));
-  dispatch(borrowActions(types.LOAD_BORROWED_BOOKS));
+  dispatch(borrowActions(types.LOAD_BOOKS_NOT_RETURNED, 'false'));
   return dispatch(getUserProfile(user));
 };
 

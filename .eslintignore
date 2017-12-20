@@ -1,7 +1,11 @@
-tests
 server/migrations
 server/seeders
 server/config
 client/dist
 client/src/app/upload-widget
 docs
+results
+build
+reports
+coverage
+template

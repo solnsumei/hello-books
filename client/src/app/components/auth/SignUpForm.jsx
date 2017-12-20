@@ -26,6 +26,18 @@ const SignUpForm = ({ formParams, onSubmit, onChange, errors, responseGoogle }) 
             : ''
           }
 
+          <TextInput type="text" name="firstName" label="First name"
+            value={formParams.firstName} onChange={onChange}
+            error={errors.firstName ? errors.firstName[0] : null}
+            prefix="account_circle"
+            errorMsg="This field is required" required="required" />
+
+          <TextInput type="text" name="surname" label="Surname"
+            value={formParams.surname} onChange={onChange}
+            error={errors.surname ? errors.surname[0] : null}
+            prefix="account_circle"
+            errorMsg="This field is required" required="required" />
+
           <TextInput type="text" name="username" label="Username"
             value={formParams.username} onChange={onChange}
             error={errors.username ? errors.username[0] : null}
@@ -43,26 +55,6 @@ const SignUpForm = ({ formParams, onSubmit, onChange, errors, responseGoogle }) 
             prefix="lock"
             error={errors.password ? errors.password[0] : null}
             errorMsg="This field is required" required="required" />
-
-          <section className="row">
-            <div className="col s12">
-              <h5>Personal Details</h5>
-            </div>
-
-            <div className="col s12 m6">
-              <TextInput type="text" name="firstName" label="First name"
-                value={formParams.firstName} onChange={onChange}
-                error={errors.firstName ? errors.firstName[0] : null}
-                errorMsg="This field is required" required="required" />
-            </div>
-
-            <div className="col s12 m6">
-              <TextInput type="text" name="surname" label="Surname"
-                value={formParams.surname} onChange={onChange}
-                error={errors.surname ? errors.surname[0] : null}
-                errorMsg="This field is required" required="required" />
-            </div>
-          </section>
 
         </div>
         <div className="card-action">

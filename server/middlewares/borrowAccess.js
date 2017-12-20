@@ -10,8 +10,8 @@ import errorResponseHandler from '../helpers/errorResponseHandler';
  *
  * @returns {Request|Response|*|void|boolean} res
  */
-export default function borrowAccess(req, res, next) {
-  return models.User
+export default (req, res, next) =>
+  models.User
     .findOne({
       include: [{
         model: models.Membership,
@@ -47,4 +47,3 @@ export default function borrowAccess(req, res, next) {
       }
     })
     .catch(() => errorResponseHandler(res));
-}

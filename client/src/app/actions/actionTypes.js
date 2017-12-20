@@ -1,3 +1,7 @@
+/**
+ * Action types and constants
+ * for actions and reducers
+ */
 export default {
   API_URL: '/api/v1',
   ADMIN: 'ADMIN',

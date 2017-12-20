@@ -124,62 +124,8 @@ describe('>>>A C T I O N --- categoryActions', () => {
     });
   });
 
-  // // get category action
-  // describe('getBook', () => {
-  //   it('should create a GET_BOOK_SUCCESS action', (done) => {
-  //     moxios.stubRequest('/categories/1', {
-  //       status: 200,
-  //       response: {
-  //         success: true,
-  //         category: mockItems.category
-  //       }
-  //     });
-
-  //     const expectedActions = [
-  //       {
-  //         type: types.GET_BOOK_SUCCESS,
-  //         category: {
-  //           id: 1,
-  //           title: 'Android category'
-  //         }
-  //       }
-  //     ];
-
-  //     store.dispatch(categoryActions(types.GET_BOOK, 1))
-  //       .then(() => {
-  //         const actions = store.getActions();
-  //         expect(actions).toEqual(expectedActions);
-  //         done();
-  //       });
-  //   });
-
-  //   // failed load category request
-  //   it('should create a FAILED_ACTION action', (done) => {
-  //     moxios.stubRequest('/categories/1', {
-  //       status: 400,
-  //       response: {
-  //         success: false,
-  //         error: 'There was an error'
-  //       }
-  //     });
-
-  //     const expectedActions = [
-  //       {
-  //         type: types.FAILED_ACTION
-  //       }
-  //     ];
-
-  //     store.dispatch(categoryActions(types.GET_BOOK, 1))
-  //       .then(() => {
-  //         const actions = store.getActions();
-  //         expect(actions).toEqual(expectedActions);
-  //         done();
-  //       });
-  //   });
-  // });
-
   describe('addCategory', () => {
-    it('should create a ADD_CATEGORY_SUCCESS action', (done) => {
+    it('should create an ADD_CATEGORY_SUCCESS action', (done) => {
       moxios.stubRequest('/categories', {
         status: 201,
         response: {
@@ -205,7 +151,7 @@ describe('>>>A C T I O N --- categoryActions', () => {
   });
 
   describe('updateCategory', () => {
-    it('should create a UPDATE_CATEGORY_SUCCESS action', (done) => {
+    it('should create an UPDATE_CATEGORY_SUCCESS action', (done) => {
       moxios.stubRequest('/categories/1', {
         status: 200,
         response: {

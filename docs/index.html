@@ -362,7 +362,7 @@
 <li>Edit membership types</li>
 <li>View and read borrowing notifications</li>
 </ul>
-<h3 id='endpoints'>Endpoints Summary</h3>
+<h3 id='endpoints'>Endpoint Summary</h3>
 <p><strong>Users</strong></p>
 
 <table><thead>
@@ -385,12 +385,12 @@
 <tr>
 <td>Update profile</td>
 <td>POST</td>
-<td>api/v1/user/profile</td>
+<td>api/v1/users/profile</td>
 </tr>
 <tr>
 <td>Change password</td>
 <td>POST</td>
-<td>api/v1/user/change-password</td>
+<td>api/v1/users/change-password</td>
 </tr>
 <tr>
 <td>Get all books</td>
@@ -400,22 +400,22 @@
 <tr>
 <td>Get borrowed books</td>
 <td>GET</td>
-<td>api/v1/user/history?returned=false</td>
+<td>api/v1/users/{userid}/books?returned=false</td>
 </tr>
 <tr>
 <td>Get borrow history</td>
 <td>GET</td>
-<td>api/v1/user/history</td>
+<td>api/v1/users/{userid}/books</td>
 </tr>
 <tr>
 <td>Borrow Book</td>
 <td>POST</td>
-<td>api/v1/book/borrow</td>
+<td>api/v1/users/{userid}/books</td>
 </tr>
 <tr>
 <td>Return Book</td>
 <td>PUT</td>
-<td>api/v1/book/return</td>
+<td>api/v1/users/{userid&gt;}/books</td>
 </tr>
 </tbody></table>
 
@@ -473,21 +473,12 @@
 <tr>
 <td>Edit Membership type</td>
 <td>PUT</td>
-<td>api/v1/membership/{membershipId}</td>
+<td>api/v1/membershiptypes/{membershipTypeId}</td>
 </tr>
 <tr>
 <td>Get all membership type</td>
 <td>GET</td>
-<td>api/v1/membership</td>
-</tr>
-<td>Unread Notifications</td>
-<td>GET</td>
-<td>api/v1/notifications</td>
-</tr>
-<tr>
-  <td>Read Notification</td>
-  <td>GET</td>
-  <td>api/v1/notifications/{notificationId}</td>
+<td>api/v1/membershiptypes</td>
 </tr>
 </tbody></table>
 <h1 id='authentication-endpoints'>Authentication Endpoints</h1><h2 id='sign-up'>Sign Up</h2>
@@ -497,7 +488,7 @@
 
 <p>onSuccess - Status code (201)</p>
 
-<p>onError - Status code (400, 500)</p>
+<p>onError - Status code (400, 409, 500)</p>
 
 <blockquote>
 <p>Request Body:</p>
@@ -511,7 +502,7 @@
 <span class="p">}</span>
 </code></pre>
 <blockquote>
-<p>Sample Response</p>
+<p>Success Response</p>
 </blockquote>
 <pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
     </span><span class="s2">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
@@ -526,6 +517,42 @@
         </span><span class="s2">"level"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Free"</span><span class="w">
     </span><span class="p">},</span><span class="w">
     </span><span class="s2">"token"</span><span class="p">:</span><span class="w"> </span><span class="s2">"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjo2fSwiaWF0IjoxNTExMTY3MTM4LCJleHAiOjE1MTExNzQzMzh9.nzRRu24vgddpRUipFiNzYhDad3FNuYAIqFRgl9HnVYU"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<blockquote>
+<p>Error Responses</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="err">Invalid</span><span class="w"> </span><span class="err">or</span><span class="w"> </span><span class="err">omitted</span><span class="w"> </span><span class="err">parameters</span><span class="w">
+
+</span><span class="p">{</span><span class="w">
+    </span><span class="s2">"errors"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"firstName"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+            </span><span class="s2">"The firstName field is required."</span><span class="w">
+        </span><span class="p">],</span><span class="w">
+        </span><span class="s2">"surname"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+            </span><span class="s2">"The surname field is required."</span><span class="w">
+        </span><span class="p">],</span><span class="w">
+        </span><span class="s2">"username"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+            </span><span class="s2">"The username field is required."</span><span class="w">
+        </span><span class="p">],</span><span class="w">
+        </span><span class="s2">"email"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+            </span><span class="s2">"The email field is required."</span><span class="w">
+        </span><span class="p">],</span><span class="w">
+        </span><span class="s2">"password"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+            </span><span class="s2">"The password field is required."</span><span class="w">
+        </span><span class="p">]</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span><span class="err">Duplicate</span><span class="w"> </span><span class="err">username</span><span class="w">
+
+</span><span class="p">{</span><span class="w">
+    </span><span class="s2">"errors"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"username"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+            </span><span class="s2">"Username has already been taken"</span><span class="w">
+        </span><span class="p">]</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="s2">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre><h3 id='request-required-fields'>Request Required Fields</h3>
 <ul>
@@ -587,7 +614,7 @@ On successful signup, a 201 status code is returned.
 <span class="p">}</span>
 </code></pre>
 <blockquote>
-<p>Sample Response</p>
+<p>Success Response</p>
 </blockquote>
 <pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
     </span><span class="s2">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
@@ -602,6 +629,14 @@ On successful signup, a 201 status code is returned.
         </span><span class="s2">"level"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Free"</span><span class="w">
     </span><span class="p">},</span><span class="w">
     </span><span class="s2">"token"</span><span class="p">:</span><span class="w"> </span><span class="s2">"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjo2fSwiaWF0IjoxNTExMTY3MTM4LCJleHAiOjE1MTExNzQzMzh9.nzRRu24vgddpRUipFiNzYhDad3FNuYAIqFRgl9HnVYU"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<blockquote>
+<p>Error Responses</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"error"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Username and/or password is incorrect"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre><h3 id='request-required-fields-2'>Request Required Fields</h3>
 <ul>
@@ -633,7 +668,7 @@ On successful signup, a 201 status code is returned.
 
 <p>onSuccess - Status code (200)</p>
 
-<p>onError - Status code (400, 404, 409)</p>
+<p>onError - Status code (400, 404)</p>
 
 <blockquote>
 <p>Request Body:</p>
@@ -684,7 +719,7 @@ On successful signup, a 201 status code is returned.
 
 <p>onSuccess - Status code (200)</p>
 
-<p>onError - Status code (400, 404, 500)</p>
+<p>onError - Status code (400, 401, 500)</p>
 
 <blockquote>
 <p>Request Body:</p>
@@ -705,9 +740,19 @@ On successful signup, a 201 status code is returned.
 <blockquote>
 <p>Error Response</p>
 </blockquote>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+<pre class="highlight json tab-json"><code><span class="w">
+</span><span class="err">Invalid</span><span class="w"> </span><span class="err">token</span><span class="w">
+
+</span><span class="p">{</span><span class="w">
     </span><span class="s2">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"error"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Your password could not be reset, please try again later"</span><span class="w">
+    </span><span class="s2">"error"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Reset token is invalid"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span><span class="err">Server</span><span class="w"> </span><span class="err">Error</span><span class="w">
+
+</span><span class="p">{</span><span class="w">
+    </span><span class="s2">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"error"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Request could not be completed, please try again later"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre><h3 id='request-required-fields-4'>Request Required Fields</h3>
 <ul>
@@ -746,7 +791,7 @@ On success a token is created and sent to the user email to reset password.
 <p>onError - Status code (401, 500)</p>
 
 <blockquote>
-<p>Sample Response</p>
+<p>Success Response</p>
 </blockquote>
 <pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
     </span><span class="s2">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
@@ -765,6 +810,14 @@ On success a token is created and sent to the user email to reset password.
     </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
+<blockquote>
+<p>Error Response</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"error"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Access denied, token could not be authenticated"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
 <ul>
 <li>Authorization: x-token</li>
 </ul>
@@ -781,7 +834,7 @@ In using the authenticated endpoints, you must note the following:
 
 <p>onSuccess - Status code (200)</p>
 
-<p>onError - Status code (400, 401)</p>
+<p>onError - Status code (400, 401, 500)</p>
 
 <blockquote>
 <p>Request Body:</p>
@@ -792,7 +845,7 @@ In using the authenticated endpoints, you must note the following:
 <span class="p">}</span>
 </code></pre>
 <blockquote>
-<p>Sample Response</p>
+<p>Success Response</p>
 </blockquote>
 <pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
     </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"User profile updated successfully"</span><span class="p">,</span><span class="w">
@@ -809,6 +862,24 @@ In using the authenticated endpoints, you must note the following:
         </span><span class="s2">"borrowedCount"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
         </span><span class="s2">"notReturned"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">
     </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<blockquote>
+<p>Error Response</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="w">
+</span><span class="err">Unauthenticated</span><span class="w"> </span><span class="err">user</span><span class="w">
+
+</span><span class="p">{</span><span class="w">
+    </span><span class="s2">"error"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Access denied, token could not be authenticated"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span><span class="err">Server</span><span class="w"> </span><span class="err">Error</span><span class="w">
+
+</span><span class="p">{</span><span class="w">
+    </span><span class="s2">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"error"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Request could not be completed, please try again later"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre><h3 id='request-body-fields'>Request Body Fields</h3>
 <ul>
@@ -844,7 +915,7 @@ In using the authenticated endpoints, you must note the following:
 
 <p>onSuccess - Status code (200)</p>
 
-<p>onError - Status code (400, 404, 409)</p>
+<p>onError - Status code (400, 404, 500)</p>
 
 <blockquote>
 <p>Request Body:</p>
@@ -861,6 +932,27 @@ In using the authenticated endpoints, you must note the following:
 <pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
     </span><span class="s2">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
     </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Your Password was changed successfully"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<blockquote>
+<p>Error Responses</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="w">
+</span><span class="err">Wrong</span><span class="w"> </span><span class="err">password</span><span class="w"> </span><span class="err">entered</span><span class="w">
+</span><span class="p">{</span><span class="w">
+    </span><span class="s2">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"errors"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"oldPassword"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+            </span><span class="s2">"Wrong password entered"</span><span class="w">
+        </span><span class="p">]</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span><span class="err">Server</span><span class="w"> </span><span class="err">Error</span><span class="w">
+
+</span><span class="p">{</span><span class="w">
+    </span><span class="s2">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"error"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Request could not be completed, please try again later"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre><h3 id='request-required-fields-5'>Request Required Fields</h3>
 <ul>
@@ -990,7 +1082,7 @@ In using the authenticated endpoints, you must note the following:
 
 <p>onSuccess - Status code (200)</p>
 
-<p>onError - Status code (500)</p>
+<p>onError - Status code (404, 500)</p>
 
 <blockquote>
 <p>Sample Response</p>
@@ -1013,6 +1105,14 @@ In using the authenticated endpoints, you must note the following:
             </span><span class="s2">"slug"</span><span class="p">:</span><span class="w"> </span><span class="s2">"pretty-development"</span><span class="w">
         </span><span class="p">}</span><span class="w">
     </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<blockquote>
+<p>Error Response</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"error"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Book not found"</span><span class="w"> 
 </span><span class="p">}</span><span class="w">
 </span></code></pre><h3 id='url-parameters'>URL Parameters</h3>
 <table><thead>
@@ -1061,6 +1161,48 @@ In using the authenticated endpoints, you must note the following:
             </span><span class="s2">"isDeleted"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
         </span><span class="p">}</span><span class="w">
     </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<blockquote>
+<p>Error Responses</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="err">Invalid</span><span class="w"> </span><span class="err">book</span><span class="w"> </span><span class="err">Id</span><span class="w">
+
+</span><span class="p">{</span><span class="w">
+  </span><span class="s2">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"error"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Book id is invalid"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span><span class="err">Book</span><span class="w"> </span><span class="err">does</span><span class="w"> </span><span class="err">not</span><span class="w"> </span><span class="err">exist</span><span class="w">
+
+</span><span class="p">{</span><span class="w">
+    </span><span class="s2">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"error"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Book not found"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<blockquote>
+<p>Error Responses</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="w">
+</span><span class="err">Invalid</span><span class="w"> </span><span class="err">book</span><span class="w"> </span><span class="err">Id</span><span class="w">
+
+</span><span class="p">{</span><span class="w">
+  </span><span class="s2">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"error"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Book not found"</span><span class="w"> 
+</span><span class="p">}</span><span class="w">
+
+</span><span class="err">Book</span><span class="w"> </span><span class="err">not</span><span class="w"> </span><span class="err">available</span><span class="w">
+
+</span><span class="p">{</span><span class="w">
+  </span><span class="s2">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"error"</span><span class="p">:</span><span class="w"> </span><span class="s2">"No copies available for borrowing"</span><span class="w"> 
+</span><span class="p">}</span><span class="w">
+
+</span><span class="err">User</span><span class="w"> </span><span class="err">has</span><span class="w"> </span><span class="err">already</span><span class="w"> </span><span class="err">borrowed</span><span class="w"> </span><span class="err">book</span><span class="w">
+
+</span><span class="p">{</span><span class="w">
+  </span><span class="s2">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"error"</span><span class="p">:</span><span class="w"> </span><span class="s2">"You already borrowed this book"</span><span class="w"> 
 </span><span class="p">}</span><span class="w">
 </span></code></pre><h3 id='request-required-fields-6'>Request Required Fields</h3>
 <ul>
@@ -1115,6 +1257,24 @@ In using the authenticated endpoints, you must note the following:
             </span><span class="s2">"isDeleted"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
         </span><span class="p">}</span><span class="w">
     </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<blockquote>
+<p>Error Responses</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="w">
+</span><span class="err">Invalid</span><span class="w"> </span><span class="err">book</span><span class="w"> </span><span class="err">Id</span><span class="w">
+
+</span><span class="p">{</span><span class="w">
+  </span><span class="s2">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"error"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Book id is invalid"</span><span class="w"> 
+</span><span class="p">}</span><span class="w">
+
+</span><span class="err">Book</span><span class="w"> </span><span class="err">is</span><span class="w"> </span><span class="err">not</span><span class="w"> </span><span class="err">in</span><span class="w"> </span><span class="err">user</span><span class="w"> </span><span class="err">borrowed</span><span class="w"> </span><span class="err">list</span><span class="w">
+
+</span><span class="p">{</span><span class="w">
+  </span><span class="s2">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"error"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Book was not found in your borrowed list"</span><span class="w"> 
 </span><span class="p">}</span><span class="w">
 </span></code></pre><h3 id='request-required-fields-7'>Request Required Fields</h3>
 <ul>
@@ -1300,7 +1460,7 @@ You must be an admin to access these endpoints, else a 403 error is returned.
 <span class="p">}</span>
 </code></pre>
 <blockquote>
-<p>Sample Response</p>
+<p>Success Response</p>
 </blockquote>
 <pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
     </span><span class="s2">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
@@ -1311,6 +1471,23 @@ You must be an admin to access these endpoints, else a 403 error is returned.
         </span><span class="s2">"lendDuration"</span><span class="p">:</span><span class="w"> </span><span class="s2">"7"</span><span class="p">,</span><span class="w">
         </span><span class="s2">"maxBorrowable"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2"</span><span class="w">
     </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<blockquote>
+<p>Error Response</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="err">Invalid</span><span class="w"> </span><span class="err">Membership</span><span class="w"> </span><span class="err">Id</span><span class="w">
+
+</span><span class="p">{</span><span class="w">
+  </span><span class="s2">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"error"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Membership id is invalid"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span><span class="err">Membership</span><span class="w"> </span><span class="err">type</span><span class="w"> </span><span class="err">not</span><span class="w"> </span><span class="err">found</span><span class="w">
+
+</span><span class="p">{</span><span class="w">
+  </span><span class="s2">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"error"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Membership type was not found"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre><h3 id='url-parameter'>URL Parameter</h3>
 <ul>
@@ -1364,7 +1541,7 @@ You must be an admin to access these endpoints, else a 403 error is returned.
 <span class="p">}</span>
 </code></pre>
 <blockquote>
-<p>Sample Response</p>
+<p>Success Response</p>
 </blockquote>
 <pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
     </span><span class="s2">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
@@ -1373,6 +1550,31 @@ You must be an admin to access these endpoints, else a 403 error is returned.
         </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">12</span><span class="p">,</span><span class="w">
         </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Fiction"</span><span class="p">,</span><span class="w">
         </span><span class="s2">"slug"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fiction"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<blockquote>
+<p>Error Responses</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="err">Name</span><span class="w"> </span><span class="err">less</span><span class="w"> </span><span class="err">than</span><span class="w"> </span><span class="err">two</span><span class="w"> </span><span class="err">(</span><span class="mi">2</span><span class="err">)</span><span class="w"> </span><span class="err">chars</span><span class="w">
+
+</span><span class="p">{</span><span class="w">
+  </span><span class="s2">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"errors"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+            </span><span class="s2">"The name must be at least 2 characters."</span><span class="w">
+        </span><span class="p">]</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span><span class="err">Duplicate</span><span class="w"> </span><span class="err">category</span><span class="w"> </span><span class="err">name</span><span class="w">
+
+</span><span class="p">{</span><span class="w">
+    </span><span class="s2">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"errors"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+            </span><span class="s2">"Category name has already been used"</span><span class="w">
+        </span><span class="p">]</span><span class="w">
     </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre><h3 id='request-body-fields-3'>Request Body Fields</h3>
@@ -1474,7 +1676,7 @@ You must be an admin to access these endpoints, else a 403 error is returned.
 
 <p>onSuccess - Status code (200)</p>
 
-<p>onError - Status code (400, 404, 403, 500)</p>
+<p>onError - Status code (400, 403, 404, 500)</p>
 
 <blockquote>
 <p>Request Body:</p>
@@ -1493,6 +1695,45 @@ You must be an admin to access these endpoints, else a 403 error is returned.
         </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w">
         </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Java Designs"</span><span class="p">,</span><span class="w">
         </span><span class="s2">"slug"</span><span class="p">:</span><span class="w"> </span><span class="s2">"java-designs"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<blockquote>
+<p>Error Responses</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="err">Name</span><span class="w"> </span><span class="err">less</span><span class="w"> </span><span class="err">than</span><span class="w"> </span><span class="err">two</span><span class="w"> </span><span class="err">(</span><span class="mi">2</span><span class="err">)</span><span class="w"> </span><span class="err">chars</span><span class="w">
+
+</span><span class="p">{</span><span class="w">
+  </span><span class="s2">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"errors"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+            </span><span class="s2">"The name must be at least 2 characters."</span><span class="w">
+        </span><span class="p">]</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span><span class="err">Invalid</span><span class="w"> </span><span class="err">category</span><span class="w"> </span><span class="err">Id</span><span class="w">
+
+</span><span class="p">{</span><span class="w">
+    </span><span class="s2">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"error"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Category id is invalid"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span><span class="err">Category</span><span class="w"> </span><span class="err">does</span><span class="w"> </span><span class="err">not</span><span class="w"> </span><span class="err">exist</span><span class="w">
+
+</span><span class="p">{</span><span class="w">
+    </span><span class="s2">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"error"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Category not found"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span><span class="err">Duplicate</span><span class="w"> </span><span class="err">category</span><span class="w"> </span><span class="err">name</span><span class="w">
+
+</span><span class="p">{</span><span class="w">
+    </span><span class="s2">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"errors"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+            </span><span class="s2">"Category name has already been used"</span><span class="w">
+        </span><span class="p">]</span><span class="w">
     </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre><h3 id='url-parameter-2'>URL Parameter</h3>
@@ -1535,14 +1776,36 @@ You must be an admin to access these endpoints, else a 403 error is returned.
 <p>onError - Status code (403, 404, 409, 500)</p>
 
 <blockquote>
-<p>Sample Response</p>
+<p>Success Response</p>
 </blockquote>
 <pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
     </span><span class="s2">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
     </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Category was deleted successfully"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-        </span><span class="s2">"deletedCatgoryId"</span><span class="p">:</span><span class="w"> </span><span class="mi">12</span><span class="w">
-    </span><span class="p">}</span><span class="w">
+    </span><span class="s2">"deletedCategoryId"</span><span class="p">:</span><span class="w"> </span><span class="mi">14</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<blockquote>
+<p>Error Responses</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="err">Invalid</span><span class="w"> </span><span class="err">category</span><span class="w"> </span><span class="err">Id</span><span class="w">
+
+</span><span class="p">{</span><span class="w">
+    </span><span class="s2">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"error"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Category id is invalid"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span><span class="err">Category</span><span class="w"> </span><span class="err">does</span><span class="w"> </span><span class="err">not</span><span class="w"> </span><span class="err">exist</span><span class="w">
+
+</span><span class="p">{</span><span class="w">
+    </span><span class="s2">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"error"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Category not found"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span><span class="err">Category</span><span class="w"> </span><span class="err">with</span><span class="w"> </span><span class="err">books</span><span class="w"> </span><span class="err">attached</span><span class="w">
+
+</span><span class="p">{</span><span class="w">
+  </span><span class="s2">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"error"</span><span class="p">:</span><span class="w"> </span><span class="s2">"This category still has books attached to it so cannot be deleted at this time"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre><h3 id='url-parameter-3'>URL Parameter</h3>
 <ul>
@@ -1567,7 +1830,7 @@ You must be an admin to access these endpoints, else a 403 error is returned.
 
 <p>onSuccess - Status code (201)</p>
 
-<p>onError - Status code (400, 403, 404, 500)</p>
+<p>onError - Status code (400, 403, 500)</p>
 
 <blockquote>
 <p>Request Body:</p>
@@ -1582,7 +1845,7 @@ You must be an admin to access these endpoints, else a 403 error is returned.
 <span class="p">}</span>
 </code></pre>
 <blockquote>
-<p>Sample Response</p>
+<p>Success Response</p>
 </blockquote>
 <pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
     </span><span class="s2">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
@@ -1602,6 +1865,35 @@ You must be an admin to access these endpoints, else a 403 error is returned.
             </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Java Designs"</span><span class="p">,</span><span class="w">
             </span><span class="s2">"slug"</span><span class="p">:</span><span class="w"> </span><span class="s2">"java-designs"</span><span class="w">
         </span><span class="p">}</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<blockquote>
+<p>Error Responses</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="err">Invalid</span><span class="w"> </span><span class="err">inputs</span><span class="w">
+
+</span><span class="p">{</span><span class="w">
+    </span><span class="s2">"sucess"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"errors"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"title"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+            </span><span class="s2">"The title field is required."</span><span class="w">
+        </span><span class="p">],</span><span class="w">
+        </span><span class="s2">"author"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+            </span><span class="s2">"The author field is required."</span><span class="w">
+        </span><span class="p">],</span><span class="w">
+        </span><span class="s2">"categoryId"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+            </span><span class="s2">"The category id field is required."</span><span class="w">
+        </span><span class="p">],</span><span class="w">
+        </span><span class="s2">"stockQuantity"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+            </span><span class="s2">"The stock quantity field is required."</span><span class="w">
+        </span><span class="p">],</span><span class="w">
+        </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+            </span><span class="s2">"The description field is required."</span><span class="w">
+        </span><span class="p">],</span><span class="w">
+        </span><span class="s2">"coverPic"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+            </span><span class="s2">"The cover picture field is required."</span><span class="w">
+        </span><span class="p">]</span><span class="w">
     </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre><h3 id='request-body-fields-5'>Request Body Fields</h3>
@@ -1672,7 +1964,7 @@ All fields are required
 <span class="p">}</span>
 </code></pre>
 <blockquote>
-<p>Sample Response</p>
+<p>Success Response</p>
 </blockquote>
 <pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
     </span><span class="s2">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
@@ -1693,6 +1985,49 @@ All fields are required
             </span><span class="s2">"slug"</span><span class="p">:</span><span class="w"> </span><span class="s2">"android"</span><span class="w">
         </span><span class="p">}</span><span class="w">
     </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<blockquote>
+<p>Error Responses</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="err">Invalid</span><span class="w"> </span><span class="err">inputs</span><span class="w">
+
+</span><span class="p">{</span><span class="w">
+    </span><span class="s2">"sucess"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"errors"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"title"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+            </span><span class="s2">"The title field is required."</span><span class="w">
+        </span><span class="p">],</span><span class="w">
+        </span><span class="s2">"author"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+            </span><span class="s2">"The author field is required."</span><span class="w">
+        </span><span class="p">],</span><span class="w">
+        </span><span class="s2">"categoryId"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+            </span><span class="s2">"The category id field is required."</span><span class="w">
+        </span><span class="p">],</span><span class="w">
+        </span><span class="s2">"stockQuantity"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+            </span><span class="s2">"The stock quantity field is required."</span><span class="w">
+        </span><span class="p">],</span><span class="w">
+        </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+            </span><span class="s2">"The description field is required."</span><span class="w">
+        </span><span class="p">],</span><span class="w">
+        </span><span class="s2">"coverPic"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+            </span><span class="s2">"The cover picture field is required."</span><span class="w">
+        </span><span class="p">]</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span><span class="err">Invalid</span><span class="w"> </span><span class="err">book</span><span class="w"> </span><span class="err">Id</span><span class="w">
+
+</span><span class="p">{</span><span class="w">
+  </span><span class="s2">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"error"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Book id is invalid"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span><span class="err">Book</span><span class="w"> </span><span class="err">does</span><span class="w"> </span><span class="err">not</span><span class="w"> </span><span class="err">exist</span><span class="w">
+
+</span><span class="p">{</span><span class="w">
+    </span><span class="s2">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"error"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Book not found"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre><h3 id='url-parameter-4'>URL Parameter</h3>
 <ul>
@@ -1770,11 +2105,40 @@ All fields are optional
 <pre class="highlight json tab-json"><code><span class="w">
     </span><span class="s2">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
     </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Stock quantity updated successfully"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"book"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
         </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w">
         </span><span class="s2">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"PHP for Beginners"</span><span class="p">,</span><span class="w">
         </span><span class="s2">"stockQuantity"</span><span class="p">:</span><span class="w"> </span><span class="mi">48</span><span class="w">
     </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<blockquote>
+<p>Error Responses</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="err">Invalid</span><span class="w"> </span><span class="err">quantity</span><span class="w"> </span><span class="err">parameter</span><span class="w">
+
+</span><span class="p">{</span><span class="w">
+    </span><span class="s2">"sucess"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"errors"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+            </span><span class="s2">"The quantity must be a number."</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"The quantity must be at least 1."</span><span class="w">
+        </span><span class="p">]</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span><span class="err">Invalid</span><span class="w"> </span><span class="err">book</span><span class="w"> </span><span class="err">Id</span><span class="w">
+
+</span><span class="p">{</span><span class="w">
+  </span><span class="s2">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"error"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Book is is invalid"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span><span class="err">Book</span><span class="w"> </span><span class="err">does</span><span class="w"> </span><span class="err">not</span><span class="w"> </span><span class="err">exist</span><span class="w">
+
+</span><span class="p">{</span><span class="w">
+    </span><span class="s2">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"error"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Book not found"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre><h3 id='url-parameter-5'>URL Parameter</h3>
 <ul>
@@ -1855,7 +2219,7 @@ All fields are optional
 <p>onError - Status code (500)</p>
 
 <blockquote>
-<p>Sample Response</p>
+<p>Success Response</p>
 </blockquote>
 <pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
     </span><span class="s2">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
@@ -1932,6 +2296,23 @@ All fields are optional
             </span><span class="s2">"username"</span><span class="p">:</span><span class="w"> </span><span class="s2">"solking"</span><span class="w">
         </span><span class="p">}</span><span class="w">
     </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<blockquote>
+<p>Error Responses</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="err">Invalid</span><span class="w"> </span><span class="err">notification</span><span class="w"> </span><span class="err">Id</span><span class="w">
+
+</span><span class="p">{</span><span class="w">
+  </span><span class="s2">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"error"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Notification id is invalid"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span><span class="err">Notification</span><span class="w"> </span><span class="err">is</span><span class="w"> </span><span class="err">not</span><span class="w"> </span><span class="err">found</span><span class="w">
+
+</span><span class="p">{</span><span class="w">
+    </span><span class="s2">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"error"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Notification not found"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre><h3 id='url-parameter-7'>URL Parameter</h3>
 <ul>

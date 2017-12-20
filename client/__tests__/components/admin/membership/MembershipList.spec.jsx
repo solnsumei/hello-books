@@ -18,7 +18,7 @@ describe('MembershipList', () => {
     expect(wrapper.find('MembershipRow')).toHaveLength(props.memberships.length);
   });
 
-  it('should render empty row when memberships array is empty', () => {
+  it('should render an empty row when memberships array is empty', () => {
     props.memberships = [];
     const wrapper = mount(<MembershipList { ...props } />);
     expect(wrapper).toBeDefined();

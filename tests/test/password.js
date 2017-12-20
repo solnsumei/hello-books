@@ -1,15 +1,14 @@
 // Import the required files and classes for test
 import request from 'supertest';
 import assert from 'assert';
+import createToken from '../../server/helpers/createToken';
 import app from '../../server/app';
 import models from '../../server/models/index';
-import { users, booksForUserTest } from '../mockData';
+import { users, booksForUserTest } from '../mocks';
 
 
-
-// Test user sign up route
+// Test user trying to reset password
 describe('Password Reset Controller', () => {
-
   const { freeUser, silverUser } = users;
 
   before((done) => {
@@ -20,65 +19,111 @@ describe('Password Reset Controller', () => {
       });
   });
 
-  // User signup test
-  describe('POST /api/v1/users/forgotPassword', () => {
-    describe('POST Validation Errors /api/users/forgot-password', () => {
-      it('responds with a 400 bad request for empty body', (done) => {
-        request(app)
-          .post('/api/v1/users/forgot-password')
-          .send({})
-          .set('Accept', 'application/json')
-          .end((err, res) => {
-            assert.equal(res.status, 400);
-            assert.equal(res.body.errors.entry[0], 'Entry field is required');
-            done();
-          });
-      });
-
-      it('responds with a 404 no user with this email or username found', (done) => {
-        request(app)
-          .post('/api/v1/users/forgot-password')
-          .send({ entry: 'ebele' })
-          .set('Accept', 'application/json')
-          .end((err, res) => {
-            assert.equal(res.status, 404);
-            assert.equal(res.body.error, 'No user with this email or username found');
-            done();
-          });
-      });
-
-      it('responds with a 409 for google users', (done) => {
-        request(app)
-          .post('/api/v1/users/forgot-password')
-          .send({ entry: silverUser.username })
-          .set('Accept', 'application/json')
-          .end((err, res) => {
-            assert.equal(res.status, 409);
-            assert.equal(res.body.error, 'Please use the google login button');
-            done();
-          });
-      });
-
+  // Forgot password test
+  describe('POST /api/v1/users/forgot-password', () => {
+    it('should respond with errors for empty body object', (done) => {
+      request(app)
+        .post('/api/v1/users/forgot-password')
+        .send({})
+        .set('Accept', 'application/json')
+        .end((err, res) => {
+          assert.equal(res.status, 400);
+          assert.equal(res.body.errors.entry[0], 'Entry field is required');
+          done();
+        });
     });
 
-    // describe('POST Forgot password success /api/users/forgot-password', () => {
-    //   it('responds with a 200 for successful entry', (done) => {
-    //     request(app)
-    //       .post('/api/v1/users/forgot-password')
-    //       .send({ entry: freeUser.username })
-    //       .set('Accept', 'application/json')
-    //       .end((err, res) => {
-    //         assert.equal(res.status, 200);
-    //         assert.equal(res.body.message, 'Reset message has been sent to your registered email.');
-    //         done();
-    //       });
-    //   });
-    // });
-  })
+    it('should respond with an error when an invalid username or email is entered', (done) => {
+      request(app)
+        .post('/api/v1/users/forgot-password')
+        .send({ entry: 'ebele' })
+        .set('Accept', 'application/json')
+        .end((err, res) => {
+          assert.equal(res.status, 404);
+          assert.equal(res.body.error, 'No user with this email or username found');
+          done();
+        });
+    });
+
+    it('should respond with an error message for google users trying to reset their password', (done) => {
+      request(app)
+        .post('/api/v1/users/forgot-password')
+        .send({ entry: silverUser.username })
+        .set('Accept', 'application/json')
+        .end((err, res) => {
+          assert.equal(res.status, 409);
+          assert.equal(res.body.error, 'Please use the google login button');
+          done();
+        });
+    });
+  });
+
+  // Reset password test
+  describe('POST /api/v1/users/reset-password', () => {
+    it('should respond with errors for empty body object', (done) => {
+      request(app)
+        .post('/api/v1/users/reset-password')
+        .send({})
+        .set('Accept', 'application/json')
+        .end((err, res) => {
+          assert.equal(res.status, 400);
+          assert.equal(res.body.errors.password[0], 'The password field is required.');
+          done();
+        });
+    });
+
+    it('should respond with errors when passwords do not match', (done) => {
+      request(app)
+        .post('/api/v1/users/reset-password')
+        .send({ password: 'solomon1', password_confirmation: 'solomon' })
+        .set('Accept', 'application/json')
+        .end((err, res) => {
+          assert.equal(res.status, 400);
+          assert.equal(res.body.errors.password[0], 'The password confirmation does not match.');
+          done();
+        });
+    });
+
+    it('should respond with an error when token is invalid', (done) => {
+      request(app)
+        .post('/api/v1/users/reset-password')
+        .send({ password: 'solomon1', password_confirmation: 'solomon1' })
+        .set('Accept', 'application/json')
+        .end((err, res) => {
+          assert.equal(res.status, 400);
+          assert.equal(res.body.error, 'Reset token is invalid');
+          done();
+        });
+    });
+
+    it('should respond with an error when token is invalid', (done) => {
+      request(app)
+        .post('/api/v1/users/reset-password?token=hysyssggshshsjsuishhss')
+        .send({ password: 'solomon1', password_confirmation: 'solomon1' })
+        .set('Accept', 'application/json')
+        .end((err, res) => {
+          assert.equal(res.status, 401);
+          assert.equal(res.body.error, 'Reset token is invalid');
+          done();
+        });
+    });
+
+    it('should respond with an error when token is invalid', (done) => {
+      const token = createToken({ username: 'solking' }, true);
+      request(app)
+        .post(`/api/v1/users/reset-password?token=${token}`)
+        .send({ password: 'solomon1', password_confirmation: 'solomon1' })
+        .set('Accept', 'application/json')
+        .end((err, res) => {
+          assert.equal(res.status, 401);
+          assert.equal(res.body.error, 'Reset token is invalid');
+          done();
+        });
+    });
+  });
 
   after((done) => {
     models.User.truncate();
     done();
   });
-
 });
