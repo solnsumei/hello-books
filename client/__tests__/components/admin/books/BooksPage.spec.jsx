@@ -36,7 +36,7 @@ describe('Admin Book Page', () => {
     expect(wrapper.find('Pagination')).toHaveLength(0);
   });
 
-  it('should the page with pagination itemCount is greater than perPage', () => {
+  it('should render the page with pagination if itemCount is greater than perPage', () => {
     const newProps = { ...props, queryParams: { page: 1 }, itemCount: 8 };
     const wrapper = shallow(<BooksPage { ...newProps } />);
     expect(wrapper.find('Pagination')).toHaveLength(1);

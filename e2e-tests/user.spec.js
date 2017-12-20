@@ -1,10 +1,14 @@
 const element = require('./selectors');
 
-const { registerPage, profilePage,
-  borrowHistory, bookDetailPage, catalogPage } = element;
+const {
+  registerPage, profilePage,
+  borrowHistory, bookDetailPage,
+  catalogPage
+} = element;
 
 module.exports = {
-  'Test failed user sign up': (browser) => {
+  'Test failed user sign up':
+  (browser) => {
     browser
       .url('http://localhost:8000/register')
       .waitForElementVisible('form', 1000)

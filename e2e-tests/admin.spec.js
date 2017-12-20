@@ -1,7 +1,9 @@
 const element = require('./selectors');
 
-const { registerPage, profilePage, sideLinks,
-  dashboardPage, categoryPage, bookPage } = element;
+const {
+  registerPage, profilePage, sideLinks,
+  dashboardPage, categoryPage, bookPage
+} = element;
 
 const book = {
   title: 'Title',
